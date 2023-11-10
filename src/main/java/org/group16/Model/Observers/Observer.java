@@ -1,5 +1,5 @@
 package org.group16.Model.Observers;
 
-public interface Observer {
+interface Observers {
     public void updateObserver();
 }
