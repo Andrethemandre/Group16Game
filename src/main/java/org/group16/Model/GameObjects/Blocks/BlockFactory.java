@@ -1,12 +1,10 @@
 package org.group16.Model.GameObjects.Blocks;
 
-import org.group16.Model.GameObjects.GameObject;
-
 public class BlockFactory {
-    public static GameObject createBlock(BlockType blockType) {
+    public static Block createBlock(BlockType blockType) {
         switch (blockType) {
             case Normal:
-                return new Block();
+                return new NormalBlock();
             case Movable:
                 return new MovableBlock();
             default:

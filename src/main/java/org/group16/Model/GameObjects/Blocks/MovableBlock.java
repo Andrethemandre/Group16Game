@@ -1,12 +1,9 @@
 package org.group16.Model.GameObjects.Blocks;
 
-import org.group16.Model.GameObjects.CollisionBox;
 import org.group16.Model.GameObjects.MovableGameObject;
-import org.group16.Model.GameObjects.Positionable;
 
-public class MovableBlock extends Positionable implements MovableGameObject{
+public class MovableBlock extends Block implements MovableGameObject{
     private int speed;
-    private CollisionBox collisionBox;
 
     @Override
     public void move() {
@@ -16,12 +13,12 @@ public class MovableBlock extends Positionable implements MovableGameObject{
 
     @Override
     public int getWidth() {
-        return collisionBox.getWidth();
+        return super.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return collisionBox.getHeight();
+        return super.getHeight();
     }
     
 }

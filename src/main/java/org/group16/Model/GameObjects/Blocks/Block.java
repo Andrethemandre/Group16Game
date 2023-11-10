@@ -4,7 +4,7 @@ import org.group16.Model.GameObjects.CollisionBox;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.Positionable;
 
-public class Block extends Positionable implements GameObject {
+public abstract class Block extends Positionable implements GameObject {
     private CollisionBox collisionBox;
 
     @Override
