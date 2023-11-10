@@ -1,11 +1,24 @@
 package org.group16.Model;
 
-
-public class EnemyDamageListener implements Health {
-    public void updateHealth(){}
-
-    private boolean isAlive(){
-        return false;
+void updatehealth(){
+    if (enemy.getHealth() > 0) 
+    
+    {
+        enemy.setHealth(enemy .getHealth() - 1);
+       
     }
+}
+Boolean isDead(){
+    if (enemy.getHealth() == 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }```
+
+
+}
 
 }
