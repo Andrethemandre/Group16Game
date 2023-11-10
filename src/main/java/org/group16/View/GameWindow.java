@@ -17,6 +17,10 @@ public class GameWindow extends JFrame {
         initComponents(windowName);
     }
 
+    public GamePanel getMainScreen(){
+        return mainScreen;
+    }
+
     // Sets everything in place and fits everything
     private void initComponents(String title) {
 

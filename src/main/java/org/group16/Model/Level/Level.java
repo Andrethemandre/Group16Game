@@ -1,13 +1,13 @@
-package src.main.java.org.group16.Model.Level;
+package org.group16.Model.Level;
 
+import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Enemy.Enemy;
-import org.group16.Model.GameObjects.Platforms.Block;
 import org.group16.Model.GameObjects.Player.Player;
 
 public class Level {
     private Player player;
-    private enemies = new Enemy[] {};
-    private blocks = new Block[]{};
+    private Enemy[] enemies = {};
+    private Block[] blocks = {};
     private boolean playerIsAtFlag;
     private int currentLevel = 0;
 
@@ -20,15 +20,15 @@ public class Level {
         //todo
     }
 
-    public void getPlayer(){
+    public Player getPlayer(){
         return this.player;
     }
 
-    public void getEnemies(){
+    public Enemy[] getEnemies(){
         return this.enemies;
     }
 
-     public void getBlocks(){
+     public Block[] getBlocks(){
         return this.blocks;
     }
 

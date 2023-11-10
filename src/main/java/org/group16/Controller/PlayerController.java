@@ -16,7 +16,20 @@ public class PlayerController implements KeyListener, MouseListener {
     @Override
     public void keyPressed(KeyEvent e) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyPressed'");
+        switch(e.getKeyCode()) {
+            case KeyEvent.VK_W: 
+            System.out.println("hej");
+            break;
+            case KeyEvent.VK_A: 
+            System.out.println("hej");
+            break;
+            case KeyEvent.VK_S: 
+            System.out.println("hej");
+            break;
+            case KeyEvent.VK_D:
+            System.out.println("hej");
+            break; 
+            }
     }
 
     @Override

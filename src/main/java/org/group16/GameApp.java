@@ -8,6 +8,7 @@ public class GameApp {
         GameWindow mainWindow = new GameWindow("Projectgroup 16 game");
 
         GameEngine gameEngine = new GameEngine();
+        gameEngine.setRenderer(mainWindow.getMainScreen());
         System.out.println("Hello world!");
 
     }
