@@ -1,22 +1,30 @@
-package org.group16;
 package org.group16.Model.Observers;
 
-import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Eventmanager implements Observer {
-    public List<Observer> observers = new ArrayList<Observer>();
+public class Eventmanager implements ObservableEvents{
+    public void updateObserver() {
+        System.out.println("Eventmanager: Notified");
+    };
 
-    public void addobserver(Observer o) {
-        // TODO implement here
+    public List<Observers> observers = new ArrayList<Observers>();
+
+    @Override
+    public void addObserver(Observers o) {
+        observers.add(o);
     }
 
-    public void removeobserver(Observer o) {
-        // TODO implement here
+    @Override
+    public void removeObserver(Observers o) {
+        observers.remove(o);
     }
 
-    public void notifyobserver() {
-        // TODO implement here
+    @Override
+    public void notifyObserver() {
+        for (Observers o : observers) {
+            o.updateObserver();
+        }
     }
+
 }
