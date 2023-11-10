@@ -10,7 +10,7 @@ public abstract class Positionable implements IPositionable {
     }
 
     private void setY(int y){
-        this.y=y;
+        this.y = y;
     }
 
     public int getX(){
