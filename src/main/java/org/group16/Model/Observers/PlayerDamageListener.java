@@ -1,23 +1,19 @@
-package org.group16.Model;
+package org.group16.Model.Observers;
 
-void updatehealth(){
+import org.group16.Model.GameObjects.Player.Player;
 
-    if (player.getHealth() > 0 )
-    
-    {
-        player.setHealth(play er.getHealth() - 1);
-       
+public class PlayerDamageListener implements Health {
+    // this method is called when the player is hit by an enemy and loses health and
+    // have more than 0 health
+    public void updatehealth(Player player) {
+        if (player.getHealth() > 0) {
+            player.setHealth(player.getHealth() - 1);
+        }
     }
-}
-@Override
-Boolean isDead(){
-    if (player.getHealth() == 0)
-    {
-        return true;
+
+    // this method returns a bollean value if the player is dead or not
+    public boolean isDead(Player player) {
+        return player.getHealth() == 0;
+
     }
-    else
-    {
-        return false;
-    }```
-}
 }
