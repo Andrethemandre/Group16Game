@@ -1,5 +1,6 @@
-package org.group16.Model.GameObjects.Platforms;
+package org.group16.Model.GameObjects.Blocks;
 
+import org.group16.Model.GameObjects.CollisionBox;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.Positionable;
 
@@ -17,12 +18,12 @@ public class Block extends Positionable implements GameObject {
     }
 
     @Override
-    public void getWidth() {
+    public int getWidth() {
         return collisionBox.getWidth();
     }
 
     @Override
-    public void getHeight() {
+    public int getHeight() {
         return collisionBox.getHeight();
     }
     
