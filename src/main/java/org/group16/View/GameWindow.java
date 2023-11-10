@@ -6,13 +6,16 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
+import org.group16.Model.Level.FirstLevel;
+
 public class GameWindow extends JFrame {
 
     private static final int X = 800;
     private static final int Y = 800;
 
-    private GamePanel mainScreen = new LevelPanel(X, Y);
+    private GamePanel mainScreen = new LevelPanel(X, Y, new FirstLevel());
 
+    
     public GameWindow(String windowName){
         initComponents(windowName);
     }
@@ -29,7 +32,6 @@ public class GameWindow extends JFrame {
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         this.add(mainScreen);
         mainScreen.setPreferredSize(getPreferredSize());
-
 
         // Make the frame pack all it's components by respecting the sizes if possible.
         this.pack();

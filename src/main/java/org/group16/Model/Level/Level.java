@@ -1,47 +1,53 @@
 package org.group16.Model.Level;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Player.Player;
 
-public class Level {
+public abstract class Level {
     private Player player;
-    private Enemy[] enemies = {};
-    private Block[] blocks = {};
+    private Collection<Enemy> enemies;
+    private Collection<Block> blocks;
     private boolean playerIsAtFlag;
-    private int currentLevel = 0;
+    private GameObject[][] grid;
 
+    // width and height depending on how big the level is 
+    public static final int WIDTH = 480/32;
+    public static final int HEIGHT = 320/32;
+
+    public Level(){
+        grid = new GameObject[WIDTH][HEIGHT];
+        player = new Player();
+        enemies = new ArrayList<>();
+        blocks = new ArrayList<>();
+    }
     
     public void addEnemy(Enemy enemy){
-        //todo
+        this.enemies.add(enemy);
     }
 
     public void addBlock(Block block){
-        //todo
+        this.blocks.add(block);
     }
 
     public Player getPlayer(){
         return this.player;
     }
 
-    public Enemy[] getEnemies(){
+    public Collection<Enemy> getEnemies(){
         return this.enemies;
     }
 
-     public Block[] getBlocks(){
+    public Collection<Block> getBlocks(){
         return this.blocks;
     }
 
-    public void setLevel(int goToLevel){
-        //todo
+    public GameObject[][] getGrid(){
+        return this.grid;
     }
-
-
-
-
-
-
-
-
 
 }
