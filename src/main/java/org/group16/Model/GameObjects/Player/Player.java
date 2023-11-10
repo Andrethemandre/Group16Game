@@ -58,13 +58,15 @@ public class Player extends Positionable implements MovableGameObject {
     }
 
     @Override
-    public void getWidth() {
-
+    public int getWidth() {
+        // TODO return actual width
+        return 0;
     }
 
     @Override
-    public void getHeight() {
-
+    public int getHeight() {
+        // TODO return actual height
+        return 0;
     }
 
     @Override
