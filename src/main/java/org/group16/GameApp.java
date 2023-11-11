@@ -14,12 +14,5 @@ public class GameApp {
         if(gameEngine.checkIfTimerRun()){
             System.out.println("timer on");
         }
-
     }
-
-
-
-
-
-
 }

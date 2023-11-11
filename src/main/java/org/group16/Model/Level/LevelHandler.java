@@ -29,7 +29,6 @@ public class LevelHandler {
 
     public LevelHandler(){
         setLevel(1);
-
         grid = new GameObject[currentLevel.getWidth()][currentLevel.getHeight()];
         enemies = new ArrayList<>();
         blocks = new ArrayList<>();
