@@ -2,57 +2,79 @@ package org.group16.View;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Collection;
 
 import org.group16.Controller.PlayerController;
+import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Level.Level;
 import org.group16.Model.Observers.GameObserver;
 
-public class LevelPanel extends GamePanel implements GameObserver{
+public class LevelPanel extends GamePanel implements GameObserver {
     private Level currentLevel;
+
     public LevelPanel(int x, int y, Level level) {
         super(x, y);
         this.currentLevel = level;
     }
-    public Player getPlayer(){
+
+    public Player getPlayer() {
         return currentLevel.getPlayer();
     }
+
     @Override
     public void render(Graphics g) {
-		// render the grid
-		int cellSize = 32; // hard coded
-		g.setColor(new Color(0, 0.5f, 0, 0.75f));
-		for (int i = 0; i <= currentLevel.WIDTH; i++) {
-			g.drawLine(i * cellSize, 0, i * cellSize, currentLevel.HEIGHT * cellSize);
-			if (i <= currentLevel.WIDTH)
-				g.drawLine(0, i * cellSize, currentLevel.WIDTH * cellSize, i * cellSize);
+        // render the grid
+        int cellSize = 32; // hard coded
+        g.setColor(new Color(0, 0.5f, 0, 0.75f));
+        for (int i = 0; i <= currentLevel.WIDTH; i++) {
+            g.drawLine(i * cellSize, 0, i * cellSize, currentLevel.HEIGHT * cellSize);
+            if (i <= currentLevel.WIDTH)
+                g.drawLine(0, i * cellSize, currentLevel.WIDTH * cellSize, i * cellSize);
         }
     }
 
-    /** This method is called each time the panel updates/refreshes/repaints itself */
+    /**
+     * This method is called each time the panel updates/refreshes/repaints itself
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-		// paint the grid
-		int cellSize = 32; // hard coded
-		g.setColor(Color.red);
-		for (int i = 0; i <= currentLevel.WIDTH; i++) {
-			g.drawLine(i * cellSize, 0, i * cellSize, currentLevel.HEIGHT * cellSize);
-			if (i <= currentLevel.WIDTH)
-				g.drawLine(0, i * cellSize, currentLevel.WIDTH * cellSize, i * cellSize);
+        // paint the grid
+        int cellSize = 32; // hard coded
+        g.setColor(Color.red);
+        for (int i = 0; i <= currentLevel.WIDTH; i++) {
+            g.drawLine(i * cellSize, 0, i * cellSize, currentLevel.HEIGHT * cellSize);
+            if (i <= currentLevel.WIDTH)
+                g.drawLine(0, i * cellSize, currentLevel.WIDTH * cellSize, i * cellSize);
         }
 
         // paint the player
         g.setColor(Color.blue);
         Player currentPlayer = currentLevel.getPlayer();
-        int playerX = (int) (2 * cellSize);
-        int playerY = (int) (2 * cellSize);
+        int playerX = (int) (5 * cellSize);
+        int playerY = (int) (5 * cellSize);
         g.fillRect(playerX+2, playerY+2, playerX-4, playerY-4);
 
         // paint the enemies
 
+        // basic enemies
+        g.setColor(Color.red);
+        Collection<Enemy> currentEnemy = currentLevel.getEnemies();
+        int enemyX = (int) (2 * cellSize);
+        int enemyY = (int) (2 * cellSize);
+        g.fillOval(enemyX + 100, enemyY + 100, enemyX - 2, enemyY - 2);
+
         // paint the blocks
+
+        // paint the healthbar
+        int health = currentPlayer.getHealth();
+        int maxHealth = 10; // Assuming there's a constant for max health in your Player class
+        int barWidth = (int) ((double) health / maxHealth * 5);
+
+        g.setColor(Color.RED);
+        g.fillRect(0, 0, barWidth, 20);
     }
 
     @Override
@@ -60,5 +82,5 @@ public class LevelPanel extends GamePanel implements GameObserver{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateObserver'");
     }
-    
+
 }

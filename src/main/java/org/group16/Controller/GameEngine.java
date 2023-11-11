@@ -18,7 +18,6 @@ public class GameEngine {
         this.playerController = new PlayerController(mainWindow);
     }
 
-
     // start timer
     public void start(){
 
