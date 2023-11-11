@@ -55,7 +55,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         Player currentPlayer = currentLevel.getPlayer();
         int playerX = (int) (5 * cellSize);
         int playerY = (int) (5 * cellSize);
-        g.fillRect(playerX+2, playerY+2, playerX-4, playerY-4);
+        g.fillRect(playerX + 2, playerY + 2, playerX - 4, playerY - 4);
 
         // paint the enemies
 
@@ -71,10 +71,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
         // paint the healthbar
         int health = currentPlayer.getHealth();
         int maxHealth = 10; // Assuming there's a constant for max health in your Player class
-        int barWidth = (int) ((double) health / maxHealth * 5);
+        int barWidth = (int) ((double) health * cellSize / maxHealth * 5);
 
         g.setColor(Color.RED);
-        g.fillRect(0, 0, barWidth, 20);
+        g.fillRect(0, 0, health, 80);
     }
 
     @Override
