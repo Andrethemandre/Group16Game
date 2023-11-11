@@ -28,10 +28,10 @@ public class LevelHandler {
     // width and height depending on how big the level is 
 
     public LevelHandler(){
-        setLevel(1);
-        grid = new GameObject[currentLevel.getWidth()][currentLevel.getHeight()];
         enemies = new ArrayList<>();
         blocks = new ArrayList<>();
+        setLevel(1);
+        grid = new GameObject[currentLevel.getWidth()][currentLevel.getHeight()];
     }
     
     public void setLevel(int levelNumber){
