@@ -5,11 +5,11 @@ public abstract class Positionable implements IPositionable {
     private int x;
     private int y;
 
-    private void setX(int x){
+    protected void setX(int x){
         this.x = x;
     }
 
-    private void setY(int y){
+    protected void setY(int y){
         this.y = y;
     }
 

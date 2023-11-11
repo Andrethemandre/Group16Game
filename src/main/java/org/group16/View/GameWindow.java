@@ -3,12 +3,15 @@ package org.group16.View;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 
 import org.group16.Model.Level.FirstLevel;
+import org.group16.Model.Observers.GameObserver;
 
-public class GameWindow extends JFrame {
+public class GameWindow extends JFrame implements GameObserver{
 
     private static final int X = 800;
     private static final int Y = 800;
@@ -25,11 +28,11 @@ public class GameWindow extends JFrame {
     }
 
     // Sets everything in place and fits everything
-    private void initComponents(String title) {
-
+    private void initComponents(String title) {    
         this.setTitle(title);
         this.setPreferredSize(new Dimension(X,Y));
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        this.setVisible(true);
         this.add(mainScreen);
         mainScreen.setPreferredSize(getPreferredSize());
 
@@ -45,4 +48,10 @@ public class GameWindow extends JFrame {
         // Make sure the frame exits when "x" is pressed
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
+    @Override
+    public void updateObserver() {
+        repaint();
+    }
+
 }

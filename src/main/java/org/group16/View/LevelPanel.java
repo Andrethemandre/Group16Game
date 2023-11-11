@@ -3,16 +3,20 @@ package org.group16.View;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import org.group16.Controller.PlayerController;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Level.Level;
+import org.group16.Model.Observers.GameObserver;
 
-public class LevelPanel extends GamePanel{
+public class LevelPanel extends GamePanel implements GameObserver{
     private Level currentLevel;
     public LevelPanel(int x, int y, Level level) {
         super(x, y);
         this.currentLevel = level;
     }
-
+    public Player getPlayer(){
+        return currentLevel.getPlayer();
+    }
     @Override
     public void render(Graphics g) {
 		// render the grid
@@ -49,6 +53,12 @@ public class LevelPanel extends GamePanel{
         // paint the enemies
 
         // paint the blocks
+    }
+
+    @Override
+    public void updateObserver() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateObserver'");
     }
     
 }

@@ -72,6 +72,6 @@ public class Player extends Positionable implements MovableGameObject, Health {
 
     @Override
     public void move() {
-
+        setX(getX());
     }
 }

@@ -5,67 +5,89 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import org.group16.Model.GameObjects.Player.Player;
+import org.group16.Model.Level.Level;
+import org.group16.View.GamePanel;
+import org.group16.View.GameWindow;
+import org.group16.View.LevelPanel;
+import org.group16.View.Renderer;
+
 public class PlayerController implements KeyListener, MouseListener {
+
+    private GameWindow mainWindow;
+
+    public PlayerController(GameWindow mainWindow){
+        this.mainWindow = mainWindow;
+        mainWindow.addKeyListener(this);
+        mainWindow.addMouseListener(this);
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
+        System.out.println("Key typed: " +e.getKeyChar());
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // TODO Auto-generated method stub
+        System.out.println("Key pressed: " + e.getKeyChar());
+
         switch(e.getKeyCode()) {
+            // w for going up
             case KeyEvent.VK_W: 
-            System.out.println("hej");
-            break;
+
+                break;
+            // a for going left
             case KeyEvent.VK_A: 
-            System.out.println("hej");
-            break;
+             
+                break;
+            // s for going down
             case KeyEvent.VK_S: 
-            System.out.println("hej");
-            break;
+               
+                break;
+            // d for going right
             case KeyEvent.VK_D:
-            System.out.println("hej");
-            break; 
+                
+                break; 
             }
+
+
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
+        System.out.println("Key released: " + e.getKeyChar());
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mouseClicked'");
+        System.out.println("mouseClicked");
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mousePressed'");
+        System.out.println("mousePressed");
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mouseReleased'");
+        System.out.println("mouseReleased");
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mouseEntered'");
+        System.out.println("mouseEntered");
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mouseExited'");
+        System.out.println("mouseExited");
     }
     
 }

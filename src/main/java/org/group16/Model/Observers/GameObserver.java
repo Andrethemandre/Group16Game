@@ -1,7 +1,7 @@
 package org.group16.Model.Observers;
 
 
-interface GameObserver  {
+public interface GameObserver  {
      void updateObserver();
 
 }
