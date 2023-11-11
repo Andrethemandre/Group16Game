@@ -40,25 +40,44 @@ public class LevelHandler {
 
         currentLevel = LevelFactory.createLevel(levelNumber);
         for (int i = 0; i < currentLevel.getWidth(); i++) {
-            for (int j = 0; i < currentLevel.getWidth(); i++) {
-                if (acceptedEnemyTypes.contains(currentLevel.getLevelTile(i, j))) {
+            for (int j = 0; j < currentLevel.getHeight(); j++) {
+                if (containsAcceptedEnemies(i, j)) {
                     Enemy newEnemy = EnemyFactory.createEnemy(currentLevel.getLevelTile(i, j));
                     addEnemy(newEnemy);
                     grid[i][j] = newEnemy;
 
-                } else if (acceptedBlockTypes.contains(currentLevel.getLevelTile(i, j))) {
+                } else if (containsAcceptedBlocks(i, j)) {
                     Block newBlock = BlockFactory.createBlock(currentLevel.getLevelTile(i, j));
                     addBlock(newBlock);
                     grid[i][j] = BlockFactory.createBlock(currentLevel.getLevelTile(i, j));
 
-                } else if (currentLevel.getLevelTile(i, j) == GameObjectType.PLAYER____) {
+                } else if (isPlayer(i, j)) {
                     player = new Player();
                     grid[i][j] = player;
-                } else if (currentLevel.getLevelTile(i, j) == GameObjectType.GOAL______) {
+
+                } else if (isGoalFlag(i, j)) {
                     goalFlag = new Flag();
+                    grid[i][j] = goalFlag;
+
                 }
             }   
         }
+    }
+
+    private boolean containsAcceptedEnemies(int i, int j) {
+        return acceptedEnemyTypes.contains(currentLevel.getLevelTile(i, j));
+    }
+
+    private boolean containsAcceptedBlocks(int i, int j) {
+        return acceptedBlockTypes.contains(currentLevel.getLevelTile(i, j));
+    }
+
+    private boolean isGoalFlag(int i, int j) {
+        return currentLevel.getLevelTile(i, j) == GameObjectType.GOAL______;
+    }
+
+    private boolean isPlayer(int i, int j) {
+        return currentLevel.getLevelTile(i, j) == GameObjectType.PLAYER____;
     }
 
     public void addEnemy(Enemy enemy){
