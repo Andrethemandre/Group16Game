@@ -16,8 +16,8 @@ public abstract class Level {
     private GameObject[][] grid;
 
     // width and height depending on how big the level is 
-    public static final int WIDTH = 480/32;
-    public static final int HEIGHT = 320/32;
+    public static final int WIDTH = 300;
+    public static final int HEIGHT = 300;
 
     public Level(){
         grid = new GameObject[WIDTH][HEIGHT];
