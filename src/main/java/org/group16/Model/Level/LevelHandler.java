@@ -41,7 +41,7 @@ public class LevelHandler {
 
         currentLevel = LevelFactory.createLevel(levelNumber);
         for (int i = 0; i < currentLevel.getWidth(); i++) {
-            for (int j = 0; i < currentLevel.getHeight(); i++) {
+            for (int j = 0; j < currentLevel.getHeight(); i++) {
                 if (containsAcceptedEnemies(i, j)) {
                     Enemy newEnemy = EnemyFactory.createEnemy(currentLevel.getLevelTile(i, j));
                     addEnemy(newEnemy);
@@ -59,7 +59,7 @@ public class LevelHandler {
                 } else if (isGoalFlag(i, j)) {
                     goalFlag = new Flag();
                     grid[i][j] = goalFlag;
-                    
+
                 }
             }   
         }
