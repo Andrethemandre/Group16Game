@@ -46,8 +46,6 @@ public class PlayerController implements KeyListener, MouseListener {
             case KeyEvent.VK_D:
                 break; 
             }
-
-
     }
 
     @Override

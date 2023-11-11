@@ -62,14 +62,12 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
         // basic enemies
         g.setColor(Color.red);
-
         Collection<Enemy> currentEnemies = currentLevel.getEnemies();
-
-
-
-        int enemyX = (int) (2 * cellSize);
-        int enemyY = (int) (2 * cellSize);
-        g.fillOval(enemyX + 100, enemyY + 100, enemyX - 2, enemyY - 2);
+        for(Enemy enemy: currentEnemies){
+            int enemyX = (int) (enemy.getX() * cellSize);
+            int enemyY = (int) (enemy.getY() * cellSize);
+            g.fillOval(enemyX + 100, enemyY + 100, enemyX - 2, enemyY - 2);
+        }
 
         // spike enemies
         g.setColor(Color.darkGray);
@@ -81,14 +79,15 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
         g.fillPolygon(xPoints,yPoints,nPoints);
 
-
-
-
-
-
         // paint the blocks
-        g.setColor(Color.gray);
+        g.setColor(Color.ORANGE);
         Collection<Block> currentBlocks = currentLevel.getBlocks();
+        
+        for(Block block: currentBlocks){
+            int blockX = (int) (block.getX() * cellSize);
+            int blockY = (int) (block.getY() * cellSize);
+            g.fillRect(blockX + 5, blockY + 5, blockX - 5, blockY - 5);
+        }
 
         // paint the healthbar
         int health = currentPlayer.getHealth();
