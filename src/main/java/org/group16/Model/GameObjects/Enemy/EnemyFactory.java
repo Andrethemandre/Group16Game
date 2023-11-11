@@ -7,8 +7,6 @@ public class EnemyFactory {
                 return new BasicEnemy();
             case SPIKE:
                 return new Spike();
-            case MOVABLE:
-                return new MovableEnemy();
             default:
                 throw new IllegalArgumentException("Enemy type is not supported");
         }

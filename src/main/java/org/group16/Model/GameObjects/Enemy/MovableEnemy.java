@@ -2,10 +2,10 @@ package org.group16.Model.GameObjects.Enemy;
 
 import org.group16.Model.GameObjects.Movable;
 
-public class MovableEnemy extends Enemy implements Movable {
+public abstract class MovableEnemy extends Enemy implements Movable {
 
-    MovableEnemy() {
-        super(EnemyType.MOVABLE);
+    MovableEnemy(EnemyType enemyType) {
+        super(enemyType);
     }
 
     @Override
