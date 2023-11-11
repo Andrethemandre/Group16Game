@@ -14,9 +14,10 @@ import org.group16.Model.Observers.GameObserver;
 public class LevelPanel extends GamePanel implements GameObserver {
     private LevelHandler levelHandler;
 
-    public LevelPanel(int x, int y, Level level) {
+    public LevelPanel(int x, int y, LevelHandler LevelHandler) {
         super(x, y);
         this.levelHandler = levelHandler;
+        levelHandler.setLevel(1);
     }
 
     public Player getPlayer() {
@@ -28,10 +29,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
         // render the grid
         int cellSize = 32; // hard coded
         g.setColor(new Color(0, 0.5f, 0, 0.75f));
-        for (int i = 0; i <= levelHandler.WIDTH; i++) {
-            g.drawLine(i * cellSize, 0, i * cellSize, levelHandler.HEIGHT * cellSize);
-            if (i <= levelHandler.WIDTH)
-                g.drawLine(0, i * cellSize, levelHandler.WIDTH * cellSize, i * cellSize);
+        for (int i = 0; i <= levelHandler.getHeight(); i++) {
+            g.drawLine(i * cellSize, 0, i * cellSize, levelHandler.getHeight()* cellSize);
+            if (i <= levelHandler.getWidth())
+                g.drawLine(0, i * cellSize, levelHandler.getWidth() * cellSize, i * cellSize);
         }
     }
 
@@ -45,10 +46,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
         // paint the grid
         int cellSize = 32; // hard coded
         g.setColor(Color.red);
-        for (int i = 0; i <= levelHandler.WIDTH; i++) {
-            g.drawLine(i * cellSize, 0, i * cellSize, levelHandler.HEIGHT * cellSize);
-            if (i <= levelHandler.WIDTH)
-                g.drawLine(0, i * cellSize, levelHandler.WIDTH * cellSize, i * cellSize);
+        for (int i = 0; i <= levelHandler.getWidth(); i++) {
+            g.drawLine(i * cellSize, 0, i * cellSize, levelHandler.getHeight() * cellSize);
+            if (i <= levelHandler.getWidth())
+                g.drawLine(0, i * cellSize, levelHandler.getWidth() * cellSize, i * cellSize);
         }
 
         // paint the player

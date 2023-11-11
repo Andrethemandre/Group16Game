@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 
 import org.group16.Model.Level.FirstLevel;
+import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
 
 public class GameWindow extends JFrame implements GameObserver{
@@ -16,7 +17,7 @@ public class GameWindow extends JFrame implements GameObserver{
     private static final int X = 800;
     private static final int Y = 800;
 
-    private GamePanel mainScreen = new LevelPanel(X, Y, new FirstLevel());
+    private GamePanel mainScreen = new LevelPanel(X, Y, new LevelHandler());
 
     
     public GameWindow(String windowName){
