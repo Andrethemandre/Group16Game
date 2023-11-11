@@ -5,9 +5,9 @@ public interface ObservableEvents {
     private void removeObservers(){}
     private void notifyObservers(){}
 
-    void addObserver(Observers o);
+    void addObserver(GameObserver o);
 
-    void removeObserver(Observers o);
+    void removeObserver(GameObserver o);
 
     void notifyObserver();
 }

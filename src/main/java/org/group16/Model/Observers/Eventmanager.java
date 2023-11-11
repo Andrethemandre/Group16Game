@@ -8,21 +8,21 @@ public class Eventmanager implements ObservableEvents{
         System.out.println("Eventmanager: Notified");
     };
 
-    public List<Observers> observers = new ArrayList<Observers>();
+    public List<GameObserver> observers = new ArrayList<GameObserver>();
 
     @Override
-    public void addObserver(Observers o) {
+    public void addObserver(GameObserver o) {
         observers.add(o);
     }
 
     @Override
-    public void removeObserver(Observers o) {
+    public void removeObserver(GameObserver o) {
         observers.remove(o);
     }
 
     @Override
     public void notifyObserver() {
-        for (Observers o : observers) {
+        for (GameObserver o : observers) {
             o.updateObserver();
         }
     }

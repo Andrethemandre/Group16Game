@@ -2,8 +2,9 @@ package org.group16.Model.GameObjects.Player;
 
 import org.group16.Model.GameObjects.MovableGameObject;
 import org.group16.Model.GameObjects.Positionable;
+import org.group16.Model.Observers.Health;
 
-public class Player extends Positionable implements MovableGameObject {
+public class Player extends Positionable implements MovableGameObject, Health {
     private int xDirection;
     private int yDirection;
     private int movementSpeed;
