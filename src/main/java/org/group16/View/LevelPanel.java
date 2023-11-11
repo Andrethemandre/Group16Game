@@ -17,7 +17,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
     public LevelPanel(int x, int y, LevelHandler LevelHandler) {
         super(x, y);
         this.levelHandler = levelHandler;
-        levelHandler.setLevel(1);
     }
 
     public Player getPlayer() {
