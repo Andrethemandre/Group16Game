@@ -2,7 +2,7 @@ package org.group16.Model.GameObjects.Blocks;
 
 import org.group16.Model.GameObjects.MovableGameObject;
 
-public class MovableBlock extends Block implements MovableGameObject{
+class MovableBlock extends Block implements MovableGameObject{
     private int speed;
 
     MovableBlock() {
