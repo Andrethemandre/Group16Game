@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.util.Collection;
 
 import org.group16.Controller.PlayerController;
+import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Level.Level;
@@ -61,12 +62,14 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
         // basic enemies
         g.setColor(Color.red);
-        Collection<Enemy> currentEnemy = currentLevel.getEnemies();
+        Collection<Enemy> currentEnemies = currentLevel.getEnemies();
         int enemyX = (int) (2 * cellSize);
         int enemyY = (int) (2 * cellSize);
         g.fillOval(enemyX + 100, enemyY + 100, enemyX - 2, enemyY - 2);
 
         // paint the blocks
+        g.setColor(Color.gray);
+        Collection<Block> currentBlocks = currentLevel.getBlocks();
 
         // paint the healthbar
         int health = currentPlayer.getHealth();
