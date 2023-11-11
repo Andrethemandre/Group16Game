@@ -1,10 +1,10 @@
 package org.group16.View;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.Collection;
 
 import org.group16.Controller.PlayerController;
+import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Level.Level;
@@ -58,15 +58,35 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.fillRect(playerX+2, playerY+2, playerX-4, playerY-4);
 
         // paint the enemies
+        Collection<Enemy> currentEnemy = currentLevel.getEnemies();
 
         // basic enemies
         g.setColor(Color.red);
-        Collection<Enemy> currentEnemy = currentLevel.getEnemies();
+<<<<<<< HEAD
+        Collection<Enemy> currentEnemies = currentLevel.getEnemies();
+=======
+
+>>>>>>> 36ff9de987201cb00c4212b48e75f0ae42cfd86d
         int enemyX = (int) (2 * cellSize);
         int enemyY = (int) (2 * cellSize);
         g.fillOval(enemyX + 100, enemyY + 100, enemyX - 2, enemyY - 2);
 
+        // spike enemies
+        g.setColor(Color.darkGray);
+        int[] xPoints = {40,60,50};
+        int[] yPoints = {60,60,40};
+        int nPoints = 3;
+
+        g.fillPolygon(xPoints,yPoints,nPoints);
+
+
+
+
+
+
         // paint the blocks
+        g.setColor(Color.gray);
+        Collection<Block> currentBlocks = currentLevel.getBlocks();
 
         // paint the healthbar
         int health = currentPlayer.getHealth();
