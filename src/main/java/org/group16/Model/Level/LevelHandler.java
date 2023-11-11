@@ -10,6 +10,7 @@ import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
 import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Enemy.EnemyFactory;
+import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
 
 public class LevelHandler {
@@ -83,5 +84,13 @@ public class LevelHandler {
 
     public GameObject[][] getGrid(){
         return this.grid;
+    }
+
+    public int getWidth() {
+        return grid[0].length;
+    }
+
+    public int getHeight() {
+        return grid.length;
     }
 }
