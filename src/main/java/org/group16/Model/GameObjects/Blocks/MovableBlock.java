@@ -20,5 +20,4 @@ public class MovableBlock extends Block implements MovableGameObject{
     public int getHeight() {
         return super.getHeight();
     }
-    
 }
