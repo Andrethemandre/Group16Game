@@ -11,7 +11,7 @@ public class EnemyDamageListener {
         }
     }
 
-    public Boolean isDead() {
+    public Boolean isDead(Enemy enemy) {
         return enemy.getHealth() == 0;
     }
 }
