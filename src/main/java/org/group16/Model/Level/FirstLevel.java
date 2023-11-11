@@ -53,9 +53,6 @@ public class FirstLevel extends Level{
                                           {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
                                           {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}};
 
-   
-
-   
    // Construct the level by positioning game objects in the grid
     public FirstLevel(){
         GameObject[][] secondLevelGrid =  getGrid();
