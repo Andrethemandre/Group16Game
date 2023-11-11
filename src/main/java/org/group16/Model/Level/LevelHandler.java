@@ -53,7 +53,7 @@ public class LevelHandler {
                     grid[i][j] = BlockFactory.createBlock(currentLevel.getLevelTile(i, j));
 
                 } else if (isPlayer(i, j)) {
-                    player = new Player();
+                    player = new Player(i, j);
                     grid[i][j] = player;
 
                 } else if (isGoalFlag(i, j)) {
