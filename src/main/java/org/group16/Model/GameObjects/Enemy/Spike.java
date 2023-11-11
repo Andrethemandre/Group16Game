@@ -1,6 +1,7 @@
 package org.group16.Model.GameObjects.Enemy;
 
 import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.GameObjects.Player.Player;
 
 public class Spike extends Enemy {
 
@@ -18,5 +19,11 @@ public class Spike extends Enemy {
     public int getHealth() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getHealth'");
+    }
+
+    @Override
+    public void dealDamage(Player player) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'dealDamage'");
     }
 }

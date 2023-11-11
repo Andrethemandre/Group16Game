@@ -8,18 +8,19 @@ import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Level.Level;
+import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
 
 public class LevelPanel extends GamePanel implements GameObserver {
-    private Level currentLevel;
+    private LevelHandler levelHandler;
 
     public LevelPanel(int x, int y, Level level) {
         super(x, y);
-        this.currentLevel = level;
+        this.levelHandler = levelHandler;
     }
 
     public Player getPlayer() {
-        return currentLevel.getPlayer();
+        return levelHandler.getPlayer();
     }
 
     @Override
@@ -27,10 +28,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
         // render the grid
         int cellSize = 32; // hard coded
         g.setColor(new Color(0, 0.5f, 0, 0.75f));
-        for (int i = 0; i <= currentLevel.WIDTH; i++) {
-            g.drawLine(i * cellSize, 0, i * cellSize, currentLevel.HEIGHT * cellSize);
-            if (i <= currentLevel.WIDTH)
-                g.drawLine(0, i * cellSize, currentLevel.WIDTH * cellSize, i * cellSize);
+        for (int i = 0; i <= levelHandler.WIDTH; i++) {
+            g.drawLine(i * cellSize, 0, i * cellSize, levelHandler.HEIGHT * cellSize);
+            if (i <= levelHandler.WIDTH)
+                g.drawLine(0, i * cellSize, levelHandler.WIDTH * cellSize, i * cellSize);
         }
     }
 
@@ -44,25 +45,24 @@ public class LevelPanel extends GamePanel implements GameObserver {
         // paint the grid
         int cellSize = 32; // hard coded
         g.setColor(Color.red);
-        for (int i = 0; i <= currentLevel.WIDTH; i++) {
-            g.drawLine(i * cellSize, 0, i * cellSize, currentLevel.HEIGHT * cellSize);
-            if (i <= currentLevel.WIDTH)
-                g.drawLine(0, i * cellSize, currentLevel.WIDTH * cellSize, i * cellSize);
+        for (int i = 0; i <= levelHandler.WIDTH; i++) {
+            g.drawLine(i * cellSize, 0, i * cellSize, levelHandler.HEIGHT * cellSize);
+            if (i <= levelHandler.WIDTH)
+                g.drawLine(0, i * cellSize, levelHandler.WIDTH * cellSize, i * cellSize);
         }
 
         // paint the player
         g.setColor(Color.blue);
-        Player currentPlayer = currentLevel.getPlayer();
+        Player currentPlayer = levelHandler.getPlayer();
         int playerX = (int) (5 * cellSize);
         int playerY = (int) (5 * cellSize);
         g.fillRect(playerX + 2, playerY + 2, playerX - 4, playerY - 4);
 
         // paint the enemies
-        Collection<Enemy> currentEnemy = currentLevel.getEnemies();
 
         // basic enemies
         g.setColor(Color.red);
-        Collection<Enemy> currentEnemies = currentLevel.getEnemies();
+        Collection<Enemy> currentEnemies = levelHandler.getEnemies();
         for(Enemy enemy: currentEnemies){
             int enemyX = (int) (enemy.getX() * cellSize);
             int enemyY = (int) (enemy.getY() * cellSize);
@@ -81,7 +81,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
         // paint the blocks
         g.setColor(Color.ORANGE);
-        Collection<Block> currentBlocks = currentLevel.getBlocks();
+        Collection<Block> currentBlocks = levelHandler.getBlocks();
         
         for(Block block: currentBlocks){
             int blockX = (int) (block.getX() * cellSize);
