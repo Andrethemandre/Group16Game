@@ -19,4 +19,10 @@ public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getHealth'");
     }
+
+    @Override
+    public void move() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'move'");
+    }
 }
