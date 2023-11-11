@@ -14,7 +14,7 @@ import org.group16.Model.Observers.GameObserver;
 public class LevelPanel extends GamePanel implements GameObserver {
     private LevelHandler levelHandler;
 
-    public LevelPanel(int x, int y, LevelHandler LevelHandler) {
+    public LevelPanel(int x, int y, LevelHandler levelHandler) {
         super(x, y);
         this.levelHandler = levelHandler;
     }
