@@ -2,8 +2,10 @@ package org.group16.View;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Collection;
 
 import org.group16.Controller.PlayerController;
+import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Level.Level;
 import org.group16.Model.Observers.GameObserver;
@@ -56,6 +58,13 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.fillRect(playerX + 2, playerY + 2, playerX - 4, playerY - 4);
 
         // paint the enemies
+
+        // basic enemies
+        g.setColor(Color.red);
+        Collection<Enemy> currentEnemy = currentLevel.getEnemies();
+        int enemyX = (int) (2 * cellSize);
+        int enemyY = (int) (2 * cellSize);
+        g.fillOval(enemyX + 100, enemyY + 100, enemyX - 2, enemyY - 2);
 
         // paint the blocks
 
