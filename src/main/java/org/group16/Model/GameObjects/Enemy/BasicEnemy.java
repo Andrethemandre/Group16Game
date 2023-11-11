@@ -2,6 +2,7 @@ package org.group16.Model.GameObjects.Enemy;
 
 import org.group16.Model.GameObjects.AffectedByGravity;
 import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.GameObjects.Player.Player;
 
 public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
 
@@ -25,5 +26,11 @@ public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
     public void move() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'move'");
+    }
+
+    @Override
+    public void dealDamage(Player player) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'dealDamage'");
     }
 }
