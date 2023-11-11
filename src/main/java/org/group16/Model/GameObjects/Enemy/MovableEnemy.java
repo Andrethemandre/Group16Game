@@ -4,6 +4,9 @@ import org.group16.Model.GameObjects.Movable;
 
 public class MovableEnemy extends Enemy implements Movable {
 
+    MovableEnemy() {
+        super(EnemyType.MOVABLE);
+    }
 
     @Override
     public int getX() {
