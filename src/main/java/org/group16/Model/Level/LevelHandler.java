@@ -33,8 +33,6 @@ public class LevelHandler {
         currentLevel = levelFactory.createLevel(levelNumber);
         grid = currentLevel.getLevel();
         //forloopar och annat
-
-
     }
 
 
