@@ -55,26 +55,28 @@ public class LevelPanel extends GamePanel implements GameObserver {
         Player currentPlayer = currentLevel.getPlayer();
         int playerX = (int) (5 * cellSize);
         int playerY = (int) (5 * cellSize);
-        g.fillRect(playerX+2, playerY+2, playerX-4, playerY-4);
+        g.fillRect(playerX + 2, playerY + 2, playerX - 4, playerY - 4);
 
         // paint the enemies
         Collection<Enemy> currentEnemy = currentLevel.getEnemies();
 
         // basic enemies
         g.setColor(Color.red);
-<<<<<<< HEAD
-        Collection<Enemy> currentEnemies = currentLevel.getEnemies();
-=======
 
->>>>>>> 36ff9de987201cb00c4212b48e75f0ae42cfd86d
+        Collection<Enemy> currentEnemies = currentLevel.getEnemies();
+
+
+
         int enemyX = (int) (2 * cellSize);
         int enemyY = (int) (2 * cellSize);
         g.fillOval(enemyX + 100, enemyY + 100, enemyX - 2, enemyY - 2);
 
         // spike enemies
         g.setColor(Color.darkGray);
-        int[] xPoints = {40,60,50};
-        int[] yPoints = {60,60,40};
+
+
+        int[] xPoints = {40,80,60};
+        int[] yPoints = {70,70,40};
         int nPoints = 3;
 
         g.fillPolygon(xPoints,yPoints,nPoints);
@@ -91,10 +93,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
         // paint the healthbar
         int health = currentPlayer.getHealth();
         int maxHealth = 10; // Assuming there's a constant for max health in your Player class
-        int barWidth = (int) ((double) health / maxHealth * 5);
+        int barWidth = (int) ((double) health * cellSize / maxHealth * 5);
 
         g.setColor(Color.RED);
-        g.fillRect(0, 0, barWidth, 20);
+        g.fillRect(0, 0, health, 80);
     }
 
     @Override
