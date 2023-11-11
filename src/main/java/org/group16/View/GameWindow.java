@@ -49,6 +49,7 @@ public class GameWindow extends JFrame implements GameObserver{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+
     @Override
     public void updateObserver() {
         repaint();
