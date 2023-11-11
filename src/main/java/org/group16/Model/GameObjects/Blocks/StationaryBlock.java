@@ -2,10 +2,10 @@ package org.group16.Model.GameObjects.Blocks;
 
 import org.group16.Model.GameObjects.GameObjectType;
 
-class StableBlock extends Block {
+class StationaryBlock extends Block {
 
-    StableBlock() {
-        super(GameObjectType.STABLE);
+    StationaryBlock() {
+        super(GameObjectType.STATIONARY);
     }
 
     @Override

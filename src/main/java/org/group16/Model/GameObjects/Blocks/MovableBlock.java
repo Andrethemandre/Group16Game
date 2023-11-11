@@ -1,13 +1,13 @@
 package org.group16.Model.GameObjects.Blocks;
 
-import static org.group16.Model.GameObjects.GameObjectType.MOVABLE;
+import static org.group16.Model.GameObjects.GameObjectType.MOVABLE___;
 import org.group16.Model.GameObjects.MovableGameObject;
 
 class MovableBlock extends Block implements MovableGameObject{
     private int speed;
 
     MovableBlock() {
-        super(MOVABLE);
+        super(MOVABLE___);
     }
 
     @Override

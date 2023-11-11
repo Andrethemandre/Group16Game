@@ -5,7 +5,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 public class Spike extends Enemy {
 
     Spike() {
-        super(GameObjectType.SPIKE);
+        super(GameObjectType.SPIKE_____);
     }
 
     @Override

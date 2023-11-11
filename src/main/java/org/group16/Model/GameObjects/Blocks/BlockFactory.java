@@ -6,8 +6,8 @@ public class BlockFactory {
     public static Block createBlock(GameObjectType blockType) {
         switch (blockType) {
             case STATIONARY:
-                return new StableBlock();
-            case MOVABLE:
+                return new StationaryBlock();
+            case MOVABLE___:
                 return new MovableBlock();
             default:
                 throw new IllegalArgumentException("Block type is not supported");
