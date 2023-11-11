@@ -30,8 +30,8 @@ public class LevelHandler {
     public LevelHandler(){
         enemies = new ArrayList<>();
         blocks = new ArrayList<>();
+        
         setLevel(1);
-        grid = new GameObject[currentLevel.getWidth()][currentLevel.getHeight()];
     }
     
     public void setLevel(int levelNumber){
@@ -39,6 +39,7 @@ public class LevelHandler {
         blocks.clear();
 
         currentLevel = LevelFactory.createLevel(levelNumber);
+        grid = new GameObject[currentLevel.getWidth()][currentLevel.getHeight()];
         for (int i = 0; i < currentLevel.getWidth(); i++) {
             for (int j = 0; j < currentLevel.getHeight(); j++) {
                 if (containsAcceptedEnemies(i, j)) {
