@@ -1,21 +1,23 @@
 package org.group16.Model.GameObjects.Enemy;
 
 import org.group16.Model.GameObjects.CollisionBox;
+import org.group16.Model.GameObjects.GameObject;
+import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Positionable;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Observers.Health;
 
-public abstract class Enemy extends Positionable implements IEnemy, Health /* implements Health */ {
+public abstract class Enemy extends Positionable implements GameObject, Health /* implements Health */ {
     private CollisionBox collisionBox;
-    private final EnemyType enemyType;
+    private final GameObjectType enemyType;
     private int damage;
 
-    Enemy(EnemyType enemyType) {
+    Enemy(GameObjectType enemyType) {
         this.enemyType = enemyType;
     }
 
     @Override
-    public EnemyType getEnemyType() {
+    public GameObjectType getType() {
         return enemyType;
     }
 

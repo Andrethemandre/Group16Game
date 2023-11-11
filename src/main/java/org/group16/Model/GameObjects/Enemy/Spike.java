@@ -1,9 +1,11 @@
 package org.group16.Model.GameObjects.Enemy;
 
+import org.group16.Model.GameObjects.GameObjectType;
+
 public class Spike extends Enemy {
 
     Spike() {
-        super(EnemyType.SPIKE);
+        super(GameObjectType.SPIKE);
     }
 
     @Override
