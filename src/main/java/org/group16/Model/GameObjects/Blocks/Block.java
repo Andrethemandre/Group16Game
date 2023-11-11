@@ -1,18 +1,21 @@
 package org.group16.Model.GameObjects.Blocks;
 
 import org.group16.Model.GameObjects.CollisionBox;
+import org.group16.Model.GameObjects.GameObject;
+import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Positionable;
 
-public abstract class Block extends Positionable implements IBlock {
+public abstract class Block extends Positionable implements GameObject {
     private CollisionBox collisionBox;
-    private final BlockType blockType;
+    private final GameObjectType blockType;
+    
 
-    Block(BlockType blockType) {
+    Block(GameObjectType blockType) {
         this.blockType = blockType;
     }
 
     @Override
-    public BlockType getBlockType() {
+    public GameObjectType getType() {
         return blockType;
     }
 
