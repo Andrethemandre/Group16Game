@@ -7,6 +7,10 @@ public abstract class Block extends Positionable implements IBlock {
     private CollisionBox collisionBox;
     private final BlockType blockType;
 
+    Block(BlockType blockType) {
+        this.blockType = blockType;
+    }
+
     @Override
     public BlockType getBlockType() {
         return blockType;
@@ -31,5 +35,4 @@ public abstract class Block extends Positionable implements IBlock {
     public int getHeight() {
         return collisionBox.getHeight();
     }
-    
 }

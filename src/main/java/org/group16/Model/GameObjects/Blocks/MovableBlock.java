@@ -5,6 +5,10 @@ import org.group16.Model.GameObjects.MovableGameObject;
 public class MovableBlock extends Block implements MovableGameObject{
     private int speed;
 
+    MovableBlock() {
+        super(BlockType.Movable);
+    }
+
     @Override
     public void move() {
         // TODO Auto-generated method stub
