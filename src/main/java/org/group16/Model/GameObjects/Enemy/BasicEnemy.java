@@ -1,11 +1,12 @@
 package org.group16.Model.GameObjects.Enemy;
 
 import org.group16.Model.GameObjects.AffectedByGravity;
+import org.group16.Model.GameObjects.GameObjectType;
 
 public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
 
     BasicEnemy() {
-        super(EnemyType.BASIC);
+        super(GameObjectType.BASIC_____);
     }
 
     @Override

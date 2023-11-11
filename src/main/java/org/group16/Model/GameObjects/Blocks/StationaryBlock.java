@@ -1,9 +1,11 @@
 package org.group16.Model.GameObjects.Blocks;
 
-class NormalBlock extends Block {
+import org.group16.Model.GameObjects.GameObjectType;
 
-    NormalBlock() {
-        super(BlockType.Normal);
+class StationaryBlock extends Block {
+
+    StationaryBlock() {
+        super(GameObjectType.STATIONARY);
     }
 
     @Override

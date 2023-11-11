@@ -1,17 +1,21 @@
 package org.group16.Model.GameObjects.Player;
 
-import org.group16.Model.GameObjects.MovableGameObject;
+import org.group16.Model.GameObjects.GameObject;
+import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.GameObjects.Movable;
 import org.group16.Model.GameObjects.Positionable;
 import org.group16.Model.Observers.Health;
 
-public class Player extends Positionable implements MovableGameObject, Health {
+public class Player extends Positionable implements Movable, GameObject, Health {
     private int xDirection;
     private int yDirection;
     private int movementSpeed;
     private int health;
+    private final GameObjectType type;
 
 
     public Player() {
+        this.type = GameObjectType.PLAYER____;
     }
 
     public void jump(){}
@@ -73,5 +77,10 @@ public class Player extends Positionable implements MovableGameObject, Health {
     @Override
     public void move() {
         setX(getX());
+    }
+
+    @Override
+    public GameObjectType getType() {
+        return type;
     }
 }
