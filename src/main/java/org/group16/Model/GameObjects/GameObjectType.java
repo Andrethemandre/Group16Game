@@ -1,8 +1,11 @@
 package org.group16.Model.GameObjects;
-
+//basic = basic enemy  stationary= block   movable= moving block
 public enum GameObjectType {
-    BASIC, 
-    SPIKE, 
+    BASIC_____, 
+    SPIKE_____, 
     STATIONARY,
-    MOVABLE
+    MOVABLE___,
+    PLAYER____,
+    GOAL______,
+    AIR_______,
 }
