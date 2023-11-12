@@ -12,13 +12,12 @@ public class Player extends Positionable implements Movable, GameObject, Health 
     private int yDirection;
     private int movementSpeed;
     private int health;
-    private CollisionBox collisionBox = new CollisionBox();
-    private final GameObjectType type;
+    private CollisionBox collisionBox = new CollisionBox(32, 32);
+    private final GameObjectType type = GameObjectType.PLAYER____;;
 
     public Player(int x, int y) {
         this.setX(x);
         this.setY(y);
-        this.type = GameObjectType.PLAYER____;
     }
 
     public void jump(){}
@@ -31,19 +30,19 @@ public class Player extends Positionable implements Movable, GameObject, Health 
         this.health = health;
     }
 
-    public int getxDirection() {
+    public int getXDirection() {
         return xDirection;
     }
 
-    public void setxDirection(int xDirection) {
+    public void setXDirection(int xDirection) {
         this.xDirection = xDirection;
     }
 
-    public int getyDirection() {
+    public int getYDirection() {
         return yDirection;
     }
 
-    public void setyDirection(int yDirection) {
+    public void setYDirection(int yDirection) {
         this.yDirection = yDirection;
     }
 
