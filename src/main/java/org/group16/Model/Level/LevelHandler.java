@@ -37,27 +37,26 @@ public class LevelHandler {
         enemies.clear();
         blocks.clear();
 
-
         currentLevel = LevelFactory.createLevel(levelNumber);
         grid = new GameObject[currentLevel.getWidth()][currentLevel.getHeight()];
         for (int i = 0; i < currentLevel.getWidth(); i++) {
             for (int j = 0; i < currentLevel.getHeight(); i++) {
                 if (acceptedEnemyTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    Enemy newEnemy = EnemyFactory.createEnemy(currentLevel.getLevelTile(i, j));
+                    Enemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), i*32, j*32);
                     addEnemy(newEnemy);
                     grid[i][j] = newEnemy;
 
                 } else if (acceptedBlockTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    Block newBlock = BlockFactory.createBlock(currentLevel.getLevelTile(i, j));
+                    Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), i*32, j*32);
                     addBlock(newBlock);
-                    grid[i][j] = BlockFactory.createBlock(currentLevel.getLevelTile(i, j));
+                    grid[i][j] = newBlock;
 
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.PLAYER____) {
                     // The grid uses /32 of the actual size
                     player = new Player(i*32, j*32);
                     grid[i][j] = player;
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.GOAL______) {
-                    goalFlag = new Flag();
+                    goalFlag = new Flag(i*32, j*32);
                 }
             }   
         }

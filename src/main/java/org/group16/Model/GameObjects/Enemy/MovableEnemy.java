@@ -5,8 +5,8 @@ import org.group16.Model.GameObjects.Movable;
 
 public abstract class MovableEnemy extends Enemy implements Movable {
 
-    MovableEnemy(GameObjectType enemyType) {
-        super(enemyType);
+    MovableEnemy(GameObjectType enemyType, int x, int y) {
+        super(enemyType, x, y);
     }
 
     @Override

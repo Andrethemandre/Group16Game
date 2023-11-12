@@ -7,8 +7,8 @@ import org.group16.Model.GameObjects.Movable;
 class MovableBlock extends Block implements Movable {
     private int speed;
 
-    MovableBlock() {
-        super(GameObjectType.MOVABLE___);
+    MovableBlock(int x, int y) {
+        super(GameObjectType.MOVABLE___, x, y);
     }
 
     @Override

@@ -5,10 +5,10 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Positionable;
 
 public class Flag extends Positionable implements GameObject{
-    private GameObjectType type;
+    private final GameObjectType type = GameObjectType.GOAL______;
 
-    public Flag(){
-        this.type = GameObjectType.GOAL______;
+    public Flag(int x, int y) {
+        super(x, y);
     }
     
     @Override

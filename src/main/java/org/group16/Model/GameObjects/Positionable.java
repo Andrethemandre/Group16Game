@@ -1,9 +1,13 @@
 package org.group16.Model.GameObjects;
 
 public abstract class Positionable implements IPositionable {
-
     private int x;
     private int y;
+
+    public Positionable(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 
     protected void setX(int x){
         this.x = x;

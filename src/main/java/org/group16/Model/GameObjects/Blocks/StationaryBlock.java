@@ -4,8 +4,8 @@ import org.group16.Model.GameObjects.GameObjectType;
 
 class StationaryBlock extends Block {
 
-    StationaryBlock() {
-        super(GameObjectType.STATIONARY);
+    StationaryBlock(int x, int y) {
+        super(GameObjectType.STATIONARY, x, y);
     }
 
     @Override

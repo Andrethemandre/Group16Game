@@ -12,7 +12,8 @@ public abstract class Enemy extends Positionable implements GameObject, Health /
     private final GameObjectType enemyType;
     private int damage;
 
-    Enemy(GameObjectType enemyType) {
+    Enemy(GameObjectType enemyType, int x, int y) {
+        super(x, y);
         this.enemyType = enemyType;
     }
 

@@ -10,7 +10,8 @@ public abstract class Block extends Positionable implements GameObject {
     private final GameObjectType blockType;
     
 
-    Block(GameObjectType blockType) {
+    Block(GameObjectType blockType, int x, int y) {
+        super(x, y);
         this.blockType = blockType;
     }
 
