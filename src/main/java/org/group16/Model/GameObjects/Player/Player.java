@@ -16,8 +16,7 @@ public class Player extends Positionable implements Movable, GameObject, Health 
     private final GameObjectType type = GameObjectType.PLAYER____;;
 
     public Player(int x, int y) {
-        this.setX(x);
-        this.setY(y);
+        super(x, y);
     }
 
     public void jump(){}
