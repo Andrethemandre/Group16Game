@@ -3,16 +3,21 @@ package org.group16.Model.GameObjects;
 //takes care of witdh and height of a player or enemies hit box
 
 public class CollisionBox {
-    
-    private int width = 0;
-    private int height = 0;
+    private int width;
+    private int height;
 
+    public CollisionBox(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
 
-    private void setWidth(int width){
+    // It's fine to have them public because collisionBox will be private in
+    // the classes that uses it. 
+    public void setWidth(int width){
         this.width = width;
     }
 
-    private void setHeight(int width){
+    public void setHeight(int width){
         this.width = width;
     }
 
