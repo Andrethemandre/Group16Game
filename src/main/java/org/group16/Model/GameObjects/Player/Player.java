@@ -1,7 +1,7 @@
 package org.group16.Model.GameObjects.Player;
 
-import org.group16.Model.GameObjects.SizeHandler;
 import org.group16.Model.GameObjects.IGameObject;
+import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Movable;
 import org.group16.Model.GameObjects.Positionable;
@@ -12,11 +12,11 @@ public class Player extends Positionable implements Movable, IGameObject, Health
     private int yDirection;
     private int movementSpeed;
     private int health;
-    private SizeHandler size = new SizeHandler(16, 16);
-    private final GameObjectType type = GameObjectType.PLAYER____;;
+    private GameObject innerGameObject;
 
     public Player(int x, int y) {
         super(x, y);
+        innerGameObject = new GameObject(GameObjectType.PLAYER____, 16, 16);
     }
 
     public void jump(){}
@@ -55,12 +55,12 @@ public class Player extends Positionable implements Movable, IGameObject, Health
 
     @Override
     public int getWidth() {
-        return size.getWidth();
+        return innerGameObject.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return size.getHeight();
+        return innerGameObject.getHeight();
     }
 
     @Override
@@ -70,6 +70,6 @@ public class Player extends Positionable implements Movable, IGameObject, Health
 
     @Override
     public GameObjectType getType() {
-        return type;
+        return innerGameObject.getType();
     }
 }

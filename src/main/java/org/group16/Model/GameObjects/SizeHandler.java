@@ -2,7 +2,7 @@ package org.group16.Model.GameObjects;
 
 //takes care of witdh and height of a player or enemies hit box
 
-public class SizeHandler {
+class SizeHandler {
     private int width;
     private int height;
 

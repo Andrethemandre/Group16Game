@@ -1,24 +1,21 @@
 package org.group16.Model.GameObjects.Blocks;
 
-import org.group16.Model.GameObjects.SizeHandler;
 import org.group16.Model.GameObjects.IGameObject;
+import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Positionable;
 
 public abstract class Block extends Positionable implements IGameObject {
-    private SizeHandler size = new SizeHandler(16, 16);
-    private final GameObjectType blockType;
+    private GameObject innerGameObject;
     
-
     Block(GameObjectType blockType, int x, int y) {
         super(x, y);
-        this.blockType = blockType;
-
+        innerGameObject = new GameObject(blockType, 16, 16);
     }
 
     @Override
     public GameObjectType getType() {
-        return blockType;
+        return innerGameObject.getType();
     }
 
     @Override
@@ -33,11 +30,11 @@ public abstract class Block extends Positionable implements IGameObject {
 
     @Override
     public int getWidth() {
-        return size.getWidth();
+        return innerGameObject.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return size.getHeight();
+        return innerGameObject.getHeight();
     }
 }
