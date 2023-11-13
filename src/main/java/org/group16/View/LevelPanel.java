@@ -45,22 +45,42 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
         // paint the grid
         int cellSize = 32; // hard coded
+        paintGridWithSize(g, cellSize);
+        
+        Player currentPlayer = levelHandler.getPlayer();
+        paintPlayer(g, currentPlayer);
+
+        paintEnemies(g);
+        
+        paintBlocks(g);
+
+        // paint the healthbar
+        int health = currentPlayer.getHealth();
+        int maxHealth = 10; // Assuming there's a constant for max health in your Player class
+        int barWidth = (int) ((double) health * cellSize / maxHealth * 5);
+
+        g.setColor(Color.RED);
+        g.fillRect(0, 0, health, 80);
+    }
+
+    private void paintGridWithSize(Graphics g, int cellSize) {
         g.setColor(Color.red);
         for (int i = 0; i <= levelHandler.getWidth(); i++) {
             g.drawLine(i * cellSize, 0, i * cellSize, levelHandler.getHeight() * cellSize);
             if (i <= levelHandler.getWidth())
                 g.drawLine(0, i * cellSize, levelHandler.getWidth() * cellSize, i * cellSize);
         }
+    }
 
-        // paint the player
+    private void paintPlayer(Graphics g, Player currentPlayer) {
         g.setColor(Color.blue);
-        Player currentPlayer = levelHandler.getPlayer();
         int playerX = currentPlayer.getX();
         int playerY = currentPlayer.getY();
-        System.out.println(playerX + " " + playerY + " " + currentPlayer.getWidth() + " " + currentPlayer.getHeight());
+        // System.out.println(playerX + " " + playerY + " " + currentPlayer.getWidth() + " " + currentPlayer.getHeight());
         g.fillRect(playerX, playerY, currentPlayer.getWidth(), currentPlayer.getHeight());
+    }
 
-        // paint the enemies
+    private void paintEnemies(Graphics g) {
         Collection<Enemy> currentEnemies = levelHandler.getEnemies();
         for (Enemy enemy : currentEnemies) {
             int enemyX = enemy.getX();
@@ -85,11 +105,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
                 g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
             }
         }
+    }
 
-        // paint the blocks
-        g.setColor(Color.ORANGE);
+    private void paintBlocks(Graphics g) {
         Collection<Block> currentBlocks = levelHandler.getBlocks();
-    
         for (Block block : currentBlocks) {
             int blockX = (int) block.getX();
             int blockY = (int) block.getY();
@@ -97,14 +116,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
             g.setColor(Color.ORANGE);
             g.fillRect(blockX, blockY, block.getWidth(), block.getHeight());
         }
-
-        // paint the healthbar
-        int health = currentPlayer.getHealth();
-        int maxHealth = 10; // Assuming there's a constant for max health in your Player class
-        int barWidth = (int) ((double) health * cellSize / maxHealth * 5);
-
-        g.setColor(Color.RED);
-        g.fillRect(0, 0, health, 80);
     }
 
     @Override
