@@ -39,20 +39,26 @@ public class PlayerController implements KeyListener, MouseListener {
 
         switch(e.getKeyCode()) {
             // w for going up
-            case KeyEvent.VK_W: 
+            case KeyEvent.VK_W:
+                currentPlayer.setYDirection(1);
                 //currentPlayer.jump();
                 break;
+
             // a for going left
-            case KeyEvent.VK_A: 
+            case KeyEvent.VK_A:
+                currentPlayer.setXDirection(-1);
                 currentPlayer.move();
                 break;
+
             // s for going down
             case KeyEvent.VK_S: 
                 //currentPlayer.move();
                 break;
+
             // d for going right
             case KeyEvent.VK_D:
-                //currentPlayer.move();
+                currentPlayer.setXDirection(1);
+                currentPlayer.move();
                 break; 
             }
     }

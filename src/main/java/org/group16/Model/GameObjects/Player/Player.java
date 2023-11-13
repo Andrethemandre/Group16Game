@@ -1,12 +1,9 @@
 package org.group16.Model.GameObjects.Player;
 
-import org.group16.Model.GameObjects.IGameObject;
-import org.group16.Model.GameObjects.GameObject;
-import org.group16.Model.GameObjects.GameObjectType;
-import org.group16.Model.GameObjects.Movable;
+import org.group16.Model.GameObjects.*;
 import org.group16.Model.Observers.Health;
 
-public class Player implements Movable, IGameObject, Health {
+public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     private int xDirection;
     private int yDirection;
     private int movementSpeed;
@@ -62,8 +59,13 @@ public class Player implements Movable, IGameObject, Health {
     }
 
     @Override
-    public void move() {
-        setX(getX());
+    public void move( ) {
+        setMovementSpeed(5);
+        int newX = getX() + getXDirection() * getMovementSpeed();
+        int newY = getY() + getYDirection() * getMovementSpeed();
+
+        setX(newX);
+        setY(newY);
     }
 
     @Override
@@ -89,4 +91,17 @@ public class Player implements Movable, IGameObject, Health {
         innerGameObject.setY(y);
     }
 
+
+
+
+    @Override
+    public void updateHealth() {
+
+    }
+
+
+    @Override
+    public boolean isDead() {
+        return false;
+    }
 }
