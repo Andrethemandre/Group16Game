@@ -13,15 +13,15 @@ import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
 
 public class GameWindow extends JFrame implements GameObserver{
-
     private static final int WINDOW_OFFSET = 32;
     private static final int X = 720;
     private static final int Y = 480 + WINDOW_OFFSET;
 
-    private GamePanel mainScreen = new LevelPanel(X, Y, new LevelHandler());
+    // mainScreen that changes depending on type of panel (for now it is just a screen of a level)
+    private GamePanel mainScreen;
 
-    
-    public GameWindow(String windowName){
+    public GameWindow(String windowName, LevelHandler levelHandler){
+        this.mainScreen = new LevelPanel(X, Y, levelHandler);
         initComponents(windowName);
     }
 

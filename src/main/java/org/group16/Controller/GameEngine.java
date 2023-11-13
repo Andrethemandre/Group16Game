@@ -5,6 +5,7 @@ import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import org.group16.Model.Level.LevelHandler;
 import org.group16.View.GamePanel;
 import org.group16.View.GameWindow;
 import  org.group16.View.Renderer;
@@ -12,15 +13,17 @@ import  org.group16.View.Renderer;
 public class GameEngine {
     private GameWindow mainWindow;
     private PlayerController playerController;
+    private LevelHandler levelHandler;
     // The delay (ms) corresponds to 20 updates a sec (hz)
     private final int delay = 50;
     // The timer is started with an listener (see below) that executes the statements
     // each step between delays.
     private Timer timer = new Timer(delay, new TimerListener(this));
         
-    public GameEngine(GameWindow mainWindow) {
+    public GameEngine(LevelHandler levelHandler, GameWindow mainWindow) {
         this.mainWindow = mainWindow;
-        this.playerController = new PlayerController(mainWindow);
+        this.levelHandler = levelHandler;
+        this.playerController = new PlayerController(levelHandler, mainWindow);
     }
 
     // start timer

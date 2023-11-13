@@ -7,6 +7,7 @@ import java.awt.event.MouseListener;
 
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Level.Level;
+import org.group16.Model.Level.LevelHandler;
 import org.group16.View.GamePanel;
 import org.group16.View.GameWindow;
 import org.group16.View.LevelPanel;
@@ -15,9 +16,12 @@ import org.group16.View.Renderer;
 public class PlayerController implements KeyListener, MouseListener {
 
     private GameWindow mainWindow;
+    private LevelHandler levelHandler;
+    private Player currentPlayer;
 
-    public PlayerController(GameWindow mainWindow){
+    public PlayerController(LevelHandler levelHandler, GameWindow mainWindow){
         this.mainWindow = mainWindow;
+        this.levelHandler = levelHandler;
         mainWindow.addKeyListener(this);
         mainWindow.addMouseListener(this);
     }
@@ -35,15 +39,19 @@ public class PlayerController implements KeyListener, MouseListener {
         switch(e.getKeyCode()) {
             // w for going up
             case KeyEvent.VK_W: 
+                //currentPlayer.jump();
                 break;
             // a for going left
             case KeyEvent.VK_A: 
+                //currentPlayer.move();
                 break;
             // s for going down
             case KeyEvent.VK_S: 
+                //currentPlayer.move();
                 break;
             // d for going right
             case KeyEvent.VK_D:
+                //currentPlayer.move();
                 break; 
             }
     }
@@ -83,5 +91,5 @@ public class PlayerController implements KeyListener, MouseListener {
         // TODO Auto-generated method stub
         System.out.println("mouseExited");
     }
-    
+  
 }

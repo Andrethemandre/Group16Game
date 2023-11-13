@@ -3,13 +3,11 @@ package org.group16.View;
 import java.awt.*;
 import java.util.Collection;
 
-import org.group16.Controller.PlayerController;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
-import org.group16.Model.Level.Level;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
 
@@ -128,6 +126,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.setColor(Color.green);
         g.fillRect(flagX, flagY, flag.getWidth(), flag.getHeight());
     }
+
 
     @Override
     public void updateObserver() {
