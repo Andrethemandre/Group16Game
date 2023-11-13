@@ -13,10 +13,16 @@ import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
 
 public class GameWindow extends JFrame implements GameObserver{
+    // Offsets makes it display correctly
+    // The y one makes since because it accounts for the
+    // top of the window, however I don't know why
+    // an X offset would be needed, maybe we
+    // did some wrong calculation?
+    private static final int WINDOW_OFFSET_X = 16;
+    private static final int WINDOW_OFFSET_Y = 40;
 
-    private static final int WINDOW_OFFSET = 32;
-    private static final int X = 720;
-    private static final int Y = 480 + WINDOW_OFFSET;
+    private static final int X = 720 + WINDOW_OFFSET_X;
+    private static final int Y = 480 + WINDOW_OFFSET_Y;
 
     private GamePanel mainScreen = new LevelPanel(X, Y, new LevelHandler());
 
