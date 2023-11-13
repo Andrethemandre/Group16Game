@@ -4,10 +4,9 @@ import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Movable;
-import org.group16.Model.GameObjects.Positionable;
 import org.group16.Model.Observers.Health;
 
-public class Player extends Positionable implements Movable, IGameObject, Health {
+public class Player implements Movable, IGameObject, Health {
     private int xDirection;
     private int yDirection;
     private int movementSpeed;
@@ -15,8 +14,7 @@ public class Player extends Positionable implements Movable, IGameObject, Health
     private GameObject innerGameObject;
 
     public Player(int x, int y) {
-        super(x, y);
-        innerGameObject = new GameObject(GameObjectType.PLAYER____, 16, 16);
+        innerGameObject = new GameObject(GameObjectType.PLAYER____, x, y, 16, 16);
     }
 
     public void jump(){}
@@ -72,4 +70,23 @@ public class Player extends Positionable implements Movable, IGameObject, Health
     public GameObjectType getType() {
         return innerGameObject.getType();
     }
+
+    @Override
+    public int getX() {
+        return innerGameObject.getX();
+    }
+
+    private void setX(int x) {
+        innerGameObject.setX(x);
+    }
+
+    @Override
+    public int getY() {
+        return innerGameObject.getY();
+    }
+
+    private void setY(int y) {
+        innerGameObject.setY(y);
+    }
+
 }
