@@ -6,13 +6,14 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Positionable;
 
 public abstract class Block extends Positionable implements GameObject {
-    private CollisionBox collisionBox;
+    private CollisionBox collisionBox = new CollisionBox(16, 16);
     private final GameObjectType blockType;
     
 
     Block(GameObjectType blockType, int x, int y) {
         super(x, y);
         this.blockType = blockType;
+
     }
 
     @Override

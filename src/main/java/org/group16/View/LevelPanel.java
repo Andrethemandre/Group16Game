@@ -84,10 +84,13 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.setColor(Color.ORANGE);
         Collection<Block> currentBlocks = levelHandler.getBlocks();
         
+        
         for(Block block: currentBlocks){
-            int blockX = (int) (block.getX() * cellSize);
-            int blockY = (int) (block.getY() * cellSize);
-            g.fillRect(blockX + 5, blockY + 5, blockX - 5, blockY - 5);
+            int blockX = (int) block.getX();
+            int blockY = (int) block.getY();
+            System.out.println(blockX + " " + blockY );
+            g.setColor(Color.ORANGE);
+            g.fillRect(blockX, blockY, block.getWidth(), block.getHeight());
         }
 
         // paint the healthbar
