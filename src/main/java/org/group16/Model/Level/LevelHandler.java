@@ -74,6 +74,10 @@ public class LevelHandler {
         return this.player;
     }
 
+    public Flag getGoalFlag() {
+        return goalFlag;
+    }
+
     public Collection<Enemy> getEnemies(){
         return this.enemies;
     }
