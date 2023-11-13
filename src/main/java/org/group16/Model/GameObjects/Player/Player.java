@@ -1,6 +1,6 @@
 package org.group16.Model.GameObjects.Player;
 
-import org.group16.Model.GameObjects.CollisionBox;
+import org.group16.Model.GameObjects.SizeHandler;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Movable;
@@ -12,7 +12,7 @@ public class Player extends Positionable implements Movable, IGameObject, Health
     private int yDirection;
     private int movementSpeed;
     private int health;
-    private CollisionBox collisionBox = new CollisionBox(16, 16);
+    private SizeHandler size = new SizeHandler(16, 16);
     private final GameObjectType type = GameObjectType.PLAYER____;;
 
     public Player(int x, int y) {
@@ -55,12 +55,12 @@ public class Player extends Positionable implements Movable, IGameObject, Health
 
     @Override
     public int getWidth() {
-        return collisionBox.getWidth();
+        return size.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return collisionBox.getHeight();
+        return size.getHeight();
     }
 
     @Override

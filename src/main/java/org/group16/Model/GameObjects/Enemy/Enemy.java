@@ -1,6 +1,6 @@
 package org.group16.Model.GameObjects.Enemy;
 
-import org.group16.Model.GameObjects.CollisionBox;
+import org.group16.Model.GameObjects.SizeHandler;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Positionable;
@@ -8,7 +8,7 @@ import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Observers.Health;
 
 public abstract class Enemy extends Positionable implements IGameObject, Health /* implements Health */ {
-    private CollisionBox collisionBox = new CollisionBox(16, 16);
+    private SizeHandler size = new SizeHandler(16, 16);
     private final GameObjectType enemyType;
     private int damage;
 
@@ -38,11 +38,11 @@ public abstract class Enemy extends Positionable implements IGameObject, Health 
 
     @Override
     public int getWidth() {
-        return collisionBox.getWidth();
+        return size.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return collisionBox.getHeight();
+        return size.getHeight();
     }
 }

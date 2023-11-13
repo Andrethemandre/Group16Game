@@ -1,12 +1,12 @@
 package org.group16.Model.GameObjects.Blocks;
 
-import org.group16.Model.GameObjects.CollisionBox;
+import org.group16.Model.GameObjects.SizeHandler;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Positionable;
 
 public abstract class Block extends Positionable implements IGameObject {
-    private CollisionBox collisionBox = new CollisionBox(16, 16);
+    private SizeHandler size = new SizeHandler(16, 16);
     private final GameObjectType blockType;
     
 
@@ -33,11 +33,11 @@ public abstract class Block extends Positionable implements IGameObject {
 
     @Override
     public int getWidth() {
-        return collisionBox.getWidth();
+        return size.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return collisionBox.getHeight();
+        return size.getHeight();
     }
 }
