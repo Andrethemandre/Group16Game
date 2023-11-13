@@ -1,25 +1,22 @@
 package org.group16.Model.GameObjects.Enemy;
 
-import org.group16.Model.GameObjects.CollisionBox;
+import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
-import org.group16.Model.GameObjects.Positionable;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Observers.Health;
 
-public abstract class Enemy extends Positionable implements GameObject, Health /* implements Health */ {
-    private CollisionBox collisionBox = new CollisionBox(16, 16);
-    private final GameObjectType enemyType;
+public abstract class Enemy implements IGameObject, Health /* implements Health */ {
+    private GameObject innerGameObject;
     private int damage;
 
     Enemy(GameObjectType enemyType, int x, int y) {
-        super(x, y);
-        this.enemyType = enemyType;
+        innerGameObject = new GameObject(enemyType, x, y, 16, 16);
     }
 
     @Override
     public GameObjectType getType() {
-        return enemyType;
+        return innerGameObject.getType();
     }
 
     public void dealDamage(Player player) {
@@ -28,21 +25,21 @@ public abstract class Enemy extends Positionable implements GameObject, Health /
 
     @Override
     public int getX() {
-        return super.getX();
+        return innerGameObject.getX();
     }
 
     @Override
     public int getY() {
-        return super.getY();
+        return innerGameObject.getY();
     }
 
     @Override
     public int getWidth() {
-        return collisionBox.getWidth();
+        return innerGameObject.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return collisionBox.getHeight();
+        return innerGameObject.getHeight();
     }
 }

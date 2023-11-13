@@ -7,10 +7,14 @@ public class PlayerDamageListener implements Health {
     // have more than 0 health
     Player player;
 
-    public void updatehealth() {
+    public void setHealth(int damage) {
         if (player.getHealth() > 0) {
-            player.setHealth(player.getHealth() - 1);
+            player.setHealth(player.getHealth() - damage);
         }
+    }
+
+    public int getHealth() {
+        return player.getHealth();
     }
 
     // this method returns a bollean value if the player is dead or not

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Arrays;
 
-import org.group16.Model.GameObjects.GameObject;
+import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
@@ -19,7 +19,7 @@ public class LevelHandler {
     private Collection<Enemy> enemies;
     private Collection<Block> blocks;
     private boolean playerIsAtFlag;
-    private GameObject[][] grid;
+    private IGameObject[][] grid;
     private Collection<GameObjectType> acceptedEnemyTypes = Arrays.asList(new GameObjectType[]{GameObjectType.BASIC_____, GameObjectType.SPIKE_____});
     private Collection<GameObjectType> acceptedBlockTypes = Arrays.asList(new GameObjectType[]{GameObjectType.STATIONARY});
 
@@ -38,7 +38,7 @@ public class LevelHandler {
         blocks.clear();
 
         currentLevel = LevelFactory.createLevel(levelNumber);
-        grid = new GameObject[currentLevel.getWidth()][currentLevel.getHeight()];
+        grid = new IGameObject[currentLevel.getWidth()][currentLevel.getHeight()];
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
                 if (acceptedEnemyTypes.contains(currentLevel.getLevelTile(i, j))) {
@@ -86,7 +86,7 @@ public class LevelHandler {
         return this.blocks;
     }
 
-    public GameObject[][] getGrid(){
+    public IGameObject[][] getGrid(){
         return this.grid;
     }
 

@@ -1,30 +1,38 @@
 package org.group16.Model.GameObjects.Flag;
 
-import org.group16.Model.GameObjects.CollisionBox;
+import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
-import org.group16.Model.GameObjects.Positionable;
 
-public class Flag extends Positionable implements GameObject{
-    private final GameObjectType type = GameObjectType.GOAL______;
-    private CollisionBox collisionBox = new CollisionBox(16, 16);
+public class Flag implements IGameObject{
+    private GameObject innerGameObject;
 
     public Flag(int x, int y) {
-        super(x, y);
+        innerGameObject = new GameObject(GameObjectType.GOAL______, x, y, 16, 16);
     }
     
     @Override
     public int getWidth() {
-        return collisionBox.getWidth();
+        return innerGameObject.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return collisionBox.getHeight();
+        return innerGameObject.getHeight();
     }
 
     @Override
     public GameObjectType getType() {
-        return type;
+        return innerGameObject.getType();
+    }
+
+    @Override
+    public int getX() {
+        return innerGameObject.getX();
+    }
+
+    @Override
+    public int getY() {
+        return innerGameObject.getY();
     }
 }

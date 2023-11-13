@@ -1,22 +1,20 @@
 package org.group16.Model.GameObjects.Player;
 
-import org.group16.Model.GameObjects.CollisionBox;
+import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Movable;
-import org.group16.Model.GameObjects.Positionable;
 import org.group16.Model.Observers.Health;
 
-public class Player extends Positionable implements Movable, GameObject, Health {
+public class Player implements Movable, IGameObject, Health {
     private int xDirection;
     private int yDirection;
     private int movementSpeed;
     private int health;
-    private CollisionBox collisionBox = new CollisionBox(16, 16);
-    private final GameObjectType type = GameObjectType.PLAYER____;;
+    private GameObject innerGameObject;
 
     public Player(int x, int y) {
-        super(x, y);
+        innerGameObject = new GameObject(GameObjectType.PLAYER____, x, y, 16, 16);
     }
 
     public void jump(){}
@@ -55,12 +53,12 @@ public class Player extends Positionable implements Movable, GameObject, Health 
 
     @Override
     public int getWidth() {
-        return collisionBox.getWidth();
+        return innerGameObject.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return collisionBox.getHeight();
+        return innerGameObject.getHeight();
     }
 
     @Override
@@ -70,6 +68,25 @@ public class Player extends Positionable implements Movable, GameObject, Health 
 
     @Override
     public GameObjectType getType() {
-        return type;
+        return innerGameObject.getType();
     }
+
+    @Override
+    public int getX() {
+        return innerGameObject.getX();
+    }
+
+    private void setX(int x) {
+        innerGameObject.setX(x);
+    }
+
+    @Override
+    public int getY() {
+        return innerGameObject.getY();
+    }
+
+    private void setY(int y) {
+        innerGameObject.setY(y);
+    }
+
 }
