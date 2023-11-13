@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.Collection;
 
 import org.group16.Controller.PlayerController;
+import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Player.Player;
@@ -60,32 +61,36 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.fillRect(playerX, playerY, currentPlayer.getWidth(), currentPlayer.getHeight());
 
         // paint the enemies
-
-        // basic enemies
-        g.setColor(Color.red);
         Collection<Enemy> currentEnemies = levelHandler.getEnemies();
-        for(Enemy enemy: currentEnemies){
-            int enemyX = (int) (enemy.getX() * cellSize);
-            int enemyY = (int) (enemy.getY() * cellSize);
-            g.fillOval(enemyX + 100, enemyY + 100, enemyX - 2, enemyY - 2);
+        for (Enemy enemy : currentEnemies) {
+            int enemyX = enemy.getX();
+            int enemyY = enemy.getY();
+            int enemyWidth = enemy.getWidth();
+            int enemyHeight = enemy.getHeight();
+
+            // For basic enemies
+            if (enemy.getType() == GameObjectType.BASIC_____) {
+                g.setColor(Color.red);
+                g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
+            // For spike
+            } else if (enemy.getType() == GameObjectType.SPIKE_____) {
+                int[] xPoints = {enemyX, enemyX + (enemyWidth / 2), enemyX + enemyWidth};
+                int[] yPoints = {enemyY + enemyHeight, enemyY, enemyY + enemyHeight};
+                int nPoints = 3;
+                g.setColor(Color.darkGray);
+                g.fillPolygon(xPoints, yPoints, nPoints);
+            // Default colour and shape
+            } else {
+                g.setColor(Color.black);
+                g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
+            }
         }
-
-        // spike enemies
-        g.setColor(Color.darkGray);
-
-
-        int[] xPoints = {40,80,60};
-        int[] yPoints = {70,70,40};
-        int nPoints = 3;
-
-        g.fillPolygon(xPoints,yPoints,nPoints);
 
         // paint the blocks
         g.setColor(Color.ORANGE);
         Collection<Block> currentBlocks = levelHandler.getBlocks();
-        
-        
-        for(Block block: currentBlocks){
+    
+        for (Block block : currentBlocks) {
             int blockX = (int) block.getX();
             int blockY = (int) block.getY();
             System.out.println(blockX + " " + blockY );

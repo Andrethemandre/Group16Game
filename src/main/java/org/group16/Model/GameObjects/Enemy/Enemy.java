@@ -8,7 +8,7 @@ import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Observers.Health;
 
 public abstract class Enemy extends Positionable implements GameObject, Health /* implements Health */ {
-    private CollisionBox collisionBox;
+    private CollisionBox collisionBox = new CollisionBox(16, 16);
     private final GameObjectType enemyType;
     private int damage;
 
