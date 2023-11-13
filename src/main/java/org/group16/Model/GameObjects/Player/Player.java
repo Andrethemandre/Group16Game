@@ -1,13 +1,13 @@
 package org.group16.Model.GameObjects.Player;
 
 import org.group16.Model.GameObjects.CollisionBox;
-import org.group16.Model.GameObjects.GameObject;
+import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Movable;
 import org.group16.Model.GameObjects.Positionable;
 import org.group16.Model.Observers.Health;
 
-public class Player extends Positionable implements Movable, GameObject, Health {
+public class Player extends Positionable implements Movable, IGameObject, Health {
     private int xDirection;
     private int yDirection;
     private int movementSpeed;
