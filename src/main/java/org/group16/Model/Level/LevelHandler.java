@@ -39,24 +39,24 @@ public class LevelHandler {
 
         currentLevel = LevelFactory.createLevel(levelNumber);
         grid = new GameObject[currentLevel.getWidth()][currentLevel.getHeight()];
-        for (int i = 0; i < currentLevel.getWidth(); i++) {
-            for (int j = 0; i < currentLevel.getHeight(); i++) {
+        for (int i = 0; i < currentLevel.getHeight(); i++) {
+            for (int j = 0; j < currentLevel.getWidth(); j++) {
                 if (acceptedEnemyTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    Enemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), i*32, j*32);
+                    Enemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), j*16, i*16);
                     addEnemy(newEnemy);
-                    grid[i][j] = newEnemy;
+                    grid[j][i] = newEnemy;
 
                 } else if (acceptedBlockTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), i*32, j*32);
+                    Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j*16, i*16);
                     addBlock(newBlock);
-                    grid[i][j] = newBlock;
+                    grid[j][i] = newBlock;
 
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.PLAYER____) {
-                    // The grid uses /32 of the actual size
-                    player = new Player(i*32, j*32);
-                    grid[i][j] = player;
+                    // The grid uses /16 of the actual size
+                    player = new Player(j*16, i*16);
+                    grid[j][i] = player;
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.GOAL______) {
-                    goalFlag = new Flag(i*32, j*32);
+                    goalFlag = new Flag(j*16, i*16);
                 }
             }   
         }

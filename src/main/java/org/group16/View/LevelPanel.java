@@ -54,9 +54,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
         // paint the player
         g.setColor(Color.blue);
         Player currentPlayer = levelHandler.getPlayer();
-        int playerX = (int) (5 * cellSize);
-        int playerY = (int) (5 * cellSize);
-        g.fillRect(playerX + 2, playerY + 2, playerX - 4, playerY - 4);
+        int playerX = currentPlayer.getX();
+        int playerY = currentPlayer.getY();
+        System.out.println(playerX + " " + playerY + " " + currentPlayer.getWidth() + " " + currentPlayer.getHeight());
+        g.fillRect(playerX, playerY, currentPlayer.getWidth(), currentPlayer.getHeight());
 
         // paint the enemies
 

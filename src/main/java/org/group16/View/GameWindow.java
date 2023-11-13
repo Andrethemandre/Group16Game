@@ -14,8 +14,9 @@ import org.group16.Model.Observers.GameObserver;
 
 public class GameWindow extends JFrame implements GameObserver{
 
-    private static final int X = 800;
-    private static final int Y = 800;
+    private static final int WINDOW_OFFSET = 32;
+    private static final int X = 720;
+    private static final int Y = 480 + WINDOW_OFFSET;
 
     private GamePanel mainScreen = new LevelPanel(X, Y, new LevelHandler());
 

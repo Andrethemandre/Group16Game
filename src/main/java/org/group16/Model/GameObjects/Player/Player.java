@@ -12,7 +12,7 @@ public class Player extends Positionable implements Movable, GameObject, Health 
     private int yDirection;
     private int movementSpeed;
     private int health;
-    private CollisionBox collisionBox = new CollisionBox(32, 32);
+    private CollisionBox collisionBox = new CollisionBox(16, 16);
     private final GameObjectType type = GameObjectType.PLAYER____;;
 
     public Player(int x, int y) {
