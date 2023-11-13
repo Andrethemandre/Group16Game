@@ -1,10 +1,12 @@
 package org.group16.Model.GameObjects;
 
-public class GameObject {
+public class GameObject implements IGameObject {
     private SizeHandler size;
+    private final GameObjectType type;
     
-    public GameObject(int width, int height) {
+    public GameObject(GameObjectType type, int width, int height) {
         size = new SizeHandler(width, height);
+        this.type = type;
     }
 
     public int getWidth() {
@@ -23,5 +25,9 @@ public class GameObject {
     public int getY() {
         // TODO
         return 0;
+    }
+
+    public GameObjectType getType() {
+        return type;
     }
 }
