@@ -12,6 +12,7 @@ import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Enemy.EnemyFactory;
 import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
+import org.group16.Model.Observers.GameObserver;
 
 public class LevelHandler {
     private Player player;
@@ -22,12 +23,14 @@ public class LevelHandler {
     private IGameObject[][] grid;
     private Collection<GameObjectType> acceptedEnemyTypes = Arrays.asList(new GameObjectType[]{GameObjectType.BASIC_____, GameObjectType.SPIKE_____});
     private Collection<GameObjectType> acceptedBlockTypes = Arrays.asList(new GameObjectType[]{GameObjectType.STATIONARY});
+    private Collection<GameObserver> observers;
 
     private Level currentLevel;
 
     // width and height depending on how big the level is 
 
     public LevelHandler(){
+        observers = new ArrayList<>();
         setLevel(1);
     }
     
@@ -60,6 +63,16 @@ public class LevelHandler {
                 }
             }   
         }
+    }
+
+    public void update(){
+        for (GameObserver o : observers) {
+            o.updateObserver();
+        }
+    }
+
+    public void addObserver(GameObserver observer){
+        observers.add(observer);
     }
 
     public void addEnemy(Enemy enemy){

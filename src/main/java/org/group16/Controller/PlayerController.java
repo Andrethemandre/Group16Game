@@ -22,6 +22,7 @@ public class PlayerController implements KeyListener, MouseListener {
     public PlayerController(LevelHandler levelHandler, GameWindow mainWindow){
         this.mainWindow = mainWindow;
         this.levelHandler = levelHandler;
+        this.currentPlayer = levelHandler.getPlayer();
         mainWindow.addKeyListener(this);
         mainWindow.addMouseListener(this);
     }
@@ -43,7 +44,7 @@ public class PlayerController implements KeyListener, MouseListener {
                 break;
             // a for going left
             case KeyEvent.VK_A: 
-                //currentPlayer.move();
+                currentPlayer.move();
                 break;
             // s for going down
             case KeyEvent.VK_S: 

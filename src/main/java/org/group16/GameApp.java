@@ -9,10 +9,13 @@ public class GameApp {
     public static void main(String[] args) {
         LevelHandler levelHandler = new LevelHandler();
         GameWindow mainWindow = new GameWindow("Projectgroup 16 game", levelHandler);
+        levelHandler.addObserver(mainWindow);
 
         GameEngine gameEngine = new GameEngine(levelHandler, mainWindow);
+        
         // start the timer
         gameEngine.start();
+
         if(gameEngine.checkIfTimerRun()){
             System.out.println("timer on");
         }

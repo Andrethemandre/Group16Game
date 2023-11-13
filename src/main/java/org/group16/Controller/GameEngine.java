@@ -36,6 +36,7 @@ public class GameEngine {
     }
     // update stuff
     public void update() {
+        levelHandler.update();
     }
 
     /* Each step the TimerListener moves all the cars in the list and tells the

@@ -113,7 +113,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         for (Block block : currentBlocks) {
             int blockX = (int) block.getX();
             int blockY = (int) block.getY();
-            System.out.println(blockX + " " + blockY );
+            //System.out.println(blockX + " " + blockY );
             g.setColor(Color.ORANGE);
             g.fillRect(blockX, blockY, block.getWidth(), block.getHeight());
         }
@@ -131,7 +131,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     @Override
     public void updateObserver() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateObserver'");
+        repaint();
     }
 
 }
