@@ -14,8 +14,8 @@ public class GameEngine {
     private GameWindow mainWindow;
     private PlayerController playerController;
     private LevelHandler levelHandler;
-    // The delay (ms) corresponds to 20 updates a sec (hz)
-    private final int delay = 50;
+    // The delay (ms) corresponds to 60 updates a sec (hz) ?
+    private final int delay = 1000/60;
     // The timer is started with an listener (see below) that executes the statements
     // each step between delays.
     private Timer timer = new Timer(delay, new TimerListener(this));

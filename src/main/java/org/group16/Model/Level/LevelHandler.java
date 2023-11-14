@@ -1,5 +1,6 @@
 package org.group16.Model.Level;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Arrays;
@@ -32,6 +33,29 @@ public class LevelHandler {
     public LevelHandler(){
         observers = new ArrayList<>();
         setLevel(1);
+    }
+
+    public boolean checkCollisions(IGameObject gameObject, IGameObject otherGameObject){
+        int gameObjectWidth = gameObject.getWidth();
+        int gameObjectHeight = gameObject.getHeight();
+        int gameObjectX = gameObject.getX();
+        int gameObjectY = gameObject.getY();
+
+        int otherGameObjectWidth = otherGameObject.getWidth();
+        int otherGameObjectHeight = otherGameObject.getHeight();
+        int otherGameObjectX = otherGameObject.getX();
+        int otherGameObjectY = otherGameObject.getY();
+
+
+        //  overflow || intersect
+        return gameObjectX < otherGameObjectX + otherGameObjectWidth && gameObjectX + gameObjectWidth > otherGameObjectX && gameObjectY < otherGameObjectY + otherGameObjectHeight && gameObjectY + gameObjectHeight > otherGameObjectY;
+
+    }
+
+    public void checkIfPlayerAtFlag(){
+        if(checkCollisions(player, goalFlag)){
+            setLevel(2);
+        }
     }
     
     public void setLevel(int levelNumber){
@@ -66,6 +90,7 @@ public class LevelHandler {
     }
 
     public void update(){
+        checkIfPlayerAtFlag();
         for (GameObserver o : observers) {
             o.updateObserver();
         }

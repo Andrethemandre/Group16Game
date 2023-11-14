@@ -14,7 +14,10 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         innerGameObject = new GameObject(GameObjectType.PLAYER____, x, y, 16, 16);
     }
 
-    public void jump(){}
+    public void jump(){
+        int newY = getY() + getYDirection() * getMovementSpeed();
+        setY(newY);
+    }
 
     public int getHealth() {
         return health;
@@ -59,7 +62,7 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     }
 
     @Override
-    public void move( ) {
+    public void move() {
         setMovementSpeed(5);
         int newX = getX() + getXDirection() * getMovementSpeed();
         int newY = getY() + getYDirection() * getMovementSpeed();
@@ -90,9 +93,6 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     private void setY(int y) {
         innerGameObject.setY(y);
     }
-
-
-
 
     @Override
     public void updateHealth() {

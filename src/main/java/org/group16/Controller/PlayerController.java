@@ -29,7 +29,6 @@ public class PlayerController implements KeyListener, MouseListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // TODO Auto-generated method stub
         System.out.println("Key typed: " + e.getKeyChar());
     }
 
@@ -40,8 +39,8 @@ public class PlayerController implements KeyListener, MouseListener {
         switch(e.getKeyCode()) {
             // w for going up
             case KeyEvent.VK_W:
-                currentPlayer.setYDirection(1);
-                //currentPlayer.jump();
+                currentPlayer.setYDirection(-1);
+                currentPlayer.jump();
                 break;
 
             // a for going left

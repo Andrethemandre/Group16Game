@@ -26,8 +26,10 @@ public class GameWindow extends JFrame implements GameObserver{
 
     // mainScreen that changes depending on type of panel (for now it is just a screen of a level)
     private GamePanel mainScreen;
+    private LevelHandler levelHandler;
 
     public GameWindow(String windowName, LevelHandler levelHandler){
+        this.levelHandler = levelHandler;
         this.mainScreen = new LevelPanel(X, Y, levelHandler);
         initComponents(windowName);
     }
