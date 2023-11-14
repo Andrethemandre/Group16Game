@@ -3,5 +3,5 @@ package org.group16.Model.Observers;
 public interface Health {
     public void updateHealth(int damage);
 
-    public boolean isDead();
+    public int getHealth();
 }
