@@ -83,7 +83,9 @@ public class LevelHandler {
                     player = new Player(j*16, i*16);
                     grid[j][i] = player;
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.GOAL______) {
+                    // will only reset if there is a new flag on next level. 
                     goalFlag = new Flag(j*16, i*16);
+                    grid[j][i] = goalFlag;
                 }
             }   
         }
