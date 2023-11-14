@@ -27,6 +27,10 @@ public class PlayerController implements KeyListener, MouseListener {
         mainWindow.addMouseListener(this);
     }
 
+    public void update(){
+        currentPlayer = levelHandler.getPlayer();
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
         System.out.println("Key typed: " + e.getKeyChar());

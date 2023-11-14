@@ -36,6 +36,7 @@ public class GameEngine {
     }
     // update stuff
     public void update() {
+        playerController.update();
         levelHandler.update();
     }
 
