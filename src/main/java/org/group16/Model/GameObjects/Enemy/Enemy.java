@@ -22,7 +22,10 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
     public void dealDamage(Player player) {
 
     }
-
+    @Override
+    public boolean checkCollision(IGameObject otherGameObject) {
+        return innerGameObject.checkCollision(otherGameObject);
+    }
     @Override
     public int getX() {
         return innerGameObject.getX();

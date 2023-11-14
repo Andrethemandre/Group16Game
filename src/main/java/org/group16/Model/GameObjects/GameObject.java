@@ -38,4 +38,20 @@ public class GameObject implements IGameObject {
     public GameObjectType getType() {
         return type;
     }
+
+    @Override
+    public boolean checkCollision(IGameObject otherGameObject) {
+        int gameObjectWidth = this.getWidth();
+        int gameObjectHeight = this.getHeight();
+        int gameObjectX = this.getX();
+        int gameObjectY = this.getY();
+
+        int otherGameObjectWidth = otherGameObject.getWidth();
+        int otherGameObjectHeight = otherGameObject.getHeight();
+        int otherGameObjectX = otherGameObject.getX();
+        int otherGameObjectY = otherGameObject.getY();
+
+        //  overflow || intersect
+        return gameObjectX < otherGameObjectX + otherGameObjectWidth && gameObjectX + gameObjectWidth > otherGameObjectX && gameObjectY < otherGameObjectY + otherGameObjectHeight && gameObjectY + gameObjectHeight > otherGameObjectY;
+    }
 }

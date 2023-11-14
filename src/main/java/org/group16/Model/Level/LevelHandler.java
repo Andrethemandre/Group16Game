@@ -35,29 +35,30 @@ public class LevelHandler {
         setLevel(1);
     }
 
-    public boolean checkCollisions(IGameObject gameObject, IGameObject otherGameObject){
-        int gameObjectWidth = gameObject.getWidth();
-        int gameObjectHeight = gameObject.getHeight();
-        int gameObjectX = gameObject.getX();
-        int gameObjectY = gameObject.getY();
 
-        int otherGameObjectWidth = otherGameObject.getWidth();
-        int otherGameObjectHeight = otherGameObject.getHeight();
-        int otherGameObjectX = otherGameObject.getX();
-        int otherGameObjectY = otherGameObject.getY();
-
-
-        //  overflow || intersect
-        return gameObjectX < otherGameObjectX + otherGameObjectWidth && gameObjectX + gameObjectWidth > otherGameObjectX && gameObjectY < otherGameObjectY + otherGameObjectHeight && gameObjectY + gameObjectHeight > otherGameObjectY;
-
-    }
 
     public void checkIfPlayerAtFlag(){
-        if(checkCollisions(player, goalFlag)){
+        if(player.checkCollision(goalFlag)){
             setLevel(2);
         }
     }
-    
+
+    public void checkIfPlayerColldesWithBlocks(){
+        for(Block block : blocks){
+            if(player.checkCollision(block)){
+
+            }
+        }
+    }
+
+    public void checkIfPlayerCollidiesWithEnemies(){
+        for(Enemy enemy : enemies){
+            if(player.checkCollision(enemy)){
+
+            }
+        }
+    }
+
     public void setLevel(int levelNumber){
         enemies = new ArrayList<>();
         blocks = new ArrayList<>();
@@ -91,6 +92,7 @@ public class LevelHandler {
 
     public void update(){
         checkIfPlayerAtFlag();
+        checkIfPlayerColldesWithBlocks();
         for (GameObserver o : observers) {
             o.updateObserver();
         }

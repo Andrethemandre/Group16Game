@@ -94,14 +94,20 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         innerGameObject.setY(y);
     }
 
-    @Override
-    public void updateHealth() {
-
-    }
-
 
     @Override
     public boolean isDead() {
         return false;
+    }
+
+    @Override
+    public void updatehealth() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updatehealth'");
+    }
+
+    @Override
+    public boolean checkCollision(IGameObject otherGameObject) {
+        return innerGameObject.checkCollision(otherGameObject);
     }
 }

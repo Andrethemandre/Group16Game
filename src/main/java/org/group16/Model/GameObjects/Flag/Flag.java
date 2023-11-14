@@ -35,4 +35,9 @@ public class Flag implements IGameObject{
     public int getY() {
         return innerGameObject.getY();
     }
+
+    @Override
+    public boolean checkCollision(IGameObject otherGameObject) {
+        return innerGameObject.checkCollision(otherGameObject);
+    }
 }

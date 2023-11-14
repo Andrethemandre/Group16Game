@@ -35,4 +35,9 @@ public abstract class Block implements IGameObject {
     public int getHeight() {
         return innerGameObject.getHeight();
     }
+    
+    @Override
+    public boolean checkCollision(IGameObject otherGameObject) {
+        return innerGameObject.checkCollision(otherGameObject);
+    }
 }

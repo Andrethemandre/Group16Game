@@ -48,11 +48,8 @@ public class LevelPanel extends GamePanel implements GameObserver {
         
         Player currentPlayer = levelHandler.getPlayer();
         paintPlayer(g, currentPlayer);
-
         paintEnemies(g);
-
         paintBlocks(g);
-
         paintFlag(g);
 
         // paint the healthbar
