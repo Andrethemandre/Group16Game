@@ -200,7 +200,6 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         innerGameObject.setY(y);
     }
 
-    @Override
     public boolean isDead() {
         return health == 0;
     }

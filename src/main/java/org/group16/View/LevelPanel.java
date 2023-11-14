@@ -44,7 +44,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
         // paint the grid
         int cellSize = 16; // hard coded
-        paintGridWithSize(g, cellSize);
+        //paintGridWithSize(g, cellSize);
         
         Player currentPlayer = levelHandler.getPlayer();
         paintPlayer(g, currentPlayer);
