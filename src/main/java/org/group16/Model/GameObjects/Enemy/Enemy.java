@@ -1,6 +1,9 @@
 package org.group16.Model.GameObjects.Enemy;
 
 import org.group16.Model.GameObjects.IGameObject;
+
+import java.awt.Rectangle;
+
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Player.Player;
@@ -8,7 +11,7 @@ import org.group16.Model.Observers.Health;
 
 public abstract class Enemy implements IGameObject, Health /* implements Health */ {
     private GameObject innerGameObject;
-    private int damage;
+    private int damage = 1;
 
     Enemy(GameObjectType enemyType, int x, int y) {
         innerGameObject = new GameObject(enemyType, x, y, 16, 16);
@@ -20,7 +23,13 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
     }
 
     public void dealDamage(Player player) {
+        player.updateHealth( damage);
 
+    }
+    @Override
+    public Rectangle getHitBox(){
+        return innerGameObject.getHitBox();
+        
     }
     @Override
     public boolean checkCollision(IGameObject otherGameObject) {

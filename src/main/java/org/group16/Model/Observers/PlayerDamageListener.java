@@ -6,10 +6,10 @@ public class PlayerDamageListener implements Health {
     // this method is called when the player is hit by an enemy and loses health and
     // have more than 0 health
     Player player;
-
-    public void setHealth(int damage) {
+    @Override
+    public void updateHealth(int damage) {
         if (player.getHealth() > 0) {
-            player.setHealth(player.getHealth() - damage);
+            player.updatehealth(player.getHealth() - damage);
         }
     }
 

@@ -25,6 +25,7 @@ public class LevelHandler {
     private Collection<GameObjectType> acceptedEnemyTypes = Arrays.asList(new GameObjectType[]{GameObjectType.BASIC_____, GameObjectType.SPIKE_____});
     private Collection<GameObjectType> acceptedBlockTypes = Arrays.asList(new GameObjectType[]{GameObjectType.STATIONARY});
     private Collection<GameObserver> observers;
+    private int currentLevelNumber;
 
     private Level currentLevel;
 
@@ -36,24 +37,30 @@ public class LevelHandler {
     }
 
 
-
+    // collision checkers
     public void checkIfPlayerAtFlag(){
         if(player.checkCollision(goalFlag)){
             setLevel(2);
         }
     }
 
-    public void checkIfPlayerColldesWithBlocks(){
+    public void checkIfPlayerCollidesWithBlocks(){
         for(Block block : blocks){
-            if(player.checkCollision(block)){
+            //if(player.checkCollision(block) && player.isFalling()){   
+               // player.stopFalling(block.getY() - player.getHeight());
+            //}
 
-            }
+            player.collision(block);
         }
     }
 
     public void checkIfPlayerCollidiesWithEnemies(){
         for(Enemy enemy : enemies){
             if(player.checkCollision(enemy)){
+                enemy.dealDamage(player); 
+                if (player.isDead()){
+                    setLevel(currentLevelNumber);
+                }
 
             }
         }
@@ -66,6 +73,7 @@ public class LevelHandler {
         blocks.clear();
 
         currentLevel = LevelFactory.createLevel(levelNumber);
+        currentLevelNumber = levelNumber;
         grid = new IGameObject[currentLevel.getWidth()][currentLevel.getHeight()];
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
@@ -93,8 +101,10 @@ public class LevelHandler {
     }
 
     public void update(){
+        player.update();
         checkIfPlayerAtFlag();
-        checkIfPlayerColldesWithBlocks();
+        checkIfPlayerCollidesWithBlocks();
+        checkIfPlayerCollidiesWithEnemies();
         for (GameObserver o : observers) {
             o.updateObserver();
         }

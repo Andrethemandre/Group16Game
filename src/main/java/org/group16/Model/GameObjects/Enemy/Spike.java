@@ -1,5 +1,7 @@
 package org.group16.Model.GameObjects.Enemy;
 
+import java.awt.Rectangle;
+
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Player.Player;
 
@@ -22,8 +24,14 @@ public class Spike extends Enemy {
     }
 
     @Override
-    public void dealDamage(Player player) {
+    public void updateHealth(int damage) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'dealDamage'");
+        throw new UnsupportedOperationException("Unimplemented method 'updateHealth'");
+    }
+
+    @Override
+    public boolean isDead() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isDead'");
     }
 }

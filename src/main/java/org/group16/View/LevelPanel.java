@@ -58,7 +58,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         int barWidth = (int) ((double) health * cellSize / maxHealth * 5);
 
         g.setColor(Color.RED);
-        g.fillRect(0, 0, health, 80);
+        g.fillRect(0, 0, health*cellSize, 80);
     }
 
     private void paintGridWithSize(Graphics g, int cellSize) {

@@ -1,5 +1,7 @@
 package org.group16.Model.GameObjects.Blocks;
 
+import java.awt.Rectangle;
+
 import org.group16.Model.GameObjects.GameObjectType;
 
 class StationaryBlock extends Block {
@@ -17,4 +19,6 @@ class StationaryBlock extends Block {
     public int getHeight() {
         return super.getHeight();
     }
+
+
 }
