@@ -22,33 +22,34 @@ public class MovableBlock extends Block implements Movable {
 
     // Method to move the block
     public void move() {
-
-        // move the block left
-
-        if (xstartlocation - getX() <= 0 && getX() - 1 >= -xDirection) {
-            int newlocation = getX() - xDirection;
-            setX(newlocation);
-        }
-        // move the block right
-        else if (xstartlocation - getX() >= 0 && getX() + 1 <= xDirection) {
-            int newlocation = getX() + xDirection;
-            setX(newlocation);
-        }
-        // move the block down
-        else if (ystartlocation - getY() <= 0 && getY() - 1 >= -yDirection) {
-            int newlocation = getY() - yDirection;
-            setY(newlocation);
-        }
-        // move the block up
-        else if (ystartlocation - getY() >= 0 && getY() + 1 <= yDirection) {
-            int newlocation = getY() + yDirection;
-            setY(newlocation);
+        // Move in the x-direction
+        if (xDirection > 0) {
+            // Move right
+            setX(getX() + 1);
+            if (getX() >= xstartlocation + xDirection) {
+                xDirection = -1; // Change direction
+            }
         } else {
-            int newlocation = xstartlocation;
-            int newlocation2 = ystartlocation;
-            setX(newlocation);
-            setY(newlocation2);
+            // Move left
+            setX(getX() - 1);
+            if (getX() <= xstartlocation - xDirection) {
+                xDirection = 1; // Change direction
+            }
+        }
 
+        // Move in the y-direction
+        if (yDirection > 0) {
+            // Move down
+            setY(getY() + 1);
+            if (getY() >= ystartlocation + yDirection) {
+                yDirection = -1; // Change direction
+            }
+        } else {
+            // Move up
+            setY(getY() - 1);
+            if (getY() <= ystartlocation - yDirection) {
+                yDirection = 1; // Change direction
+            }
         }
     }
 
