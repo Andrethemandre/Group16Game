@@ -8,12 +8,17 @@ import org.group16.Model.GameObjects.Movable;
 
 public class MovableBlock extends Block implements Movable {
     // private int blockspeed; // speed of the block
-    private int xDirection = 1;
-    private int yDirection = 1;
+    private int xDirection = 5;
+    private int yDirection = 5;
     private final int xstartlocation = getX();
     private final int ystartlocation = getY();
     private GameObject innerGameObject;
-    private int delay = 500; // Delay in milliseconds
+    private int helpx = 0;
+    private int helpy = 0;
+    private Boolean hasitgonemaxdistanceposx = false;
+    private Boolean hasitgonemaxdistancenegx = false;
+
+    private Boolean hasitgonemaxdistancey = false;
 
     MovableBlock(int x, int y) {
         super(GameObjectType.MOVABLE___, x, y);
@@ -23,25 +28,34 @@ public class MovableBlock extends Block implements Movable {
     // Method to move the block
     public void move() {
 
-        System.out.println("moving right");
-        try {
-            Thread.sleep(delay); // Pause execution for 'delay' milliseconds
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt(); // Restore interrupted status
-        }
-
         // Move in the x-direction
-        if (xDirection > 0) {
-            // Move right
-            setX(getX() + 1);
-            if (getX() >= xstartlocation + xDirection) {
-                xDirection = -1; // Change direction
+        if (helpx > 0) {
+            if (hasitgonemaxdistanceposx == false) {
+                // Move right
+                setX(getX() + 1);
+                helpx++;
+                hasitgonemaxdistancenegx = false;
+            }
+
+            if (helpx == xDirection || hasitgonemaxdistanceposx == true) {
+                hasitgonemaxdistanceposx = true;
+                setX(getX() - 1);
+                helpx--;
+
             }
         } else {
             // Move left
-            setX(getX() - 1);
-            if (getX() <= xstartlocation - xDirection) {
-                xDirection = 1; // Change direction
+            if (hasitgonemaxdistancenegx == false) {
+                setX(getX() - 1);
+                helpx--;
+                hasitgonemaxdistanceposx = false;
+
+            }
+
+            if (helpx == -xDirection || hasitgonemaxdistancenegx == true) {
+                hasitgonemaxdistancenegx = true;
+                setX(getX() + 1);
+                helpx++;
             }
         }
 

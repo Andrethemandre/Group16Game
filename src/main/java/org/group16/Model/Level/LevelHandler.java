@@ -15,8 +15,16 @@ import org.group16.Model.GameObjects.Enemy.EnemyFactory;
 import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Observers.GameObserver;
+import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class LevelHandler {
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private static final int MOVABLE_BLOCKS_INTERVAL_SECONDS = 5; // Adjust the interval as needed
     private Player player;
     private Flag goalFlag;
     private Collection<Enemy> enemies;
@@ -37,6 +45,8 @@ public class LevelHandler {
     public LevelHandler() {
         observers = new ArrayList<>();
         setLevel(1);
+        // Schedule the movable blocks movement at fixed intervals
+        scheduler.scheduleAtFixedRate(this::moveMovableBlocks, 0, MOVABLE_BLOCKS_INTERVAL_SECONDS, TimeUnit.SECONDS);
     }
 
     // collision checkers
