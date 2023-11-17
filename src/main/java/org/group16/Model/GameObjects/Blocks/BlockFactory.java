@@ -7,7 +7,7 @@ public class BlockFactory {
         switch (blockType) {
             case STATIONARY:
                 return new StationaryBlock(x, y);
-            case MOVABLE___:
+            case MOVABLE:
                 return new MovableBlock(x, y);
             default:
                 throw new IllegalArgumentException("Block type is not supported");
