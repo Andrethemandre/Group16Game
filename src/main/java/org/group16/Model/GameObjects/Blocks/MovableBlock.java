@@ -18,7 +18,8 @@ public class MovableBlock extends Block implements Movable {
     private Boolean hasitgonemaxdistanceposx = false;
     private Boolean hasitgonemaxdistancenegx = false;
 
-    private Boolean hasitgonemaxdistancey = false;
+    private Boolean hasitgonemaxdistanceposy = false;
+    private Boolean hasitgonemaxdistancenegy = false;
 
     MovableBlock(int x, int y) {
         super(GameObjectType.MOVABLE___, x, y);
@@ -60,17 +61,32 @@ public class MovableBlock extends Block implements Movable {
         }
 
         // Move in the y-direction
-        if (yDirection > 0) {
-            // Move down
-            setY(getY() + 1);
-            if (getY() >= ystartlocation + yDirection) {
-                yDirection = -1; // Change direction
+        if (helpy > 0) {
+            // Move up starting from 1
+            if (hasitgonemaxdistanceposy == false) {
+                setY(getY() + 1);
+                helpy++;
+                hasitgonemaxdistancenegy = false;
+            }
+            // Move down starting from yDirection
+            if (helpy == yDirection || hasitgonemaxdistanceposy == true) {
+                hasitgonemaxdistanceposy = true;
+                setY(getY() - 1);
+                helpy--;
             }
         } else {
-            // Move up
-            setY(getY() - 1);
-            if (getY() <= ystartlocation - yDirection) {
-                yDirection = 1; // Change direction
+
+            // Move down starting from 0
+            if (hasitgonemaxdistancenegy == false) {
+                setY(getY() - 1);
+                helpy--;
+                hasitgonemaxdistanceposy = false;
+            }
+            // Move up starting from -yDirection
+            if (helpy == -yDirection || hasitgonemaxdistancenegy == true) {
+                hasitgonemaxdistancenegy = true;
+                setY(getY() + 1);
+                helpy++;
             }
         }
     }
