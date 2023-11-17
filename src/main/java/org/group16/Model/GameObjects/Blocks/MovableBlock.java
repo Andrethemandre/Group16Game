@@ -1,7 +1,6 @@
 package org.group16.Model.GameObjects.Blocks;
 
-import java.util.concurrent.TimeUnit;
-
+import java.awt.Rectangle;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 
@@ -16,12 +15,14 @@ public class MovableBlock extends Block implements Movable {
     private GameObject innerGameObject;
 
     MovableBlock(int x, int y) {
-        super(GameObjectType.MOVABLE___, x, y);
+        super(GameObjectType.MOVABLE, x, y);
 
     }
 
     // Method to move the block
     public void move() {
+        System.out.println("moving right");
+
         // Move in the x-direction
         if (xDirection > 0) {
             // Move right
@@ -56,6 +57,7 @@ public class MovableBlock extends Block implements Movable {
     @Override
     public int getWidth() {
         return super.getWidth();
+
     }
 
     @Override
@@ -65,19 +67,19 @@ public class MovableBlock extends Block implements Movable {
 
     @Override
     public int getX() {
-        return innerGameObject.getX();
+        return super.getX();
     }
 
-    private void setX(int x) {
-        innerGameObject.setX(x);
+    public void setX(int x) {
+        super.setX(x);
     }
 
     @Override
     public int getY() {
-        return innerGameObject.getY();
+        return super.getY();
     }
 
-    private void setY(int y) {
-        innerGameObject.setY(y);
+    public void setY(int y) {
+        super.setY(y);
     }
 }

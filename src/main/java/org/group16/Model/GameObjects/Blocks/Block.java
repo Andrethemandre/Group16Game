@@ -9,7 +9,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 
 public abstract class Block implements IGameObject {
     private GameObject innerGameObject;
-    
+
     Block(GameObjectType blockType, int x, int y) {
         innerGameObject = new GameObject(blockType, x, y, 16, 16);
     }
@@ -49,4 +49,13 @@ public abstract class Block implements IGameObject {
         // TODO Auto-generated method stub
         return innerGameObject.getHitBox();
     }
+
+    public void setX(int x) {
+        this.innerGameObject.setX(x);
+    }
+
+    public void setY(int y) {
+        this.innerGameObject.setY(y);
+    }
+
 }
