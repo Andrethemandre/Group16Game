@@ -13,6 +13,7 @@ public class MovableBlock extends Block implements Movable {
     private final int xstartlocation = getX();
     private final int ystartlocation = getY();
     private GameObject innerGameObject;
+    private int delay = 500; // Delay in milliseconds
 
     MovableBlock(int x, int y) {
         super(GameObjectType.MOVABLE___, x, y);
@@ -21,7 +22,13 @@ public class MovableBlock extends Block implements Movable {
 
     // Method to move the block
     public void move() {
+
         System.out.println("moving right");
+        try {
+            Thread.sleep(delay); // Pause execution for 'delay' milliseconds
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // Restore interrupted status
+        }
 
         // Move in the x-direction
         if (xDirection > 0) {

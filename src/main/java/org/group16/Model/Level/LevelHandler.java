@@ -9,6 +9,7 @@ import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
+import org.group16.Model.GameObjects.Blocks.MovableBlock;
 import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Enemy.EnemyFactory;
 import org.group16.Model.GameObjects.Flag.Flag;
@@ -56,6 +57,7 @@ public class LevelHandler {
     }
 
     public void checkIfPlayerCollidiesWithEnemies() {
+
         for (Enemy enemy : enemies) {
             if (player.checkCollision(enemy)) {
                 enemy.dealDamage(player);
@@ -102,6 +104,7 @@ public class LevelHandler {
     }
 
     public void update() {
+        moveMovableBlocks();
         player.update();
         checkIfPlayerAtFlag();
         checkIfPlayerCollidesWithBlocks();
@@ -149,5 +152,14 @@ public class LevelHandler {
 
     public int getHeight() {
         return grid.length;
+    }
+
+    public void moveMovableBlocks() {
+        for (Block block : blocks) {
+            if (block instanceof MovableBlock) {
+                ((MovableBlock) block).move();
+                System.out.println("ginger");
+            }
+        }
     }
 }
