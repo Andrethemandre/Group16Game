@@ -22,43 +22,44 @@ public class LevelHandler {
     private Collection<Block> blocks;
     private boolean playerIsAtFlag;
     private IGameObject[][] grid;
-    private Collection<GameObjectType> acceptedEnemyTypes = Arrays.asList(new GameObjectType[]{GameObjectType.BASIC_____, GameObjectType.SPIKE_____});
-    private Collection<GameObjectType> acceptedBlockTypes = Arrays.asList(new GameObjectType[]{GameObjectType.STATIONARY});
+    private Collection<GameObjectType> acceptedEnemyTypes = Arrays
+            .asList(new GameObjectType[] { GameObjectType.BASIC_____, GameObjectType.SPIKE_____ });
+    private Collection<GameObjectType> acceptedBlockTypes = Arrays
+            .asList(new GameObjectType[] { GameObjectType.STATIONARY, GameObjectType.MOVABLE___ });
     private Collection<GameObserver> observers;
     private int currentLevelNumber;
 
     private Level currentLevel;
 
-    // width and height depending on how big the level is 
+    // width and height depending on how big the level is
 
-    public LevelHandler(){
+    public LevelHandler() {
         observers = new ArrayList<>();
         setLevel(1);
     }
 
-
     // collision checkers
-    public void checkIfPlayerAtFlag(){
-        if(player.checkCollision(goalFlag)){
+    public void checkIfPlayerAtFlag() {
+        if (player.checkCollision(goalFlag)) {
             setLevel(2);
         }
     }
 
-    public void checkIfPlayerCollidesWithBlocks(){
-        for(Block block : blocks){
-            //if(player.checkCollision(block) && player.isFalling()){   
-               // player.stopFalling(block.getY() - player.getHeight());
-            //}
+    public void checkIfPlayerCollidesWithBlocks() {
+        for (Block block : blocks) {
+            // if(player.checkCollision(block) && player.isFalling()){
+            // player.stopFalling(block.getY() - player.getHeight());
+            // }
 
             player.collision(block);
         }
     }
 
-    public void checkIfPlayerCollidiesWithEnemies(){
-        for(Enemy enemy : enemies){
-            if(player.checkCollision(enemy)){
-                enemy.dealDamage(player); 
-                if (player.isDead()){
+    public void checkIfPlayerCollidiesWithEnemies() {
+        for (Enemy enemy : enemies) {
+            if (player.checkCollision(enemy)) {
+                enemy.dealDamage(player);
+                if (player.isDead()) {
                     setLevel(currentLevelNumber);
                 }
 
@@ -66,7 +67,7 @@ public class LevelHandler {
         }
     }
 
-    public void setLevel(int levelNumber){
+    public void setLevel(int levelNumber) {
         enemies = new ArrayList<>();
         blocks = new ArrayList<>();
         enemies.clear();
@@ -78,29 +79,29 @@ public class LevelHandler {
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
                 if (acceptedEnemyTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    Enemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), j*16, i*16);
+                    Enemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), j * 16, i * 16);
                     addEnemy(newEnemy);
                     grid[j][i] = newEnemy;
 
                 } else if (acceptedBlockTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j*16, i*16);
+                    Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j * 16, i * 16);
                     addBlock(newBlock);
                     grid[j][i] = newBlock;
 
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.PLAYER____) {
                     // The grid uses /16 of the actual size
-                    player = new Player(j*16, i*16);
+                    player = new Player(j * 16, i * 16);
                     grid[j][i] = player;
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.GOAL______) {
-                    // will only reset if there is a new flag on next level. 
-                    goalFlag = new Flag(j*16, i*16);
+                    // will only reset if there is a new flag on next level.
+                    goalFlag = new Flag(j * 16, i * 16);
                     grid[j][i] = goalFlag;
                 }
-            }   
+            }
         }
     }
 
-    public void update(){
+    public void update() {
         player.update();
         checkIfPlayerAtFlag();
         checkIfPlayerCollidesWithBlocks();
@@ -110,19 +111,19 @@ public class LevelHandler {
         }
     }
 
-    public void addObserver(GameObserver observer){
+    public void addObserver(GameObserver observer) {
         observers.add(observer);
     }
 
-    public void addEnemy(Enemy enemy){
+    public void addEnemy(Enemy enemy) {
         this.enemies.add(enemy);
     }
 
-    public void addBlock(Block block){
+    public void addBlock(Block block) {
         this.blocks.add(block);
     }
 
-    public Player getPlayer(){
+    public Player getPlayer() {
         return this.player;
     }
 
@@ -130,15 +131,15 @@ public class LevelHandler {
         return goalFlag;
     }
 
-    public Collection<Enemy> getEnemies(){
+    public Collection<Enemy> getEnemies() {
         return this.enemies;
     }
 
-    public Collection<Block> getBlocks(){
+    public Collection<Block> getBlocks() {
         return this.blocks;
     }
 
-    public IGameObject[][] getGrid(){
+    public IGameObject[][] getGrid() {
         return this.grid;
     }
 

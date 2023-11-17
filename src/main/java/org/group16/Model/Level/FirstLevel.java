@@ -1,7 +1,7 @@
 package org.group16.Model.Level;
 
 import org.group16.Model.GameObjects.GameObjectType;
-import static org.group16.Model.GameObjects.GameObjectType.MOVABLE;
+import static org.group16.Model.GameObjects.GameObjectType.MOVABLE___;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 import static org.group16.Model.GameObjects.GameObjectType.AIR_______;
 import static org.group16.Model.GameObjects.GameObjectType.GOAL______;
@@ -150,7 +150,8 @@ public class FirstLevel extends Level {
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, },
-            { AIR_______, AIR_______, AIR_______, MOVABLE, MOVABLE, MOVABLE, MOVABLE, AIR_______, AIR_______,
+            { AIR_______, AIR_______, AIR_______, MOVABLE___, MOVABLE___, MOVABLE___, MOVABLE___, AIR_______,
+                    AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
@@ -166,7 +167,7 @@ public class FirstLevel extends Level {
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
-                    AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
+                    AIR_______, AIR_______, AIR_______, AIR_______, MOVABLE___, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, },
             { AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
@@ -174,7 +175,7 @@ public class FirstLevel extends Level {
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, },
-            { PLAYER____, AIR_______, AIR_______, AIR_______, AIR_______, MOVABLE, AIR_______, AIR_______,
+            { PLAYER____, AIR_______, AIR_______, AIR_______, AIR_______, STATIONARY, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,

@@ -15,7 +15,7 @@ public class MovableBlock extends Block implements Movable {
     private GameObject innerGameObject;
 
     MovableBlock(int x, int y) {
-        super(GameObjectType.MOVABLE, x, y);
+        super(GameObjectType.MOVABLE___, x, y);
 
     }
 
