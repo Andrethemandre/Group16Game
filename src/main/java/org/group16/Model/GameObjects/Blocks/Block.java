@@ -58,4 +58,8 @@ public abstract class Block implements IGameObject {
         this.innerGameObject.setY(y);
     }
 
+    public void updateHitBox() {
+        this.innerGameObject.updateHitBox();
+    }
+
 }
