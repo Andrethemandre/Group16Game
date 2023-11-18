@@ -23,8 +23,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
         return levelHandler.getPlayer();
     }
 
-
-
     /**
      * This method is called each time the panel updates/refreshes/repaints itself
      */
@@ -43,15 +41,28 @@ public class LevelPanel extends GamePanel implements GameObserver {
         paintFlag(g);
         paintHealthBar(g, cellSize, currentPlayer);
         paintStats(g, currentPlayer);
+
+        if(levelHandler.getPauseState()){
+            paintPaused(g);
+        }
+
+    }
+
+    private void paintPaused(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.PLAIN, 50));
+        g.drawString("PAUSED", 250, 250);
+
     }
 
     // In your game's main class
     public void paintStats(Graphics g, Player currentPlayer) {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 12));
-        g.drawString("Deaths: " + String.valueOf(levelHandler.getDeaths()), 50, 20);
-        g.drawString("Score: " + String.valueOf(levelHandler.getScore()), 50, 40);
-        g.drawString("Time: " + formatTime(levelHandler.getElapsedTime()), 50, 60);
+        g.drawString("Deaths: " + String.valueOf(levelHandler.getDeaths()), 55, 20);
+        g.drawString("Score: " + String.valueOf(levelHandler.getScore()), 55, 40);
+        g.drawString("Time: " + formatTime(levelHandler.getElapsedTime()), 55, 60);
+        g.drawString("Level: " + levelHandler.getCurrentLevelNumber(), 55, 80);
     }
 
     private void paintHealthBar(Graphics g, int cellSize, Player currentPlayer) {

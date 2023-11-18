@@ -18,7 +18,8 @@ public class GameEngine {
     // The timer is started with an listener (see below) that executes the statements
     // each step between delays.
     private Timer timer = new Timer(delay, new TimerListener(this));
-        
+    
+
     public GameEngine(LevelHandler levelHandler, GameWindow mainWindow) {
         this.mainWindow = mainWindow;
         this.levelHandler = levelHandler;
@@ -35,13 +36,14 @@ public class GameEngine {
     }
     // update stuff
     public void update() {
+        if(levelHandler.getPauseState()){
+            return;
+        }
+      
         playerController.update();
         levelHandler.update();
     }
 
-    /* Each step the TimerListener moves all the cars in the list and tells the
-    * view to update its images. Change this method to your needs.
-    * */
     private class TimerListener implements ActionListener {
         private GameEngine engine;
 

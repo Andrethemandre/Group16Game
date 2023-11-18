@@ -30,12 +30,17 @@ public class LevelHandler {
     private Level currentLevel;
     private long levelStartTime;
     private int deaths = 0;
+    private boolean paused = false;
 
     // width and height depending on how big the level is 
 
     public LevelHandler(){
         observers = new ArrayList<>();
         setLevel(1);
+    }
+
+    public int getCurrentLevelNumber(){
+        return this.currentLevelNumber;
     }
 
     public void addScore(int points){
@@ -121,7 +126,7 @@ public class LevelHandler {
             }   
         }
     }
-    
+
     public long getElapsedTime() {
         return System.currentTimeMillis() - levelStartTime;
     }
@@ -174,5 +179,16 @@ public class LevelHandler {
 
     public int getHeight() {
         return grid.length;
+    }
+
+    public boolean getPauseState() {
+        return this.paused;
+    }
+
+    public void togglePause(){
+        this.paused = !paused;
+        for (GameObserver o : observers) {
+            o.updateObserver();
+        }
     }
 }

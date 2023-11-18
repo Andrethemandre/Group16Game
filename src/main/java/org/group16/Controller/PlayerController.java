@@ -62,6 +62,10 @@ public class PlayerController implements KeyListener, MouseListener {
                 currentPlayer.setXDirection(1);
                 currentPlayer.move();
                 break; 
+            
+            case KeyEvent.VK_ESCAPE:
+                levelHandler.togglePause();
+                break;
             }
     }
 

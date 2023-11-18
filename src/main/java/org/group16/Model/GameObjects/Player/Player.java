@@ -47,11 +47,6 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
             xAcceleration = 0;
         }
         
-        if (xAcceleration == 0){
-            System.out.println("still");
-        }
-        
-        
         int newX = getX() + xAcceleration;
         int newY = getY() + yAcceleration;
 
