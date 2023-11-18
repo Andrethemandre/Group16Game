@@ -1,11 +1,13 @@
 package org.group16.Model.Level;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Arrays;
 
 import org.group16.Model.GameObjects.IGameObject;
+import org.group16.Model.GameObjects.PowerUp;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
@@ -20,6 +22,7 @@ public class LevelHandler {
     private Flag goalFlag;
     private Collection<Enemy> enemies;
     private Collection<Block> blocks;
+    private Collection<PowerUp> powerUps;
     private boolean playerIsAtFlag;
     private IGameObject[][] grid;
     private Collection<GameObjectType> acceptedEnemyTypes = Arrays.asList(new GameObjectType[]{GameObjectType.BASIC_____, GameObjectType.SPIKE_____});
@@ -69,8 +72,10 @@ public class LevelHandler {
     public void setLevel(int levelNumber){
         enemies = new ArrayList<>();
         blocks = new ArrayList<>();
+        powerUps = new ArrayList<>();
         enemies.clear();
         blocks.clear();
+        powerUps.clear();
 
         currentLevel = LevelFactory.createLevel(levelNumber);
         currentLevelNumber = levelNumber;
@@ -95,6 +100,11 @@ public class LevelHandler {
                     // will only reset if there is a new flag on next level. 
                     goalFlag = new Flag(j*16, i*16);
                     grid[j][i] = goalFlag;
+                }   else if (currentLevel.getLevelTile(i,j) == GameObjectType.Powerup___){
+                        PowerUp powerUp = new PowerUp(j*16,i*16);
+                        this.powerUps.add(powerUp);
+
+
                 }
             }   
         }
@@ -136,6 +146,10 @@ public class LevelHandler {
 
     public Collection<Block> getBlocks(){
         return this.blocks;
+    }
+
+     public Collection<PowerUp> getPowerUps(){
+        return this.powerUps;
     }
 
     public IGameObject[][] getGrid(){

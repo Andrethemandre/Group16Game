@@ -8,4 +8,5 @@ public enum GameObjectType {
     PLAYER____,
     GOAL______,
     AIR_______,
+    Powerup___,
 }
