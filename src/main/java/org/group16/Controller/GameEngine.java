@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.View.GamePanel;
 import org.group16.View.GameWindow;
-import  org.group16.View.Renderer;
 
 public class GameEngine {
     private GameWindow mainWindow;

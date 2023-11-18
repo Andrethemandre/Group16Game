@@ -11,7 +11,6 @@ import org.group16.Model.Level.LevelHandler;
 import org.group16.View.GamePanel;
 import org.group16.View.GameWindow;
 import org.group16.View.LevelPanel;
-import org.group16.View.Renderer;
 
 public class PlayerController implements KeyListener, MouseListener {
 

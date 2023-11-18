@@ -23,17 +23,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         return levelHandler.getPlayer();
     }
 
-    @Override
-    public void render(Graphics g) {
-        // render the grid
-        int cellSize = 32; // hard coded
-        g.setColor(new Color(0, 0.5f, 0, 0.75f));
-        for (int i = 0; i <= levelHandler.getHeight(); i++) {
-            g.drawLine(i * cellSize, 0, i * cellSize, levelHandler.getHeight()* cellSize);
-            if (i <= levelHandler.getWidth())
-                g.drawLine(0, i * cellSize, levelHandler.getWidth() * cellSize, i * cellSize);
-        }
-    }
+
 
     /**
      * This method is called each time the panel updates/refreshes/repaints itself
@@ -51,7 +41,20 @@ public class LevelPanel extends GamePanel implements GameObserver {
         paintEnemies(g);
         paintBlocks(g);
         paintFlag(g);
+        paintHealthBar(g, cellSize, currentPlayer);
+        paintStats(g, currentPlayer);
+    }
 
+    // In your game's main class
+    public void paintStats(Graphics g, Player currentPlayer) {
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.PLAIN, 12));
+        g.drawString("Deaths: " + String.valueOf(levelHandler.getDeaths()), 50, 20);
+        g.drawString("Score: " + String.valueOf(levelHandler.getScore()), 50, 40);
+        g.drawString("Time: " + formatTime(levelHandler.getElapsedTime()), 50, 60);
+    }
+
+    private void paintHealthBar(Graphics g, int cellSize, Player currentPlayer) {
         // paint the healthbar
         int health = currentPlayer.getHealth();
         int maxHealth = 10; // Assuming there's a constant for max health in your Player class
@@ -60,7 +63,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.setColor(Color.RED);
         g.fillRect(0, 0, health*cellSize, 80);
     }
-
+    
     private void paintGridWithSize(Graphics g, int cellSize) {
         g.setColor(Color.red);
         for (int i = 0; i <= levelHandler.getWidth(); i++) {
@@ -68,6 +71,12 @@ public class LevelPanel extends GamePanel implements GameObserver {
             if (i <= levelHandler.getWidth())
                 g.drawLine(0, i * cellSize, levelHandler.getWidth() * cellSize, i * cellSize);
         }
+    }
+
+    private String formatTime(long millis) {
+        long seconds = (millis / 1000) % 60;
+        long minutes = (millis / (1000 * 60)) % 60;
+        return String.format("%02d:%02d", minutes, seconds);
     }
 
     private void paintPlayer(Graphics g, Player currentPlayer) {

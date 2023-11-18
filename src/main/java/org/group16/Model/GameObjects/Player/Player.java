@@ -16,12 +16,14 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     private int xAcceleration;
     private double previousTime = 0;
     private double currentTime = 6;
-
+    private int deaths = 0;
     private boolean falling = false;
 
     public Player(int x, int y) {
         innerGameObject = new GameObject(GameObjectType.PLAYER____, x, y, 16, 16);
     }
+
+
 
     public void jump(){
         yAcceleration = -10;

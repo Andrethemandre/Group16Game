@@ -26,8 +26,10 @@ public class LevelHandler {
     private Collection<GameObjectType> acceptedBlockTypes = Arrays.asList(new GameObjectType[]{GameObjectType.STATIONARY});
     private Collection<GameObserver> observers;
     private int currentLevelNumber;
-
+    private int score = 0;
     private Level currentLevel;
+    private long levelStartTime;
+    private int deaths = 0;
 
     // width and height depending on how big the level is 
 
@@ -36,6 +38,21 @@ public class LevelHandler {
         setLevel(1);
     }
 
+    public void addScore(int points){
+        this.score += points;
+    }
+
+    public int getScore(){
+        return this.score;
+    }
+
+    public void die(){
+        this.deaths++;
+    }
+
+    public int getDeaths(){
+        return this.deaths;
+    }
 
     // collision checkers
     public void checkIfPlayerAtFlag(){
@@ -46,10 +63,6 @@ public class LevelHandler {
 
     public void checkIfPlayerCollidesWithBlocks(){
         for(Block block : blocks){
-            //if(player.checkCollision(block) && player.isFalling()){   
-               // player.stopFalling(block.getY() - player.getHeight());
-            //}
-
             player.collision(block);
         }
     }
@@ -60,19 +73,28 @@ public class LevelHandler {
                 enemy.dealDamage(player); 
                 if (player.isDead()){
                     setLevel(currentLevelNumber);
+                    addScore(100);
+                    die();
                 }
-
+                
             }
         }
     }
 
     public void setLevel(int levelNumber){
+        if(levelNumber != currentLevelNumber){
+            deaths = 0;
+            score = 0;
+            levelStartTime = System.currentTimeMillis();
+        }
+
         enemies = new ArrayList<>();
         blocks = new ArrayList<>();
         enemies.clear();
         blocks.clear();
-
         currentLevel = LevelFactory.createLevel(levelNumber);
+
+        // GameStats
         currentLevelNumber = levelNumber;
         grid = new IGameObject[currentLevel.getWidth()][currentLevel.getHeight()];
         for (int i = 0; i < currentLevel.getHeight(); i++) {
@@ -98,6 +120,10 @@ public class LevelHandler {
                 }
             }   
         }
+    }
+    
+    public long getElapsedTime() {
+        return System.currentTimeMillis() - levelStartTime;
     }
 
     public void update(){
