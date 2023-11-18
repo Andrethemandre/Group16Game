@@ -33,7 +33,7 @@ public class PlayerController implements KeyListener, MouseListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        System.out.println("Key typed: " + e.getKeyChar());
+        // System.out.println("Key typed: " + e.getKeyChar());
     }
 
     @Override
@@ -69,7 +69,7 @@ public class PlayerController implements KeyListener, MouseListener {
     @Override
     public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
-        System.out.println("Key released: " + e.getKeyChar());
+        // System.out.println("Key released: " + e.getKeyChar());
     }
 
     @Override

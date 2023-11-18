@@ -1,6 +1,5 @@
 package org.group16.Model.Level;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Arrays;
@@ -39,24 +38,20 @@ public class LevelHandler {
 
     // collision checkers
     public void checkIfPlayerAtFlag(){
-        if(player.checkCollision(goalFlag)){
+        if(player.collidesWith(goalFlag)){
             setLevel(2);
         }
     }
 
     public void checkIfPlayerCollidesWithBlocks(){
-        for(Block block : blocks){
-            //if(player.checkCollision(block) && player.isFalling()){   
-               // player.stopFalling(block.getY() - player.getHeight());
-            //}
-
+        for (Block block : blocks){
             player.collision(block);
         }
     }
 
     public void checkIfPlayerCollidiesWithEnemies(){
-        for(Enemy enemy : enemies){
-            if(player.checkCollision(enemy)){
+        for (Enemy enemy : enemies){
+            if (player.collidesWith(enemy)){
                 enemy.dealDamage(player); 
                 if (player.isDead()){
                     setLevel(currentLevelNumber);

@@ -1,9 +1,6 @@
 package org.group16.Model.GameObjects.Player;
 
-import java.awt.Rectangle;
-
 import org.group16.Model.GameObjects.*;
-import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.Observers.Health;
 
 public class Player implements Movable, IGameObject, Health, AffectedByGravity {
@@ -27,7 +24,6 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         yAcceleration = -10;
         int newY = getY() + yAcceleration;
         setY(newY);
-        //int newY = getY() + getYDirection() * getMovementSpeed();
     }
 
     public void gravity(){       
@@ -46,7 +42,7 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         }
         
         if (xAcceleration == 0){
-            System.out.println("still");
+            // System.out.println("still");
         }
         
         
@@ -65,44 +61,33 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         return yAcceleration;
     }
 
-    public void collision(IGameObject otherGameObject){
-        innerGameObject.updateHitBox();
-        Rectangle otherGameObjectHitBox = otherGameObject.getHitBox();
-        Rectangle playerHitbox = getHitBox();
-
-       
-        //vertical collision
-        playerHitbox.y += yAcceleration;
-        if (otherGameObjectHitBox.intersects(playerHitbox)){
-            playerHitbox.y -=yAcceleration;
-            while(!otherGameObjectHitBox.intersects(playerHitbox) ){
-                playerHitbox.y += Math.signum(yAcceleration);
+    public void collision(IGameObject otherGameObject) {
+        setY(getY() + yAcceleration);
+        if (this.collidesWith(otherGameObject)){
+            setY(getY() - yAcceleration);
+            while (!this.collidesWith(otherGameObject)){
+                setY(getY() + Integer.signum(yAcceleration));
+                System.out.print("y");
             }
-            playerHitbox.y -= Math.signum(yAcceleration);
+            setY(getY() - Integer.signum(yAcceleration));
             yAcceleration = 0;
-            setY(playerHitbox.y);
+        } else {
+            setY(getY() - yAcceleration);
         }
-
-        //x colision
-        //playerHitbox.x += xAcceleration;
-        if (playerHitbox.intersects(otherGameObjectHitBox)) {
-            playerHitbox.x -=xAcceleration;
-            while(!playerHitbox.intersects(otherGameObjectHitBox) ){
-                playerHitbox.x += Math.signum(xAcceleration);
+        if (this.collidesWith(otherGameObject)){
+            setX(getX() - xAcceleration);
+            while (!this.collidesWith(otherGameObject)){
+                setX(getX() + Integer.signum(xAcceleration));
+                System.out.print("x");
             }
-            playerHitbox.x -= Math.signum(xAcceleration);
-            
+            setX(getX() - Integer.signum(xAcceleration));
             xAcceleration = 0;
-            setX(playerHitbox.x);           
-        }   
+        }
     }
-
 
     // need to check if player is in the air to fall, so      
     public void update(){
-        innerGameObject.updateHitBox();
         gravity();
-        innerGameObject.updateHitBox();
     }
 
     public void stopFalling(int stopPosition){
@@ -214,12 +199,21 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         }    
     }
     @Override
-    public boolean checkCollision(IGameObject otherGameObject) {
-        return innerGameObject.checkCollision(otherGameObject);
+    public boolean collidesWith(IGameObject otherGameObject) {
+        return innerGameObject.collidesWith(otherGameObject);
     }
 
-    @Override
-    public Rectangle getHitBox() {
-        return innerGameObject.getHitBox();
+    private boolean collidesWithInX(IGameObject otherGameObject) {
+        return (this.getX() < otherGameObject.getX() + otherGameObject.getWidth() &&
+                this.getX() + this.getWidth() > otherGameObject.getX()) ||
+               (otherGameObject.getX() < this.getX() + this.getWidth() &&
+                otherGameObject.getX() + otherGameObject.getWidth() > this.getX());
+    }
+
+    private boolean collidesWithInY(IGameObject otherGameObject) {
+        return (this.getY() < otherGameObject.getY() + otherGameObject.getHeight() &&
+                this.getY() + this.getHeight() > otherGameObject.getY()) ||
+               (otherGameObject.getY() < this.getY() + this.getHeight() &&
+                otherGameObject.getY() + otherGameObject.getHeight() > this.getY());
     }
 }

@@ -2,8 +2,6 @@ package org.group16.Model.GameObjects.Blocks;
 
 import org.group16.Model.GameObjects.IGameObject;
 
-import java.awt.Rectangle;
-
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 
@@ -40,13 +38,7 @@ public abstract class Block implements IGameObject {
     }
 
     @Override
-    public boolean checkCollision(IGameObject otherGameObject) {
-        return innerGameObject.checkCollision(otherGameObject);
-    }
-
-    @Override
-    public Rectangle getHitBox() {
-        // TODO Auto-generated method stub
-        return innerGameObject.getHitBox();
+    public boolean collidesWith(IGameObject otherGameObject) {
+        return innerGameObject.collidesWith(otherGameObject);
     }
 }
