@@ -26,31 +26,29 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         setY(newY);
     }
 
-    public void gravity(){       
-        yAcceleration = yAcceleration + this.GRAVITYFACTOR;
+    public void applyGravity() {       
+        yAcceleration = yAcceleration + AffectedByGravity.GRAVITY_FACTOR;
         if (yAcceleration > 10){
             yAcceleration = 5;
         }
-        if(xAcceleration > 1) {
-             xAcceleration -= 1; 
-         }
-        else if (xAcceleration < -1){
-             xAcceleration += 1;
+        
+        int newY = getY() + yAcceleration;
+        setY(newY);
+    }
+
+    public void applyFriction() {
+        if (xAcceleration > 1) {
+            xAcceleration -= 1; 
+        }
+        else if (xAcceleration < -1) {
+            xAcceleration += 1;
         }
         else {
             xAcceleration = 0;
         }
         
-        if (xAcceleration == 0){
-            // System.out.println("still");
-        }
-        
-        
         int newX = getX() + xAcceleration;
-        int newY = getY() + yAcceleration;
-
         setX(newX);
-        setY(newY);
     }
 
     public int getXAcceleration(){
@@ -67,7 +65,6 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
             setY(getY() - yAcceleration);
             while (!this.collidesWith(otherGameObject)){
                 setY(getY() + Integer.signum(yAcceleration));
-                System.out.print("y");
             }
             setY(getY() - Integer.signum(yAcceleration));
             yAcceleration = 0;
@@ -78,7 +75,6 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
             setX(getX() - xAcceleration);
             while (!this.collidesWith(otherGameObject)){
                 setX(getX() + Integer.signum(xAcceleration));
-                System.out.print("x");
             }
             setX(getX() - Integer.signum(xAcceleration));
             xAcceleration = 0;
@@ -87,7 +83,8 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
 
     // need to check if player is in the air to fall, so      
     public void update(){
-        gravity();
+        applyGravity();
+        applyFriction();
     }
 
     public void stopFalling(int stopPosition){
