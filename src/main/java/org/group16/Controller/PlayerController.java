@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Level.Level;
 import org.group16.Model.Level.LevelHandler;
@@ -48,7 +49,7 @@ public class PlayerController implements KeyListener, MouseListener {
 
             // a for going left
             case KeyEvent.VK_A:
-                currentPlayer.setXDirection(-1);
+                currentPlayer.setDirection(Direction.LEFT);
                 currentPlayer.move();
                 break;
 
@@ -59,7 +60,7 @@ public class PlayerController implements KeyListener, MouseListener {
 
             // d for going right
             case KeyEvent.VK_D:
-                currentPlayer.setXDirection(1);
+                currentPlayer.setDirection(Direction.RIGHT);
                 currentPlayer.move();
                 break; 
             }

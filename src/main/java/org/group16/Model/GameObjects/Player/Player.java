@@ -4,9 +4,8 @@ import org.group16.Model.GameObjects.*;
 import org.group16.Model.Observers.Health;
 
 public class Player implements Movable, IGameObject, Health, AffectedByGravity {
-    private int xDirection;
-    private int yDirection;
-    private int movementSpeed;
+    private Direction direction;
+    private int movementSpeed = 5;
     private int health = 3;
     private GameObject innerGameObject;
     private int yAcceleration;
@@ -91,13 +90,6 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         applyFriction();
     }
 
-    public void stopFalling(int stopPosition){
-        if(isFalling()){
-            setYDirection(0);
-            setY(stopPosition);
-            update();
-        }
-    }
     public boolean isFalling() {
         return this.falling;
         
@@ -110,34 +102,19 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         this.health = health;
     }
 
-    public int getXDirection() {
-        return xDirection;
+    public Direction getDirection() {
+        return direction;
     }
 
-    public void setXDirection(int xDirection) {
-        this.xDirection = xDirection;
-    }
-
-    public int getYDirection() {
-        return yDirection;
-    }
-
-    private void setYDirection(int yDirection) {
-        if(yDirection != 0){
-            this.falling = true;
-        }
-        else{
-            this.falling = false;
-        }
-
-        this.yDirection = yDirection;
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     public int getMovementSpeed() {
         return movementSpeed;
     }
 
-    public void setMovementSpeed(int movementSpeed) {
+    private void setMovementSpeed(int movementSpeed) {
         this.movementSpeed = movementSpeed;
     }
 
@@ -153,14 +130,16 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
 
     @Override
     public void move() {
-        setMovementSpeed(5);
-        int movementSpeed = getMovementSpeed();
-        if (getXDirection() < 1){
-            xAcceleration = -movementSpeed;
+        switch (direction) {
+            case LEFT:
+                xAcceleration = -movementSpeed;
+                break;
+            case RIGHT:
+                xAcceleration = movementSpeed;
+                break;
+            default:
+                break;
         }
-        else {
-            xAcceleration = +movementSpeed;
-        } 
     }
 
     @Override
