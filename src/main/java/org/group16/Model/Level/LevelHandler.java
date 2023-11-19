@@ -69,6 +69,21 @@ public class LevelHandler {
         }
     }
 
+    public void checkIfPlayerCollidesWithPowerUp(){
+        PowerUp powerUptoremove = null;
+        if (powerUps!= null){
+            System.out.println(powerUps);
+            for (PowerUp powerUp : powerUps){
+                if(player.checkCollision(powerUp)){
+                    powerUptoremove = powerUp;
+                    
+                }
+            }
+            powerUps.remove(powerUptoremove);
+        }
+    }
+
+
     public void setLevel(int levelNumber){
         enemies = new ArrayList<>();
         blocks = new ArrayList<>();
@@ -115,6 +130,7 @@ public class LevelHandler {
         checkIfPlayerAtFlag();
         checkIfPlayerCollidesWithBlocks();
         checkIfPlayerCollidiesWithEnemies();
+        checkIfPlayerCollidesWithPowerUp();
         for (GameObserver o : observers) {
             o.updateObserver();
         }
