@@ -7,6 +7,14 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Movable;
 import java.io.*;
 import java.lang.Thread;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class MovableBlock extends Block implements Movable {
     public int blockspeed = 0; // speed of the block
@@ -21,6 +29,8 @@ public class MovableBlock extends Block implements Movable {
     private Boolean hasitgonemaxdistancenegx = false;
     private Boolean hasitgonemaxdistanceposy = false;
     private Boolean hasitgonemaxdistancenegy = false;
+
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public void setblockspeed(int blockspeed) {
         this.blockspeed = blockspeed;
