@@ -16,9 +16,13 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     private double currentTime = 6;
 
     private boolean falling = false;
+    private int maxX;
+    private int maxY;
 
-    public Player(int x, int y) {
+    public Player(int x, int y, int maxX, int maxY) {
         innerGameObject = new GameObject(GameObjectType.PLAYER____, x, y, 16, 16);
+        this.maxX = maxX;
+        this.maxY = maxY;
     }
 
     public void jump(){
@@ -204,7 +208,18 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     }
 
     private void setX(int x) {
+        x = keepXInBox(x);
+
         innerGameObject.setX(x);
+    }
+
+    private int keepXInBox(int x) {
+        if (x < 0) {
+            x = 0;
+        } else if (x > maxX - getWidth()) {
+            x = maxX - getWidth();
+        }
+        return x;
     }
 
     @Override
@@ -213,6 +228,12 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     }
 
     private void setY(int y) {
+        if (y < 0) {
+            y = 0;
+        // when player falls of, player is dead.
+        } else if (y > maxY + getHeight()) {
+            health = 0;
+        }
         innerGameObject.setY(y);
     }
 }

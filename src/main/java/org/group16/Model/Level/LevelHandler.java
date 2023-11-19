@@ -53,11 +53,13 @@ public class LevelHandler {
         for (Enemy enemy : enemies){
             if (player.collidesWith(enemy)){
                 enemy.dealDamage(player); 
-                if (player.isDead()){
-                    setLevel(currentLevelNumber);
-                }
-
             }
+        }
+    }
+
+    private void checkIfPlayerIsDead() {
+        if (player.isDead()){
+            setLevel(currentLevelNumber);
         }
     }
 
@@ -84,7 +86,7 @@ public class LevelHandler {
 
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.PLAYER____) {
                     // The grid uses /16 of the actual size
-                    player = new Player(j*16, i*16);
+                    player = new Player(j*16, i*16, getHeight()*16, getWidth()*16);
                     grid[j][i] = player;
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.GOAL______) {
                     // will only reset if there is a new flag on next level. 
@@ -103,6 +105,7 @@ public class LevelHandler {
         for (GameObserver o : observers) {
             o.updateObserver();
         }
+        checkIfPlayerIsDead();
     }
 
     public void addObserver(GameObserver observer){
