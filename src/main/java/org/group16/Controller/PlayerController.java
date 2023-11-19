@@ -19,6 +19,8 @@ public class PlayerController implements KeyListener, MouseListener {
     private GameWindow mainWindow;
     private LevelHandler levelHandler;
     private Player currentPlayer;
+    // flag to only allow one jump per keypress
+    private boolean wKeyHeldDown = false;
 
     public PlayerController(LevelHandler levelHandler, GameWindow mainWindow){
         this.mainWindow = mainWindow;
@@ -44,13 +46,17 @@ public class PlayerController implements KeyListener, MouseListener {
         switch(e.getKeyCode()) {
             // w for going up
             case KeyEvent.VK_W:
-                currentPlayer.jump();
+                if (!wKeyHeldDown && !currentPlayer.isFalling()) {
+                    currentPlayer.startJumping();
+                    wKeyHeldDown = true;
+                    System.out.println("Jumping");
+                }
                 break;
 
             // a for going left
             case KeyEvent.VK_A:
-                currentPlayer.setDirection(Direction.LEFT);
-                currentPlayer.move();
+                currentPlayer.startMovingInDirection(Direction.LEFT);
+                // currentPlayer.move();
                 break;
 
             // s for going down
@@ -60,14 +66,26 @@ public class PlayerController implements KeyListener, MouseListener {
 
             // d for going right
             case KeyEvent.VK_D:
-                currentPlayer.setDirection(Direction.RIGHT);
-                currentPlayer.move();
+                currentPlayer.startMovingInDirection(Direction.RIGHT);
+                // currentPlayer.move();
                 break; 
             }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_W:
+                wKeyHeldDown = false;
+                break;
+            case KeyEvent.VK_A:
+                currentPlayer.stopMovingInDirection(Direction.LEFT);
+                break;
+            case KeyEvent.VK_D:
+                currentPlayer.stopMovingInDirection(Direction.RIGHT);
+                break;
+        }
+
         // TODO Auto-generated method stub
         // System.out.println("Key released: " + e.getKeyChar());
     }

@@ -4,7 +4,9 @@ import org.group16.Model.GameObjects.*;
 import org.group16.Model.Observers.Health;
 
 public class Player implements Movable, IGameObject, Health, AffectedByGravity {
-    private Direction direction;
+    private boolean moveLeft = false;
+    private boolean moveRight = false;
+    private boolean doJump = false;
     private int movementSpeed = 5;
     private int health = 3;
     private GameObject innerGameObject;
@@ -25,6 +27,7 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
             int newY = getY() + yAcceleration;
             setY(newY);
             falling = true;
+            doJump = false;
         }
     }
 
@@ -48,9 +51,6 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         else {
             xAcceleration = 0;
         }
-        
-        int newX = getX() + xAcceleration;
-        setX(newX);
     }
 
     public int getXAcceleration(){
@@ -71,6 +71,7 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
             setY(getY() - Integer.signum(yAcceleration));
             yAcceleration = 0;
             falling = false;
+            System.out.print("n");
         } else {
             setY(getY() - yAcceleration);
         }
@@ -84,10 +85,22 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         }
     }
 
+    public void startJumping() {
+        doJump = true;
+    }
+
+    public void stopJumping() {
+        doJump = false;
+    }
+
     // need to check if player is in the air to fall, so      
     public void update(){
+        move();
         applyGravity();
         applyFriction();
+        if (doJump) {
+            jump();
+        }
     }
 
     public boolean isFalling() {
@@ -102,12 +115,30 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         this.health = health;
     }
 
-    public Direction getDirection() {
-        return direction;
+    public void startMovingInDirection(Direction direction) {
+        switch (direction) {
+            case LEFT:
+                moveLeft = true;
+                break;
+            case RIGHT:
+                moveRight = true;
+                break;
+            default:
+                break;
+        }
     }
 
-    public void setDirection(Direction direction) {
-        this.direction = direction;
+    public void stopMovingInDirection(Direction direction) {
+        switch (direction) {
+            case LEFT:
+                moveLeft = false;
+                break;
+            case RIGHT:
+                moveRight = false;
+                break;
+            default:
+                break;
+        }
     }
 
     public int getMovementSpeed() {
@@ -130,39 +161,28 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
 
     @Override
     public void move() {
-        switch (direction) {
-            case LEFT:
-                xAcceleration = -movementSpeed;
-                break;
-            case RIGHT:
-                xAcceleration = movementSpeed;
-                break;
-            default:
-                break;
+        if (moveLeft) {
+            if (xAcceleration >= 0) {
+                    xAcceleration -= movementSpeed;
+                } else {
+                    xAcceleration = -movementSpeed;
+                }
+        } 
+        if (moveRight) {
+            if (xAcceleration <= 0) {
+                    xAcceleration += movementSpeed;
+                } else {
+                    xAcceleration = movementSpeed;
+                }
         }
+
+        int newX = getX() + xAcceleration;
+        setX(newX);
     }
 
     @Override
     public GameObjectType getType() {
         return innerGameObject.getType();
-    }
-
-    @Override
-    public int getX() {
-        return innerGameObject.getX();
-    }
-
-    private void setX(int x) {
-        innerGameObject.setX(x);
-    }
-
-    @Override
-    public int getY() {
-        return innerGameObject.getY();
-    }
-
-    private void setY(int y) {
-        innerGameObject.setY(y);
     }
 
     public boolean isDead() {
@@ -183,17 +203,21 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         return innerGameObject.collidesWith(otherGameObject);
     }
 
-    private boolean collidesWithInX(IGameObject otherGameObject) {
-        return (this.getX() < otherGameObject.getX() + otherGameObject.getWidth() &&
-                this.getX() + this.getWidth() > otherGameObject.getX()) ||
-               (otherGameObject.getX() < this.getX() + this.getWidth() &&
-                otherGameObject.getX() + otherGameObject.getWidth() > this.getX());
+    @Override
+    public int getX() {
+        return innerGameObject.getX();
     }
 
-    private boolean collidesWithInY(IGameObject otherGameObject) {
-        return (this.getY() < otherGameObject.getY() + otherGameObject.getHeight() &&
-                this.getY() + this.getHeight() > otherGameObject.getY()) ||
-               (otherGameObject.getY() < this.getY() + this.getHeight() &&
-                otherGameObject.getY() + otherGameObject.getHeight() > this.getY());
+    private void setX(int x) {
+        innerGameObject.setX(x);
+    }
+
+    @Override
+    public int getY() {
+        return innerGameObject.getY();
+    }
+
+    private void setY(int y) {
+        innerGameObject.setY(y);
     }
 }
