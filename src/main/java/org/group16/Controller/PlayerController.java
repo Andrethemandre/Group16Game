@@ -43,7 +43,6 @@ public class PlayerController implements KeyListener, MouseListener {
         switch(e.getKeyCode()) {
             // w for going up
             case KeyEvent.VK_W:
-                currentPlayer.setYDirection(-1);
                 currentPlayer.jump();
                 break;
 

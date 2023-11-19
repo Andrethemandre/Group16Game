@@ -21,15 +21,18 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     }
 
     public void jump(){
-        yAcceleration = -10;
-        int newY = getY() + yAcceleration;
-        setY(newY);
+        if (!isFalling()) {
+            yAcceleration = -10;
+            int newY = getY() + yAcceleration;
+            setY(newY);
+            falling = true;
+        }
     }
 
     public void applyGravity() {       
         yAcceleration = yAcceleration + AffectedByGravity.GRAVITY_FACTOR;
-        if (yAcceleration > 10){
-            yAcceleration = 5;
+        if (yAcceleration > AffectedByGravity.GRAVITY_LIMIT){
+            yAcceleration = AffectedByGravity.GRAVITY_LIMIT;
         }
         
         int newY = getY() + yAcceleration;
@@ -68,6 +71,7 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
             }
             setY(getY() - Integer.signum(yAcceleration));
             yAcceleration = 0;
+            falling = false;
         } else {
             setY(getY() - yAcceleration);
         }
@@ -118,7 +122,7 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         return yDirection;
     }
 
-    public void setYDirection(int yDirection) {
+    private void setYDirection(int yDirection) {
         if(yDirection != 0){
             this.falling = true;
         }
