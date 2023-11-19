@@ -51,8 +51,6 @@ public class LevelHandler {
 
         // Schedule the movable blocks movement at fixed intervals
 
-        // scheduler.scheduleAtFixedRate(this::moveMovableBlocks, 0,
-        // MOVABLE_BLOCKS_INTERVAL_SECONDS, TimeUnit.SECONDS);
     }
 
     // collision checkers
@@ -120,7 +118,8 @@ public class LevelHandler {
     }
 
     public void update() {
-        moveMovableBlocks();
+        scheduler.scheduleWithFixedDelay(this::moveMovableBlocks, 0,
+                MOVABLE_BLOCKS_INTERVAL_SECONDS, TimeUnit.SECONDS);
         player.update();
         checkIfPlayerAtFlag();
         checkIfPlayerCollidesWithBlocks();

@@ -5,11 +5,13 @@ import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 
 import org.group16.Model.GameObjects.Movable;
+import java.io.*;
+import java.lang.Thread;
 
 public class MovableBlock extends Block implements Movable {
-    // private int blockspeed; // speed of the block
-    public int horisontalMovement = 25;
-    public int verticalMovement = 5;
+    public int blockspeed = 0; // speed of the block
+    public int horisontalMovement = 0;
+    public int verticalMovement = 0;
     private final int xstartlocation = getX();
     private final int ystartlocation = getY();
     private GameObject innerGameObject;
@@ -17,9 +19,12 @@ public class MovableBlock extends Block implements Movable {
     private int helpy = 0;
     private Boolean hasitgonemaxdistanceposx = false;
     private Boolean hasitgonemaxdistancenegx = false;
-
     private Boolean hasitgonemaxdistanceposy = false;
     private Boolean hasitgonemaxdistancenegy = false;
+
+    public void setblockspeed(int blockspeed) {
+        this.blockspeed = blockspeed;
+    }
 
     public void sethorisontalMovement(int horisontalMovement) {
         this.horisontalMovement = horisontalMovement;
