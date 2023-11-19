@@ -1,5 +1,7 @@
 package org.group16.Model.Level;
 
+import static org.group16.Model.GameObjects.GameObjectType.MOVABLE___;
+
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 public class LevelHandler {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    private static final int MOVABLE_BLOCKS_INTERVAL_SECONDS = 5; // Adjust the interval as needed
+    private int MOVABLE_BLOCKS_INTERVAL_SECONDS = 2; // Adjust the interval as needed
     private Player player;
     private Flag goalFlag;
     private Collection<Enemy> enemies;
@@ -45,8 +47,12 @@ public class LevelHandler {
     public LevelHandler() {
         observers = new ArrayList<>();
         setLevel(1);
+        setxandydirectionofmovableblocks(20, 0);
+
         // Schedule the movable blocks movement at fixed intervals
-        scheduler.scheduleAtFixedRate(this::moveMovableBlocks, 0, MOVABLE_BLOCKS_INTERVAL_SECONDS, TimeUnit.SECONDS);
+
+        // scheduler.scheduleAtFixedRate(this::moveMovableBlocks, 0,
+        // MOVABLE_BLOCKS_INTERVAL_SECONDS, TimeUnit.SECONDS);
     }
 
     // collision checkers
@@ -169,6 +175,15 @@ public class LevelHandler {
             if (block instanceof MovableBlock) {
                 ((MovableBlock) block).move();
                 System.out.println("ginger");
+            }
+        }
+    }
+
+    public void setxandydirectionofmovableblocks(int x, int y) {
+        for (Block block : blocks) {
+            if (block instanceof MovableBlock) {
+                ((MovableBlock) block).sethorisontalMovement(x);
+                ((MovableBlock) block).setverticalMovement(y);
             }
         }
     }

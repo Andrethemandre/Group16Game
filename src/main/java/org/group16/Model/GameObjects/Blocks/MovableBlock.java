@@ -8,8 +8,8 @@ import org.group16.Model.GameObjects.Movable;
 
 public class MovableBlock extends Block implements Movable {
     // private int blockspeed; // speed of the block
-    private int xDirection = 25;
-    private int yDirection = 5;
+    public int horisontalMovement = 25;
+    public int verticalMovement = 5;
     private final int xstartlocation = getX();
     private final int ystartlocation = getY();
     private GameObject innerGameObject;
@@ -20,6 +20,14 @@ public class MovableBlock extends Block implements Movable {
 
     private Boolean hasitgonemaxdistanceposy = false;
     private Boolean hasitgonemaxdistancenegy = false;
+
+    public void sethorisontalMovement(int horisontalMovement) {
+        this.horisontalMovement = horisontalMovement;
+    }
+
+    public void setverticalMovement(int verticalMovement) {
+        this.verticalMovement = verticalMovement;
+    }
 
     MovableBlock(int x, int y) {
         super(GameObjectType.MOVABLE___, x, y);
@@ -39,7 +47,7 @@ public class MovableBlock extends Block implements Movable {
                 super.updateHitBox();
             }
 
-            if (helpx == xDirection || hasitgonemaxdistanceposx == true) {
+            if (helpx == horisontalMovement || hasitgonemaxdistanceposx == true) {
                 hasitgonemaxdistanceposx = true;
                 setX(getX() - 1);
                 helpx--;
@@ -48,7 +56,7 @@ public class MovableBlock extends Block implements Movable {
             }
         } else {
             // Move left
-            if (hasitgonemaxdistancenegx == false) {
+            if (hasitgonemaxdistancenegx == false && horisontalMovement != 0) {
                 setX(getX() - 1);
                 helpx--;
                 hasitgonemaxdistanceposx = false;
@@ -56,7 +64,7 @@ public class MovableBlock extends Block implements Movable {
 
             }
 
-            if (helpx == -xDirection || hasitgonemaxdistancenegx == true) {
+            if (helpx == -horisontalMovement && horisontalMovement != 0 || hasitgonemaxdistancenegx == true) {
                 hasitgonemaxdistancenegx = true;
                 setX(getX() + 1);
                 helpx++;
@@ -74,7 +82,7 @@ public class MovableBlock extends Block implements Movable {
                 super.updateHitBox();
             }
             // Move down starting from yDirection
-            if (helpy == yDirection || hasitgonemaxdistanceposy == true) {
+            if (helpy == verticalMovement || hasitgonemaxdistanceposy == true) {
                 hasitgonemaxdistanceposy = true;
                 setY(getY() - 1);
                 helpy--;
@@ -83,14 +91,14 @@ public class MovableBlock extends Block implements Movable {
         } else {
 
             // Move down starting from 0
-            if (hasitgonemaxdistancenegy == false) {
+            if (hasitgonemaxdistancenegy == false && verticalMovement != 0) {
                 setY(getY() - 1);
                 helpy--;
                 hasitgonemaxdistanceposy = false;
                 super.updateHitBox();
             }
             // Move up starting from -yDirection
-            if (helpy == -yDirection || hasitgonemaxdistancenegy == true) {
+            if (helpy == -verticalMovement && verticalMovement != 0 || hasitgonemaxdistancenegy == true) {
                 hasitgonemaxdistancenegy = true;
                 setY(getY() + 1);
                 helpy++;
