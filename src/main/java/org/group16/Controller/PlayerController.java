@@ -49,7 +49,6 @@ public class PlayerController implements KeyListener, MouseListener {
                 if (!wKeyHeldDown && !currentPlayer.isFalling()) {
                     currentPlayer.startJumping();
                     wKeyHeldDown = true;
-                    System.out.println("Jumping");
                 }
                 break;
 

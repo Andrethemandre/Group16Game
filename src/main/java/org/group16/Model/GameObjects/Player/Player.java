@@ -71,7 +71,6 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
             setY(getY() - Integer.signum(yAcceleration));
             yAcceleration = 0;
             falling = false;
-            System.out.print("n");
         } else {
             setY(getY() - yAcceleration);
         }
@@ -85,16 +84,33 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         }
     }
 
+    @Override
+    public void move() {
+        if (moveLeft) {
+            if (xAcceleration >= 0) {
+                    xAcceleration -= movementSpeed;
+                } else {
+                    xAcceleration = -movementSpeed;
+                }
+        } 
+        if (moveRight) {
+            if (xAcceleration <= 0) {
+                    xAcceleration += movementSpeed;
+                } else {
+                    xAcceleration = movementSpeed;
+                }
+        }
+
+        int newX = getX() + xAcceleration;
+        setX(newX);
+    }
+
     public void startJumping() {
         doJump = true;
     }
 
-    public void stopJumping() {
-        doJump = false;
-    }
-
     // need to check if player is in the air to fall, so      
-    public void update(){
+    public void update() {
         move();
         applyGravity();
         applyFriction();
@@ -157,27 +173,6 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     @Override
     public int getHeight() {
         return innerGameObject.getHeight();
-    }
-
-    @Override
-    public void move() {
-        if (moveLeft) {
-            if (xAcceleration >= 0) {
-                    xAcceleration -= movementSpeed;
-                } else {
-                    xAcceleration = -movementSpeed;
-                }
-        } 
-        if (moveRight) {
-            if (xAcceleration <= 0) {
-                    xAcceleration += movementSpeed;
-                } else {
-                    xAcceleration = movementSpeed;
-                }
-        }
-
-        int newX = getX() + xAcceleration;
-        setX(newX);
     }
 
     @Override
