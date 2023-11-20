@@ -29,10 +29,9 @@ public class LevelHandler {
     private int score = 0;
     private Level currentLevel;
     private long levelStartTime;
-    private int deaths = 0;
+    private int levelAttempts = 0;
     private boolean paused = false;
-
-    // width and height depending on how big the level is 
+    private static int SCORE_LIMIT = 9999;
 
     public LevelHandler(){
         observers = new ArrayList<>();
@@ -43,20 +42,41 @@ public class LevelHandler {
         return this.currentLevelNumber;
     }
 
-    public void addScore(int points){
+    private void addScore(int points){
         this.score += points;
     }
 
+    private void calculateScore() {
+        //int baseScore = 9999;
+        int pointsPerSecond = 100; // Number of points per second
+
+        // Calculate the number of seconds that have passed
+        int secondsPassed = (int) ((System.currentTimeMillis() - levelStartTime) / 1000);
+
+        // Add points for each second that has passed
+        int timeBonus = secondsPassed * pointsPerSecond;
+
+        // Some points deducted for each attempt
+        int attemptsPenalty = levelAttempts * 500; 
+    
+        int totalScore = SCORE_LIMIT - timeBonus - attemptsPenalty;
+        addScore(totalScore - score);
+
+        if (score < -SCORE_LIMIT) {
+            score = -SCORE_LIMIT;
+        }
+        else if (score > SCORE_LIMIT) {
+            score = SCORE_LIMIT;
+        }
+    }
+
     public int getScore(){
+        calculateScore();
         return this.score;
     }
 
-    public void die(){
-        this.deaths++;
-    }
-
-    public int getDeaths(){
-        return this.deaths;
+    public int getCurrentAttempts(){
+        return this.levelAttempts;
     }
 
     // collision checkers
@@ -79,16 +99,15 @@ public class LevelHandler {
                 if (player.isDead()){
                     setLevel(currentLevelNumber);
                     addScore(100);
-                    die();
-                }
-                
+                    this.levelAttempts++;
+                }   
             }
         }
     }
 
-    public void setLevel(int levelNumber){
+    private void setLevel(int levelNumber){
         if(levelNumber != currentLevelNumber){
-            deaths = 0;
+            levelAttempts = 0;
             score = 0;
             levelStartTime = System.currentTimeMillis();
         }
@@ -136,6 +155,7 @@ public class LevelHandler {
         checkIfPlayerAtFlag();
         checkIfPlayerCollidesWithBlocks();
         checkIfPlayerCollidiesWithEnemies();
+        
         for (GameObserver o : observers) {
             o.updateObserver();
         }

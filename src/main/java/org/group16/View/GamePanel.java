@@ -11,5 +11,4 @@ public abstract class GamePanel extends JPanel{
         this.setDoubleBuffered(true);
         this.setPreferredSize(new Dimension(300, 300));
     }
-    
 }
