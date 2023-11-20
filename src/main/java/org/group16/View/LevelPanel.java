@@ -1,7 +1,16 @@
 package org.group16.View;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
+
+import javax.imageio.ImageIO;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Blocks.Block;
@@ -13,10 +22,22 @@ import org.group16.Model.Observers.GameObserver;
 
 public class LevelPanel extends GamePanel implements GameObserver {
     private LevelHandler levelHandler;
+    private BufferedImage redHeartImage;
+    private BufferedImage grayHeartImage;
+    private BufferedImage levelClockImage;
 
     public LevelPanel(int x, int y, LevelHandler levelHandler) {
         super(x, y);
         this.levelHandler = levelHandler;
+        //initComponents();
+
+        try {
+            redHeartImage = ImageIO.read(new File("src\\main\\java\\org\\group16\\images\\hud\\red_heart.png"));
+            grayHeartImage = ImageIO.read(new File("src\\main\\java\\org\\group16\\images\\hud\\gray_heart.png"));
+            levelClockImage = ImageIO.read(new File("src\\main\\java\\org\\group16\\images\\hud\\level_clock.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Player getPlayer() {
@@ -29,18 +50,21 @@ public class LevelPanel extends GamePanel implements GameObserver {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        // paint the grid
         int cellSize = 16; // hard coded
         //paintGridWithSize(g, cellSize);
         
         Player currentPlayer = levelHandler.getPlayer();
+
+        // GameObjects are painted
         paintPlayer(g, currentPlayer);
         paintEnemies(g);
         paintBlocks(g);
         paintFlag(g);
+
+        // Gameplay hud
         paintHealthBar(g, cellSize, currentPlayer);
         paintStats(g, currentPlayer);
+
 
         if(levelHandler.getPauseState()){
             paintPaused(g);
@@ -55,26 +79,74 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
     }
 
-    // In your game's main class
-    public void paintStats(Graphics g, Player currentPlayer) {
+
+    private void drawTwoStringSCentered(Graphics g, FontMetrics fm, String text, String formattedText, int x, int y, int lineSpacing) {
+        int textWidth = fm.stringWidth(text);
+        int formattedTextWidth = fm.stringWidth(formattedText);
+        int formattedTextX = x + (textWidth - formattedTextWidth) / 2;
+    
+        g.drawString(text, x, y);
+        g.drawString(formattedText, formattedTextX, y + lineSpacing);
+    }
+  
+    private void paintHealthBar(Graphics g, int cellSize, Player currentPlayer) {
+        int health = currentPlayer.getHealth();
+        int startX = 0;
+        int spacing = 50;
+
+        // Loop over the max player health and draw the appropriate heart image
+        for (int i = 0; i < 3; i++) {
+            if (health > i) {
+                g.drawImage(redHeartImage, startX + i * spacing, 10, this);
+            } else {
+                g.drawImage(grayHeartImage, startX + i * spacing, 10, this);
+            }
+        }
+
+    }
+
+    private String formatTime(long millis) {
+        long seconds = (millis / 1000) % 60;
+        long minutes = (millis / (1000 * 60)) % 60;
+        return String.format("%02d:%02d", minutes, seconds);
+    }
+
+
+    private void paintStats(Graphics g, Player currentPlayer) {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 12));
-        g.drawString("Deaths: " + String.valueOf(levelHandler.getDeaths()), 55, 20);
-        g.drawString("Score: " + String.valueOf(levelHandler.getScore()), 55, 40);
-        g.drawString("Time: " + formatTime(levelHandler.getElapsedTime()), 55, 60);
-        g.drawString("Level: " + levelHandler.getCurrentLevelNumber(), 55, 80);
-    }
-
-    private void paintHealthBar(Graphics g, int cellSize, Player currentPlayer) {
-        // paint the healthbar
-        int health = currentPlayer.getHealth();
-        int maxHealth = 10; // Assuming there's a constant for max health in your Player class
-        int barWidth = (int) ((double) health * cellSize / maxHealth * 5);
-
-        g.setColor(Color.RED);
-        g.fillRect(0, 0, health*cellSize, 80);
-    }
+        FontMetrics fm = g.getFontMetrics();
     
+        int padding = 10; // Space between the text and the edge of the panel
+        int lineSpacing = 15; // Space between lines of text
+    
+        int attemptsX = 175;
+        int statsY = 20 + fm.getAscent(); // fm.getAscent() is needed to align the text properly
+    
+        String attemptsText = "Attempts";
+        String formattedDeaths = String.format("%04d", levelHandler.getDeaths());
+    
+        drawTwoStringSCentered(g, fm, attemptsText, formattedDeaths, attemptsX, statsY, lineSpacing);
+
+        // Position the score text after the attempts text
+        int scoreX = attemptsX + fm.stringWidth(attemptsText) + padding; 
+    
+        String scoreText = "Score";
+        String formattedScore = String.format("%04d", levelHandler.getScore());
+    
+        drawTwoStringSCentered(g, fm, scoreText, formattedScore, scoreX, statsY, lineSpacing);
+
+        // Position the level text next to the right edge of the panel
+        int levelX = getWidth() - fm.stringWidth("Level: " + levelHandler.getCurrentLevelNumber()) - padding - 60; 
+    
+        String levelText = "Level: " + levelHandler.getCurrentLevelNumber();
+        String formattedElapsedTimeText = formatTime(levelHandler.getElapsedTime());
+    
+        drawTwoStringSCentered(g, fm, levelText, formattedElapsedTimeText, levelX, statsY, lineSpacing);
+    
+        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding, padding+3, this);
+    }
+   
     private void paintGridWithSize(Graphics g, int cellSize) {
         g.setColor(Color.red);
         for (int i = 0; i <= levelHandler.getWidth(); i++) {
@@ -82,12 +154,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
             if (i <= levelHandler.getWidth())
                 g.drawLine(0, i * cellSize, levelHandler.getWidth() * cellSize, i * cellSize);
         }
-    }
-
-    private String formatTime(long millis) {
-        long seconds = (millis / 1000) % 60;
-        long minutes = (millis / (1000 * 60)) % 60;
-        return String.format("%02d:%02d", minutes, seconds);
     }
 
     private void paintPlayer(Graphics g, Player currentPlayer) {
@@ -144,10 +210,8 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.fillRect(flagX, flagY, flag.getWidth(), flag.getHeight());
     }
 
-
     @Override
     public void updateObserver() {
         repaint();
     }
-
 }
