@@ -165,7 +165,6 @@ public class LevelHandler {
         for (Block block : blocks) {
             if (block instanceof MovableBlock) {
                 ((MovableBlock) block).move();
-                System.out.println("ginger");
             }
         }
     }
