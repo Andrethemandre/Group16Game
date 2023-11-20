@@ -73,8 +73,11 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
                 setY(getY() + Integer.signum(yAcceleration));
             }
             setY(getY() - Integer.signum(yAcceleration));
+            // should only be able to jump if player is on the ground
+            if (yAcceleration > 0) {
+                falling = false;
+            }
             yAcceleration = 0;
-            falling = false;
         } else {
             setY(getY() - yAcceleration);
         }
