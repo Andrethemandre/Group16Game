@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Flag.Flag;
@@ -65,7 +66,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         paintStats(g, currentPlayer);
 
         // Temporay Pause screen
-        if(levelHandler.getPauseState()){
+        if(levelHandler.getPauseState() == GameState.PAUSED){
             paintPaused(g);
         }
     }

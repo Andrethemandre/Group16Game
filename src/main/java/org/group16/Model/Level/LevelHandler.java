@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
 import org.group16.Model.GameObjects.Enemy.Enemy;
@@ -30,13 +31,22 @@ public class LevelHandler {
     private Level currentLevel;
     private long levelStartTime;
     private int levelAttempts = 0;
-    private boolean paused = false;
     private static int SCORE_LIMIT = 9999;
+
+    private GameState gameState;
 
     public LevelHandler(){
         observers = new ArrayList<>();
+        gameState = GameState.START;
         setLevel(1);
     }
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    private void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }   
 
     public int getCurrentLevelNumber(){
         return this.currentLevelNumber;
@@ -106,6 +116,7 @@ public class LevelHandler {
     }
 
     private void setLevel(int levelNumber){
+        gameState = GameState.PLAYING;
         if(levelNumber != currentLevelNumber){
             levelAttempts = 0;
             score = 0;
@@ -201,12 +212,19 @@ public class LevelHandler {
         return grid.length;
     }
 
-    public boolean getPauseState() {
-        return this.paused;
+    public GameState getPauseState() {
+        return this.gameState;
     }
 
     public void togglePause(){
-        this.paused = !paused;
+        GameState currentGameState = getGameState();
+        if(currentGameState == GameState.PLAYING){
+            setGameState(GameState.PAUSED);
+        }
+        else if(currentGameState == GameState.PAUSED){
+            setGameState(GameState.PLAYING);
+        }
+
         for (GameObserver o : observers) {
             o.updateObserver();
         }

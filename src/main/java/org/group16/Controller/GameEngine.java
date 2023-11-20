@@ -5,6 +5,7 @@ import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.View.GamePanel;
 import org.group16.View.GameWindow;
@@ -31,12 +32,9 @@ public class GameEngine {
         timer.start();
     }
 
-    public boolean checkIfTimerRun(){
-        return timer.isRunning();
-    }
     // update stuff
     public void update() {
-        if(levelHandler.getPauseState()){
+        if(levelHandler.getPauseState() == GameState.PAUSED){
             return;
         }
       
