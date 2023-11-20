@@ -72,14 +72,20 @@ public class LevelHandler {
     public void checkIfPlayerCollidesWithPowerUp(){
         PowerUp powerUptoremove = null;
         if (powerUps!= null){
-            System.out.println(powerUps);
-            for (PowerUp powerUp : powerUps){
-                if(player.checkCollision(powerUp)){
-                    powerUptoremove = powerUp;
-                    
+            System.out.println(player.getHasPowerUp());
+
+            if (!player.getHasPowerUp()){
+                for (PowerUp powerUp : powerUps){
+                    if(player.checkCollision(powerUp)){
+                        if (!powerUp.getMovable()){
+                        powerUptoremove = powerUp;
+                        player.setHasPowerUp(true); 
+                        }  
+                    }
                 }
+                powerUps.remove(powerUptoremove);
+                
             }
-            powerUps.remove(powerUptoremove);
         }
     }
 
@@ -116,10 +122,8 @@ public class LevelHandler {
                     goalFlag = new Flag(j*16, i*16);
                     grid[j][i] = goalFlag;
                 }   else if (currentLevel.getLevelTile(i,j) == GameObjectType.Powerup___){
-                        PowerUp powerUp = new PowerUp(j*16,i*16);
+                        PowerUp powerUp = new PowerUp(j*16,i*16,false,1);
                         this.powerUps.add(powerUp);
-
-
                 }
             }   
         }
@@ -131,10 +135,18 @@ public class LevelHandler {
         checkIfPlayerCollidesWithBlocks();
         checkIfPlayerCollidiesWithEnemies();
         checkIfPlayerCollidesWithPowerUp();
+        updateProjectilePositions();
         for (GameObserver o : observers) {
             o.updateObserver();
         }
     }
+
+    private void updateProjectilePositions() {
+        for (PowerUp powerUp: powerUps){
+            powerUp.update();
+        }
+    }
+
 
     public void addObserver(GameObserver observer){
         observers.add(observer);
@@ -178,5 +190,15 @@ public class LevelHandler {
 
     public int getHeight() {
         return grid.length;
+    }
+
+    //är här då levelhandle har power ups listan som jag behöver ändra för att saker ska ritas
+    public void usePowerUp (){
+        if (player.getHasPowerUp()){
+            System.out.println("using powerupp");
+            PowerUp powerUp = new PowerUp(player.getX(), player.getY(), true, player.getXDirection());
+            powerUps.add(powerUp);
+            player.setHasPowerUp(false);
+        }
     }
 }

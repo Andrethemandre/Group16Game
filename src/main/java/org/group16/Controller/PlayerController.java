@@ -63,7 +63,12 @@ public class PlayerController implements KeyListener, MouseListener {
                 currentPlayer.setXDirection(1);
                 currentPlayer.move();
                 break; 
-            }
+            
+
+            //k to use power upp
+            case KeyEvent.VK_K:
+                levelHandler.usePowerUp();
+        }
     }
 
     @Override
