@@ -59,14 +59,12 @@ public class MovableBlock extends Block implements Movable {
                 setX(getX() + 1);
                 helpx++;
                 hasitgonemaxdistancenegx = false;
-                super.updateHitBox();
             }
 
             if (helpx == horisontalMovement || hasitgonemaxdistanceposx == true) {
                 hasitgonemaxdistanceposx = true;
                 setX(getX() - 1);
                 helpx--;
-                super.updateHitBox();
 
             }
         } else {
@@ -75,7 +73,6 @@ public class MovableBlock extends Block implements Movable {
                 setX(getX() - 1);
                 helpx--;
                 hasitgonemaxdistanceposx = false;
-                super.updateHitBox();
 
             }
 
@@ -83,7 +80,6 @@ public class MovableBlock extends Block implements Movable {
                 hasitgonemaxdistancenegx = true;
                 setX(getX() + 1);
                 helpx++;
-                super.updateHitBox();
             }
         }
 
@@ -94,14 +90,12 @@ public class MovableBlock extends Block implements Movable {
                 setY(getY() + 1);
                 helpy++;
                 hasitgonemaxdistancenegy = false;
-                super.updateHitBox();
             }
             // Move down starting from yDirection
             if (helpy == verticalMovement || hasitgonemaxdistanceposy == true) {
                 hasitgonemaxdistanceposy = true;
                 setY(getY() - 1);
                 helpy--;
-                super.updateHitBox();
             }
         } else {
 
@@ -110,14 +104,12 @@ public class MovableBlock extends Block implements Movable {
                 setY(getY() - 1);
                 helpy--;
                 hasitgonemaxdistanceposy = false;
-                super.updateHitBox();
             }
             // Move up starting from -yDirection
             if (helpy == -verticalMovement && verticalMovement != 0 || hasitgonemaxdistancenegy == true) {
                 hasitgonemaxdistancenegy = true;
                 setY(getY() + 1);
                 helpy++;
-                super.updateHitBox();
             }
         }
     }

@@ -1,58 +1,62 @@
 package org.group16.Model.GameObjects.Player;
 
-import java.awt.Rectangle;
-
 import org.group16.Model.GameObjects.*;
-import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.Observers.Health;
 
 public class Player implements Movable, IGameObject, Health, AffectedByGravity {
-    private int xDirection;
-    private int yDirection;
-    private int movementSpeed;
+    private boolean moveLeft = false;
+    private boolean moveRight = false;
+    private boolean doJump = false;
+    private int movementSpeed = 5;
     private int health = 3;
     private GameObject innerGameObject;
     private int yAcceleration;
     private int xAcceleration;
     private double previousTime = 0;
     private double currentTime = 6;
-    private int deaths = 0;
-    private boolean hasPowerUp =false;
+    private boolean hasPowerUp = false;
+    private Direction lastDirection = Direction.RIGHT;
+
     private boolean falling = false;
+    private int maxX;
+    private int maxY;
 
-    public Player(int x, int y) {
+    public Player(int x, int y, int maxX, int maxY) {
         innerGameObject = new GameObject(GameObjectType.PLAYER____, x, y, 16, 16);
+        this.maxX = maxX;
+        this.maxY = maxY;
     }
-
-
 
     public void jump(){
-        yAcceleration = -10;
-        int newY = getY() + yAcceleration;
-        setY(newY);
-        //int newY = getY() + getYDirection() * getMovementSpeed();
+        if (!isFalling()) {
+            yAcceleration = -10;
+            int newY = getY() + yAcceleration;
+            setY(newY);
+            falling = true;
+            doJump = false;
+        }
     }
 
-    public void gravity(){       
-        yAcceleration = yAcceleration + this.GRAVITYFACTOR;
-        if (yAcceleration > 10){
-            yAcceleration = 5;
+    public void applyGravity() {       
+        yAcceleration = yAcceleration + AffectedByGravity.GRAVITY_FACTOR;
+        if (yAcceleration > AffectedByGravity.GRAVITY_LIMIT){
+            yAcceleration = AffectedByGravity.GRAVITY_LIMIT;
         }
-        if(xAcceleration > 1) {
-             xAcceleration -= 1; 
-         }
-        else if (xAcceleration < -1){
-             xAcceleration += 1;
+        
+        int newY = getY() + yAcceleration;
+        setY(newY);
+    }
+
+    public void applyFriction() {
+        if (xAcceleration > 1) {
+            xAcceleration -= 1; 
+        }
+        else if (xAcceleration < -1) {
+            xAcceleration += 1;
         }
         else {
             xAcceleration = 0;
         }
-        
-        int newX = getX() + xAcceleration;
-        int newY = getY() + yAcceleration;
-
-        setX(newX);
-        setY(newY);
     }
 
     public int getXAcceleration(){
@@ -63,53 +67,67 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         return yAcceleration;
     }
 
-    public void collision(IGameObject otherGameObject){
-        innerGameObject.updateHitBox();
-        Rectangle otherGameObjectHitBox = otherGameObject.getHitBox();
-        Rectangle playerHitbox = getHitBox();
-
-       
-        //vertical collision
-        playerHitbox.y += yAcceleration;
-        if (otherGameObjectHitBox.intersects(playerHitbox)){
-            playerHitbox.y -=yAcceleration;
-            while(!otherGameObjectHitBox.intersects(playerHitbox) ){
-                playerHitbox.y += Math.signum(yAcceleration);
+    public void collision(IGameObject otherGameObject) {
+        setY(getY() + yAcceleration);
+        if (this.collidesWith(otherGameObject)){
+            setY(getY() - yAcceleration);
+            while (!this.collidesWith(otherGameObject)){
+                setY(getY() + Integer.signum(yAcceleration));
             }
-            playerHitbox.y -= Math.signum(yAcceleration);
+            setY(getY() - Integer.signum(yAcceleration));
+            // should only be able to jump if player is on the ground
+            if (yAcceleration > 0) {
+                falling = false;
+            }
             yAcceleration = 0;
-            setY(playerHitbox.y);
+        } else {
+            setY(getY() - yAcceleration);
         }
-
-        //x colision
-        //playerHitbox.x += xAcceleration;
-        if (playerHitbox.intersects(otherGameObjectHitBox)) {
-            playerHitbox.x -=xAcceleration;
-            while(!playerHitbox.intersects(otherGameObjectHitBox) ){
-                playerHitbox.x += Math.signum(xAcceleration);
+        if (this.collidesWith(otherGameObject)){
+            setX(getX() - xAcceleration);
+            while (!this.collidesWith(otherGameObject)){
+                setX(getX() + Integer.signum(xAcceleration));
             }
-            playerHitbox.x -= Math.signum(xAcceleration);
-            
+            setX(getX() - Integer.signum(xAcceleration));
             xAcceleration = 0;
-            setX(playerHitbox.x);           
-        }   
+        }
     }
 
+    @Override
+    public void move() {
+        if (moveLeft) {
+            if (xAcceleration >= 0) {
+                    xAcceleration -= movementSpeed;
+                } else {
+                    xAcceleration = -movementSpeed;
+                }
+        } 
+        if (moveRight) {
+            if (xAcceleration <= 0) {
+                    xAcceleration += movementSpeed;
+                } else {
+                    xAcceleration = movementSpeed;
+                }
+        }
+
+        int newX = getX() + xAcceleration;
+        setX(newX);
+    }
+
+    public void startJumping() {
+        doJump = true;
+    }
 
     // need to check if player is in the air to fall, so      
-    public void update(){
-        innerGameObject.updateHitBox();
-        gravity();
-        innerGameObject.updateHitBox();
-    }
-
-    public void stopFalling(int stopPosition){
-        if(isFalling()){
-            setYDirection(0);
-            setY(stopPosition);
-            update();
+    public void update() {
+        move();
+        applyGravity();
+        applyFriction();
+        if (doJump) {
+            jump();
         }
     }
+
     public boolean isFalling() {
         return this.falling;
         
@@ -122,34 +140,37 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         this.health = health;
     }
 
-    public int getXDirection() {
-        return xDirection;
-    }
-
-    public void setXDirection(int xDirection) {
-        this.xDirection = xDirection;
-    }
-
-    public int getYDirection() {
-        return yDirection;
-    }
-
-    public void setYDirection(int yDirection) {
-        if(yDirection != 0){
-            this.falling = true;
+    public void startMovingInDirection(Direction direction) {
+        switch (direction) {
+            case LEFT:
+                moveLeft = true;
+                break;
+            case RIGHT:
+                moveRight = true;
+                break;
+            default:
+                break;
         }
-        else{
-            this.falling = false;
-        }
+    }
 
-        this.yDirection = yDirection;
+    public void stopMovingInDirection(Direction direction) {
+        switch (direction) {
+            case LEFT:
+                moveLeft = false;
+                break;
+            case RIGHT:
+                moveRight = false;
+                break;
+            default:
+                break;
+        }
     }
 
     public int getMovementSpeed() {
         return movementSpeed;
     }
 
-    public void setMovementSpeed(int movementSpeed) {
+    private void setMovementSpeed(int movementSpeed) {
         this.movementSpeed = movementSpeed;
     }
 
@@ -163,49 +184,9 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         return innerGameObject.getHeight();
     }
 
-    public void setHasPowerUp(boolean has){
-        this.hasPowerUp = has;
-    }
-
-    public boolean getHasPowerUp(){
-        return hasPowerUp;
-
-    }
-
-
-    @Override
-    public void move() {
-        setMovementSpeed(5);
-        int movementSpeed = getMovementSpeed();
-        if (getXDirection() < 1){
-            xAcceleration = -movementSpeed;
-        }
-        else {
-            xAcceleration = +movementSpeed;
-        } 
-    }
-
     @Override
     public GameObjectType getType() {
         return innerGameObject.getType();
-    }
-
-    @Override
-    public int getX() {
-        return innerGameObject.getX();
-    }
-
-    private void setX(int x) {
-        innerGameObject.setX(x);
-    }
-
-    @Override
-    public int getY() {
-        return innerGameObject.getY();
-    }
-
-    private void setY(int y) {
-        innerGameObject.setY(y);
     }
 
     public boolean isDead() {
@@ -222,12 +203,64 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         }    
     }
     @Override
-    public boolean checkCollision(IGameObject otherGameObject) {
-        return innerGameObject.checkCollision(otherGameObject);
+    public boolean collidesWith(IGameObject otherGameObject) {
+        return innerGameObject.collidesWith(otherGameObject);
     }
 
     @Override
-    public Rectangle getHitBox() {
-        return innerGameObject.getHitBox();
+    public int getX() {
+        return innerGameObject.getX();
+    }
+
+    private void setX(int x) {
+        x = keepXInBox(x);
+
+        innerGameObject.setX(x);
+    }
+
+    private int keepXInBox(int x) {
+        if (x < 0) {
+            x = 0;
+        } else if (x > maxX - getWidth()) {
+            x = maxX - getWidth();
+        }
+        return x;
+    }
+
+    @Override
+    public int getY() {
+        return innerGameObject.getY();
+    }
+
+    private void setY(int y) {
+        if (y < 0) {
+            y = 0;
+        // when player falls of, player is dead.
+        } else if (y > maxY + getHeight()) {
+            health = 0;
+        }
+        innerGameObject.setY(y);
+    }
+
+    public void setHasPowerUp(boolean hasPowerUp) {
+        this.hasPowerUp = hasPowerUp;
+    }
+
+    public boolean getHasPowerUp() {
+        return hasPowerUp;
+    }
+
+    public Direction getDirection() {
+        if (moveLeft && !moveRight) {
+            lastDirection = Direction.LEFT;
+            return Direction.LEFT;
+
+        } else if (moveRight && !moveLeft) {
+            lastDirection = Direction.RIGHT;
+            return Direction.RIGHT;
+            
+        } else {
+            return lastDirection;
+        }
     }
 }

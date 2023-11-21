@@ -2,8 +2,6 @@ package org.group16.Model.GameObjects.Enemy;
 
 import org.group16.Model.GameObjects.IGameObject;
 
-import java.awt.Rectangle;
-
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Player.Player;
@@ -29,13 +27,8 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
 
     }
     @Override
-    public Rectangle getHitBox(){
-        return innerGameObject.getHitBox();
-        
-    }
-    @Override
-    public boolean checkCollision(IGameObject otherGameObject) {
-        return innerGameObject.checkCollision(otherGameObject);
+    public boolean collidesWith(IGameObject otherGameObject) {
+        return innerGameObject.collidesWith(otherGameObject);
     }
     @Override
     public int getX() {

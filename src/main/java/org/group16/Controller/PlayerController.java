@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Level.LevelHandler;
@@ -15,6 +16,8 @@ public class PlayerController implements KeyListener, MouseListener {
     private GameWindow mainWindow;
     private LevelHandler levelHandler;
     private Player currentPlayer;
+    // flag to only allow one jump per keypress
+    private boolean wKeyHeldDown = false;
 
     public PlayerController(LevelHandler levelHandler, GameWindow mainWindow){
         this.mainWindow = mainWindow;
@@ -31,27 +34,28 @@ public class PlayerController implements KeyListener, MouseListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // System.out.println("Key typed: " + e.getKeyChar());
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // System.out.println("Key pressed: " + e.getKeyChar());
 
         switch(e.getKeyCode()) {
             // w for going up
             case KeyEvent.VK_W:
-                if(levelHandler.getGameState() == GameState.PLAYING){
-                    currentPlayer.setYDirection(-1);
-                    currentPlayer.jump();
+                if (levelHandler.getGameState() == GameState.PLAYING){
+                    if (!wKeyHeldDown && !currentPlayer.isFalling()) {
+                        currentPlayer.startJumping();
+                        wKeyHeldDown = true;
+                    }
                 }
                 break;
 
             // a for going left
             case KeyEvent.VK_A:
-                if(levelHandler.getGameState() == GameState.PLAYING){
-                    currentPlayer.setXDirection(-1);
-                    currentPlayer.move();
+                
+                // currentPlayer.move();
+                if (levelHandler.getGameState() == GameState.PLAYING) {
+                    currentPlayer.startMovingInDirection(Direction.LEFT);
                 }
                 break;
 
@@ -62,9 +66,8 @@ public class PlayerController implements KeyListener, MouseListener {
 
             // d for going right
             case KeyEvent.VK_D:
-                if(levelHandler.getGameState() == GameState.PLAYING){
-                    currentPlayer.setXDirection(1);
-                    currentPlayer.move();
+                if (levelHandler.getGameState() == GameState.PLAYING) {
+                    currentPlayer.startMovingInDirection(Direction.RIGHT);
                 }
                 break; 
             
@@ -73,42 +76,48 @@ public class PlayerController implements KeyListener, MouseListener {
                     levelHandler.togglePause();
                 }
                 break;
-            }
-
+            
             //k to use power upp
             case KeyEvent.VK_K:
                 levelHandler.usePowerUp();
+                break;
+            }
+        }
+    
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_W:
+                wKeyHeldDown = false;
+                break;
+            case KeyEvent.VK_A:
+                currentPlayer.stopMovingInDirection(Direction.LEFT);
+                break;
+            case KeyEvent.VK_D:
+                currentPlayer.stopMovingInDirection(Direction.RIGHT);
+                break;
         }
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        // System.out.println("Key released: " + e.getKeyChar());
-    }
-
-    @Override
     public void mouseClicked(MouseEvent e) {
-        // System.out.println("mouseClicked");
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // System.out.println("mousePressed");
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // System.out.println("mouseReleased");
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        // System.out.println("mouseEntered");
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        // System.out.println("mouseExited");
     }
   
 }

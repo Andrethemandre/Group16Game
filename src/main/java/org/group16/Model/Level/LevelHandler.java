@@ -1,15 +1,12 @@
 package org.group16.Model.Level;
 
-
-import static org.group16.Model.GameObjects.GameObjectType.MOVABLE___;
-
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Arrays;
 
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.PowerUp;
+import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.Block;
@@ -20,6 +17,7 @@ import org.group16.Model.GameObjects.Enemy.EnemyFactory;
 import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Observers.GameObserver;
+import org.group16.Model.GameObjects.Movable;
 
 public class LevelHandler {
     private Player player;
@@ -47,6 +45,7 @@ public class LevelHandler {
         observers = new ArrayList<>();
         gameState = GameState.START;
         setLevel(1);
+
       
         // directions of blocks on level 1
         setxandydirectionofmovableblocks(20, 0);
@@ -103,14 +102,14 @@ public class LevelHandler {
     }
 
     // collision checkers
-    public void checkIfPlayerAtFlag() {
-        if (player.checkCollision(goalFlag)) {
+    public void checkIfPlayerAtFlag(){
+        if(player.collidesWith(goalFlag)){
             setLevel(2);
         }
     }
 
     public void checkIfPlayerCollidesWithBlocks(){
-        for(Block block : blocks){
+        for (Block block : blocks){
             player.collision(block);
         }
     }
@@ -118,7 +117,7 @@ public class LevelHandler {
     public void checkIfPlayerCollidiesWithEnemies() {
 
         for (Enemy enemy : enemies) {
-            if (player.checkCollision(enemy)) {
+            if (player.collidesWith(enemy)) {
                 enemy.dealDamage(player);
                 if (player.isDead()) {
                     setLevel(currentLevelNumber);
@@ -129,22 +128,12 @@ public class LevelHandler {
         }
     }
 
-    private void setLevel(int levelNumber){
-        gameState = GameState.PLAYING;
-        if(levelNumber != currentLevelNumber){
-            levelAttempts = 0;
-            score = 0;
-            levelStartTime = System.currentTimeMillis();
-        }
-    }
     public void checkIfPlayerCollidesWithPowerUp(){
         PowerUp powerUptoremove = null;
         if (powerUps!= null){
-            System.out.println(player.getHasPowerUp());
-
             if (!player.getHasPowerUp()){
                 for (PowerUp powerUp : powerUps){
-                    if(player.checkCollision(powerUp)){
+                    if(player.collidesWith(powerUp)){
                         if (!powerUp.getMovable()){
                         powerUptoremove = powerUp;
                         player.setHasPowerUp(true);
@@ -157,14 +146,10 @@ public class LevelHandler {
         }
     }
 
-
-    public void setLevel(int levelNumber){
-        enemies = new ArrayList<>();
-        blocks = new ArrayList<>();
-        powerUps = new ArrayList<>();
-        enemies.clear();
-        blocks.clear();
-        powerUps.clear();
+    private void checkIfPlayerIsDead() {
+        if (player.isDead()){
+            setLevel(currentLevelNumber);
+        }
     }
 
     public void updateEnemies(){
@@ -173,11 +158,20 @@ public class LevelHandler {
         }
     }
 
-    public void setLevel ( int levelNumber){
+    private void setLevel(int levelNumber) {
+        gameState = GameState.PLAYING;
+        if (levelNumber != currentLevelNumber) {
+            levelAttempts = 0;
+            score = 0;
+            levelStartTime = System.currentTimeMillis();
+        }
+
         enemies = new ArrayList<>();
         blocks = new ArrayList<>();
+        powerUps = new ArrayList<>();
         enemies.clear();
         blocks.clear();
+        powerUps.clear();
         currentLevel = LevelFactory.createLevel(levelNumber);
 
         // GameStats
@@ -197,14 +191,14 @@ public class LevelHandler {
 
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.PLAYER____) {
                     // The grid uses /16 of the actual size
-                    player = new Player(j * 16, i * 16);
+                    player = new Player(j*16, i*16, getHeight()*16, getWidth()*16);
                     grid[j][i] = player;
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.GOAL______) {
                     // will only reset if there is a new flag on next level.
                     goalFlag = new Flag(j * 16, i * 16);
                     grid[j][i] = goalFlag;
                 }   else if (currentLevel.getLevelTile(i,j) == GameObjectType.Powerup___){
-                        PowerUp powerUp = new PowerUp(j*16,i*16,false,1);
+                        PowerUp powerUp = new PowerUp(j*16,i*16,false, Direction.RIGHT);
                         this.powerUps.add(powerUp);
                 }
             }
@@ -226,6 +220,7 @@ public class LevelHandler {
         for (GameObserver o : observers) {
             o.updateObserver();
         }
+        checkIfPlayerIsDead();
     }
 
 
@@ -234,18 +229,6 @@ public class LevelHandler {
             powerUp.update();
         }
     }
-        public void update() {
-            moveMovableBlocks();
-            player.update();
-            checkIfPlayerAtFlag();
-            checkIfPlayerCollidesWithBlocks();
-            checkIfPlayerCollidiesWithEnemies();
-            checkIfPlayerCollidesWithPowerUp();
-            updateProjectilePositions();
-            for (GameObserver o : observers) {
-                o.updateObserver();
-            }
-        }
 
     public void addObserver(GameObserver observer){
         observers.add(observer);
@@ -259,7 +242,7 @@ public class LevelHandler {
         this.blocks.add(block);
     }
 
-    public Player getPlayer () {
+    public Player getPlayer() {
         return this.player;
     }
 
@@ -267,27 +250,23 @@ public class LevelHandler {
         return goalFlag;
     }
 
-    public Collection<Enemy> getEnemies () {
+    public Collection<Enemy> getEnemies() {
         return this.enemies;
     }
 
-    public Collection<Block> getBlocks () {
+    public Collection<Block> getBlocks() {
         return this.blocks;
     }
 
-    public Collection<PowerUp> getPowerUps(){
+    public Collection<PowerUp> getPowerUps() {
         return this.powerUps;
     }
 
     public IGameObject[][] getGrid(){
         return this.grid;
     }
-  
-    public IGameObject[][] getGrid () {
-        return this.grid;
-    }
 
-    public int getWidth () {
+    public int getWidth() {
         return grid[0].length;
     }
 
@@ -299,12 +278,12 @@ public class LevelHandler {
         return this.gameState;
     }
 
-    public void togglePause(){
+    public void togglePause() {
         GameState currentGameState = getGameState();
         if(currentGameState == GameState.PLAYING){
             setGameState(GameState.PAUSED);
         }
-        else if(currentGameState == GameState.PAUSED){
+        else if(currentGameState == GameState.PAUSED) {
             setGameState(GameState.PLAYING);
         }
 
@@ -314,10 +293,9 @@ public class LevelHandler {
     }
 
     //är här då levelhandle har power ups listan som jag behöver ändra för att saker ska ritas
-    public void usePowerUp () {
+    public void usePowerUp() {
         if (player.getHasPowerUp()){
-            System.out.println("using powerupp");
-            PowerUp powerUp = new PowerUp(player.getX(), player.getY(), true, player.getXDirection());
+            PowerUp powerUp = new PowerUp(player.getX(), player.getY(), true, player.getDirection());
             powerUps.add(powerUp);
             player.setHasPowerUp(false);
         }
@@ -340,7 +318,3 @@ public class LevelHandler {
         }
     }
 }
-        public int getHeight () {
-            return grid.length;
-        }
-    }
