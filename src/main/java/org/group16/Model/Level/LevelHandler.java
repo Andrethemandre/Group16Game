@@ -1,5 +1,6 @@
 package org.group16.Model.Level;
 
+
 import static org.group16.Model.GameObjects.GameObjectType.MOVABLE___;
 
 import java.awt.Rectangle;
@@ -8,6 +9,7 @@ import java.util.Collection;
 import java.util.Arrays;
 
 import org.group16.Model.GameObjects.IGameObject;
+import org.group16.Model.GameObjects.PowerUp;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
@@ -23,6 +25,7 @@ public class LevelHandler {
     private Flag goalFlag;
     private Collection<Enemy> enemies;
     private Collection<Block> blocks;
+    private Collection<PowerUp> powerUps;
     private boolean playerIsAtFlag;
     private IGameObject[][] grid;
     private Collection<GameObjectType> acceptedEnemyTypes = Arrays
@@ -76,11 +79,35 @@ public class LevelHandler {
         }
     }
 
-    public void setLevel(int levelNumber) {
+    public void checkIfPlayerCollidesWithPowerUp(){
+        PowerUp powerUptoremove = null;
+        if (powerUps!= null){
+            System.out.println(player.getHasPowerUp());
+
+            if (!player.getHasPowerUp()){
+                for (PowerUp powerUp : powerUps){
+                    if(player.checkCollision(powerUp)){
+                        if (!powerUp.getMovable()){
+                        powerUptoremove = powerUp;
+                        player.setHasPowerUp(true); 
+                        }  
+                    }
+                }
+                powerUps.remove(powerUptoremove);
+                
+            }
+        }
+    }
+
+
+    public void setLevel(int levelNumber){
+
         enemies = new ArrayList<>();
         blocks = new ArrayList<>();
+        powerUps = new ArrayList<>();
         enemies.clear();
         blocks.clear();
+        powerUps.clear();
 
         currentLevel = LevelFactory.createLevel(levelNumber);
         currentLevelNumber = levelNumber;
@@ -105,6 +132,9 @@ public class LevelHandler {
                     // will only reset if there is a new flag on next level.
                     goalFlag = new Flag(j * 16, i * 16);
                     grid[j][i] = goalFlag;
+                }   else if (currentLevel.getLevelTile(i,j) == GameObjectType.Powerup___){
+                        PowerUp powerUp = new PowerUp(j*16,i*16,false,1);
+                        this.powerUps.add(powerUp);
                 }
             }
         }
@@ -116,12 +146,22 @@ public class LevelHandler {
         checkIfPlayerAtFlag();
         checkIfPlayerCollidesWithBlocks();
         checkIfPlayerCollidiesWithEnemies();
+        checkIfPlayerCollidesWithPowerUp();
+        updateProjectilePositions();
         for (GameObserver o : observers) {
             o.updateObserver();
         }
     }
 
-    public void addObserver(GameObserver observer) {
+
+    private void updateProjectilePositions() {
+        for (PowerUp powerUp: powerUps){
+            powerUp.update();
+        }
+    }
+
+
+    public void addObserver(GameObserver observer){
         observers.add(observer);
     }
 
@@ -149,7 +189,13 @@ public class LevelHandler {
         return this.blocks;
     }
 
-    public IGameObject[][] getGrid() {
+
+     public Collection<PowerUp> getPowerUps(){
+        return this.powerUps;
+    }
+
+    public IGameObject[][] getGrid(){
+
         return this.grid;
     }
 
@@ -160,6 +206,15 @@ public class LevelHandler {
     public int getHeight() {
         return grid.length;
     }
+
+
+    //är här då levelhandle har power ups listan som jag behöver ändra för att saker ska ritas
+    public void usePowerUp (){
+        if (player.getHasPowerUp()){
+            System.out.println("using powerupp");
+            PowerUp powerUp = new PowerUp(player.getX(), player.getY(), true, player.getXDirection());
+            powerUps.add(powerUp);
+            player.setHasPowerUp(false);
 
     public void moveMovableBlocks() {
         for (Block block : blocks) {
@@ -175,6 +230,7 @@ public class LevelHandler {
                 ((MovableBlock) block).sethorisontalMovement(x);
                 ((MovableBlock) block).setverticalMovement(y);
             }
+
         }
     }
 }
