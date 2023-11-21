@@ -17,9 +17,6 @@ public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
 
     BasicEnemy(int x, int y,int patrolBoundaryLeft,int patrolBoundaryRight) {
         super(GameObjectType.BASIC_____, x, y);
-//        if (x < patrolBoundaryLeft || x > patrolBoundaryRight) {
-//            throw new IllegalArgumentException("Initial position is outside patrol boundaries");
-//        }
         this.patrolBoundaryLeft = patrolBoundaryLeft;
         this.patrolBoundaryRight = patrolBoundaryRight;
     }

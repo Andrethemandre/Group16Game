@@ -2,15 +2,13 @@ package org.group16.Model.GameObjects;
 
 import static org.group16.Model.GameObjects.GameObjectType.Powerup___;
 
-import java.awt.Rectangle;
-
 public class PowerUp implements IGameObject, Movable {
     private GameObject innerGameObject;
     private Boolean Movable;
     private int speed = 5;
-    private int direction;
+    private Direction direction;
 
-     public PowerUp(int x, int y, boolean moveable, int direction) {
+     public PowerUp(int x, int y, boolean moveable, Direction direction) {
         innerGameObject = new GameObject(Powerup___, x, y, 16, 16);
         this.Movable = moveable;
         this.direction = direction;
@@ -51,20 +49,14 @@ public class PowerUp implements IGameObject, Movable {
     }
 
     @Override
-    public boolean checkCollision(IGameObject otherGameObject) {
-        return innerGameObject.checkCollision(otherGameObject);
-    }
-
-    @Override
-    public Rectangle getHitBox() {
-        // TODO Auto-generated method stub
-        return innerGameObject.getHitBox();
+    public boolean collidesWith(IGameObject otherGameObject) {
+        return innerGameObject.collidesWith(otherGameObject);
     }
 
     @Override
     public void move() {
         if (Movable){
-            if (direction <1){
+            if (direction == Direction.LEFT){
                 innerGameObject.setX(getX() - speed);
             }
             else {

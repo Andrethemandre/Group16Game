@@ -14,6 +14,8 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     private int xAcceleration;
     private double previousTime = 0;
     private double currentTime = 6;
+    private boolean hasPowerUp = false;
+    private Direction lastDirection = Direction.RIGHT;
 
     private boolean falling = false;
     private int maxX;
@@ -238,5 +240,27 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
             health = 0;
         }
         innerGameObject.setY(y);
+    }
+
+    public void setHasPowerUp(boolean hasPowerUp) {
+        this.hasPowerUp = hasPowerUp;
+    }
+
+    public boolean getHasPowerUp() {
+        return hasPowerUp;
+    }
+
+    public Direction getDirection() {
+        if (moveLeft && !moveRight) {
+            lastDirection = Direction.LEFT;
+            return Direction.LEFT;
+
+        } else if (moveRight && !moveLeft) {
+            lastDirection = Direction.RIGHT;
+            return Direction.RIGHT;
+            
+        } else {
+            return lastDirection;
+        }
     }
 }

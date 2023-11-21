@@ -34,12 +34,10 @@ public class PlayerController implements KeyListener, MouseListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // System.out.println("Key typed: " + e.getKeyChar());
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // System.out.println("Key pressed: " + e.getKeyChar());
 
         switch(e.getKeyCode()) {
             // w for going up
@@ -104,27 +102,22 @@ public class PlayerController implements KeyListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // System.out.println("mouseClicked");
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // System.out.println("mousePressed");
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // System.out.println("mouseReleased");
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        // System.out.println("mouseEntered");
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        // System.out.println("mouseExited");
     }
   
 }
