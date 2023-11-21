@@ -9,7 +9,7 @@ public class PlayerDamageListener implements Health {
     @Override
     public void updateHealth(int damage) {
         if (player.getHealth() > 0) {
-            player.updatehealth(player.getHealth() - damage);
+            player.updateHealth(player.getHealth() - damage);
         }
     }
 

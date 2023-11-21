@@ -56,11 +56,11 @@ public class LevelHandler {
         }
     }
 
-    public void checkIfPlayerCollidesWithBlocks() {
-        for (Block block : blocks) {
-            // if(player.checkCollision(block) && player.isFalling()){
-            // player.stopFalling(block.getY() - player.getHeight());
-            // }
+    public void checkIfPlayerCollidesWithBlocks(){
+        for(Block block : blocks){
+            //if(player.checkCollision(block) && player.isFalling()){
+               // player.stopFalling(block.getY() - player.getHeight());
+            //}
 
             player.collision(block);
         }
@@ -89,12 +89,12 @@ public class LevelHandler {
                     if(player.checkCollision(powerUp)){
                         if (!powerUp.getMovable()){
                         powerUptoremove = powerUp;
-                        player.setHasPowerUp(true); 
-                        }  
+                        player.setHasPowerUp(true);
+                        }
                     }
                 }
                 powerUps.remove(powerUptoremove);
-                
+
             }
         }
     }
@@ -108,6 +108,17 @@ public class LevelHandler {
         enemies.clear();
         blocks.clear();
         powerUps.clear();
+    public void updateEnemies(){
+        for (Enemy enemy : enemies) {
+            enemy.update();
+        }
+    }
+
+        public void setLevel ( int levelNumber){
+            enemies = new ArrayList<>();
+            blocks = new ArrayList<>();
+            enemies.clear();
+            blocks.clear();
 
         currentLevel = LevelFactory.createLevel(levelNumber);
         currentLevelNumber = levelNumber;
@@ -140,68 +151,56 @@ public class LevelHandler {
         }
     }
 
-    public void update() {
-        moveMovableBlocks();
-        player.update();
-        checkIfPlayerAtFlag();
-        checkIfPlayerCollidesWithBlocks();
-        checkIfPlayerCollidiesWithEnemies();
-        checkIfPlayerCollidesWithPowerUp();
-        updateProjectilePositions();
-        for (GameObserver o : observers) {
-            o.updateObserver();
+        public void update() {
+            moveMovableBlocks();
+            player.update();
+            checkIfPlayerAtFlag();
+            checkIfPlayerCollidesWithBlocks();
+            checkIfPlayerCollidiesWithEnemies();
+            checkIfPlayerCollidesWithPowerUp();
+            updateProjectilePositions();
+            for (GameObserver o : observers) {
+                o.updateObserver();
+            }
         }
-    }
-
-
-    private void updateProjectilePositions() {
-        for (PowerUp powerUp: powerUps){
-            powerUp.update();
-        }
-    }
-
 
     public void addObserver(GameObserver observer){
         observers.add(observer);
     }
 
-    public void addEnemy(Enemy enemy) {
+    public void addEnemy(Enemy enemy){
         this.enemies.add(enemy);
     }
 
-    public void addBlock(Block block) {
+    public void addBlock(Block block){
         this.blocks.add(block);
     }
 
-    public Player getPlayer() {
-        return this.player;
-    }
+        public Player getPlayer () {
+            return this.player;
+        }
 
     public Flag getGoalFlag() {
         return goalFlag;
     }
 
-    public Collection<Enemy> getEnemies() {
-        return this.enemies;
-    }
+        public Collection<Enemy> getEnemies () {
+            return this.enemies;
+        }
 
-    public Collection<Block> getBlocks() {
-        return this.blocks;
-    }
+        public Collection<Block> getBlocks () {
+            return this.blocks;
+        }
 
-
-     public Collection<PowerUp> getPowerUps(){
+    public Collection<PowerUp> getPowerUps(){
         return this.powerUps;
-    }
+    }    public IGameObject[][] getGrid () {
+            return this.grid;
+        }
 
-    public IGameObject[][] getGrid(){
-
-        return this.grid;
-    }
-
-    public int getWidth() {
-        return grid[0].length;
-    }
+        public int getWidth () {
+            return grid[0].length;
+        }
 
     public int getHeight() {
         return grid.length;
@@ -234,3 +233,7 @@ public class LevelHandler {
         }
     }
 }
+        public int getHeight () {
+            return grid.length;
+        }
+    }

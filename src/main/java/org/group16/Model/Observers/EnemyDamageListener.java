@@ -8,9 +8,14 @@ public class EnemyDamageListener implements Health {
     Enemy enemy;
 
     public void setHealth(int damage) {
-        if (enemy.getHealth() > 0) {
-            enemy.setHealth(enemy.getHealth() - damage);
-        }
+//        if (enemy.getHealth() > 0) {
+//            enemy.setHealth(enemy.getHealth() - damage);
+//        }
+    }
+
+    @Override
+    public void updateHealth(int damage) {
+
     }
 
     public int getHealth() {
