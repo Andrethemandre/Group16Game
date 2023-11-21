@@ -17,6 +17,7 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     private double previousTime = 0;
     private double currentTime = 6;
     private int deaths = 0;
+    private boolean hasPowerUp =false;
     private boolean falling = false;
 
     public Player(int x, int y) {
@@ -161,6 +162,16 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     public int getHeight() {
         return innerGameObject.getHeight();
     }
+
+    public void setHasPowerUp(boolean has){
+        this.hasPowerUp = has;
+    }
+
+    public boolean getHasPowerUp(){
+        return hasPowerUp;
+
+    }
+
 
     @Override
     public void move() {

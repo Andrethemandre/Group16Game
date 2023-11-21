@@ -74,6 +74,11 @@ public class PlayerController implements KeyListener, MouseListener {
                 }
                 break;
             }
+
+            //k to use power upp
+            case KeyEvent.VK_K:
+                levelHandler.usePowerUp();
+        }
     }
 
     @Override

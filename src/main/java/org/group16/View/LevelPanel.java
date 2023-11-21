@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
+import org.group16.Model.GameObjects.PowerUp;
 import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Flag.Flag;
@@ -60,6 +61,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         paintEnemies(g);
         paintBlocks(g);
         paintFlag(g);
+        paintPowerups(g);
 
         // Gameplay hud
         paintHealthBar(g, cellSize, currentPlayer);
@@ -211,6 +213,16 @@ public class LevelPanel extends GamePanel implements GameObserver {
         int flagY = flag.getY();
         g.setColor(Color.green);
         g.fillRect(flagX, flagY, flag.getWidth(), flag.getHeight());
+    }
+
+    private void paintPowerups(Graphics g){
+        Collection<PowerUp> currentPowerUps = levelHandler.getPowerUps();
+        for (PowerUp powerUp : currentPowerUps){
+            int powerUpX = (int) powerUp.getX();
+            int powerUpY = (int) powerUp.getY();
+            g.setColor(Color.yellow);
+            g.fillRect(powerUpX, powerUpY, powerUp.getWidth(),powerUp.getHeight());
+        }
     }
 
     @Override
