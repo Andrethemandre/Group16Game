@@ -8,11 +8,8 @@ public abstract class MovableEnemy extends Enemy implements Movable {
     private int positionX = 1;
     private int movementSpeed;
 
-
     MovableEnemy(GameObjectType enemyType, int x, int y) {
         super(enemyType, x, y);
-
-
     }
 
     public void setMovementSpeed(int movementSpeed) {

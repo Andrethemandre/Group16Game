@@ -20,10 +20,7 @@ public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
         this.patrolBoundaryLeft = patrolBoundaryLeft;
         this.patrolBoundaryRight = patrolBoundaryRight;
     }
-
-
-
-
+    
     @Override
     public void move() {
        if(stepsMoved <= stepsToMove){
@@ -72,17 +69,6 @@ public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
     public void update() {
         move();
     }
-
-
-
-
-
-    @Override
-    public void dealDamage(Player player) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'dealDamage'");
-    }
-
 
     @Override
     public int getX() {

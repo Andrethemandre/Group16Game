@@ -119,11 +119,6 @@ public class LevelHandler {
         for (Enemy enemy : enemies) {
             if (player.collidesWith(enemy)) {
                 enemy.dealDamage(player);
-                if (player.isDead()) {
-                    setLevel(currentLevelNumber);
-                    addScore(100);
-                    this.levelAttempts++;
-                }   
             }
         }
     }
@@ -149,6 +144,7 @@ public class LevelHandler {
     private void checkIfPlayerIsDead() {
         if (player.isDead()){
             setLevel(currentLevelNumber);
+            this.levelAttempts++;
         }
     }
 
@@ -197,7 +193,7 @@ public class LevelHandler {
                     // will only reset if there is a new flag on next level.
                     goalFlag = new Flag(j * 16, i * 16);
                     grid[j][i] = goalFlag;
-                }   else if (currentLevel.getLevelTile(i,j) == GameObjectType.Powerup___){
+                }   else if (currentLevel.getLevelTile(i,j) == GameObjectType.POWERUP___){
                         PowerUp powerUp = new PowerUp(j*16,i*16,false, Direction.RIGHT);
                         this.powerUps.add(powerUp);
                 }
@@ -216,6 +212,7 @@ public class LevelHandler {
         checkIfPlayerCollidiesWithEnemies();
         checkIfPlayerCollidesWithPowerUp();
         updateProjectilePositions();
+        updateEnemies();
 
         for (GameObserver o : observers) {
             o.updateObserver();
@@ -292,7 +289,7 @@ public class LevelHandler {
         }
     }
 
-    //är här då levelhandle har power ups listan som jag behöver ändra för att saker ska ritas
+    // is here because levelHandler has the power ups list that I need to change for things to be drawn
     public void usePowerUp() {
         if (player.getHasPowerUp()){
             PowerUp powerUp = new PowerUp(player.getX(), player.getY(), true, player.getDirection());

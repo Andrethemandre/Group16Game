@@ -31,4 +31,9 @@ public class Spike extends Enemy {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'isDead'");
     }
+    
+    @Override
+    public void update() {
+        // spike currently doesn't have to update. 
+    }
 }

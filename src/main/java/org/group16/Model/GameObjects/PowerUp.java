@@ -1,6 +1,6 @@
 package org.group16.Model.GameObjects;
 
-import static org.group16.Model.GameObjects.GameObjectType.Powerup___;
+import static org.group16.Model.GameObjects.GameObjectType.POWERUP___;
 
 public class PowerUp implements IGameObject, Movable {
     private GameObject innerGameObject;
@@ -9,7 +9,7 @@ public class PowerUp implements IGameObject, Movable {
     private Direction direction;
 
      public PowerUp(int x, int y, boolean moveable, Direction direction) {
-        innerGameObject = new GameObject(Powerup___, x, y, 16, 16);
+        innerGameObject = new GameObject(POWERUP___, x, y, 16, 16);
         this.Movable = moveable;
         this.direction = direction;
     }
