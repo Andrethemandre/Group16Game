@@ -181,7 +181,8 @@ public class LevelPanel extends GamePanel implements GameObserver {
             // For basic enemies
             if (enemy.getType() == GameObjectType.BASIC_____) {
                 g.setColor(Color.red);
-                g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
+                //g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
+                g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
             // For spike
             } else if (enemy.getType() == GameObjectType.SPIKE_____) {
                 int[] xPoints = {enemyX, enemyX + (enemyWidth / 2), enemyX + enemyWidth};
