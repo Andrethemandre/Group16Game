@@ -10,7 +10,9 @@ import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Observers.Health;
 
 public abstract class Enemy implements IGameObject, Health /* implements Health */ {
-    private GameObject innerGameObject;
+    GameObject innerGameObject;
+
+
     private int damage = 1;
 
     Enemy(GameObjectType enemyType, int x, int y) {
@@ -45,6 +47,21 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
         return innerGameObject.getY();
     }
 
+    void setX(int x) {
+        innerGameObject.setX(x);
+    }
+
+    private void setY(int y) {
+        innerGameObject.setY(y);
+    }
+
+
+
+
+
+
+
+
     @Override
     public int getWidth() {
         return innerGameObject.getWidth();
@@ -58,4 +75,8 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
     public abstract void setHealth(int newHealth);
 
     public abstract boolean isDead();
+
+    public void update() {
+
+    }
 }

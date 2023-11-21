@@ -7,8 +7,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Player.Player;
 
 public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
-    private Direction direction = Direction.RIGHT;
-    private GameObject gameObject;
+    private Direction patrolDirection   = Direction.RIGHT;
     private int patrolBoundaryLeft;
     private int patrolBoundaryRight;
 
@@ -27,45 +26,40 @@ public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
 
 
 
-    public void patrol() {
-        if (direction == Direction.RIGHT) {
-            if (getX() >= patrolBoundaryRight) {
-                direction = Direction.LEFT;
-            }
-        } else if (direction == Direction.LEFT) {
-            if (getX() <= patrolBoundaryLeft) {
-                direction = Direction.RIGHT;
-            }
-        }
-    }
+//    public void patrol() {
+//        if (direction == Direction.RIGHT) {
+//            if (getX() >= patrolBoundaryRight) {
+//                direction = Direction.LEFT;
+//                System.out.println("change direction to left" + getX());
+//            }
+//        } else if (direction == Direction.LEFT) {
+//            if (getX() <= patrolBoundaryLeft) {
+//                direction = Direction.RIGHT;
+//                System.out.println("change direction to right" + getX());
+//            }
+//        }
+//    }
     @Override
     public void move() {
-        patrol();
+       if(stepsMoved < stepsToMove){
+           move(patrolDirection);
+           stepsMoved++;
+       } else{
+            changeDirection();
+       }
+    }
 
-        if (direction == Direction.RIGHT) {
-            if (stepsMoved < stepsToMove) {
-                super.move(); // This will call the move method of the superclass (MovableEnemy), which updates the x-coordinate.
-                stepsMoved++;
-            } else {
-                direction = Direction.LEFT;
-                stepsMoved = 0;
-            }
-        } else if (direction == Direction.LEFT) {
-            if (stepsMoved < stepsToMove) {
-                super.move(); // Similarly, call the move method of the superclass.
-                stepsMoved++;
-            } else {
-                direction = Direction.RIGHT;
-                stepsMoved = 0;
-            }
+    private void changeDirection(){
+        if (patrolDirection == Direction.RIGHT){
+            patrolDirection = Direction.LEFT;
+        } else {
+            patrolDirection = Direction.RIGHT;
         }
+
+        stepsMoved = 0;
     }
 
-    private void setX(int i) {
 
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setX'");
-    }
 
 
     @Override
@@ -89,8 +83,9 @@ public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getHealth'");
     }
-
+    @Override
     public void update() {
+
         move();
     }
 
@@ -105,7 +100,13 @@ public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
     }
 
 
+    @Override
+    public int getX() {
+        return super.getX();
+    }
 
-
-
+    @Override
+    public void setX(int x) {
+        super.setX(x);
+    }
 }

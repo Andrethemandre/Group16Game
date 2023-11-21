@@ -68,11 +68,17 @@ public class LevelHandler {
         }
     }
 
-    public void patorlingEnemies() {
+//    public void patorlingEnemies() {
+//        for (Enemy enemy : enemies) {
+//            if (enemy instanceof BasicEnemy) {
+//                ((BasicEnemy) enemy).move(Direction.RIGHT);
+//            }
+//        }
+//    }
+
+    public void updateEnemies(){
         for (Enemy enemy : enemies) {
-            if (enemy instanceof BasicEnemy) {
-                ((BasicEnemy) enemy).move(Direction.RIGHT);
-            }
+            enemy.update();
         }
     }
 
@@ -112,10 +118,11 @@ public class LevelHandler {
 
         public void update () {
             player.update();
+            updateEnemies();
             checkIfPlayerAtFlag();
             checkIfPlayerCollidesWithBlocks();
             checkIfPlayerCollidiesWithEnemies();
-            patorlingEnemies();
+            //patorlingEnemies();
             for (GameObserver o : observers) {
                 o.updateObserver();
             }
