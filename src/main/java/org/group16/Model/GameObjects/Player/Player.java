@@ -16,13 +16,15 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     private int xAcceleration;
     private double previousTime = 0;
     private double currentTime = 6;
+    private int deaths = 0;
     private boolean hasPowerUp =false;
-
     private boolean falling = false;
 
     public Player(int x, int y) {
         innerGameObject = new GameObject(GameObjectType.PLAYER____, x, y, 16, 16);
     }
+
+
 
     public void jump(){
         yAcceleration = -10;
@@ -45,11 +47,6 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         else {
             xAcceleration = 0;
         }
-        
-        if (xAcceleration == 0){
-            System.out.println("still");
-        }
-        
         
         int newX = getX() + xAcceleration;
         int newY = getY() + yAcceleration;
