@@ -19,12 +19,6 @@ public class StartPanel extends GamePanel {
     }
 
     @Override
-    public void render(Graphics g) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'render'");
-    }
-
-    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
     }

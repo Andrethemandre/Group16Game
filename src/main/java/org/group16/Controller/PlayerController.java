@@ -6,13 +6,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import org.group16.Model.GameObjects.Direction;
+import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Player.Player;
-import org.group16.Model.Level.Level;
 import org.group16.Model.Level.LevelHandler;
-import org.group16.View.GamePanel;
 import org.group16.View.GameWindow;
-import org.group16.View.LevelPanel;
-import org.group16.View.Renderer;
 
 public class PlayerController implements KeyListener, MouseListener {
 
@@ -26,6 +23,7 @@ public class PlayerController implements KeyListener, MouseListener {
         this.mainWindow = mainWindow;
         this.levelHandler = levelHandler;
         this.currentPlayer = levelHandler.getPlayer();
+
         mainWindow.addKeyListener(this);
         mainWindow.addMouseListener(this);
     }
@@ -41,21 +39,26 @@ public class PlayerController implements KeyListener, MouseListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("Key pressed: " + e.getKeyChar());
+        // System.out.println("Key pressed: " + e.getKeyChar());
 
         switch(e.getKeyCode()) {
             // w for going up
             case KeyEvent.VK_W:
-                if (!wKeyHeldDown && !currentPlayer.isFalling()) {
-                    currentPlayer.startJumping();
-                    wKeyHeldDown = true;
+                if (levelHandler.getGameState() == GameState.PLAYING){
+                    if (!wKeyHeldDown && !currentPlayer.isFalling()) {
+                        currentPlayer.startJumping();
+                        wKeyHeldDown = true;
+                    }
                 }
                 break;
 
             // a for going left
             case KeyEvent.VK_A:
-                currentPlayer.startMovingInDirection(Direction.LEFT);
+                
                 // currentPlayer.move();
+                if (levelHandler.getGameState() == GameState.PLAYING) {
+                    currentPlayer.startMovingInDirection(Direction.LEFT);
+                }
                 break;
 
             // s for going down
@@ -65,11 +68,24 @@ public class PlayerController implements KeyListener, MouseListener {
 
             // d for going right
             case KeyEvent.VK_D:
-                currentPlayer.startMovingInDirection(Direction.RIGHT);
-                // currentPlayer.move();
+                if (levelHandler.getGameState() == GameState.PLAYING) {
+                    currentPlayer.startMovingInDirection(Direction.RIGHT);
+                }
                 break; 
+            
+            case KeyEvent.VK_ESCAPE:
+                if(levelHandler.getGameState() == GameState.PLAYING || levelHandler.getGameState() == GameState.PAUSED){          
+                    levelHandler.togglePause();
+                }
+                break;
+            
+            //k to use power upp
+            case KeyEvent.VK_K:
+                levelHandler.usePowerUp();
+                break;
             }
-    }
+        }
+    
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -84,39 +100,31 @@ public class PlayerController implements KeyListener, MouseListener {
                 currentPlayer.stopMovingInDirection(Direction.RIGHT);
                 break;
         }
-
-        // TODO Auto-generated method stub
-        // System.out.println("Key released: " + e.getKeyChar());
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
-        System.out.println("mouseClicked");
+        // System.out.println("mouseClicked");
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
-        System.out.println("mousePressed");
+        // System.out.println("mousePressed");
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
-        System.out.println("mouseReleased");
+        // System.out.println("mouseReleased");
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        // TODO Auto-generated method stub
-        System.out.println("mouseEntered");
+        // System.out.println("mouseEntered");
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        // TODO Auto-generated method stub
-        System.out.println("mouseExited");
+        // System.out.println("mouseExited");
     }
   
 }

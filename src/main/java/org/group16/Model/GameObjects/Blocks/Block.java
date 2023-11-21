@@ -7,7 +7,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 
 public abstract class Block implements IGameObject {
     private GameObject innerGameObject;
-    
+
     Block(GameObjectType blockType, int x, int y) {
         innerGameObject = new GameObject(blockType, x, y, 16, 16);
     }
@@ -41,4 +41,17 @@ public abstract class Block implements IGameObject {
     public boolean collidesWith(IGameObject otherGameObject) {
         return innerGameObject.collidesWith(otherGameObject);
     }
+
+    public void setX(int x) {
+        this.innerGameObject.setX(x);
+    }
+
+    public void setY(int y) {
+        this.innerGameObject.setY(y);
+    }
+
+    public void updateHitBox() {
+        this.innerGameObject.updateHitBox();
+    }
+
 }
