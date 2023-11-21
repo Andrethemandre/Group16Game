@@ -11,7 +11,7 @@ public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
     private int patrolBoundaryLeft;
     private int patrolBoundaryRight;
 
-    private int stepsToMove = 5;
+    private int stepsToMove = 20;
 
     private int stepsMoved = 0;
 
@@ -26,22 +26,10 @@ public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
 
 
 
-//    public void patrol() {
-//        if (direction == Direction.RIGHT) {
-//            if (getX() >= patrolBoundaryRight) {
-//                direction = Direction.LEFT;
-//                System.out.println("change direction to left" + getX());
-//            }
-//        } else if (direction == Direction.LEFT) {
-//            if (getX() <= patrolBoundaryLeft) {
-//                direction = Direction.RIGHT;
-//                System.out.println("change direction to right" + getX());
-//            }
-//        }
-//    }
+
     @Override
     public void move() {
-       if(stepsMoved < stepsToMove){
+       if(stepsMoved <= stepsToMove){
            move(patrolDirection);
            stepsMoved++;
        } else{
@@ -85,7 +73,6 @@ public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
     }
     @Override
     public void update() {
-
         move();
     }
 

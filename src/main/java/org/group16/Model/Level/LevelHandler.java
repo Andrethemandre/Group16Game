@@ -48,10 +48,9 @@ public class LevelHandler {
 
     public void checkIfPlayerCollidesWithBlocks() {
         for (Block block : blocks) {
-            //if(player.checkCollision(block) && player.isFalling()){   
-            // player.stopFalling(block.getY() - player.getHeight());
-            //}
-
+            if(player.checkCollision(block) && player.isFalling()){
+             player.stopFalling(block.getY() - player.getHeight());
+            }
             player.collision(block);
         }
     }
@@ -67,14 +66,6 @@ public class LevelHandler {
             }
         }
     }
-
-//    public void patorlingEnemies() {
-//        for (Enemy enemy : enemies) {
-//            if (enemy instanceof BasicEnemy) {
-//                ((BasicEnemy) enemy).move(Direction.RIGHT);
-//            }
-//        }
-//    }
 
     public void updateEnemies(){
         for (Enemy enemy : enemies) {
@@ -122,7 +113,6 @@ public class LevelHandler {
             checkIfPlayerAtFlag();
             checkIfPlayerCollidesWithBlocks();
             checkIfPlayerCollidiesWithEnemies();
-            //patorlingEnemies();
             for (GameObserver o : observers) {
                 o.updateObserver();
             }

@@ -25,8 +25,7 @@ public abstract class MovableEnemy extends Enemy implements Movable, IGameObject
     }
 
     public void move(Direction direction){
-        setMovementSpeed(5);
-
+        setMovementSpeed(2);
 
         switch (direction){
             case LEFT:
@@ -42,8 +41,6 @@ public abstract class MovableEnemy extends Enemy implements Movable, IGameObject
         }
     }
 
-
-
     @Override
     public int getHealth() {
         // TODO Auto-generated method stub
@@ -55,13 +52,5 @@ public abstract class MovableEnemy extends Enemy implements Movable, IGameObject
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setHealth'");
     }
-
-
-
-    public void patrol(){
-
-    }
-
-
 
 }
