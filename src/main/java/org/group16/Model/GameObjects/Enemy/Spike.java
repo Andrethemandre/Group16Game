@@ -1,9 +1,6 @@
 package org.group16.Model.GameObjects.Enemy;
 
-import java.awt.Rectangle;
-
 import org.group16.Model.GameObjects.GameObjectType;
-import org.group16.Model.GameObjects.Player.Player;
 
 public class Spike extends Enemy {
 

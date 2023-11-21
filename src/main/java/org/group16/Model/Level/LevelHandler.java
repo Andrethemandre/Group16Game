@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Arrays;
 
+import org.group16.Model.GameObjects.Direction;
+import org.group16.Model.GameObjects.Enemy.BasicEnemy;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Blocks.Block;
@@ -31,34 +33,34 @@ public class LevelHandler {
 
     // width and height depending on how big the level is 
 
-    public LevelHandler(){
+    public LevelHandler() {
         observers = new ArrayList<>();
         setLevel(1);
     }
 
 
     // collision checkers
-    public void checkIfPlayerAtFlag(){
-        if(player.checkCollision(goalFlag)){
+    public void checkIfPlayerAtFlag() {
+        if (player.checkCollision(goalFlag)) {
             setLevel(2);
         }
     }
 
-    public void checkIfPlayerCollidesWithBlocks(){
-        for(Block block : blocks){
+    public void checkIfPlayerCollidesWithBlocks() {
+        for (Block block : blocks) {
             //if(player.checkCollision(block) && player.isFalling()){   
-               // player.stopFalling(block.getY() - player.getHeight());
+            // player.stopFalling(block.getY() - player.getHeight());
             //}
 
             player.collision(block);
         }
     }
 
-    public void checkIfPlayerCollidiesWithEnemies(){
-        for(Enemy enemy : enemies){
-            if(player.checkCollision(enemy)){
-                enemy.dealDamage(player); 
-                if (player.isDead()){
+    public void checkIfPlayerCollidiesWithEnemies() {
+        for (Enemy enemy : enemies) {
+            if (player.checkCollision(enemy)) {
+                enemy.dealDamage(player);
+                if (player.isDead()) {
                     setLevel(currentLevelNumber);
                 }
 
@@ -66,87 +68,96 @@ public class LevelHandler {
         }
     }
 
-    public void setLevel(int levelNumber){
-        enemies = new ArrayList<>();
-        blocks = new ArrayList<>();
-        enemies.clear();
-        blocks.clear();
+    public void patorlingEnemies() {
+        for (Enemy enemy : enemies) {
+            if (enemy instanceof BasicEnemy) {
+                ((BasicEnemy) enemy).move(Direction.RIGHT);
+            }
+        }
+    }
 
-        currentLevel = LevelFactory.createLevel(levelNumber);
-        currentLevelNumber = levelNumber;
-        grid = new IGameObject[currentLevel.getWidth()][currentLevel.getHeight()];
-        for (int i = 0; i < currentLevel.getHeight(); i++) {
-            for (int j = 0; j < currentLevel.getWidth(); j++) {
-                if (acceptedEnemyTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    Enemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), j*16, i*16);
-                    addEnemy(newEnemy);
-                    grid[j][i] = newEnemy;
+        public void setLevel ( int levelNumber){
+            enemies = new ArrayList<>();
+            blocks = new ArrayList<>();
+            enemies.clear();
+            blocks.clear();
 
-                } else if (acceptedBlockTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j*16, i*16);
-                    addBlock(newBlock);
-                    grid[j][i] = newBlock;
+            currentLevel = LevelFactory.createLevel(levelNumber);
+            currentLevelNumber = levelNumber;
+            grid = new IGameObject[currentLevel.getWidth()][currentLevel.getHeight()];
+            for (int i = 0; i < currentLevel.getHeight(); i++) {
+                for (int j = 0; j < currentLevel.getWidth(); j++) {
+                    if (acceptedEnemyTypes.contains(currentLevel.getLevelTile(i, j))) {
+                        Enemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), j * 16, i * 16);
+                        addEnemy(newEnemy);
+                        grid[j][i] = newEnemy;
 
-                } else if (currentLevel.getLevelTile(i, j) == GameObjectType.PLAYER____) {
-                    // The grid uses /16 of the actual size
-                    player = new Player(j*16, i*16);
-                    grid[j][i] = player;
-                } else if (currentLevel.getLevelTile(i, j) == GameObjectType.GOAL______) {
-                    // will only reset if there is a new flag on next level. 
-                    goalFlag = new Flag(j*16, i*16);
-                    grid[j][i] = goalFlag;
+                    } else if (acceptedBlockTypes.contains(currentLevel.getLevelTile(i, j))) {
+                        Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j * 16, i * 16);
+                        addBlock(newBlock);
+                        grid[j][i] = newBlock;
+
+                    } else if (currentLevel.getLevelTile(i, j) == GameObjectType.PLAYER____) {
+                        // The grid uses /16 of the actual size
+                        player = new Player(j * 16, i * 16);
+                        grid[j][i] = player;
+                    } else if (currentLevel.getLevelTile(i, j) == GameObjectType.GOAL______) {
+                        // will only reset if there is a new flag on next level.
+                        goalFlag = new Flag(j * 16, i * 16);
+                        grid[j][i] = goalFlag;
+                    }
                 }
-            }   
+            }
+        }
+
+        public void update () {
+            player.update();
+            checkIfPlayerAtFlag();
+            checkIfPlayerCollidesWithBlocks();
+            checkIfPlayerCollidiesWithEnemies();
+            patorlingEnemies();
+            for (GameObserver o : observers) {
+                o.updateObserver();
+            }
+        }
+
+        public void addObserver (GameObserver observer){
+            observers.add(observer);
+        }
+
+        public void addEnemy (Enemy enemy){
+            this.enemies.add(enemy);
+        }
+
+        public void addBlock (Block block){
+            this.blocks.add(block);
+        }
+
+        public Player getPlayer () {
+            return this.player;
+        }
+
+        public Flag getGoalFlag () {
+            return goalFlag;
+        }
+
+        public Collection<Enemy> getEnemies () {
+            return this.enemies;
+        }
+
+        public Collection<Block> getBlocks () {
+            return this.blocks;
+        }
+
+        public IGameObject[][] getGrid () {
+            return this.grid;
+        }
+
+        public int getWidth () {
+            return grid[0].length;
+        }
+
+        public int getHeight () {
+            return grid.length;
         }
     }
-
-    public void update(){
-        player.update();
-        checkIfPlayerAtFlag();
-        checkIfPlayerCollidesWithBlocks();
-        checkIfPlayerCollidiesWithEnemies();
-        for (GameObserver o : observers) {
-            o.updateObserver();
-        }
-    }
-
-    public void addObserver(GameObserver observer){
-        observers.add(observer);
-    }
-
-    public void addEnemy(Enemy enemy){
-        this.enemies.add(enemy);
-    }
-
-    public void addBlock(Block block){
-        this.blocks.add(block);
-    }
-
-    public Player getPlayer(){
-        return this.player;
-    }
-
-    public Flag getGoalFlag() {
-        return goalFlag;
-    }
-
-    public Collection<Enemy> getEnemies(){
-        return this.enemies;
-    }
-
-    public Collection<Block> getBlocks(){
-        return this.blocks;
-    }
-
-    public IGameObject[][] getGrid(){
-        return this.grid;
-    }
-
-    public int getWidth() {
-        return grid[0].length;
-    }
-
-    public int getHeight() {
-        return grid.length;
-    }
-}

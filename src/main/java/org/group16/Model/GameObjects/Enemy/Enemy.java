@@ -54,4 +54,8 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
     public int getHeight() {
         return innerGameObject.getHeight();
     }
+
+    public abstract void setHealth(int newHealth);
+
+    public abstract boolean isDead();
 }
