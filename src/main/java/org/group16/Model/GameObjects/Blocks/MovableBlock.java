@@ -5,39 +5,24 @@ import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 
 import org.group16.Model.GameObjects.Movable;
-import java.io.*;
-import java.lang.Thread;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.awt.event.ActionListener;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class MovableBlock extends Block implements Movable {
     public int blockspeed = 0; // speed of the block
-    public int horisontalMovement = 0;
+    public int horizontalMovement = 0;
     public int verticalMovement = 0;
-    private final int xstartlocation = getX();
-    private final int ystartlocation = getY();
-    private GameObject innerGameObject;
-    private int helpx = 0;
-    private int helpy = 0;
-    private Boolean hasitgonemaxdistanceposx = false;
-    private Boolean hasitgonemaxdistancenegx = false;
-    private Boolean hasitgonemaxdistanceposy = false;
-    private Boolean hasitgonemaxdistancenegy = false;
-
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private int currentHorizontalMovement = 0;
+    private int currentVerticalMovement = 0;
+    private Boolean hasReachedMaxDistancePosX = false;
+    private Boolean hasReachedMaxDistanceNegX = false;
+    private Boolean hasReachedMaxDistancePosY = false;
+    private Boolean hasReachedMaxDistanceNegY = false;
 
     public void setblockspeed(int blockspeed) {
         this.blockspeed = blockspeed;
     }
 
-    public void sethorisontalMovement(int horisontalMovement) {
-        this.horisontalMovement = horisontalMovement;
+    public void sethorisontalMovement(int horizontalMovement) {
+        this.horizontalMovement = horizontalMovement;
     }
 
     public void setverticalMovement(int verticalMovement) {
@@ -49,69 +34,82 @@ public class MovableBlock extends Block implements Movable {
 
     }
 
-    // Method to move the block
     public void move() {
+        moveInXDirection();
+        moveInYDirection();
+    }
 
-        // Move in the x-direction
-        if (helpx > 0) {
-            if (hasitgonemaxdistanceposx == false) {
-                // Move right
-                setX(getX() + 1);
-                helpx++;
-                hasitgonemaxdistancenegx = false;
+    private void moveInXDirection() {
+        if (currentHorizontalMovement > 0) {
+            if (!hasReachedMaxDistancePosX) {
+                incrementX();
+                currentHorizontalMovement++;
+                hasReachedMaxDistanceNegX = false;
             }
 
-            if (helpx == horisontalMovement || hasitgonemaxdistanceposx == true) {
-                hasitgonemaxdistanceposx = true;
-                setX(getX() - 1);
-                helpx--;
-
+            if (currentHorizontalMovement == horizontalMovement || hasReachedMaxDistancePosX) {
+                hasReachedMaxDistancePosX = true;
+                decrementX();
+                currentHorizontalMovement--;
             }
         } else {
-            // Move left
-            if (hasitgonemaxdistancenegx == false && horisontalMovement != 0) {
-                setX(getX() - 1);
-                helpx--;
-                hasitgonemaxdistanceposx = false;
-
+            if (!hasReachedMaxDistanceNegX && horizontalMovement != 0) {
+                decrementX();
+                currentHorizontalMovement--;
+                hasReachedMaxDistancePosX = false;
             }
 
-            if (helpx == -horisontalMovement && horisontalMovement != 0 || hasitgonemaxdistancenegx == true) {
-                hasitgonemaxdistancenegx = true;
-                setX(getX() + 1);
-                helpx++;
+            if (currentHorizontalMovement == -horizontalMovement && horizontalMovement != 0
+                    || hasReachedMaxDistanceNegX) {
+                hasReachedMaxDistanceNegX = true;
+                incrementX();
+                currentHorizontalMovement++;
             }
         }
+    }
 
-        // Move in the y-direction
-        if (helpy > 0) {
-            // Move up starting from 1
-            if (hasitgonemaxdistanceposy == false) {
-                setY(getY() + 1);
-                helpy++;
-                hasitgonemaxdistancenegy = false;
+    private void moveInYDirection() {
+        if (currentVerticalMovement > 0) {
+            if (!hasReachedMaxDistancePosY) {
+                incrementY();
+                currentVerticalMovement++;
+                hasReachedMaxDistanceNegY = false;
             }
-            // Move down starting from yDirection
-            if (helpy == verticalMovement || hasitgonemaxdistanceposy == true) {
-                hasitgonemaxdistanceposy = true;
-                setY(getY() - 1);
-                helpy--;
+
+            if (currentVerticalMovement == verticalMovement || hasReachedMaxDistancePosY) {
+                hasReachedMaxDistancePosY = true;
+                decrementY();
+                currentVerticalMovement--;
             }
         } else {
-
-            // Move down starting from 0
-            if (hasitgonemaxdistancenegy == false && verticalMovement != 0) {
-                setY(getY() - 1);
-                helpy--;
-                hasitgonemaxdistanceposy = false;
+            if (!hasReachedMaxDistanceNegY && verticalMovement != 0) {
+                decrementY();
+                currentVerticalMovement--;
+                hasReachedMaxDistancePosY = false;
             }
-            // Move up starting from -yDirection
-            if (helpy == -verticalMovement && verticalMovement != 0 || hasitgonemaxdistancenegy == true) {
-                hasitgonemaxdistancenegy = true;
-                setY(getY() + 1);
-                helpy++;
+
+            if (currentVerticalMovement == -verticalMovement && verticalMovement != 0 || hasReachedMaxDistanceNegY) {
+                hasReachedMaxDistanceNegY = true;
+                incrementY();
+                currentVerticalMovement++;
             }
         }
+    }
+
+    private void incrementX() {
+        setX(getX() + 1);
+    }
+
+    private void decrementX() {
+        setX(getX() - 1);
+    }
+
+    private void incrementY() {
+        setY(getY() + 1);
+    }
+
+    private void decrementY() {
+        setY(getY() - 1);
     }
 
     @Override
