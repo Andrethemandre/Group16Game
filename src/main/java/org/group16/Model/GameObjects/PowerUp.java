@@ -2,14 +2,17 @@ package org.group16.Model.GameObjects;
 
 import static org.group16.Model.GameObjects.GameObjectType.POWERUP___;
 
-public class PowerUp implements IGameObject, Movable {
+import org.group16.Model.GameObjects.Enemy.Enemy;
+
+public abstract class PowerUp implements IGameObject, Movable {
     private GameObject innerGameObject;
     private Boolean Movable;
     private int speed = 5;
     private Direction direction;
+    private boolean remove = false;
 
-     public PowerUp(int x, int y, boolean moveable, Direction direction) {
-        innerGameObject = new GameObject(POWERUP___, x, y, 16, 16);
+     public PowerUp(int x, int y, boolean moveable, Direction direction, GameObjectType type) {
+        innerGameObject = new GameObject(type, x, y, 16, 16);
         this.Movable = moveable;
         this.direction = direction;
     }
@@ -48,6 +51,14 @@ public class PowerUp implements IGameObject, Movable {
         return Movable;
     }
 
+    public boolean getRemove(){
+        return this.remove;
+    }
+
+    public void setRemove(boolean remove){
+        this.remove = remove;
+    }
+
     @Override
     public boolean collidesWith(IGameObject otherGameObject) {
         return innerGameObject.collidesWith(otherGameObject);
@@ -64,5 +75,7 @@ public class PowerUp implements IGameObject, Movable {
             }
         }
     }
+
+    public abstract void triggerPowerUp(Enemy enemy);
 }
 

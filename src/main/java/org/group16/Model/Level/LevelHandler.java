@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.PowerUp;
+import org.group16.Model.GameObjects.Spear_Power;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
@@ -126,17 +127,28 @@ public class LevelHandler {
     public void checkIfPlayerCollidesWithPowerUp(){
         PowerUp powerUptoremove = null;
         if (powerUps!= null){
-            if (!player.getHasPowerUp()){
+            if (player.getHasPowerUp() == null){
                 for (PowerUp powerUp : powerUps){
                     if(player.collidesWith(powerUp)){
+                        System.out.println("touched power");
                         if (!powerUp.getMovable()){
                         powerUptoremove = powerUp;
-                        player.setHasPowerUp(true);
+                        player.setHasPowerUp(powerUp.getType());
                         }
                     }
                 }
                 powerUps.remove(powerUptoremove);
 
+            }
+        }
+    }
+
+    public void checkIfPowerUpsCollidesWithEnemies (){
+        for (PowerUp powerUp : powerUps){
+            for (Enemy enemy : enemies){
+                if (powerUp.collidesWith(enemy)){
+                    powerUp.triggerPowerUp(enemy);
+                }
             }
         }
     }
@@ -193,8 +205,8 @@ public class LevelHandler {
                     // will only reset if there is a new flag on next level.
                     goalFlag = new Flag(j * 16, i * 16);
                     grid[j][i] = goalFlag;
-                }   else if (currentLevel.getLevelTile(i,j) == GameObjectType.POWERUP___){
-                        PowerUp powerUp = new PowerUp(j*16,i*16,false, Direction.RIGHT);
+                }   else if (currentLevel.getLevelTile(i,j) == GameObjectType.SPEAR_____){
+                        PowerUp powerUp = new Spear_Power(j*16,i*16,false, Direction.RIGHT);
                         this.powerUps.add(powerUp);
                 }
             }
@@ -207,11 +219,15 @@ public class LevelHandler {
     public void update() {
         moveMovableBlocks();
         player.update();
+
         checkIfPlayerAtFlag();
         checkIfPlayerCollidesWithBlocks();
         checkIfPlayerCollidiesWithEnemies();
         checkIfPlayerCollidesWithPowerUp();
+        checkIfPowerUpsCollidesWithEnemies();
+
         updateProjectilePositions();
+        removeDeadEntities();
         updateEnemies();
 
         for (GameObserver o : observers) {
@@ -227,12 +243,47 @@ public class LevelHandler {
         }
     }
 
+    private void removeDeadEntities(){
+        removeDeadEnemy();
+        removeUsedPowerups();
+    }
+
+    private void removeDeadEnemy(){
+        Enemy enemyToRemove = null;
+        for (Enemy enemy : enemies){
+            if (enemy.getIsDead()){
+                enemyToRemove = enemy;
+            }
+        }
+        if (enemyToRemove != null){
+            enemies.remove(enemyToRemove);
+        }
+    }
+
+    private void removeUsedPowerups(){
+        PowerUp powerUpToRemove = null;
+        for (PowerUp powerUp : powerUps){
+            if (powerUp.getRemove()){
+                powerUpToRemove = powerUp;
+            }
+        }
+        if (powerUpToRemove != null){
+            powerUps.remove(powerUpToRemove);
+        }
+    }
+
+
+
     public void addObserver(GameObserver observer){
         observers.add(observer);
     }
 
     public void addEnemy(Enemy enemy){
         this.enemies.add(enemy);
+    }
+
+    public void removeEnemy (Enemy enemy){
+        this.enemies.remove(enemy);
     }
 
     public void addBlock(Block block){
@@ -291,10 +342,10 @@ public class LevelHandler {
 
     // is here because levelHandler has the power ups list that I need to change for things to be drawn
     public void usePowerUp() {
-        if (player.getHasPowerUp()){
-            PowerUp powerUp = new PowerUp(player.getX(), player.getY(), true, player.getDirection());
+        if (player.getHasPowerUp() == GameObjectType.SPEAR_____){
+            PowerUp powerUp = new Spear_Power(player.getX(), player.getY(), true, player.getDirection());
             powerUps.add(powerUp);
-            player.setHasPowerUp(false);
+            player.setHasPowerUp(null);
         }
     }
 
@@ -314,4 +365,6 @@ public class LevelHandler {
             }
         }
     }
+
+    
 }
