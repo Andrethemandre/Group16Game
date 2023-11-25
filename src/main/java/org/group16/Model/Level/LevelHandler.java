@@ -46,30 +46,30 @@ public class LevelHandler {
         gameState = GameState.START;
         setLevel(1);
 
-      
         // directions of blocks on level 1
         setxandydirectionofmovableblocks(20, 0);
 
         // Schedule the movable blocks movement at fixed intervals
     }
+
     public GameState getGameState() {
         return gameState;
     }
 
     private void setGameState(GameState gameState) {
         this.gameState = gameState;
-    }   
+    }
 
-    public int getCurrentLevelNumber(){
+    public int getCurrentLevelNumber() {
         return this.currentLevelNumber;
     }
 
-    private void addScore(int points){
+    private void addScore(int points) {
         this.score += points;
     }
 
     private void calculateScore() {
-        //int baseScore = 9999;
+        // int baseScore = 9999;
         int pointsPerSecond = 100; // Number of points per second
 
         // Calculate the number of seconds that have passed
@@ -79,37 +79,36 @@ public class LevelHandler {
         int timeBonus = secondsPassed * pointsPerSecond;
 
         // Some points deducted for each attempt
-        int attemptsPenalty = levelAttempts * 500; 
-    
+        int attemptsPenalty = levelAttempts * 500;
+
         int totalScore = SCORE_LIMIT - timeBonus - attemptsPenalty;
         addScore(totalScore - score);
 
         if (score < -SCORE_LIMIT) {
             score = -SCORE_LIMIT;
-        }
-        else if (score > SCORE_LIMIT) {
+        } else if (score > SCORE_LIMIT) {
             score = SCORE_LIMIT;
         }
     }
 
-    public int getScore(){
+    public int getScore() {
         calculateScore();
         return this.score;
     }
 
-    public int getCurrentAttempts(){
+    public int getCurrentAttempts() {
         return this.levelAttempts;
     }
 
     // collision checkers
-    public void checkIfPlayerAtFlag(){
-        if(player.collidesWith(goalFlag)){
+    public void checkIfPlayerAtFlag() {
+        if (player.collidesWith(goalFlag)) {
             setLevel(2);
         }
     }
 
-    public void checkIfPlayerCollidesWithBlocks(){
-        for (Block block : blocks){
+    public void checkIfPlayerCollidesWithBlocks() {
+        for (Block block : blocks) {
             player.collision(block);
         }
     }
@@ -123,15 +122,15 @@ public class LevelHandler {
         }
     }
 
-    public void checkIfPlayerCollidesWithPowerUp(){
+    public void checkIfPlayerCollidesWithPowerUp() {
         PowerUp powerUptoremove = null;
-        if (powerUps!= null){
-            if (!player.getHasPowerUp()){
-                for (PowerUp powerUp : powerUps){
-                    if(player.collidesWith(powerUp)){
-                        if (!powerUp.getMovable()){
-                        powerUptoremove = powerUp;
-                        player.setHasPowerUp(true);
+        if (powerUps != null) {
+            if (!player.getHasPowerUp()) {
+                for (PowerUp powerUp : powerUps) {
+                    if (player.collidesWith(powerUp)) {
+                        if (!powerUp.getMovable()) {
+                            powerUptoremove = powerUp;
+                            player.setHasPowerUp(true);
                         }
                     }
                 }
@@ -142,13 +141,14 @@ public class LevelHandler {
     }
 
     private void checkIfPlayerIsDead() {
-        if (player.isDead()){
+        if (player.isDead()) {
             setLevel(currentLevelNumber);
+            moveMovableBlocks();
             this.levelAttempts++;
         }
     }
 
-    public void updateEnemies(){
+    public void updateEnemies() {
         for (Enemy enemy : enemies) {
             enemy.update();
         }
@@ -187,15 +187,15 @@ public class LevelHandler {
 
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.PLAYER____) {
                     // The grid uses /16 of the actual size
-                    player = new Player(j*16, i*16, getHeight()*16, getWidth()*16);
+                    player = new Player(j * 16, i * 16, getHeight() * 16, getWidth() * 16);
                     grid[j][i] = player;
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.GOAL______) {
                     // will only reset if there is a new flag on next level.
                     goalFlag = new Flag(j * 16, i * 16);
                     grid[j][i] = goalFlag;
-                }   else if (currentLevel.getLevelTile(i,j) == GameObjectType.POWERUP___){
-                        PowerUp powerUp = new PowerUp(j*16,i*16,false, Direction.RIGHT);
-                        this.powerUps.add(powerUp);
+                } else if (currentLevel.getLevelTile(i, j) == GameObjectType.POWERUP___) {
+                    PowerUp powerUp = new PowerUp(j * 16, i * 16, false, Direction.RIGHT);
+                    this.powerUps.add(powerUp);
                 }
             }
         }
@@ -204,6 +204,7 @@ public class LevelHandler {
     public long getElapsedTime() {
         return System.currentTimeMillis() - levelStartTime;
     }
+
     public void update() {
         moveMovableBlocks();
         player.update();
@@ -220,22 +221,21 @@ public class LevelHandler {
         checkIfPlayerIsDead();
     }
 
-
     private void updateProjectilePositions() {
-        for (PowerUp powerUp: powerUps){
+        for (PowerUp powerUp : powerUps) {
             powerUp.update();
         }
     }
 
-    public void addObserver(GameObserver observer){
+    public void addObserver(GameObserver observer) {
         observers.add(observer);
     }
 
-    public void addEnemy(Enemy enemy){
+    public void addEnemy(Enemy enemy) {
         this.enemies.add(enemy);
     }
 
-    public void addBlock(Block block){
+    public void addBlock(Block block) {
         this.blocks.add(block);
     }
 
@@ -259,7 +259,7 @@ public class LevelHandler {
         return this.powerUps;
     }
 
-    public IGameObject[][] getGrid(){
+    public IGameObject[][] getGrid() {
         return this.grid;
     }
 
@@ -277,10 +277,9 @@ public class LevelHandler {
 
     public void togglePause() {
         GameState currentGameState = getGameState();
-        if(currentGameState == GameState.PLAYING){
+        if (currentGameState == GameState.PLAYING) {
             setGameState(GameState.PAUSED);
-        }
-        else if(currentGameState == GameState.PAUSED) {
+        } else if (currentGameState == GameState.PAUSED) {
             setGameState(GameState.PLAYING);
         }
 
@@ -289,9 +288,10 @@ public class LevelHandler {
         }
     }
 
-    // is here because levelHandler has the power ups list that I need to change for things to be drawn
+    // is here because levelHandler has the power ups list that I need to change for
+    // things to be drawn
     public void usePowerUp() {
-        if (player.getHasPowerUp()){
+        if (player.getHasPowerUp()) {
             PowerUp powerUp = new PowerUp(player.getX(), player.getY(), true, player.getDirection());
             powerUps.add(powerUp);
             player.setHasPowerUp(false);
