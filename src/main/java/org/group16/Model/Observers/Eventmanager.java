@@ -3,7 +3,7 @@ package org.group16.Model.Observers;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Eventmanager implements ObservableEvents{
+class Eventmanager implements ObservableEvents{
     public void updateObserver() {
         System.out.println("Eventmanager: Notified");
     };
