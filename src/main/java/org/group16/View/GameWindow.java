@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import org.group16.Model.GameObjects.GameState;
@@ -33,24 +34,39 @@ public class GameWindow extends JFrame implements GameObserver{
     private LevelHandler levelHandler;
     private StartPanel startPanel;
     private LevelPanel levelPanel;
+
+    private PausePanel pausePanel;
+    private JLayeredPane layeredPane;
+    private LevelAndPauseLayer levelAndPauseLayer;
     private CardLayout cardLayout;
     private JPanel cards;
 
     public GameWindow(String windowName, LevelHandler levelHandler){
         this.levelHandler = levelHandler;
         this.startPanel = new StartPanel(X, Y);
+
         this.levelPanel = new LevelPanel(X, Y, levelHandler);
+        this.pausePanel = new PausePanel(X,Y);
+        this.levelAndPauseLayer = new LevelAndPauseLayer(X, Y, levelPanel, pausePanel, levelHandler);
+        this.levelHandler.addObserver(levelAndPauseLayer);
+        // this.layeredPane = new JLayeredPane();
+        // layeredPane.add(levelPanel, JLayeredPane.DEFAULT_LAYER);
+        // layeredPane.add(startPanel, JLayeredPane.PALETTE_LAYER);
+
         this.mainScreen = startPanel;
+
         this.cardLayout = new CardLayout();
         this.cards = new JPanel(cardLayout);
 
         cards.add(startPanel, "START");
-        cards.add(levelPanel, "PLAYING");
+        cards.add(levelAndPauseLayer, "PLAYING");
+        //cards.add(layeredPane, "PLAYING");
 
 
         //this.mainScreen = new LevelPanel(X, Y, levelHandler);
 
         initComponents(windowName);
+        levelAndPauseLayer.setBounds(getBounds());
         this.requestFocusInWindow();
     }
     public StartPanel getStartPanel(){

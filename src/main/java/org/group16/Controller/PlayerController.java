@@ -41,8 +41,7 @@ public class PlayerController extends GameController implements KeyListener, Mou
 
     @Override
     public void keyPressed(KeyEvent e) {
-
-        if (levelHandler.getGameState() == GameState.PLAYING){
+        System.out.println("Key pressed");
         switch(e.getKeyCode()) {
             // w for going up
             case KeyEvent.VK_W:     
@@ -78,7 +77,6 @@ public class PlayerController extends GameController implements KeyListener, Mou
                 levelHandler.usePowerUp();
                 break;
             }
-        }
     }
     
 

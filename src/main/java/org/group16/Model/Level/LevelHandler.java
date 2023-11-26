@@ -161,7 +161,7 @@ public class LevelHandler {
 
     private void setLevel(int levelNumber) {
         gameState = GameState.PLAYING;
-        
+
         if (levelNumber != currentLevelNumber) {
             levelAttempts = 0;
             score = 0;
@@ -282,6 +282,7 @@ public class LevelHandler {
     }
 
     public void togglePause() {
+        System.out.println("Toggling pause");
         GameState currentGameState = getGameState();
         if(currentGameState == GameState.PLAYING){
             setGameState(GameState.PAUSED);

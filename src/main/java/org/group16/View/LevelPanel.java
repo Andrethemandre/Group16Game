@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.Collection;
 
 import javax.imageio.ImageIO;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
@@ -16,8 +18,9 @@ import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Level.LevelHandler;
+import org.group16.Model.Observers.GameObserver;
 
-public class LevelPanel extends GamePanel{
+public class LevelPanel extends GamePanel implements GameObserver{
     private LevelHandler levelHandler;
     private BufferedImage redHeartImage;
     private BufferedImage grayHeartImage;
@@ -34,6 +37,21 @@ public class LevelPanel extends GamePanel{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // refactor this into a seperate layered panel class
+        // // Create the pause panel
+        // this.pausePanel = new PausePanel();
+        // pausePanel.setBounds(0, 0, x, y);
+        // pausePanel.setVisible(false);
+
+        // // Create the layered pane and add the game and pause panels to it
+        // this.layeredPane = new JLayeredPane();
+        // layeredPane.setPreferredSize(new Dimension(x, y));
+        // layeredPane.add(this, JLayeredPane.DEFAULT_LAYER);
+        // layeredPane.add(pausePanel, JLayeredPane.PALETTE_LAYER);
+
+        // // Set the layout manager and add the layered pane to this panel
+        // this.setLayout(new BorderLayout());
+        // this.add(layeredPane, BorderLayout.CENTER);
     }
 
     public Player getPlayer() {
@@ -219,4 +237,9 @@ public class LevelPanel extends GamePanel{
             g.fillRect(powerUpX, powerUpY, powerUp.getWidth(),powerUp.getHeight());
         }
     }
+    
+    @Override
+    public void updateObserver() {
+    }
+    
 }
