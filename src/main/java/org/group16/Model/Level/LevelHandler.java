@@ -45,11 +45,11 @@ public class LevelHandler {
     public LevelHandler() {
         observers = new ArrayList<>();
         gameState = GameState.START;
-        setLevel(1);
+        //setLevel(1);
 
       
         // directions of blocks on level 1
-        setxandydirectionofmovableblocks(20, 0);
+        // setxandydirectionofmovableblocks(20, 0);
 
         // Schedule the movable blocks movement at fixed intervals
     }
@@ -165,9 +165,14 @@ public class LevelHandler {
             enemy.update();
         }
     }
+    public void startGame(){
+        setLevel(1);
+        setxandydirectionofmovableblocks(20, 0);
+    }
 
     private void setLevel(int levelNumber) {
         gameState = GameState.PLAYING;
+
         if (levelNumber != currentLevelNumber) {
             levelAttempts = 0;
             score = 0;
@@ -217,6 +222,8 @@ public class LevelHandler {
         return System.currentTimeMillis() - levelStartTime;
     }
     public void update() {
+        //setLevel(1);
+      
         moveMovableBlocks();
         player.update();
 
@@ -233,6 +240,7 @@ public class LevelHandler {
         for (GameObserver o : observers) {
             o.updateObserver();
         }
+
         checkIfPlayerIsDead();
     }
 
@@ -271,8 +279,6 @@ public class LevelHandler {
             powerUps.remove(powerUpToRemove);
         }
     }
-
-
 
     public void addObserver(GameObserver observer){
         observers.add(observer);

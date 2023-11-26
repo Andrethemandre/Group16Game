@@ -22,5 +22,9 @@ public class StartPanel extends GamePanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
     }
+
+    public JButton getPlayButton() {
+        return playButton;
+    }
     
 }
