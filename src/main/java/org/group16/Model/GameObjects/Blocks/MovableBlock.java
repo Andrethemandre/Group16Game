@@ -8,10 +8,12 @@ import org.group16.Model.GameObjects.Movable;
 
 public class MovableBlock extends Block implements Movable {
     public int blockspeed = 0; // speed of the block
-    public int horizontalMovement = 0;
-    public int verticalMovement = 0;
-    private int currentHorizontalMovement = 0;
-    private int currentVerticalMovement = 0;
+    public int horizontalMovement = 0; // how far the block can move(+-) in the x direction from its starting position
+    public int verticalMovement = 0; // how far the block can move (+-) in the y direction from its starting position
+    private int currentHorizontalMovement = 0; // how far the block has moved (+-) in the x direction from its starting
+                                               // position
+    private int currentVerticalMovement = 0; // how far the block has moved (+-) in the y direction from its starting
+                                             // position
     private Boolean hasReachedMaxDistancePosX = false;
     private Boolean hasReachedMaxDistanceNegX = false;
     private Boolean hasReachedMaxDistancePosY = false;
@@ -23,11 +25,8 @@ public class MovableBlock extends Block implements Movable {
         this.blockspeed = blockspeed;
     }
 
-    public void sethorisontalMovement(int horizontalMovement) {
+    public void setdirection(int horizontalMovement, int verticalMovement) {
         this.horizontalMovement = horizontalMovement;
-    }
-
-    public void setverticalMovement(int verticalMovement) {
         this.verticalMovement = verticalMovement;
     }
 
@@ -40,7 +39,7 @@ public class MovableBlock extends Block implements Movable {
         return verticalMovement;
     }
 
-    MovableBlock(int x, int y) {
+    public MovableBlock(int x, int y) {
         super(GameObjectType.MOVABLE___, x, y);
 
     }
@@ -52,59 +51,71 @@ public class MovableBlock extends Block implements Movable {
     }
 
     private void moveInXDirection() {
-        if (currentHorizontalMovement > 0) {
+        System.out.println(horizontalMovement);
+        System.out.println(currentHorizontalMovement);
+        if (currentHorizontalMovement > 0 && horizontalMovement != 0) {
             if (!hasReachedMaxDistancePosX) {
                 incrementX();
                 currentHorizontalMovement++;
                 hasReachedMaxDistanceNegX = false;
             }
 
-            if (currentHorizontalMovement == horizontalMovement || hasReachedMaxDistancePosX) {
+            if (currentHorizontalMovement >= horizontalMovement || hasReachedMaxDistancePosX) {
                 hasReachedMaxDistancePosX = true;
                 decrementX();
                 currentHorizontalMovement--;
+                if (currentHorizontalMovement == 0) {
+                    hasReachedMaxDistancePosX = false;
+                }
             }
-        } else {
-            if (!hasReachedMaxDistanceNegX && horizontalMovement != 0) {
+        } else if (horizontalMovement != 0 && currentHorizontalMovement <= 0) {
+            if (!hasReachedMaxDistanceNegX) {
                 decrementX();
                 currentHorizontalMovement--;
                 hasReachedMaxDistancePosX = false;
             }
 
-            if (currentHorizontalMovement == -horizontalMovement && horizontalMovement != 0
-                    || hasReachedMaxDistanceNegX) {
+            if (currentHorizontalMovement <= -horizontalMovement || hasReachedMaxDistanceNegX) {
                 hasReachedMaxDistanceNegX = true;
                 incrementX();
                 currentHorizontalMovement++;
+                if (currentHorizontalMovement == 0) {
+                    hasReachedMaxDistanceNegX = false;
+                }
             }
         }
     }
 
     private void moveInYDirection() {
-        if (currentVerticalMovement > 0) {
+        if (currentVerticalMovement > 0 && verticalMovement != 0) {
             if (!hasReachedMaxDistancePosY) {
                 incrementY();
                 currentVerticalMovement++;
                 hasReachedMaxDistanceNegY = false;
-
             }
 
             if (currentVerticalMovement == verticalMovement || hasReachedMaxDistancePosY) {
                 hasReachedMaxDistancePosY = true;
                 decrementY();
                 currentVerticalMovement--;
+                if (currentVerticalMovement == 0) {
+                    hasReachedMaxDistancePosY = false;
+                }
             }
-        } else {
-            if (!hasReachedMaxDistanceNegY && verticalMovement != 0) {
+        } else if (verticalMovement != 0 && currentVerticalMovement <= 0) {
+            if (!hasReachedMaxDistanceNegY) {
                 decrementY();
                 currentVerticalMovement--;
                 hasReachedMaxDistancePosY = false;
             }
 
-            if (currentVerticalMovement == -verticalMovement && verticalMovement != 0 || hasReachedMaxDistanceNegY) {
+            if (currentVerticalMovement == -verticalMovement || hasReachedMaxDistanceNegY) {
                 hasReachedMaxDistanceNegY = true;
                 incrementY();
                 currentVerticalMovement++;
+                if (currentVerticalMovement == 0) {
+                    hasReachedMaxDistanceNegY = false;
+                }
             }
         }
     }

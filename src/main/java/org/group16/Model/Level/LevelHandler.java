@@ -2,6 +2,7 @@ package org.group16.Model.Level;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Arrays;
 
 import org.group16.Model.GameObjects.IGameObject;
@@ -24,6 +25,7 @@ public class LevelHandler {
     private Flag goalFlag;
     private Collection<Enemy> enemies;
     private Collection<Block> blocks;
+    private MovableBlock movableBlock;
     private Collection<PowerUp> powerUps;
     private boolean playerIsAtFlag;
     private IGameObject[][] grid;
@@ -47,7 +49,6 @@ public class LevelHandler {
         setLevel(1);
 
         // directions of blocks on level 1
-        setxandydirectionofmovableblocks(20, 0);
 
         // Schedule the movable blocks movement at fixed intervals
     }
@@ -143,7 +144,7 @@ public class LevelHandler {
     private void checkIfPlayerIsDead() {
         if (player.isDead()) {
             setLevel(currentLevelNumber);
-            moveMovableBlocks();
+            // moveMovableBlocks();
             this.levelAttempts++;
         }
     }
@@ -206,7 +207,10 @@ public class LevelHandler {
     }
 
     public void update() {
-        moveMovableBlocks();
+        // Update the current level if it supports movable blocks
+        if (currentLevel instanceof LevelWithMovableBlocks) {
+            ((LevelWithMovableBlocks) currentLevel).moveMovableBlocks();
+        }
         player.update();
         checkIfPlayerAtFlag();
         checkIfPlayerCollidesWithBlocks();
@@ -298,20 +302,4 @@ public class LevelHandler {
         }
     }
 
-    public void moveMovableBlocks() {
-        for (Block block : blocks) {
-            if (block instanceof MovableBlock) {
-                ((MovableBlock) block).move();
-            }
-        }
-    }
-
-    public void setxandydirectionofmovableblocks(int x, int y) {
-        for (Block block : blocks) {
-            if (block instanceof MovableBlock) {
-                ((MovableBlock) block).sethorisontalMovement(x);
-                ((MovableBlock) block).setverticalMovement(y);
-            }
-        }
-    }
 }
