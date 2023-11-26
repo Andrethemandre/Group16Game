@@ -7,10 +7,6 @@ import java.io.IOException;
 import java.util.Collection;
 
 import javax.imageio.ImageIO;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
@@ -20,9 +16,8 @@ import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Level.LevelHandler;
-import org.group16.Model.Observers.GameObserver;
 
-public class LevelPanel extends GamePanel implements GameObserver {
+public class LevelPanel extends GamePanel{
     private LevelHandler levelHandler;
     private BufferedImage redHeartImage;
     private BufferedImage grayHeartImage;
@@ -223,10 +218,5 @@ public class LevelPanel extends GamePanel implements GameObserver {
             g.setColor(Color.yellow);
             g.fillRect(powerUpX, powerUpY, powerUp.getWidth(),powerUp.getHeight());
         }
-    }
-
-    @Override
-    public void updateObserver() {
-        repaint();
     }
 }

@@ -44,11 +44,11 @@ public class LevelHandler {
     public LevelHandler() {
         observers = new ArrayList<>();
         gameState = GameState.START;
-        setLevel(1);
+        //setLevel(1);
 
       
         // directions of blocks on level 1
-        setxandydirectionofmovableblocks(20, 0);
+        //setxandydirectionofmovableblocks(20, 0);
 
         // Schedule the movable blocks movement at fixed intervals
     }
@@ -154,8 +154,14 @@ public class LevelHandler {
         }
     }
 
+    public void startGame(){
+        setLevel(1);
+        setxandydirectionofmovableblocks(20, 0);
+    }
+
     private void setLevel(int levelNumber) {
         gameState = GameState.PLAYING;
+        
         if (levelNumber != currentLevelNumber) {
             levelAttempts = 0;
             score = 0;

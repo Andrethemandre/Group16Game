@@ -1,13 +1,17 @@
 package org.group16.View;
 
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
+import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.Level.FirstLevel;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
@@ -27,11 +31,34 @@ public class GameWindow extends JFrame implements GameObserver{
     // mainScreen that changes depending on type of panel (for now it is just a screen of a level)
     private GamePanel mainScreen;
     private LevelHandler levelHandler;
+    private StartPanel startPanel;
+    private LevelPanel levelPanel;
+    private CardLayout cardLayout;
+    private JPanel cards;
 
     public GameWindow(String windowName, LevelHandler levelHandler){
         this.levelHandler = levelHandler;
-        this.mainScreen = new LevelPanel(X, Y, levelHandler);
+        this.startPanel = new StartPanel(X, Y);
+        this.levelPanel = new LevelPanel(X, Y, levelHandler);
+        this.mainScreen = startPanel;
+        this.cardLayout = new CardLayout();
+        this.cards = new JPanel(cardLayout);
+
+        cards.add(startPanel, "START");
+        cards.add(levelPanel, "PLAYING");
+
+
+        //this.mainScreen = new LevelPanel(X, Y, levelHandler);
+
         initComponents(windowName);
+        this.requestFocusInWindow();
+    }
+    public StartPanel getStartPanel(){
+        return startPanel;
+    }
+
+    public LevelPanel getLevelPanel(){
+        return levelPanel;
     }
 
     public GamePanel getMainScreen(){
@@ -44,7 +71,8 @@ public class GameWindow extends JFrame implements GameObserver{
         this.setPreferredSize(new Dimension(X,Y));
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         this.setVisible(true);
-        this.add(mainScreen);
+        this.add(cards);
+        this.setFocusable(true);
         mainScreen.setPreferredSize(getPreferredSize());
 
         // Make the frame pack all it's components by respecting the sizes if possible.
@@ -63,6 +91,13 @@ public class GameWindow extends JFrame implements GameObserver{
 
     @Override
     public void updateObserver() {
+        if(levelHandler.getGameState() == GameState.START){
+            cardLayout.show(cards, "START");
+        } 
+        else if(levelHandler.getGameState() == GameState.PLAYING){
+            cardLayout.show(cards, "PLAYING");
+        }
+
         repaint();
     }
 

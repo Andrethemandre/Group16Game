@@ -10,20 +10,22 @@ import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.View.GameWindow;
+import org.group16.View.LevelPanel;
 
-public class PlayerController implements KeyListener, MouseListener {
+public class PlayerController extends GameController implements KeyListener, MouseListener  {
 
-    private GameWindow mainWindow;
+    private LevelPanel levelPanel;
     private LevelHandler levelHandler;
     private Player currentPlayer;
+    private GameWindow mainWindow;
     // flag to only allow one jump per keypress
     private boolean wKeyHeldDown = false;
 
-    public PlayerController(LevelHandler levelHandler, GameWindow mainWindow){
-        this.mainWindow = mainWindow;
+    public PlayerController(LevelHandler levelHandler, LevelPanel levelPanel, GameWindow mainWindow){
+        super(levelHandler, levelPanel);
         this.levelHandler = levelHandler;
+        this.levelPanel = levelPanel;
         this.currentPlayer = levelHandler.getPlayer();
-
         mainWindow.addKeyListener(this);
         mainWindow.addMouseListener(this);
     }
@@ -34,41 +36,35 @@ public class PlayerController implements KeyListener, MouseListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
 
+        if (levelHandler.getGameState() == GameState.PLAYING){
         switch(e.getKeyCode()) {
             // w for going up
-            case KeyEvent.VK_W:
-                if (levelHandler.getGameState() == GameState.PLAYING){
-                    if (!wKeyHeldDown && !currentPlayer.isFalling()) {
-                        currentPlayer.startJumping();
-                        wKeyHeldDown = true;
-                    }
+            case KeyEvent.VK_W:     
+                if (!wKeyHeldDown && !currentPlayer.isFalling()) {
+                    currentPlayer.startJumping();
+                    wKeyHeldDown = true;
                 }
+                
                 break;
 
             // a for going left
             case KeyEvent.VK_A:
-                
-                // currentPlayer.move();
-                if (levelHandler.getGameState() == GameState.PLAYING) {
-                    currentPlayer.startMovingInDirection(Direction.LEFT);
-                }
+                currentPlayer.startMovingInDirection(Direction.LEFT);
                 break;
 
             // s for going down
             case KeyEvent.VK_S: 
-                //currentPlayer.move();
                 break;
 
             // d for going right
             case KeyEvent.VK_D:
-                if (levelHandler.getGameState() == GameState.PLAYING) {
-                    currentPlayer.startMovingInDirection(Direction.RIGHT);
-                }
+                currentPlayer.startMovingInDirection(Direction.RIGHT);
                 break; 
             
             case KeyEvent.VK_ESCAPE:
@@ -83,20 +79,23 @@ public class PlayerController implements KeyListener, MouseListener {
                 break;
             }
         }
+    }
     
 
     @Override
     public void keyReleased(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_W:
-                wKeyHeldDown = false;
-                break;
-            case KeyEvent.VK_A:
-                currentPlayer.stopMovingInDirection(Direction.LEFT);
-                break;
-            case KeyEvent.VK_D:
-                currentPlayer.stopMovingInDirection(Direction.RIGHT);
-                break;
+        if(levelHandler.getGameState() == GameState.PLAYING){
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_W:
+                    wKeyHeldDown = false;
+                    break;
+                case KeyEvent.VK_A:
+                    currentPlayer.stopMovingInDirection(Direction.LEFT);
+                    break;
+                case KeyEvent.VK_D:
+                    currentPlayer.stopMovingInDirection(Direction.RIGHT);
+                    break;
+            }
         }
     }
 

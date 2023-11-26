@@ -4,15 +4,20 @@ import java.awt.Graphics;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.View.GamePanel;
 import org.group16.View.GameWindow;
+import org.group16.View.LevelPanel;
+import org.group16.View.StartPanel;
 
 public class GameEngine {
     private GameWindow mainWindow;
-    private PlayerController playerController;
+    private Map<GameState, GameController> controllers = new HashMap<>();
+    private GameController gameController;
     private LevelHandler levelHandler;
     // The delay (ms) corresponds to 60 updates a sec (hz) ?
     private final int delay = 1000/60;
@@ -24,7 +29,16 @@ public class GameEngine {
     public GameEngine(LevelHandler levelHandler, GameWindow mainWindow) {
         this.mainWindow = mainWindow;
         this.levelHandler = levelHandler;
-        this.playerController = new PlayerController(levelHandler, mainWindow);
+        // this.gameController = new StartPanelController(levelHandler, mainWindow.getMainScreen());
+
+        // Initialize the controllers for each game state
+        controllers.put(GameState.START, new StartPanelController(levelHandler, mainWindow.getStartPanel()));
+        controllers.put(GameState.PLAYING, new PlayerController(levelHandler, mainWindow.getLevelPanel(), mainWindow));
+        
+        // Add more game states as needed
+
+        // Set gameController to the controller for the initial game state
+        gameController = controllers.get(levelHandler.getGameState());
     }
 
     // start timer
@@ -34,12 +48,26 @@ public class GameEngine {
 
     // update stuff
     public void update() {
+ 
         if(levelHandler.getPauseState() == GameState.PAUSED){
             return;
         }
-      
-        playerController.update();
-        levelHandler.update();
+        
+        // // for when controller is switched
+        // if(levelHandler.getGameState() == GameState.START && gameController != null){
+        //     gameController = new StartPanelController(levelHandler, mainWindow.getMainScreen());
+        // }
+        // else if(levelHandler.getGameState() == GameState.PLAYING && gameController != null){
+        //     gameController = new PlayerController(levelHandler, mainWindow.getMainScreen());
+        // }
+
+        // Set gameController to the controller for the current game state
+        gameController = controllers.get(levelHandler.getGameState());
+        gameController.update();
+
+        if(levelHandler.getGameState() == GameState.PLAYING){
+            levelHandler.update();
+        }
     }
 
     private class TimerListener implements ActionListener {
