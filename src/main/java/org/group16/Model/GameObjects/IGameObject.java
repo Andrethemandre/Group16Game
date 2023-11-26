@@ -1,10 +1,9 @@
 package org.group16.Model.GameObjects;
 
-public interface IGameObject extends IPositionable {
-
-
+public interface IGameObject extends IPositionable, ICollidable {
     int getWidth();
+
     int getHeight();
+
     GameObjectType getType();
-    boolean collidesWith(IGameObject otherGameObject);
 }
