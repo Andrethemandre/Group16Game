@@ -6,11 +6,10 @@ import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Enemy.Enemy;
 
-public class freezePowerUp extends PowerUp {
+public class FreezePowerUp extends PowerUp {
 
-    public freezePowerUp(int x, int y, boolean moveable, Direction direction) {
-        super(x, y, moveable, direction,FREEZE____);
-        //TODO Auto-generated constructor stub
+    public FreezePowerUp(int x, int y, boolean moveable, Direction direction) {
+        super(x, y, moveable, direction, FREEZE____);
     }
 
     @Override

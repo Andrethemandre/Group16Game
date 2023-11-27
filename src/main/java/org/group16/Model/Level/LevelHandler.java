@@ -18,8 +18,8 @@ import org.group16.Model.GameObjects.Enemy.EnemyFactory;
 import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.GameObjects.PowerUp.PowerUp;
-import org.group16.Model.GameObjects.PowerUp.freezePowerUp;
-import org.group16.Model.GameObjects.PowerUp.spearPowerUp;
+import org.group16.Model.GameObjects.PowerUp.FreezePowerUp;
+import org.group16.Model.GameObjects.PowerUp.SpearPowerUp;
 import org.group16.Model.Observers.GameObserver;
 import org.group16.Model.GameObjects.Movable;
 
@@ -214,11 +214,11 @@ public class LevelHandler {
                     goalFlag = new Flag(j * 16, i * 16);
                     grid[j][i] = goalFlag;
                 }   else if (currentLevel.getLevelTile(i,j) == GameObjectType.SPEAR_____){
-                        PowerUp powerUp = new spearPowerUp(j*16,i*16,false, Direction.RIGHT);
+                        PowerUp powerUp = new SpearPowerUp(j*16,i*16,false, Direction.RIGHT);
                         this.powerUps.add(powerUp);
                 }
                     else if (currentLevel.getLevelTile(i,j) == GameObjectType.FREEZE____){
-                        PowerUp powerUp = new freezePowerUp(j*16,i*16,false, Direction.RIGHT);
+                        PowerUp powerUp = new FreezePowerUp(j*16,i*16,false, Direction.RIGHT);
                         this.powerUps.add(powerUp);
                 }
             }
@@ -371,13 +371,13 @@ public class LevelHandler {
     // is here because levelHandler has the power ups list that I need to change for things to be drawn
     public void usePowerUp() {
         if (player.getHasPowerUp() == GameObjectType.SPEAR_____){
-            PowerUp powerUp = new spearPowerUp(player.getX(), player.getY(), true, player.getDirection());
+            PowerUp powerUp = new SpearPowerUp(player.getX(), player.getY(), true, player.getDirection());
             powerUps.add(powerUp);
             player.setHasPowerUp(null);
         }
 
         else if (player.getHasPowerUp() == GameObjectType.FREEZE____){
-            PowerUp powerUp = new freezePowerUp(player.getX(), player.getY(), true, player.getDirection());
+            PowerUp powerUp = new FreezePowerUp(player.getX(), player.getY(), true, player.getDirection());
             powerUps.add(powerUp);
             player.setHasPowerUp(null);
         }

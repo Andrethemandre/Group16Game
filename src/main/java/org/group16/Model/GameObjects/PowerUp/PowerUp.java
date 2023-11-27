@@ -1,7 +1,5 @@
 package org.group16.Model.GameObjects.PowerUp;
 
-import static org.group16.Model.GameObjects.GameObjectType.POWERUP___;
-
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
@@ -22,8 +20,7 @@ public abstract class PowerUp implements IGameObject, Movable {
         this.direction = direction;
     }
 
-
-    public void update (){
+    public void update() {
         move();
     }
 
@@ -52,15 +49,15 @@ public abstract class PowerUp implements IGameObject, Movable {
         return innerGameObject.getHeight();
     }
 
-    public boolean getMovable(){
+    public boolean getMovable() {
         return Movable;
     }
 
-    public boolean getRemove(){
+    public boolean getRemove() {
         return this.remove;
     }
 
-    public void setRemove(boolean remove){
+    public void setRemove(boolean remove) {
         this.remove = remove;
     }
 
