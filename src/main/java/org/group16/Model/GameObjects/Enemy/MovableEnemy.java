@@ -6,6 +6,7 @@ import org.group16.Model.GameObjects.Movable;
 
 public abstract class MovableEnemy extends Enemy implements Movable {
     private int positionX = 1;
+    private int positionY = 1;
     private int movementSpeed;
 
     MovableEnemy(GameObjectType enemyType, int x, int y) {
@@ -16,24 +17,11 @@ public abstract class MovableEnemy extends Enemy implements Movable {
         this.movementSpeed = movementSpeed;
     }
 
-    public int getmovementSpeed(){
+    public int getMovementSpeed(){
         return movementSpeed;
     }
 
-    public void move(Direction direction){
-        setMovementSpeed(2);
-
-        switch (direction){
-            case LEFT:
-                setX(getX() - movementSpeed);
-                break;
-            case RIGHT:
-                setX(getX() + movementSpeed);
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid direction: " + direction);
-        }
-    }
+    public abstract void move();
 
     @Override
     public int getHealth() {
@@ -43,6 +31,7 @@ public abstract class MovableEnemy extends Enemy implements Movable {
 
     @Override
     public void setHealth(int newHealth) {
+
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setHealth'");
     }

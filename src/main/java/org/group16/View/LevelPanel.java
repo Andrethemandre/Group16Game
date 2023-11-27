@@ -34,13 +34,13 @@ public class LevelPanel extends GamePanel implements GameObserver{
         super(x, y);
         this.levelHandler = levelHandler;
         pauseButton = ViewUtility.createMenuButton("", new Dimension(40, 40));
-  
+
         try {
             redHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/red_heart.png"));
             grayHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/gray_heart.png"));
             levelClockImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/level_clock.png"));
             pauseImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/pause_menu_icon.png"));
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,10 +65,6 @@ public class LevelPanel extends GamePanel implements GameObserver{
         return levelHandler.getPlayer();
     }
 
-    public JButton getPauseButton(){
-        return pauseButton;
-    }
-
     /**
      * This method is called each time the panel updates/refreshes/repaints itself
      */
@@ -77,7 +73,7 @@ public class LevelPanel extends GamePanel implements GameObserver{
         super.paintComponent(g);
         int cellSize = 16; // hard coded
         //paintGridWithSize(g, cellSize);
-        
+
         Player currentPlayer = levelHandler.getPlayer();
 
         // GameObjects are painted
@@ -104,11 +100,11 @@ public class LevelPanel extends GamePanel implements GameObserver{
         int textWidth = fm.stringWidth(text);
         int formattedTextWidth = fm.stringWidth(formattedText);
         int formattedTextX = x + (textWidth - formattedTextWidth) / 2;
-    
+
         g.drawString(text, x, y);
         g.drawString(formattedText, formattedTextX, y + lineSpacing);
     }
-  
+
     private void paintHealthBar(Graphics g, int cellSize, Player currentPlayer) {
         int health = currentPlayer.getHealth();
         int startX = 0;
@@ -167,12 +163,12 @@ public class LevelPanel extends GamePanel implements GameObserver{
     
         String levelText = "Level: " + levelHandler.getCurrentLevelNumber();
         String formattedElapsedTimeText = formatTime(levelHandler.getElapsedTime());
-    
+
         drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX - 55, statsY, lineSpacing);
-    
-        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding - 55, padding+3, this);
+
+        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding - 55, padding + 3, this);
     }
-   
+
     private void paintGridWithSize(Graphics g, int cellSize) {
         g.setColor(Color.red);
         for (int i = 0; i <= levelHandler.getWidth(); i++) {
@@ -208,7 +204,14 @@ public class LevelPanel extends GamePanel implements GameObserver{
                 int nPoints = 3;
                 g.setColor(Color.darkGray);
                 g.fillPolygon(xPoints, yPoints, nPoints);
-            // Default colour and shape
+
+                // For flying enemies
+            } else if (enemy.getType() == GameObjectType.FLYING____) {
+                g.setColor(new Color(128, 0, 128)); // Purple
+                g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
+
+
+                // Default colour and shape
             } else {
                 g.setColor(Color.black);
                 g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
@@ -243,7 +246,7 @@ public class LevelPanel extends GamePanel implements GameObserver{
             g.fillRect(powerUpX, powerUpY, powerUp.getWidth(),powerUp.getHeight());
         }
     }
-    
+
     @Override
     public void updateObserver() {
         if(levelHandler.getGameState() == GameState.PLAYING){
@@ -253,5 +256,5 @@ public class LevelPanel extends GamePanel implements GameObserver{
             pauseButton.setCursor(Cursor.getDefaultCursor());
         }
     }
-    
+
 }
