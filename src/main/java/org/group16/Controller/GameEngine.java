@@ -29,14 +29,11 @@ public class GameEngine {
     public GameEngine(LevelHandler levelHandler, GameWindow mainWindow) {
         this.mainWindow = mainWindow;
         this.levelHandler = levelHandler;
-        // this.gameController = new StartPanelController(levelHandler, mainWindow.getMainScreen());
-
+ 
         // Initialize the controllers for each game state
-        controllers.put(GameState.START, new StartPanelController(levelHandler, mainWindow.getStartPanel()));
+        controllers.put(GameState.START, new StartController(levelHandler, mainWindow.getStartPanel()));
         controllers.put(GameState.PLAYING, new PlayerController(levelHandler, mainWindow.getLevelPanel(), mainWindow));
-        controllers.put(GameState.PAUSED, new PausePanelController(levelHandler, mainWindow.getPausePanel()));
-        
-        // Add more game states as needed
+        controllers.put(GameState.PAUSED, new PauseController(levelHandler, mainWindow.getPausePanel()));
 
         // Set gameController to the controller for the initial game state
         gameController = controllers.get(levelHandler.getGameState());
@@ -60,8 +57,6 @@ public class GameEngine {
         if(levelHandler.getGameState() == GameState.PLAYING){
             levelHandler.update();
         }
-
-        System.out.println(levelHandler.getGameState());
     }
 
     private class TimerListener implements ActionListener {

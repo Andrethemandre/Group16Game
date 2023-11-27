@@ -1,9 +1,7 @@
 package org.group16.View;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -34,7 +32,7 @@ public class StartPanel extends GamePanel {
         loadTitle(labelText,labelFont);
 
         Dimension buttonSize = new Dimension(200, 50); // Set the preferred width to 200 and the preferred height to 50
-        
+
         // Buttons in order of how they will appear in the menu
         JButton[] buttons = {
             playButton = ViewUtility.createMenuButton("Play", buttonSize),

@@ -21,7 +21,7 @@ public class PausePanel extends GamePanel {
     private JButton quitButton;
 
     public PausePanel(int x, int y) {
-        super(x, y); // Explicitly invoke the constructor of the superclass
+        super(x, y); 
         initComponents();
 
     }

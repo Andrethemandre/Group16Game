@@ -3,16 +3,14 @@ package org.group16.Controller;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import org.group16.Model.GameObjects.Direction;
-import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.View.PausePanel;
-import org.group16.View.StartPanel;
 
-public class PausePanelController extends GameController implements KeyListener{
+public class PauseController extends GameController implements KeyListener{
     private PausePanel pausePanel;
     private LevelHandler levelHandler;
-    public PausePanelController(LevelHandler levelHandler, PausePanel pausePanel) {
+
+    public PauseController(LevelHandler levelHandler, PausePanel pausePanel) {
         super(levelHandler, pausePanel);
 
         this.pausePanel = pausePanel;
@@ -24,16 +22,18 @@ public class PausePanelController extends GameController implements KeyListener{
         });
 
         pausePanel.getRestartButton().addActionListener(e -> {
+            System.out.println("restart button");
             levelHandler.restartGame();
         });
 
         pausePanel.getMainMenuButton().addActionListener(e -> {
+            System.out.println("main menu button");
             levelHandler.goToMainMenu();
         });
 
-        // pausePanel.getSettingsButton().addActionListener(e -> {
-        //     levelHandler.goToSettings();
-        // });
+        pausePanel.getSettingsButton().addActionListener(e -> {
+            System.out.println("settings button");
+        });
 
         pausePanel.getQuitButton().addActionListener(e -> {
             System.out.println("quit button");
@@ -41,11 +41,9 @@ public class PausePanelController extends GameController implements KeyListener{
         });
     }
 
-    
     @Override
     protected void update() {
         // TODO Auto-generated method stub
-
     }
 
 
@@ -58,13 +56,6 @@ public class PausePanelController extends GameController implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // // TODO Auto-generated method stub
-        // System.out.println("pause panel");
-        // switch(e.getKeyCode()) {
-        //     case KeyEvent.VK_ESCAPE:
-        //         levelHandler.togglePause();
-        //         break;
-        // }
     }
 
 

@@ -37,21 +37,6 @@ public class LevelPanel extends GamePanel implements GameObserver{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // refactor this into a seperate layered panel class
-        // // Create the pause panel
-        // this.pausePanel = new PausePanel();
-        // pausePanel.setBounds(0, 0, x, y);
-        // pausePanel.setVisible(false);
-
-        // // Create the layered pane and add the game and pause panels to it
-        // this.layeredPane = new JLayeredPane();
-        // layeredPane.setPreferredSize(new Dimension(x, y));
-        // layeredPane.add(this, JLayeredPane.DEFAULT_LAYER);
-        // layeredPane.add(pausePanel, JLayeredPane.PALETTE_LAYER);
-
-        // // Set the layout manager and add the layered pane to this panel
-        // this.setLayout(new BorderLayout());
-        // this.add(layeredPane, BorderLayout.CENTER);
     }
 
     public Player getPlayer() {
@@ -79,11 +64,6 @@ public class LevelPanel extends GamePanel implements GameObserver{
         // Gameplay hud
         paintHealthBar(g, cellSize, currentPlayer);
         paintStats(g, currentPlayer);
-
-        // // Temporay Pause screen
-        // if(levelHandler.getPauseState() == GameState.PAUSED){
-        //     paintPaused(g);
-        // }
     }
 
     private void paintPaused(Graphics g) {

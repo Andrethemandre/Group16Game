@@ -17,7 +17,6 @@ import org.group16.Model.GameObjects.Enemy.EnemyFactory;
 import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Observers.GameObserver;
-import org.group16.Model.GameObjects.Movable;
 
 public class LevelHandler {
     private Player player;
@@ -39,7 +38,6 @@ public class LevelHandler {
     private int levelAttempts = 0;
     private static int SCORE_LIMIT = 9999;
     private GameState gameState;
-    // width and height depending on how big the level is
 
     public LevelHandler() {
         observers = new ArrayList<>();
