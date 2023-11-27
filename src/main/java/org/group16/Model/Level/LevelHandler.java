@@ -146,7 +146,7 @@ public class LevelHandler {
         }
     }
 
-    public void checkIfPowerUpsCollidesWithEnemies (){
+    public void checkIfPowerUpsCollidesWithEnteties (){
         for (PowerUp powerUp : powerUps){
             for (Enemy enemy : enemies){
                 if (powerUp.collidesWith(enemy)){
@@ -154,6 +154,15 @@ public class LevelHandler {
                 }
             }
         }
+
+        for (PowerUp powerUp : powerUps){
+            for (Block block : blocks){
+                if (powerUp.collidesWith(block)){
+                    powerUp.setRemove(true);
+                }
+            }
+        }
+
     }
 
     private void checkIfPlayerIsDead() {
@@ -238,7 +247,7 @@ public class LevelHandler {
         checkIfPlayerCollidesWithBlocks();
         checkIfPlayerCollidiesWithEnemies();
         checkIfPlayerCollidesWithPowerUp();
-        checkIfPowerUpsCollidesWithEnemies();
+        checkIfPowerUpsCollidesWithEnteties();
 
         updateProjectilePositions();
         removeDeadEntities();

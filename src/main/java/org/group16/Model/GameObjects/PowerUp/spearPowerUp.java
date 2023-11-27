@@ -18,7 +18,11 @@ public class SpearPowerUp extends PowerUp {
                 enemy.setIsDead(true);
                 this.setRemove(true);
                 break;
-        
+
+            case SPIKE_____:
+                this.setRemove(true);
+                break;
+
             default:
                 break;
         }

@@ -19,7 +19,13 @@ public class FreezePowerUp extends PowerUp {
                 enemy.setFrozen(true);
                 this.setRemove(true);
                 break;
-        
+            
+            case SPIKE_____:
+                enemy.setFrozen(true);
+                this.setRemove(true);
+                break;
+
+            
             default:
                 break;
         }
