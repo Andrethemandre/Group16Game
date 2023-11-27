@@ -145,7 +145,8 @@ public class LevelHandler {
     private void checkIfPlayerIsDead() {
         if (player.isDead()) {
             setLevel(currentLevelNumber);
-            // moveMovableBlocks();
+            setxandydirectionofmovableblocks(firstLevel.getMovableBlocks());
+
             this.levelAttempts++;
         }
     }
@@ -170,8 +171,8 @@ public class LevelHandler {
         enemies.clear();
         blocks.clear();
         powerUps.clear();
+        movableBlocks.clear();
         currentLevel = LevelFactory.createLevel(levelNumber);
-
         // GameStats
         currentLevelNumber = levelNumber;
         grid = new IGameObject[currentLevel.getWidth()][currentLevel.getHeight()];
