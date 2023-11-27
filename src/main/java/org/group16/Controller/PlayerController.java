@@ -41,20 +41,25 @@ public class PlayerController extends GameController implements KeyListener, Mou
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("Key pressed");
+
         switch(e.getKeyCode()) {
             // w for going up
-            case KeyEvent.VK_W:     
-                if (!wKeyHeldDown && !currentPlayer.isFalling()) {
+            case KeyEvent.VK_W:  
+                if(levelHandler.getGameState() == GameState.PLAYING){
+                    if (!wKeyHeldDown && !currentPlayer.isFalling()) {
                     currentPlayer.startJumping();
                     wKeyHeldDown = true;
-                }
+                    }
+                }   
+
                 
                 break;
 
             // a for going left
             case KeyEvent.VK_A:
-                currentPlayer.startMovingInDirection(Direction.LEFT);
+                if(levelHandler.getGameState() == GameState.PLAYING){
+                    currentPlayer.startMovingInDirection(Direction.LEFT);
+                }
                 break;
 
             // s for going down
@@ -63,18 +68,22 @@ public class PlayerController extends GameController implements KeyListener, Mou
 
             // d for going right
             case KeyEvent.VK_D:
-                currentPlayer.startMovingInDirection(Direction.RIGHT);
-                break; 
-            
+                if(levelHandler.getGameState() == GameState.PLAYING){
+                    currentPlayer.startMovingInDirection(Direction.RIGHT);
+                }
+                break;
             case KeyEvent.VK_ESCAPE:
-                if(levelHandler.getGameState() == GameState.PLAYING || levelHandler.getGameState() == GameState.PAUSED){          
+                currentPlayer.startMovingInDirection(Direction.NONE);
+                if(levelHandler.getGameState() == GameState.PLAYING || levelHandler.getGameState() == GameState.PAUSED){       
                     levelHandler.togglePause();
                 }
                 break;
             
             //k to use power upp
             case KeyEvent.VK_K:
-                levelHandler.usePowerUp();
+                if(levelHandler.getGameState() == GameState.PLAYING){
+                    levelHandler.usePowerUp();
+                }
                 break;
         }
     }

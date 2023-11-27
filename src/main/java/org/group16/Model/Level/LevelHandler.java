@@ -156,7 +156,27 @@ public class LevelHandler {
 
     public void startGame(){
         setLevel(1);
+
+        levelAttempts = 0;
+        score = 0;
+        levelStartTime = System.currentTimeMillis();
+
         setxandydirectionofmovableblocks(20, 0);
+    }
+
+    
+    public void restartGame() {
+        setLevel(currentLevelNumber);
+
+        levelAttempts = 0;
+        score = 0;
+        levelStartTime = System.currentTimeMillis();
+
+        setxandydirectionofmovableblocks(20, 0);
+
+        for (GameObserver o : observers) {
+            o.updateObserver();
+        }
     }
 
     private void setLevel(int levelNumber) {
@@ -282,7 +302,6 @@ public class LevelHandler {
     }
 
     public void togglePause() {
-        System.out.println("Toggling pause");
         GameState currentGameState = getGameState();
 
         if(currentGameState == GameState.PLAYING){
@@ -291,15 +310,6 @@ public class LevelHandler {
         else if(currentGameState == GameState.PAUSED) {
             setGameState(GameState.PLAYING);
         }
-
-        for (GameObserver o : observers) {
-            o.updateObserver();
-        }
-    }
-
-    public void restartGame() {
-        setLevel(currentLevelNumber);
-        setxandydirectionofmovableblocks(20, 0);
 
         for (GameObserver o : observers) {
             o.updateObserver();

@@ -49,18 +49,9 @@ public class GameEngine {
 
     // update stuff
     public void update() {
- 
         if(levelHandler.getPauseState() == GameState.PAUSED){
             return;
         }
-        
-        // // for when controller is switched
-        // if(levelHandler.getGameState() == GameState.START && gameController != null){
-        //     gameController = new StartPanelController(levelHandler, mainWindow.getMainScreen());
-        // }
-        // else if(levelHandler.getGameState() == GameState.PLAYING && gameController != null){
-        //     gameController = new PlayerController(levelHandler, mainWindow.getMainScreen());
-        // }
 
         // Set gameController to the controller for the current game state
         gameController = controllers.get(levelHandler.getGameState());
