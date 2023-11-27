@@ -9,10 +9,7 @@ import java.util.Map;
 
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.Level.LevelHandler;
-import org.group16.View.GamePanel;
 import org.group16.View.GameWindow;
-import org.group16.View.LevelPanel;
-import org.group16.View.StartPanel;
 
 public class GameEngine {
     private GameWindow mainWindow;
@@ -48,7 +45,7 @@ public class GameEngine {
     public void update() {
         if(levelHandler.getPauseState() == GameState.PAUSED){
             return;
-        }
+        } 
 
         // Set gameController to the controller for the current game state
         gameController = controllers.get(levelHandler.getGameState());

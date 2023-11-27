@@ -39,6 +39,9 @@ public class LevelHandler {
     private static int SCORE_LIMIT = 9999;
     private GameState gameState;
 
+    private long pauseStartTime = 0;
+    private long totalPauseTime = 0;
+
     public LevelHandler() {
         observers = new ArrayList<>();
         gameState = GameState.START;
@@ -71,7 +74,7 @@ public class LevelHandler {
         int pointsPerSecond = 100; // Number of points per second
 
         // Calculate the number of seconds that have passed
-        int secondsPassed = (int) ((System.currentTimeMillis() - levelStartTime) / 1000);
+        int secondsPassed = (int) ((System.currentTimeMillis() - levelStartTime - totalPauseTime) / 1000);
 
         // Add points for each second that has passed
         int timeBonus = secondsPassed * pointsPerSecond;
@@ -158,8 +161,6 @@ public class LevelHandler {
         levelAttempts = 0;
         score = 0;
         levelStartTime = System.currentTimeMillis();
-
-        setxandydirectionofmovableblocks(20, 0);
     }
 
     
@@ -169,8 +170,6 @@ public class LevelHandler {
         levelAttempts = 0;
         score = 0;
         levelStartTime = System.currentTimeMillis();
-
-        setxandydirectionofmovableblocks(20, 0);
 
         for (GameObserver o : observers) {
             o.updateObserver();
@@ -193,7 +192,7 @@ public class LevelHandler {
         blocks.clear();
         powerUps.clear();
         currentLevel = LevelFactory.createLevel(levelNumber);
-
+ 
         // GameStats
         currentLevelNumber = levelNumber;
         grid = new IGameObject[currentLevel.getWidth()][currentLevel.getHeight()];
@@ -223,12 +222,15 @@ public class LevelHandler {
                 }
             }
         }
+
+        setxandydirectionofmovableblocks(20, 0);
     }
 
     public long getElapsedTime() {
-        return System.currentTimeMillis() - levelStartTime;
+        return System.currentTimeMillis() - levelStartTime - totalPauseTime;
     }
     public void update() {
+        System.out.println("update");
         moveMovableBlocks();
         player.update();
         checkIfPlayerAtFlag();
@@ -303,9 +305,11 @@ public class LevelHandler {
         GameState currentGameState = getGameState();
 
         if(currentGameState == GameState.PLAYING){
+            pauseStartTime = System.currentTimeMillis();
             setGameState(GameState.PAUSED);
         }
         else if(currentGameState == GameState.PAUSED) {
+            totalPauseTime += System.currentTimeMillis() - pauseStartTime;
             setGameState(GameState.PLAYING);
         }
 
