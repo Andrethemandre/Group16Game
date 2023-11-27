@@ -225,8 +225,8 @@ public class FirstLevel extends Level implements LevelWithMovableBlocks {
         // Set specific values for the first few movable blocks
 
         if (!movableBlocks.isEmpty()) {
-            movableBlocks.get(0).setdirection(0, 20);
-            movableBlocks.get(1).setdirection(10, 0);
+            movableBlocks.get(0).setdirection(0, 80);
+            movableBlocks.get(1).setdirection(20, 0);
             movableBlocks.get(2).setdirection(10, 1);
 
             // Set (0, 0) if you forgot to set the direction for some of the movable blocks
