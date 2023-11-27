@@ -38,7 +38,7 @@ public class FlyingEnemy extends MovableEnemy implements AffectedByGravity {
 
         else if(patrolDirection == Direction.LEFT) {
             setX(getX() - getMovementSpeed());
-            setY(getY() + getMovementSpeed());
+            setY(getY() - getMovementSpeed());
             traveledDistance += getMovementSpeed();
             if (traveledDistance >= patrolDistance) {
                 patrolDirection = Direction.RIGHT;
