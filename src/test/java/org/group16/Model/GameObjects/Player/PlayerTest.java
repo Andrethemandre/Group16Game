@@ -58,8 +58,7 @@ public class PlayerTest {
         player.jump();
         player.startMovingInDirection(Direction.RIGHT);
         levelHandler.update();
-        assertTrue(player.getX() > startX);
-        assertTrue(player.getY() < startY);
+        assertTrue(player.getX() > startX && player.getY() < startY);
     }
     @Test
     void testPlayerCantMoveOutOfBoundsToTheLeft() {
