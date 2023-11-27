@@ -238,7 +238,7 @@ public class LevelHandler {
         return System.currentTimeMillis() - levelStartTime;
     }
     public void update() {
-        
+
         moveMovableBlocks();
         player.update();
 
@@ -312,19 +312,19 @@ public class LevelHandler {
         }
     }
 
-    public void addObserver(GameObserver observer){
+    public void addObserver(GameObserver observer) {
         observers.add(observer);
     }
 
-    public void addEnemy(Enemy enemy){
+    public void addEnemy(Enemy enemy) {
         this.enemies.add(enemy);
     }
 
-    public void removeEnemy (Enemy enemy){
+    public void removeEnemy(Enemy enemy) {
         this.enemies.remove(enemy);
     }
 
-    public void addBlock(Block block){
+    public void addBlock(Block block) {
         this.blocks.add(block);
     }
 
