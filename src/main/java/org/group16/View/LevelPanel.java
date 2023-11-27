@@ -1,5 +1,8 @@
 package org.group16.View;
 
+import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
+import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,11 +13,11 @@ import javax.imageio.ImageIO;
 
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
-import org.group16.Model.GameObjects.PowerUp;
 import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
+import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.Level.LevelHandler;
 
 public class LevelPanel extends GamePanel{
@@ -215,7 +218,12 @@ public class LevelPanel extends GamePanel{
         for (PowerUp powerUp : currentPowerUps){
             int powerUpX = (int) powerUp.getX();
             int powerUpY = (int) powerUp.getY();
-            g.setColor(Color.yellow);
+            if (powerUp.getType() == SPEAR_____){
+                g.setColor(Color.yellow);
+            }
+            else if (powerUp.getType() == FREEZE____){
+                g.setColor(Color.CYAN);
+            }
             g.fillRect(powerUpX, powerUpY, powerUp.getWidth(),powerUp.getHeight());
         }
     }

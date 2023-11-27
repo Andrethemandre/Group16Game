@@ -1,12 +1,12 @@
 package org.group16.Model.Level;
 
+import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Arrays;
 
 import org.group16.Model.GameObjects.IGameObject;
-import org.group16.Model.GameObjects.PowerUp;
-import org.group16.Model.GameObjects.Spear_Power;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
@@ -17,6 +17,9 @@ import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Enemy.EnemyFactory;
 import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
+import org.group16.Model.GameObjects.PowerUp.PowerUp;
+import org.group16.Model.GameObjects.PowerUp.freezePowerUp;
+import org.group16.Model.GameObjects.PowerUp.spearPowerUp;
 import org.group16.Model.Observers.GameObserver;
 import org.group16.Model.GameObjects.Movable;
 
@@ -211,7 +214,11 @@ public class LevelHandler {
                     goalFlag = new Flag(j * 16, i * 16);
                     grid[j][i] = goalFlag;
                 }   else if (currentLevel.getLevelTile(i,j) == GameObjectType.SPEAR_____){
-                        PowerUp powerUp = new Spear_Power(j*16,i*16,false, Direction.RIGHT);
+                        PowerUp powerUp = new spearPowerUp(j*16,i*16,false, Direction.RIGHT);
+                        this.powerUps.add(powerUp);
+                }
+                    else if (currentLevel.getLevelTile(i,j) == GameObjectType.FREEZE____){
+                        PowerUp powerUp = new freezePowerUp(j*16,i*16,false, Direction.RIGHT);
                         this.powerUps.add(powerUp);
                 }
             }
@@ -254,6 +261,7 @@ public class LevelHandler {
     private void removeDeadEntities(){
         removeDeadEnemy();
         removeUsedPowerups();
+        freezeFrozenEnemy();
     }
 
     private void removeDeadEnemy(){
@@ -277,6 +285,20 @@ public class LevelHandler {
         }
         if (powerUpToRemove != null){
             powerUps.remove(powerUpToRemove);
+        }
+    }
+
+    private void freezeFrozenEnemy (){
+        Enemy enemyToRemove = null;
+        for (Enemy enemy : enemies){
+            if (enemy.getFrozen()){
+                enemyToRemove = enemy;
+            }
+        }
+        if (enemyToRemove != null){
+            Block frozenEnemy = BlockFactory.createBlockAt(STATIONARY,enemyToRemove.getX(),enemyToRemove.getY());
+            addBlock(frozenEnemy);
+            enemies.remove(enemyToRemove);
         }
     }
 
@@ -349,7 +371,13 @@ public class LevelHandler {
     // is here because levelHandler has the power ups list that I need to change for things to be drawn
     public void usePowerUp() {
         if (player.getHasPowerUp() == GameObjectType.SPEAR_____){
-            PowerUp powerUp = new Spear_Power(player.getX(), player.getY(), true, player.getDirection());
+            PowerUp powerUp = new spearPowerUp(player.getX(), player.getY(), true, player.getDirection());
+            powerUps.add(powerUp);
+            player.setHasPowerUp(null);
+        }
+
+        else if (player.getHasPowerUp() == GameObjectType.FREEZE____){
+            PowerUp powerUp = new freezePowerUp(player.getX(), player.getY(), true, player.getDirection());
             powerUps.add(powerUp);
             player.setHasPowerUp(null);
         }

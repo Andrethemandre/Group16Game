@@ -1,7 +1,12 @@
-package org.group16.Model.GameObjects;
+package org.group16.Model.GameObjects.PowerUp;
 
 import static org.group16.Model.GameObjects.GameObjectType.POWERUP___;
 
+import org.group16.Model.GameObjects.Direction;
+import org.group16.Model.GameObjects.GameObject;
+import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.GameObjects.IGameObject;
+import org.group16.Model.GameObjects.Movable;
 import org.group16.Model.GameObjects.Enemy.Enemy;
 
 public abstract class PowerUp implements IGameObject, Movable {

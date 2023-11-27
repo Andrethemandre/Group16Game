@@ -11,4 +11,5 @@ public enum GameObjectType {
     AIR_______,
     POWERUP___,
     SPEAR_____,
+    FREEZE____,
 }
