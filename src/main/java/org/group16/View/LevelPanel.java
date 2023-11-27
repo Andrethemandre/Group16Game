@@ -80,10 +80,10 @@ public class LevelPanel extends GamePanel implements GameObserver{
         paintHealthBar(g, cellSize, currentPlayer);
         paintStats(g, currentPlayer);
 
-        // Temporay Pause screen
-        if(levelHandler.getPauseState() == GameState.PAUSED){
-            paintPaused(g);
-        }
+        // // Temporay Pause screen
+        // if(levelHandler.getPauseState() == GameState.PAUSED){
+        //     paintPaused(g);
+        // }
     }
 
     private void paintPaused(Graphics g) {

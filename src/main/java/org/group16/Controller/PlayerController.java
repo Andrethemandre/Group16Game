@@ -76,7 +76,7 @@ public class PlayerController extends GameController implements KeyListener, Mou
             case KeyEvent.VK_K:
                 levelHandler.usePowerUp();
                 break;
-            }
+        }
     }
     
 

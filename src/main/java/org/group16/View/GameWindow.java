@@ -73,6 +73,10 @@ public class GameWindow extends JFrame implements GameObserver{
         return startPanel;
     }
 
+    public PausePanel getPausePanel(){
+        return pausePanel;
+    }
+
     public LevelPanel getLevelPanel(){
         return levelPanel;
     }

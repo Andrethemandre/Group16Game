@@ -8,6 +8,7 @@ import org.group16.Model.GameObjects.Player.Player;
 public class StartPanel extends GamePanel {
     private JButton playButton;
     private JButton quitButton;
+    
     public StartPanel(int x, int y) {
         super(x, y);
         loadButtons();
