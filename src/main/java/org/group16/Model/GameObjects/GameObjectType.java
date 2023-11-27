@@ -4,6 +4,7 @@ package org.group16.Model.GameObjects;
 public enum GameObjectType {
     BASIC_____,
     SPIKE_____,
+    FLYING____,
     STATIONARY,
     MOVABLE___,
     PLAYER____,

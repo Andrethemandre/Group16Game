@@ -23,12 +23,13 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
 
     public void dealDamage(Player player) {
         player.updateHealth(damage);
-
     }
+
     @Override
     public boolean collidesWith(IGameObject otherGameObject) {
         return innerGameObject.collidesWith(otherGameObject);
     }
+
     @Override
     public int getX() {
         return innerGameObject.getX();
@@ -43,7 +44,8 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
         innerGameObject.setX(x);
     }
 
-    private void setY(int y) {
+    void setY(int y) {
+
         innerGameObject.setY(y);
     }
 

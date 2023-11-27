@@ -53,7 +53,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         super.paintComponent(g);
         int cellSize = 16; // hard coded
         //paintGridWithSize(g, cellSize);
-        
+
         Player currentPlayer = levelHandler.getPlayer();
 
         // GameObjects are painted
@@ -68,7 +68,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         paintStats(g, currentPlayer);
 
         // Temporay Pause screen
-        if(levelHandler.getPauseState() == GameState.PAUSED){
+        if (levelHandler.getPauseState() == GameState.PAUSED) {
             paintPaused(g);
         }
     }
@@ -85,11 +85,11 @@ public class LevelPanel extends GamePanel implements GameObserver {
         int textWidth = fm.stringWidth(text);
         int formattedTextWidth = fm.stringWidth(formattedText);
         int formattedTextX = x + (textWidth - formattedTextWidth) / 2;
-    
+
         g.drawString(text, x, y);
         g.drawString(formattedText, formattedTextX, y + lineSpacing);
     }
-  
+
     private void paintHealthBar(Graphics g, int cellSize, Player currentPlayer) {
         int health = currentPlayer.getHealth();
         int startX = 0;
@@ -116,44 +116,44 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 12));
         FontMetrics fm = g.getFontMetrics();
-    
-        int padding = 10; 
+
+        int padding = 10;
         int lineSpacing = 15; // Space between lines of text
-    
+
         int attemptsX = 175;
         int statsY = 20 + fm.getAscent(); // fm.getAscent() is needed to align the text properly
-    
+
         String attemptsText = "Attempts";
         String formattedAttempts = String.format("%04d", levelHandler.getCurrentAttempts());
-    
+
         drawTwoStringSCentered(g, attemptsText, formattedAttempts, attemptsX, statsY, lineSpacing);
 
         // Position the score text after the attempts text
-        int scoreX = attemptsX + fm.stringWidth(attemptsText) + padding; 
-    
+        int scoreX = attemptsX + fm.stringWidth(attemptsText) + padding;
+
         String scoreText = "Score";
         String formattedScore = "";
-        
+
         // The amount of decimals reduce if score is negative
         if (levelHandler.getScore() < 0) {
-            formattedScore = String.format("%05d",levelHandler.getScore());
+            formattedScore = String.format("%05d", levelHandler.getScore());
         } else {
             formattedScore = String.format("%04d", levelHandler.getScore());
         }
-    
+
         drawTwoStringSCentered(g, scoreText, formattedScore, scoreX, statsY, lineSpacing);
 
         // Position the level text next to the right edge of the panel
-        int levelX = getWidth() - fm.stringWidth("Level: " + levelHandler.getCurrentLevelNumber()) - padding - 60; 
-    
+        int levelX = getWidth() - fm.stringWidth("Level: " + levelHandler.getCurrentLevelNumber()) - padding - 60;
+
         String levelText = "Level: " + levelHandler.getCurrentLevelNumber();
         String formattedElapsedTimeText = formatTime(levelHandler.getElapsedTime());
-    
+
         drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX, statsY, lineSpacing);
-    
-        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding, padding+3, this);
+
+        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding, padding + 3, this);
     }
-   
+
     private void paintGridWithSize(Graphics g, int cellSize) {
         g.setColor(Color.red);
         for (int i = 0; i <= levelHandler.getWidth(); i++) {
@@ -182,14 +182,21 @@ public class LevelPanel extends GamePanel implements GameObserver {
             if (enemy.getType() == GameObjectType.BASIC_____) {
                 g.setColor(Color.red);
                 g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
-            // For spike
+                // For spike
             } else if (enemy.getType() == GameObjectType.SPIKE_____) {
                 int[] xPoints = {enemyX, enemyX + (enemyWidth / 2), enemyX + enemyWidth};
                 int[] yPoints = {enemyY + enemyHeight, enemyY, enemyY + enemyHeight};
                 int nPoints = 3;
                 g.setColor(Color.darkGray);
                 g.fillPolygon(xPoints, yPoints, nPoints);
-            // Default colour and shape
+
+                // For flying enemies
+            } else if (enemy.getType() == GameObjectType.FLYING____) {
+                g.setColor(new Color(128, 0, 128)); // Purple
+                g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
+
+
+                // Default colour and shape
             } else {
                 g.setColor(Color.black);
                 g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
@@ -215,13 +222,13 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.fillRect(flagX, flagY, flag.getWidth(), flag.getHeight());
     }
 
-    private void paintPowerups(Graphics g){
+    private void paintPowerups(Graphics g) {
         Collection<PowerUp> currentPowerUps = levelHandler.getPowerUps();
-        for (PowerUp powerUp : currentPowerUps){
+        for (PowerUp powerUp : currentPowerUps) {
             int powerUpX = (int) powerUp.getX();
             int powerUpY = (int) powerUp.getY();
             g.setColor(Color.yellow);
-            g.fillRect(powerUpX, powerUpY, powerUp.getWidth(),powerUp.getHeight());
+            g.fillRect(powerUpX, powerUpY, powerUp.getWidth(), powerUp.getHeight());
         }
     }
 
