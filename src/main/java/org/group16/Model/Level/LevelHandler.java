@@ -106,20 +106,19 @@ public class LevelHandler {
     }
 
     // collision checkers
-    public void checkIfPlayerAtFlag(){
+    private void checkIfPlayerAtFlag() {
         if(player.collidesWith(goalFlag)){
             setLevel(2);
         }
     }
 
-    public void checkIfPlayerCollidesWithBlocks(){
+    private void checkIfPlayerCollidesWithBlocks() {
         for (Block block : blocks){
             player.collision(block);
         }
     }
 
-    public void checkIfPlayerCollidiesWithEnemies() {
-
+    private void checkIfPlayerCollidesWithEnemies() {
         for (Enemy enemy : enemies) {
             if (player.collidesWith(enemy)) {
                 enemy.dealDamage(player);
@@ -127,26 +126,25 @@ public class LevelHandler {
         }
     }
 
-    public void checkIfPlayerCollidesWithPowerUp(){
-        PowerUp powerUptoremove = null;
+    private void checkIfPlayerCollidesWithPowerUp() {
+        PowerUp powerUpToRemove = null;
         if (powerUps!= null){
-            if (player.getHasPowerUp() == null){
-                for (PowerUp powerUp : powerUps){
-                    if(player.collidesWith(powerUp)){
-                        System.out.println("touched power");
-                        if (!powerUp.getMovable()){
-                        powerUptoremove = powerUp;
-                        player.setHasPowerUp(powerUp.getType());
+            if (player.getHasPowerUp() == null) {
+                for (PowerUp powerUp : powerUps) {
+                    if (player.collidesWith(powerUp)) {
+                        if (!powerUp.getMovable()) {
+                            powerUpToRemove = powerUp;
+                            player.setHasPowerUp(powerUp.getType());
                         }
                     }
                 }
-                powerUps.remove(powerUptoremove);
+                powerUps.remove(powerUpToRemove);
 
             }
         }
     }
 
-    public void checkIfPowerUpsCollidesWithEnteties (){
+    private void checkIfPowerUpsCollidesWithEnemies() {
         for (PowerUp powerUp : powerUps){
             for (Enemy enemy : enemies){
                 if (powerUp.collidesWith(enemy)){
@@ -154,7 +152,9 @@ public class LevelHandler {
                 }
             }
         }
+    }
 
+    private void checkIfPowerUpsCollidesWithBlocks() {
         for (PowerUp powerUp : powerUps){
             for (Block block : blocks){
                 if (powerUp.collidesWith(block)){
@@ -238,16 +238,17 @@ public class LevelHandler {
         return System.currentTimeMillis() - levelStartTime;
     }
     public void update() {
-        //setLevel(1);
-      
+        
         moveMovableBlocks();
         player.update();
 
         checkIfPlayerAtFlag();
         checkIfPlayerCollidesWithBlocks();
-        checkIfPlayerCollidiesWithEnemies();
+        checkIfPlayerCollidesWithEnemies();
         checkIfPlayerCollidesWithPowerUp();
-        checkIfPowerUpsCollidesWithEnteties();
+
+        checkIfPowerUpsCollidesWithEnemies();
+        checkIfPowerUpsCollidesWithBlocks();
 
         updateProjectilePositions();
         removeDeadEntities();
