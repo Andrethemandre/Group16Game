@@ -37,7 +37,6 @@ public class LevelAndPauseLayer extends JLayeredPane implements GameObserver{
     }
     @Override
     public void updateObserver() {
-
         if(levelHandler.getGameState() == GameState.PAUSED){
             pausePanel.setVisible(true);
         } else {

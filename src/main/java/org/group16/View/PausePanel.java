@@ -19,6 +19,7 @@ public class PausePanel extends GamePanel {
     private JButton mainMenuButton;
     private JButton settingsButton;
     private JButton quitButton;
+    private JPanel verticalButtonPanel;
 
     public PausePanel(int x, int y) {
         super(x, y); 
@@ -26,12 +27,14 @@ public class PausePanel extends GamePanel {
 
     }
     private void initComponents(){
-        this.setBackground(Color.GRAY);
-        this.setLayout(new BorderLayout()); 
+        setBackground(Color.GRAY);
+        setLayout(new BorderLayout()); 
+
         String labelText = "Paused";
         Font labelFont = new Font("Arial", Font.BOLD, 30);
 
-        loadTitle(labelText,labelFont);
+        pauseLabel = ViewUtility.createCenteredMenuTitle(labelText, labelFont,25,0,0,0);
+        add(pauseLabel, BorderLayout.NORTH);
 
         Dimension buttonSize = new Dimension(200, 50); // Set the preferred width to 200 and the preferred height to 50
 
@@ -44,29 +47,10 @@ public class PausePanel extends GamePanel {
             quitButton= ViewUtility.createMenuButton("Quit to desktop", buttonSize)
         };
 
-
-        loadButtons(buttons);
-    }
-
-    private void loadTitle(String labelText, Font labelFont) {
-        pauseLabel = new JLabel(labelText, JLabel.CENTER);
-        pauseLabel.setFont(labelFont);
-        pauseLabel.setBorder(BorderFactory.createEmptyBorder(25, 0, 0, 0)); // Add padding to pauseLabel
-        this.add(pauseLabel, BorderLayout.NORTH);
-    }
-
-    private void loadButtons(JButton[] buttons) {     
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        buttonPanel.add(Box.createVerticalGlue());
-        
-        for (JButton button : buttons) {
-            ViewUtility.addCenteredToButtonPanel(buttonPanel, button, 0, 10);
-        }
-
-        buttonPanel.add(Box.createVerticalGlue());
-        buttonPanel.setBackground(Color.GRAY);
-        add(buttonPanel, BorderLayout.CENTER);
+        verticalButtonPanel = ViewUtility.createVerticalButtonPanel();
+        ViewUtility.addCenteredButtonsToPanel(buttons, verticalButtonPanel);
+        verticalButtonPanel.setBackground(Color.GRAY);
+        add(verticalButtonPanel, BorderLayout.CENTER);
     }
 
     public JButton getResumeButton() {

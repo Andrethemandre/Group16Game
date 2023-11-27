@@ -16,7 +16,7 @@ public class StartPanel extends GamePanel {
     private JButton loadGameButton;
     private JButton settingsButton;
     private JButton quitButton;
-    private JPanel buttonPanel;
+    private JPanel verticalButtonPanel;
 
     public StartPanel(int x, int y) {
         super(x, y);
@@ -28,8 +28,8 @@ public class StartPanel extends GamePanel {
 
         String labelText = "Game Title";
         Font labelFont = new Font("Arial", Font.BOLD, 30);
-
-        loadTitle(labelText,labelFont);
+        gameTitleLabel = ViewUtility.createCenteredMenuTitle(labelText, labelFont,25,0,0,0);
+        add(gameTitleLabel, BorderLayout.NORTH);
 
         Dimension buttonSize = new Dimension(200, 50); // Set the preferred width to 200 and the preferred height to 50
 
@@ -41,27 +41,9 @@ public class StartPanel extends GamePanel {
             quitButton= ViewUtility.createMenuButton("Quit", buttonSize)
         };
 
-        loadButtons(buttons);
-    }
-
-    private void loadTitle(String labelText, Font labelFont) {
-        gameTitleLabel = new JLabel(labelText, JLabel.CENTER);
-        gameTitleLabel.setFont(labelFont);
-        gameTitleLabel.setBorder(BorderFactory.createEmptyBorder(25, 0, 0, 0)); // Add padding to pauseLabel
-        this.add(gameTitleLabel, BorderLayout.NORTH);
-    }
-
-    private void loadButtons(JButton[] buttons) {
-        buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        buttonPanel.add(Box.createVerticalGlue());
-        
-        for (JButton button : buttons) {
-            ViewUtility.addCenteredToButtonPanel(buttonPanel, button,0,10);
-        }
-        
-        buttonPanel.add(Box.createVerticalGlue());
-        add(buttonPanel, BorderLayout.CENTER);
+        verticalButtonPanel = ViewUtility.createVerticalButtonPanel();
+        ViewUtility.addCenteredButtonsToPanel(buttons, verticalButtonPanel);
+        add(verticalButtonPanel, BorderLayout.CENTER);
     }
 
     public JButton getPlayButton() {
