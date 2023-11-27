@@ -21,11 +21,13 @@ import org.group16.Model.Observers.GameObserver;
 import org.group16.Model.GameObjects.Movable;
 
 public class LevelHandler {
+    private List<MovableBlock> movableBlocks; // Add this member variable
+
     private Player player;
     private Flag goalFlag;
     private Collection<Enemy> enemies;
     private Collection<Block> blocks;
-    private MovableBlock movableBlock;
+    // private MovableBlock movableBlock;
     private Collection<PowerUp> powerUps;
     private boolean playerIsAtFlag;
     private IGameObject[][] grid;
@@ -41,16 +43,15 @@ public class LevelHandler {
     private int levelAttempts = 0;
     private static int SCORE_LIMIT = 9999;
     private GameState gameState;
+    FirstLevel firstLevel = new FirstLevel();
     // width and height depending on how big the level is
 
     public LevelHandler() {
+        movableBlocks = new ArrayList<>();
         observers = new ArrayList<>();
         gameState = GameState.START;
         setLevel(1);
-
-        // directions of blocks on level 1
-
-        // Schedule the movable blocks movement at fixed intervals
+        setxandydirectionofmovableblocks(firstLevel.getMovableBlocks());
     }
 
     public GameState getGameState() {
@@ -185,6 +186,9 @@ public class LevelHandler {
                     Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j * 16, i * 16);
                     addBlock(newBlock);
                     grid[j][i] = newBlock;
+                    if (newBlock instanceof MovableBlock) {
+                        movableBlocks.add((MovableBlock) newBlock);
+                    }
 
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.PLAYER____) {
                     // The grid uses /16 of the actual size
@@ -207,10 +211,7 @@ public class LevelHandler {
     }
 
     public void update() {
-        // Update the current level if it supports movable blocks
-        if (currentLevel instanceof LevelWithMovableBlocks) {
-            ((LevelWithMovableBlocks) currentLevel).moveMovableBlocks();
-        }
+        moveMovableBlocks();
         player.update();
         checkIfPlayerAtFlag();
         checkIfPlayerCollidesWithBlocks();
@@ -299,6 +300,25 @@ public class LevelHandler {
             PowerUp powerUp = new PowerUp(player.getX(), player.getY(), true, player.getDirection());
             powerUps.add(powerUp);
             player.setHasPowerUp(false);
+        }
+    }
+
+    public void moveMovableBlocks() {
+        for (Block block : blocks) {
+            if (block instanceof MovableBlock) {
+                ((MovableBlock) block).move();
+                System.out.println("LevelHandler: moveMovableBlocks: " + block.getX() + ", " + block.getY());
+            }
+        }
+
+    }
+
+    public void setxandydirectionofmovableblocks(List<MovableBlock> settings) {
+        for (int i = 0; i < Math.min(movableBlocks.size(), settings.size()); i++) {
+            MovableBlock movableBlock = movableBlocks.get(i);
+            MovableBlock settingBlock = settings.get(i);
+            System.out.println(settingBlock.getHorizontalMovement() + " " + settingBlock.getVerticalMovement());
+            movableBlock.setdirection(settingBlock.getHorizontalMovement(), settingBlock.getVerticalMovement());
         }
     }
 
