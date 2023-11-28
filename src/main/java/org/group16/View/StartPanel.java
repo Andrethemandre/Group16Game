@@ -3,9 +3,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,7 +32,7 @@ public class StartPanel extends GamePanel {
 
         // Buttons in order of how they will appear in the menu
         JButton[] buttons = {
-            playButton = ViewUtility.createMenuButton("Play", buttonSize),
+            playButton = ViewUtility.createMenuButton("New Game", buttonSize),
             loadGameButton = ViewUtility.createMenuButton("Load Game", buttonSize),
             settingsButton = ViewUtility.createMenuButton("Settings", buttonSize),
             quitButton= ViewUtility.createMenuButton("Quit", buttonSize)
