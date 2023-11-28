@@ -11,6 +11,8 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
     GameObject innerGameObject;
 
     private int damage = 1;
+    private boolean isDead;
+    private boolean frozen = false;
 
     Enemy(GameObjectType enemyType, int x, int y) {
         innerGameObject = new GameObject(enemyType, x, y, 16, 16);
@@ -57,9 +59,25 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
         return innerGameObject.getHeight();
     }
 
+    public void setIsDead(boolean isDead){
+        this.isDead = isDead;
+    }
+
+    public boolean isDead(){
+        return isDead;
+    }
+
+    public void setFrozen(boolean frozen){
+        this.frozen = frozen;
+    }
+
+    public boolean getFrozen(){
+        return this.frozen;
+    }
+
+
     public abstract void setHealth(int newHealth);
 
-    public abstract boolean isDead();
 
     public abstract void update();
 }

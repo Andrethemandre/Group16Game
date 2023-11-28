@@ -1,13 +1,18 @@
 package org.group16.View;
 
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 
+import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.Level.FirstLevel;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
@@ -25,17 +30,36 @@ public class GameWindow extends JFrame implements GameObserver{
     private static final int Y = 480 + WINDOW_OFFSET_Y;
 
     // mainScreen that changes depending on type of panel (for now it is just a screen of a level)
-    private GamePanel mainScreen;
+    private CardLayout mainScreen;
     private LevelHandler levelHandler;
+    private StartPanel startPanel;
+    private LevelPanel levelPanel;
+
+
+    private PausePanel pausePanel;
+    private LevelAndPauseLayer levelAndPauseLayer;
+
+    private JPanel cards;
 
     public GameWindow(String windowName, LevelHandler levelHandler){
         this.levelHandler = levelHandler;
-        this.mainScreen = new LevelPanel(X, Y, levelHandler);
-        initComponents(windowName);
-    }
+        this.startPanel = new StartPanel(X, Y);
 
-    public GamePanel getMainScreen(){
-        return mainScreen;
+
+        this.levelPanel = new LevelPanel(X, Y, levelHandler);
+        this.pausePanel = new PausePanel(X,Y);
+        this.levelAndPauseLayer = new LevelAndPauseLayer(X, Y, levelPanel, pausePanel, levelHandler);
+        this.levelHandler.addObserver(levelAndPauseLayer);
+
+
+        this.mainScreen = new CardLayout();
+        this.cards = new JPanel(mainScreen);
+
+        cards.add(startPanel, "START");
+        cards.add(levelAndPauseLayer, "PLAYING");
+        initComponents(windowName);
+        levelAndPauseLayer.setBounds(getBounds());
+        this.requestFocusInWindow();
     }
 
     // Sets everything in place and fits everything
@@ -44,8 +68,13 @@ public class GameWindow extends JFrame implements GameObserver{
         this.setPreferredSize(new Dimension(X,Y));
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         this.setVisible(true);
-        this.add(mainScreen);
-        mainScreen.setPreferredSize(getPreferredSize());
+        this.add(cards);
+        this.setFocusable(true);
+
+
+        levelPanel.setPreferredSize(getPreferredSize());
+        startPanel.setPreferredSize(getPreferredSize());
+
 
         // Make the frame pack all it's components by respecting the sizes if possible.
         this.pack();
@@ -60,9 +89,33 @@ public class GameWindow extends JFrame implements GameObserver{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public StartPanel getStartPanel(){
+        return startPanel;
+    }
+
+    public PausePanel getPausePanel(){
+        return pausePanel;
+    }
+
+    public LevelPanel getLevelPanel(){
+        return levelPanel;
+    }
+
+    public CardLayout getMainScreen(){
+         return mainScreen;
+    }
 
     @Override
     public void updateObserver() {
+
+        if(levelHandler.getGameState() == GameState.START){
+            mainScreen.show(cards, "START");
+        } 
+        else if(levelHandler.getGameState() == GameState.PLAYING){
+            mainScreen.show(cards, "PLAYING");
+
+        }
+
         repaint();
     }
 
