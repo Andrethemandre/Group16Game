@@ -76,11 +76,15 @@ public abstract class PowerUp implements IGameObject, Movable, CanDie {
     @Override
     public void move() {
         if (movable){
-            if (direction == Direction.LEFT){
-                innerGameObject.setX(getX() - speed);
-            }
-            else {
-                innerGameObject.setX(getX() + speed);
+            switch (direction) {
+                case LEFT:
+                    innerGameObject.setX(getX() - speed);
+                    break;
+                case RIGHT:
+                    innerGameObject.setX(getX() + speed);
+                    break;
+                default:
+                    break;
             }
         }
     }
