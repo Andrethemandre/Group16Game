@@ -14,7 +14,7 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     private int xAcceleration;
     private double previousTime = 0;
     private double currentTime = 6;
-    private GameObjectType hasPowerUp = null;
+    private GameObjectType hasPowerUp = GameObjectType.NOTHING___;
     private Direction lastDirection = Direction.RIGHT;
 
     private boolean falling = false;

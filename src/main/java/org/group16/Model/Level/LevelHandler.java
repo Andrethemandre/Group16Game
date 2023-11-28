@@ -1,5 +1,6 @@
 package org.group16.Model.Level;
 
+import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 
 import java.util.ArrayList;
@@ -129,7 +130,7 @@ public class LevelHandler {
     private void checkIfPlayerCollidesWithPowerUp() {
         PowerUp powerUpToRemove = null;
         if (powerUps!= null){
-            if (player.getHasPowerUp() == null) {
+            if (player.getHasPowerUp() == GameObjectType.NOTHING___) {
                 for (PowerUp powerUp : powerUps) {
                     if (player.collidesWith(powerUp)) {
                         if (!powerUp.getMovable()) {
@@ -270,7 +271,7 @@ public class LevelHandler {
 
     private void removeDeadEntities(){
         removeDeadEnemy();
-        removeUsedPowerups();
+        removeUsedPowerUps();
         freezeFrozenEnemy();
     }
 
@@ -286,7 +287,7 @@ public class LevelHandler {
         }
     }
 
-    private void removeUsedPowerups(){
+    private void removeUsedPowerUps(){
         PowerUp powerUpToRemove = null;
         for (PowerUp powerUp : powerUps){
             if (powerUp.isDead()){
@@ -380,16 +381,20 @@ public class LevelHandler {
 
     // is here because levelHandler has the power ups list that I need to change for things to be drawn
     public void usePowerUp() {
-        if (player.getHasPowerUp() == GameObjectType.SPEAR_____){
-            PowerUp powerUp = new SpearPowerUp(player.getX(), player.getY(), true, player.getDirection());
-            powerUps.add(powerUp);
-            player.setHasPowerUp(null);
-        }
-
-        else if (player.getHasPowerUp() == GameObjectType.FREEZE____){
-            PowerUp powerUp = new FreezePowerUp(player.getX(), player.getY(), true, player.getDirection());
-            powerUps.add(powerUp);
-            player.setHasPowerUp(null);
+        PowerUp powerUp;
+        switch (player.getHasPowerUp()) {
+            case SPEAR_____:
+                powerUp = new SpearPowerUp(player.getX(), player.getY(), true, player.getDirection());
+                powerUps.add(powerUp);
+                player.setHasPowerUp(GameObjectType.NOTHING___);
+                break;
+            case FREEZE____:
+                powerUp = new FreezePowerUp(player.getX(), player.getY(), true, player.getDirection());
+                powerUps.add(powerUp);
+                player.setHasPowerUp(GameObjectType.NOTHING___);
+                break;
+            default:
+                break;
         }
     }
 
@@ -408,7 +413,5 @@ public class LevelHandler {
                 ((MovableBlock) block).setverticalMovement(y);
             }
         }
-    }
-
-    
+    }   
 }
