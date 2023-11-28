@@ -92,25 +92,16 @@ public class LevelPanel extends GamePanel implements GameObserver{
         random = new Random();
         flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
 
-       Thread colorChangeThread = new Thread(new Runnable() {
-           @Override
-           public void run() {
-               while (true) {
-                   try {
-                       Thread.sleep(1000);
-                   } catch (InterruptedException e) {
-                       e.printStackTrace();
-                   }
-                   flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
-                   repaint();
-               }
-           }
-       });
-       colorChangeThread.start();
+
     }
 
     public Player getPlayer() {
         return levelHandler.getPlayer();
+    }
+
+
+    public JButton getPauseButton(){
+        return pauseButton;
     }
 
     /**
