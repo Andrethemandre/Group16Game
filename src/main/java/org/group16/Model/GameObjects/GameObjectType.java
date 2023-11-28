@@ -5,6 +5,7 @@ public enum GameObjectType {
     BASIC_____,
     SPIKE_____,
     FLYING____,
+    TELEPORT__,
     STATIONARY,
     MOVABLE___,
     PLAYER____,

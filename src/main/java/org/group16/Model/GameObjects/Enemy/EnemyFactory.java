@@ -11,7 +11,9 @@ public class EnemyFactory {
             case SPIKE_____:
                 return new Spike(x, y);
             case FLYING____:
-                return new FlyingEnemy(x, y, Direction.LEFT,128,true);
+                return new FlyingEnemy(x, y, Direction.LEFT,120008,true);
+            case TELEPORT__:
+                return new TeleportRushEnemy(x, y,100,100);
             default:
                 throw new IllegalArgumentException("Enemy type is not supported");
         }

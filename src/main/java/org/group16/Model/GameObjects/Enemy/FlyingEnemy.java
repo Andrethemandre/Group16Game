@@ -25,7 +25,10 @@ public class FlyingEnemy extends MovableEnemy implements AffectedByGravity {
         setMovementSpeed(1);
         this.diagonalPattern = diagonalPattern;
 
+
     }
+
+
 
     //        timeCounter++;
 //        if(timeCounter < 1.2){
@@ -74,7 +77,7 @@ public class FlyingEnemy extends MovableEnemy implements AffectedByGravity {
         }
     }
 
-    private void toggleDirection() {
+    public void toggleDirection() {
         patrolDirection = patrolDirection == Direction.RIGHT ? Direction.LEFT : Direction.RIGHT;
     }
 

@@ -1,10 +1,12 @@
 package org.group16.View;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -29,6 +31,9 @@ public class LevelPanel extends GamePanel implements GameObserver{
     private BufferedImage levelClockImage;
     private BufferedImage pauseImage;
     private JButton pauseButton;
+
+    private Color flyingEnemyColor;
+    private Random random;
 
     public LevelPanel(int x, int y, LevelHandler levelHandler) {
         super(x, y);
@@ -59,6 +64,26 @@ public class LevelPanel extends GamePanel implements GameObserver{
         int buttonHeight = 40;
 
         pauseButton.setBounds(getWidth() - buttonWidth - 20, 13, buttonWidth, buttonHeight);
+
+
+        random = new Random();
+        flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+
+       Thread colorChangeThread = new Thread(new Runnable() {
+           @Override
+           public void run() {
+               while (true) {
+                   try {
+                       Thread.sleep(1000);
+                   } catch (InterruptedException e) {
+                       e.printStackTrace();
+                   }
+                   flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+                   repaint();
+               }
+           }
+       });
+       colorChangeThread.start();
     }
 
     public Player getPlayer() {
@@ -131,42 +156,42 @@ public class LevelPanel extends GamePanel implements GameObserver{
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 12));
         FontMetrics fm = g.getFontMetrics();
-    
-        int padding = 10; 
+
+        int padding = 10;
         int lineSpacing = 15; // Space between lines of text
-    
+
         int attemptsX = 175;
         int statsY = 20 + fm.getAscent(); // fm.getAscent() is needed to align the text properly
-    
+
         String attemptsText = "Attempts";
         String formattedAttempts = String.format("%04d", levelHandler.getCurrentAttempts());
-    
+
         drawTwoStringSCentered(g, attemptsText, formattedAttempts, attemptsX, statsY, lineSpacing);
 
         // Position the score text after the attempts text
-        int scoreX = attemptsX + fm.stringWidth(attemptsText) + padding; 
-    
+        int scoreX = attemptsX + fm.stringWidth(attemptsText) + padding;
+
         String scoreText = "Score";
         String formattedScore = "";
-        
+
         // The amount of decimals reduce if score is negative
         if (levelHandler.getScore() < 0) {
-            formattedScore = String.format("%05d",levelHandler.getScore());
+            formattedScore = String.format("%05d", levelHandler.getScore());
         } else {
             formattedScore = String.format("%04d", levelHandler.getScore());
         }
-    
+
         drawTwoStringSCentered(g, scoreText, formattedScore, scoreX, statsY, lineSpacing);
 
         // Position the level text next to the right edge of the panel
-        int levelX = getWidth() - fm.stringWidth("Level: " + levelHandler.getCurrentLevelNumber()) - padding - 60; 
-    
+        int levelX = getWidth() - fm.stringWidth("Level: " + levelHandler.getCurrentLevelNumber()) - padding - 60;
+
         String levelText = "Level: " + levelHandler.getCurrentLevelNumber();
         String formattedElapsedTimeText = formatTime(levelHandler.getElapsedTime());
 
-        drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX - 55, statsY, lineSpacing);
+        drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX, statsY, lineSpacing);
 
-        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding - 55, padding + 3, this);
+        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding, padding + 3, this);
     }
 
     private void paintGridWithSize(Graphics g, int cellSize) {
@@ -197,7 +222,7 @@ public class LevelPanel extends GamePanel implements GameObserver{
             if (enemy.getType() == GameObjectType.BASIC_____) {
                 g.setColor(Color.red);
                 g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
-            // For spike
+                // For spike
             } else if (enemy.getType() == GameObjectType.SPIKE_____) {
                 int[] xPoints = {enemyX, enemyX + (enemyWidth / 2), enemyX + enemyWidth};
                 int[] yPoints = {enemyY + enemyHeight, enemyY, enemyY + enemyHeight};
@@ -207,12 +232,19 @@ public class LevelPanel extends GamePanel implements GameObserver{
 
                 // For flying enemies
             } else if (enemy.getType() == GameObjectType.FLYING____) {
-                g.setColor(new Color(128, 0, 128)); // Purple
+                g.setColor(flyingEnemyColor); // Purple
+                g.fillOval(enemyX, enemyY, enemy.getWidth() , enemy.getHeight());
+
+
+
+            } else if (enemy.getType() == GameObjectType.TELEPORT__){
+                g.setColor(Color.black);
                 g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
 
+            }
 
-                // Default colour and shape
-            } else {
+            // Default colour and shape
+            else {
                 g.setColor(Color.black);
                 g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
             }
