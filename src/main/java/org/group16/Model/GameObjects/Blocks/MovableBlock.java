@@ -5,113 +5,135 @@ import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 
 import org.group16.Model.GameObjects.Movable;
-import java.io.*;
-import java.lang.Thread;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.awt.event.ActionListener;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class MovableBlock extends Block implements Movable {
     public int blockspeed = 0; // speed of the block
-    public int horisontalMovement = 0;
-    public int verticalMovement = 0;
-    private final int xstartlocation = getX();
-    private final int ystartlocation = getY();
-    private GameObject innerGameObject;
-    private int helpx = 0;
-    private int helpy = 0;
-    private Boolean hasitgonemaxdistanceposx = false;
-    private Boolean hasitgonemaxdistancenegx = false;
-    private Boolean hasitgonemaxdistanceposy = false;
-    private Boolean hasitgonemaxdistancenegy = false;
-
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    public int horizontalMovement = 0; // how far the block can move(+-) in the x direction from its starting position
+    public int verticalMovement = 0; // how far the block can move (+-) in the y direction from its starting position
+    private int currentHorizontalMovement = 0; // how far the block has moved (+-) in the x direction from its starting
+                                               // position
+    private int currentVerticalMovement = 0; // how far the block has moved (+-) in the y direction from its starting
+                                             // position
+    private Boolean hasReachedMaxDistancePosX = false;
+    private Boolean hasReachedMaxDistanceNegX = false;
+    private Boolean hasReachedMaxDistancePosY = false;
+    private Boolean hasReachedMaxDistanceNegY = false;
+    public int horizontaldirection = 0;
+    public int verticaldirection = 0;
 
     public void setblockspeed(int blockspeed) {
         this.blockspeed = blockspeed;
     }
 
-    public void sethorisontalMovement(int horisontalMovement) {
-        this.horisontalMovement = horisontalMovement;
-    }
-
-    public void setverticalMovement(int verticalMovement) {
+    public void setdirection(int horizontalMovement, int verticalMovement) {
+        this.horizontalMovement = horizontalMovement;
         this.verticalMovement = verticalMovement;
     }
 
-    MovableBlock(int x, int y) {
+    public int getHorizontalMovement() {
+
+        return horizontalMovement;
+    }
+
+    public int getVerticalMovement() {
+        return verticalMovement;
+    }
+
+    public MovableBlock(int x, int y) {
         super(GameObjectType.MOVABLE___, x, y);
 
     }
 
-    // Method to move the block
     public void move() {
+        moveInXDirection();
+        moveInYDirection();
 
-        // Move in the x-direction
-        if (helpx > 0) {
-            if (hasitgonemaxdistanceposx == false) {
-                // Move right
-                setX(getX() + 1);
-                helpx++;
-                hasitgonemaxdistancenegx = false;
+    }
+
+    private void moveInXDirection() {
+        System.out.println(horizontalMovement);
+        System.out.println(currentHorizontalMovement);
+        if (currentHorizontalMovement > 0 && horizontalMovement != 0) {
+            if (!hasReachedMaxDistancePosX) {
+                incrementX();
+                currentHorizontalMovement++;
+                hasReachedMaxDistanceNegX = false;
             }
 
-            if (helpx == horisontalMovement || hasitgonemaxdistanceposx == true) {
-                hasitgonemaxdistanceposx = true;
-                setX(getX() - 1);
-                helpx--;
-
+            if (currentHorizontalMovement >= horizontalMovement || hasReachedMaxDistancePosX) {
+                hasReachedMaxDistancePosX = true;
+                decrementX();
+                currentHorizontalMovement--;
+                if (currentHorizontalMovement == 0) {
+                    hasReachedMaxDistancePosX = false;
+                }
             }
-        } else {
-            // Move left
-            if (hasitgonemaxdistancenegx == false && horisontalMovement != 0) {
-                setX(getX() - 1);
-                helpx--;
-                hasitgonemaxdistanceposx = false;
-
+        } else if (horizontalMovement != 0 && currentHorizontalMovement <= 0) {
+            if (!hasReachedMaxDistanceNegX) {
+                decrementX();
+                currentHorizontalMovement--;
+                hasReachedMaxDistancePosX = false;
             }
 
-            if (helpx == -horisontalMovement && horisontalMovement != 0 || hasitgonemaxdistancenegx == true) {
-                hasitgonemaxdistancenegx = true;
-                setX(getX() + 1);
-                helpx++;
+            if (currentHorizontalMovement <= -horizontalMovement || hasReachedMaxDistanceNegX) {
+                hasReachedMaxDistanceNegX = true;
+                incrementX();
+                currentHorizontalMovement++;
+                if (currentHorizontalMovement == 0) {
+                    hasReachedMaxDistanceNegX = false;
+                }
             }
         }
+    }
 
-        // Move in the y-direction
-        if (helpy > 0) {
-            // Move up starting from 1
-            if (hasitgonemaxdistanceposy == false) {
-                setY(getY() + 1);
-                helpy++;
-                hasitgonemaxdistancenegy = false;
+    private void moveInYDirection() {
+        if (currentVerticalMovement > 0 && verticalMovement != 0) {
+            if (!hasReachedMaxDistancePosY) {
+                incrementY();
+                currentVerticalMovement++;
+                hasReachedMaxDistanceNegY = false;
             }
-            // Move down starting from yDirection
-            if (helpy == verticalMovement || hasitgonemaxdistanceposy == true) {
-                hasitgonemaxdistanceposy = true;
-                setY(getY() - 1);
-                helpy--;
-            }
-        } else {
 
-            // Move down starting from 0
-            if (hasitgonemaxdistancenegy == false && verticalMovement != 0) {
-                setY(getY() - 1);
-                helpy--;
-                hasitgonemaxdistanceposy = false;
+            if (currentVerticalMovement == verticalMovement || hasReachedMaxDistancePosY) {
+                hasReachedMaxDistancePosY = true;
+                decrementY();
+                currentVerticalMovement--;
+                if (currentVerticalMovement == 0) {
+                    hasReachedMaxDistancePosY = false;
+                }
             }
-            // Move up starting from -yDirection
-            if (helpy == -verticalMovement && verticalMovement != 0 || hasitgonemaxdistancenegy == true) {
-                hasitgonemaxdistancenegy = true;
-                setY(getY() + 1);
-                helpy++;
+        } else if (verticalMovement != 0 && currentVerticalMovement <= 0) {
+            if (!hasReachedMaxDistanceNegY) {
+                decrementY();
+                currentVerticalMovement--;
+                hasReachedMaxDistancePosY = false;
+            }
+
+            if (currentVerticalMovement == -verticalMovement || hasReachedMaxDistanceNegY) {
+                hasReachedMaxDistanceNegY = true;
+                incrementY();
+                currentVerticalMovement++;
+                if (currentVerticalMovement == 0) {
+                    hasReachedMaxDistanceNegY = false;
+                }
             }
         }
+    }
+
+    private void incrementX() {
+        setX(getX() + 1);
+    }
+
+    private void decrementX() {
+        setX(getX() - 1);
+    }
+
+    private void incrementY() {
+        setY(getY() + 1);
+    }
+
+    private void decrementY() {
+        setY(getY() - 1);
     }
 
     @Override
@@ -141,5 +163,69 @@ public class MovableBlock extends Block implements Movable {
 
     public void setY(int y) {
         super.setY(y);
+    }
+
+    public int isitgoingposornegh() {
+        if (currentHorizontalMovement > 0) {
+            if (!hasReachedMaxDistancePosX) {
+                horizontaldirection = 1;
+
+            }
+
+            if (currentHorizontalMovement == horizontalMovement || hasReachedMaxDistancePosX) {
+                horizontaldirection = -1;
+
+            }
+        }
+        if (getHorizontalMovement() == 0) {
+            horizontaldirection = 0;
+
+        }
+
+        else {
+            if (!hasReachedMaxDistanceNegX && horizontalMovement != 0) {
+                horizontaldirection = -1;
+
+            }
+
+            if (currentHorizontalMovement == -horizontalMovement && horizontalMovement != 0
+                    || hasReachedMaxDistanceNegX) {
+                horizontaldirection = 1;
+
+            }
+        }
+        return horizontaldirection;
+    }
+
+    public int isitgoingposornegv() {
+        if (currentVerticalMovement > 0) {
+            if (!hasReachedMaxDistancePosY) {
+                verticaldirection = 1;
+
+            }
+
+            if (currentHorizontalMovement == horizontalMovement || hasReachedMaxDistancePosY) {
+                verticaldirection = -1;
+
+            }
+        }
+        if (getHorizontalMovement() == 0) {
+            verticaldirection = 0;
+
+        }
+
+        else {
+            if (!hasReachedMaxDistanceNegX && verticalMovement != 0) {
+                verticaldirection = -1;
+
+            }
+
+            if (currentVerticalMovement == -verticalMovement && verticalMovement != 0
+                    || hasReachedMaxDistanceNegY) {
+                verticaldirection = 1;
+
+            }
+        }
+        return verticaldirection;
     }
 }

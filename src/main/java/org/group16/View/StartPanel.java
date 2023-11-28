@@ -58,4 +58,6 @@ public class StartPanel extends GamePanel {
     public JButton getQuitButton() {
         return quitButton;
     }
+
 }
+

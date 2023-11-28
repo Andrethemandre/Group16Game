@@ -70,10 +70,6 @@ public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
         super.setX(x);
     }
 
-    @Override
-    public boolean isDead() {
-        return false;
-    }
 
     @Override
     public void updateHealth(int damage) {
