@@ -302,17 +302,13 @@ public class LevelHandler {
         }
     }
 
-    private void freezeFrozenEnemy (){
-        Enemy enemyToRemove = null;
+    private void freezeFrozenEnemy() {
         for (Enemy enemy : enemies){
             if (enemy.getFrozen()){
-                enemyToRemove = enemy;
+                Block frozenEnemy = BlockFactory.createBlockAt(STATIONARY, enemy.getX(), enemy.getY());
+                addBlock(frozenEnemy);
+                enemy.setIsDead(true);
             }
-        }
-        if (enemyToRemove != null){
-            Block frozenEnemy = BlockFactory.createBlockAt(STATIONARY,enemyToRemove.getX(),enemyToRemove.getY());
-            addBlock(frozenEnemy);
-            enemies.remove(enemyToRemove);
         }
     }
 
