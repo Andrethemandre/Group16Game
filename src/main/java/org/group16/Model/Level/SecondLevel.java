@@ -17,7 +17,7 @@ import static org.group16.Model.GameObjects.GameObjectType.POWERUP___;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 
 
-public class SecondLevel extends Level {
+public class SecondLevel extends Level implements LevelWithMovableBlocks {
 
     //matrix 45X30 to represent level 2  
     private static GameObjectType[][] level2 = {{AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,},

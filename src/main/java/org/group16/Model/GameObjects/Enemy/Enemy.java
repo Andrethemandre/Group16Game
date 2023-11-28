@@ -53,7 +53,6 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
     }
 
     void setY(int y) {
-
         innerGameObject.setY(y);
     }
 
@@ -66,8 +65,6 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
     public int getHeight() {
         return innerGameObject.getHeight();
     }
-
-
 
     public void setIsDead(boolean isDead){
         this.isDead = isDead;
@@ -85,10 +82,8 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
         return this.frozen;
     }
 
-
-
     public abstract void setHealth(int newHealth);
 
-
     public abstract void update();
+
 }

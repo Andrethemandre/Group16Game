@@ -39,17 +39,13 @@ public class TeleportRushEnemy extends MovableEnemy implements AffectedByGravity
     }
 
     @Override
-    public void update() {
-
-    }
+    public void update() {}
 
     @Override
-    public void move() {
-
-    }
+    public void move() {}
+    
 
     @Override
     public void updateHealth(int damage) {
-
     }
 }

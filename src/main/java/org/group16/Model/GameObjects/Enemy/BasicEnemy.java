@@ -11,19 +11,12 @@ public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
     private int patrolDistance;
     private int traveledDistance;
 
-
-
-
-
-
     BasicEnemy(int x, int y,int patrolDistance) {
         super(GameObjectType.BASIC_____, x, y);
         this.patrolDistance = patrolDistance;
         this.traveledDistance = 0;
         this.patrolDirection = Direction.RIGHT;
         setMovementSpeed(1);
-
-
     }
     
     @Override
@@ -46,14 +39,6 @@ public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
         }
 
     }
-
-
-
-
-
-
-
-
 
 
     public void update() {

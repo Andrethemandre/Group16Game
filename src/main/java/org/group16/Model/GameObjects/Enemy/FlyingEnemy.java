@@ -8,13 +8,9 @@ public class FlyingEnemy extends MovableEnemy implements AffectedByGravity {
     private Direction patrolDirection;
     private int patrolDistance;
     private int traveledDistance;
-    private double timeCounter = 0;
 
     private boolean diagonalPattern;
     private boolean diagonalUp;
-
-    private int maxHeight;
-
 
 
     public FlyingEnemy(int x, int y,Direction patrolDirection, int patrolDistance,boolean diagonalPattern){
@@ -27,14 +23,6 @@ public class FlyingEnemy extends MovableEnemy implements AffectedByGravity {
 
 
     }
-
-
-
-    //        timeCounter++;
-//        if(timeCounter < 1.2){
-//           return;
-//        }
-//        timeCounter = 0; // reset moveCounter
 
     @Override
     public void move() {
