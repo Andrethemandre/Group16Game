@@ -67,4 +67,32 @@ public class PlayerTest {
         levelHandler.update();
         assertTrue(player.getX() == startX);
     }
+    @Test
+    void testPlayerDirectionRight() {
+        player.startMovingInDirection(Direction.RIGHT);
+        player.update();
+        assertTrue(player.getDirection() == Direction.RIGHT);
+    }
+    @Test
+    void testPlayerDirectionLeft() {
+        player.startMovingInDirection(Direction.LEFT);
+        player.update();
+        assertTrue(player.getDirection() == Direction.LEFT);
+    }
+    @Test 
+    void testPlayerLastDirectionRight() {
+        player.startMovingInDirection(Direction.RIGHT);
+        player.update();
+        player.stopMovingInDirection(Direction.RIGHT);
+        player.update();
+        assertTrue(player.getDirection() == Direction.RIGHT);
+    }
+    @Test
+    void testPlayerLastDirectionLeft() {
+        player.startMovingInDirection(Direction.LEFT);
+        player.update();
+        player.stopMovingInDirection(Direction.LEFT);
+        player.update();
+        assertTrue(player.getDirection() == Direction.LEFT);
+    }
 }
