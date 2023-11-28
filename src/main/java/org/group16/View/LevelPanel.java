@@ -1,15 +1,16 @@
 package org.group16.View;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
+import javax.management.timer.TimerMBean;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import org.group16.Model.GameObjects.GameObjectType;
@@ -28,6 +29,9 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private BufferedImage grayHeartImage;
     private BufferedImage levelClockImage;
 
+    private Color flyingEnemyColor;
+    private Random random;
+
     public LevelPanel(int x, int y, LevelHandler levelHandler) {
         super(x, y);
         this.levelHandler = levelHandler;
@@ -39,6 +43,26 @@ public class LevelPanel extends GamePanel implements GameObserver {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+        random = new Random();
+        flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+
+       Thread colorChangeThread = new Thread(new Runnable() {
+           @Override
+           public void run() {
+               while (true) {
+                   try {
+                       Thread.sleep(1000);
+                   } catch (InterruptedException e) {
+                       e.printStackTrace();
+                   }
+                   flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+                   repaint();
+               }
+           }
+       });
+       colorChangeThread.start();
     }
 
     public Player getPlayer() {
@@ -192,12 +216,19 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
                 // For flying enemies
             } else if (enemy.getType() == GameObjectType.FLYING____) {
-                g.setColor(new Color(128, 0, 128)); // Purple
+                g.setColor(flyingEnemyColor); // Purple
+                g.fillOval(enemyX, enemyY, enemy.getWidth() , enemy.getHeight());
+
+
+
+            } else if (enemy.getType() == GameObjectType.TELEPORT__){
+                g.setColor(Color.black);
                 g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
 
+            }
 
-                // Default colour and shape
-            } else {
+            // Default colour and shape
+            else {
                 g.setColor(Color.black);
                 g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
             }

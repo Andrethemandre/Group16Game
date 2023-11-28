@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Arrays;
 
+import org.group16.Model.GameObjects.Enemy.FlyingEnemy;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.PowerUp;
 import org.group16.Model.GameObjects.Direction;
@@ -28,7 +29,7 @@ public class LevelHandler {
     private boolean playerIsAtFlag;
     private IGameObject[][] grid;
     private Collection<GameObjectType> acceptedEnemyTypes = Arrays
-            .asList(new GameObjectType[] { GameObjectType.BASIC_____, GameObjectType.SPIKE_____, GameObjectType.FLYING____ });
+            .asList(new GameObjectType[] { GameObjectType.BASIC_____, GameObjectType.SPIKE_____, GameObjectType.FLYING____,GameObjectType.TELEPORT__ });
     private Collection<GameObjectType> acceptedBlockTypes = Arrays
             .asList(new GameObjectType[] { GameObjectType.STATIONARY, GameObjectType.MOVABLE___ });
     private Collection<GameObserver> observers;
@@ -123,6 +124,18 @@ public class LevelHandler {
         }
     }
 
+    public void checkIfFlyingEnemyCollidesWithBlocks() {
+        for (Enemy enemy : enemies) {
+            if (enemy.getType() == GameObjectType.FLYING____) {
+                for (Block block : blocks) {
+                    if (enemy.collidesWith(block)) {
+                        ((FlyingEnemy) enemy).toggleDirection();
+                    }
+                }
+            }
+        }
+    }
+
     public void checkIfPlayerCollidesWithPowerUp(){
         PowerUp powerUptoremove = null;
         if (powerUps!= null){
@@ -211,8 +224,10 @@ public class LevelHandler {
         checkIfPlayerCollidesWithBlocks();
         checkIfPlayerCollidiesWithEnemies();
         checkIfPlayerCollidesWithPowerUp();
+        checkIfFlyingEnemyCollidesWithBlocks();
         updateProjectilePositions();
         updateEnemies();
+
 
         for (GameObserver o : observers) {
             o.updateObserver();
