@@ -28,7 +28,6 @@ public class Spike extends Enemy {
 
     @Override
     public boolean isDead() {
-        // Spike can't die
         return false;
     }
     

@@ -22,7 +22,7 @@ class EnemyDamageListener implements Health {
         return enemy.getHealth();
     }
 
-    public Boolean isDead() {
+    public boolean isDead() {
         return enemy.getHealth() == 0;
     }
 }

@@ -9,11 +9,19 @@ import org.group16.Model.Observers.Health;
 
 public abstract class Enemy implements IGameObject, Health /* implements Health */ {
     GameObject innerGameObject;
+    private int width;
+    private int height;
 
     private int damage = 1;
+    private boolean isDead;
+    private boolean frozen = false;
 
     Enemy(GameObjectType enemyType, int x, int y) {
         innerGameObject = new GameObject(enemyType, x, y, 16, 16);
+    }
+
+    Enemy(GameObjectType enemyType,int x,  int y, int width, int height){
+        innerGameObject = new GameObject(enemyType, x, y, width, height);
     }
 
     @Override
@@ -23,12 +31,13 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
 
     public void dealDamage(Player player) {
         player.updateHealth(damage);
-
     }
+
     @Override
     public boolean collidesWith(IGameObject otherGameObject) {
         return innerGameObject.collidesWith(otherGameObject);
     }
+
     @Override
     public int getX() {
         return innerGameObject.getX();
@@ -43,7 +52,8 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
         innerGameObject.setX(x);
     }
 
-    private void setY(int y) {
+    void setY(int y) {
+
         innerGameObject.setY(y);
     }
 
@@ -57,9 +67,28 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
         return innerGameObject.getHeight();
     }
 
+
+
+    public void setIsDead(boolean isDead){
+        this.isDead = isDead;
+    }
+
+    public boolean isDead(){
+        return isDead;
+    }
+
+    public void setFrozen(boolean frozen){
+        this.frozen = frozen;
+    }
+
+    public boolean getFrozen(){
+        return this.frozen;
+    }
+
+
+
     public abstract void setHealth(int newHealth);
 
-    public abstract boolean isDead();
 
     public abstract void update();
 }

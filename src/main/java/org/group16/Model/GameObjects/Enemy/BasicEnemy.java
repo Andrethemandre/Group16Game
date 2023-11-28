@@ -7,76 +7,72 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Player.Player;
 
 public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
-    private Direction patrolDirection   = Direction.RIGHT;
-    private int patrolBoundaryLeft;
-    private int patrolBoundaryRight;
+    private Direction patrolDirection;
+    private int patrolDistance;
+    private int traveledDistance;
 
-    private int stepsToMove = 20;
 
-    private int stepsMoved = 0;
 
-    BasicEnemy(int x, int y,int patrolBoundaryLeft,int patrolBoundaryRight) {
+
+
+
+    BasicEnemy(int x, int y,int patrolDistance) {
         super(GameObjectType.BASIC_____, x, y);
-        this.patrolBoundaryLeft = patrolBoundaryLeft;
-        this.patrolBoundaryRight = patrolBoundaryRight;
+        this.patrolDistance = patrolDistance;
+        this.traveledDistance = 0;
+        this.patrolDirection = Direction.RIGHT;
+        setMovementSpeed(1);
+
+
     }
     
     @Override
     public void move() {
-       if(stepsMoved <= stepsToMove){
-           move(patrolDirection);
-           stepsMoved++;
-       } else{
-            changeDirection();
-       }
-    }
-
-    private void changeDirection(){
-        if (patrolDirection == Direction.RIGHT){
-            patrolDirection = Direction.LEFT;
-        } else {
-            patrolDirection = Direction.RIGHT;
+        if(patrolDirection == Direction.RIGHT){
+            setX(getX() + getMovementSpeed());
+            traveledDistance += getMovementSpeed();
+            if(traveledDistance >= patrolDistance){
+                patrolDirection = Direction.LEFT;
+                traveledDistance = 0;
+            }
+        }
+        else if(patrolDirection == Direction.LEFT){
+            setX(getX() - getMovementSpeed());
+            traveledDistance += getMovementSpeed();
+            if(traveledDistance >= patrolDistance){
+                patrolDirection = Direction.RIGHT;
+                traveledDistance = 0;
+            }
         }
 
-        stepsMoved = 0;
     }
 
 
 
 
-    @Override
-    public void setHealth(int newHealth) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setHealth'");
-    }
 
-    @Override
-    public boolean isDead() {
-        return false;
-    }
 
-    @Override
-    public void updateHealth(int damage) {
 
-    }
 
-    @Override
-    public int getHealth() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getHealth'");
-    }
-    @Override
+
+
     public void update() {
         move();
     }
 
-    @Override
+
     public int getX() {
         return super.getX();
     }
 
-    @Override
+
     public void setX(int x) {
         super.setX(x);
+    }
+
+
+    @Override
+    public void updateHealth(int damage) {
+
     }
 }

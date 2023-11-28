@@ -49,4 +49,5 @@ public abstract class Block implements IGameObject {
     public void setY(int y) {
         this.innerGameObject.setY(y);
     }
+
 }
