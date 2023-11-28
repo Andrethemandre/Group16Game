@@ -4,10 +4,12 @@ import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -15,6 +17,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.management.timer.TimerMBean;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 
 import org.group16.Model.GameObjects.GameObjectType;
@@ -36,17 +41,20 @@ public class LevelPanel extends GamePanel implements GameObserver{
     private BufferedImage pauseImage;
     private JButton pauseButton;
 
+    private Color flyingEnemyColor;
+    private Random random;
+
     public LevelPanel(int x, int y, LevelHandler levelHandler) {
         super(x, y);
         this.levelHandler = levelHandler;
         pauseButton = ViewUtility.createMenuButton("", new Dimension(40, 40));
-  
+
         try {
             redHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/red_heart.png"));
             grayHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/gray_heart.png"));
             levelClockImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/level_clock.png"));
             pauseImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/pause_menu_icon.png"));
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,11 +73,38 @@ public class LevelPanel extends GamePanel implements GameObserver{
         int buttonHeight = 40;
 
         pauseButton.setBounds(getWidth() - buttonWidth - 20, 13, buttonWidth, buttonHeight);
+
+
+        random = new Random();
+        flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+
+       Thread colorChangeThread = new Thread(new Runnable() {
+           @Override
+           public void run() {
+               while (true) {
+                   try {
+                       Thread.sleep(1000);
+                   } catch (InterruptedException e) {
+                       e.printStackTrace();
+                   }
+                   flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+                   repaint();
+               }
+           }
+       });
+       colorChangeThread.start();
+
+
+        random = new Random();
+        flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+
+
     }
 
     public Player getPlayer() {
         return levelHandler.getPlayer();
     }
+
 
     public JButton getPauseButton(){
         return pauseButton;
@@ -83,7 +118,7 @@ public class LevelPanel extends GamePanel implements GameObserver{
         super.paintComponent(g);
         int cellSize = 16; // hard coded
         //paintGridWithSize(g, cellSize);
-        
+
         Player currentPlayer = levelHandler.getPlayer();
 
         // GameObjects are painted
@@ -96,6 +131,11 @@ public class LevelPanel extends GamePanel implements GameObserver{
         // Gameplay hud
         paintHealthBar(g, cellSize, currentPlayer);
         paintStats(g, currentPlayer);
+
+        // Temporay Pause screen
+        if (levelHandler.getPauseState() == GameState.PAUSED) {
+            paintPaused(g);
+        }
     }
 
     private void paintPaused(Graphics g) {
@@ -174,9 +214,9 @@ public class LevelPanel extends GamePanel implements GameObserver{
         String levelText = "Level: " + levelHandler.getCurrentLevelNumber();
         String formattedElapsedTimeText = formatTime(levelHandler.getElapsedTime());
     
-        drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX - 55, statsY, lineSpacing);
+        drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX, statsY, lineSpacing);
     
-        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding - 55, padding+3, this);
+        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding, padding+3, this);
     }
    
     private void paintGridWithSize(Graphics g, int cellSize) {
@@ -214,8 +254,22 @@ public class LevelPanel extends GamePanel implements GameObserver{
                 int nPoints = 3;
                 g.setColor(Color.darkGray);
                 g.fillPolygon(xPoints, yPoints, nPoints);
+
+                // For flying enemies
+            } else if (enemy.getType() == GameObjectType.FLYING____) {
+                g.setColor(flyingEnemyColor); // Purple
+                g.fillOval(enemyX, enemyY, enemy.getWidth() , enemy.getHeight());
+
+
+
+            } else if (enemy.getType() == GameObjectType.TELEPORT__){
+                g.setColor(Color.black);
+                g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
+
+            }
+
             // Default colour and shape
-            } else {
+            else {
                 g.setColor(Color.black);
                 g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
             }
@@ -240,11 +294,17 @@ public class LevelPanel extends GamePanel implements GameObserver{
         g.fillRect(flagX, flagY, flag.getWidth(), flag.getHeight());
     }
 
-    private void paintPowerups(Graphics g){
+    private void paintPowerups(Graphics g) {
         Collection<PowerUp> currentPowerUps = levelHandler.getPowerUps();
-        for (PowerUp powerUp : currentPowerUps){
+        for (PowerUp powerUp : currentPowerUps) {
             int powerUpX = (int) powerUp.getX();
             int powerUpY = (int) powerUp.getY();
+
+            g.setColor(Color.yellow);
+            g.fillRect(powerUpX, powerUpY, powerUp.getWidth(), powerUp.getHeight());
+        }
+    }
+
             if (powerUp.getType() == SPEAR_____){
                 g.setColor(Color.yellow);
             }
@@ -256,6 +316,7 @@ public class LevelPanel extends GamePanel implements GameObserver{
     }
 
     
+
     @Override
     public void updateObserver() {
         if(levelHandler.getGameState() == GameState.PLAYING){
@@ -265,5 +326,5 @@ public class LevelPanel extends GamePanel implements GameObserver{
             pauseButton.setCursor(Cursor.getDefaultCursor());
         }
     }
-    
+
 }
