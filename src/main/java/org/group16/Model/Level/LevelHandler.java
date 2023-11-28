@@ -277,7 +277,7 @@ public class LevelHandler {
     private void removeDeadEnemy(){
         Enemy enemyToRemove = null;
         for (Enemy enemy : enemies){
-            if (enemy.getIsDead()){
+            if (enemy.isDead()){
                 enemyToRemove = enemy;
             }
         }

@@ -59,12 +59,12 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
         return innerGameObject.getHeight();
     }
 
-    public void setIsDead(boolean isdead){
-        this.isDead = isdead;
+    public void setIsDead(boolean isDead){
+        this.isDead = isDead;
     }
 
-    public boolean getIsDead(){
-        return this.isDead;
+    public boolean isDead(){
+        return isDead;
     }
 
     public void setFrozen(boolean frozen){
