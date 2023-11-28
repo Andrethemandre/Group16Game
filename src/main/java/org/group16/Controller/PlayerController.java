@@ -1,5 +1,6 @@
 package org.group16.Controller;
 import java.awt.event.KeyListener;
+import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 
 import java.awt.event.MouseEvent;
@@ -31,7 +32,7 @@ public class PlayerController extends GameController implements KeyListener, Mou
 
         levelPanel.getPauseButton().addActionListener(e -> {
             currentPlayer.startMovingInDirection(Direction.NONE);
-            if(levelHandler.getGameState() == GameState.PLAYING){       
+            if(levelHandler.getGameState() == GameState.PLAYING){     
                 levelHandler.togglePause();
             }
             mainWindow.requestFocusInWindow();
@@ -51,8 +52,6 @@ public class PlayerController extends GameController implements KeyListener, Mou
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println(e.getKeyCode());
-
         switch(e.getKeyCode()) {
             // w for going up
             case KeyEvent.VK_W:  

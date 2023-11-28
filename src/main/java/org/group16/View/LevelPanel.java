@@ -246,6 +246,12 @@ public class LevelPanel extends GamePanel implements GameObserver{
     
     @Override
     public void updateObserver() {
+        if(levelHandler.getGameState() == GameState.PLAYING){
+            pauseButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        }
+        else{
+            pauseButton.setCursor(Cursor.getDefaultCursor());
+        }
     }
     
 }

@@ -44,6 +44,8 @@ public class LevelAndPauseLayer extends JLayeredPane implements GameObserver{
         } else {
             pausePanel.setVisible(false);
         }
+
+        levelPanel.updateObserver();
     }
     
 }
