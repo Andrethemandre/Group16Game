@@ -162,10 +162,19 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     // need to check if player is in the air to fall, so
     public void update() {
         move();
+        updateDirection();
         applyGravity();
         applyFriction();
         if (doJump) {
             jump();
+        }
+    }
+
+    private void updateDirection() {
+        if (moveLeft && !moveRight) {
+            lastDirection = Direction.LEFT;
+        } else if (moveRight && !moveLeft) {
+            lastDirection = Direction.RIGHT;
         }
     }
 
@@ -298,17 +307,7 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     }
 
     public Direction getDirection() {
-        if (moveLeft && !moveRight) {
-            lastDirection = Direction.LEFT;
-            return Direction.LEFT;
-
-        } else if (moveRight && !moveLeft) {
-            lastDirection = Direction.RIGHT;
-            return Direction.RIGHT;
-
-        } else {
-            return lastDirection;
-        }
+        return lastDirection;
     }
 
     private boolean isOnTopOf(MovableBlock movableBlock) {
