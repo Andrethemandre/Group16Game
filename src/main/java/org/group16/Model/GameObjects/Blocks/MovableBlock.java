@@ -51,8 +51,6 @@ public class MovableBlock extends Block implements Movable {
     }
 
     private void moveInXDirection() {
-        System.out.println(horizontalMovement);
-        System.out.println(currentHorizontalMovement);
         if (currentHorizontalMovement > 0 && horizontalMovement != 0) {
             if (!hasReachedMaxDistancePosX) {
                 incrementX();

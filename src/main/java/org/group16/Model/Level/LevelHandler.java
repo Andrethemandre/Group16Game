@@ -141,11 +141,12 @@ public class LevelHandler {
         }
     }
 
-    public void checkIfFlyingEnemyCollidesWithBlocks() {
+    private void checkIfFlyingEnemyCollidesWithBlocks() {
         for (Enemy enemy : enemies) {
             if (enemy.getType() == GameObjectType.FLYING____) {
                 for (Block block : blocks) {
                     if (enemy.collidesWith(block)) {
+                        System.out.println("collided");
                         ((FlyingEnemy) enemy).toggleDirection();
                     }
                 }
@@ -467,10 +468,8 @@ public class LevelHandler {
         for (Block block : blocks) {
             if (block instanceof MovableBlock) {
                 ((MovableBlock) block).move();
-                System.out.println("LevelHandler: moveMovableBlocks: " + block.getX() + ", " + block.getY());
             }
         }
-
     }
 
     public void setxandydirectionofmovableblocks(List<MovableBlock> settings) {

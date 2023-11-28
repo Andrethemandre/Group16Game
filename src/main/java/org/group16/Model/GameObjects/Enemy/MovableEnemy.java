@@ -40,4 +40,6 @@ public abstract class MovableEnemy extends Enemy implements Movable {
         throw new UnsupportedOperationException("Unimplemented method 'setHealth'");
     }
 
+    public abstract void toggleDirection();
+
 }

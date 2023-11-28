@@ -7,44 +7,42 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Player.Player;
 
 public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
-    private Direction patrolDirection;
+    private Direction horizontalDirection;
     private int patrolDistance;
     private int traveledDistance;
 
-    BasicEnemy(int x, int y,int patrolDistance) {
+    BasicEnemy(int x, int y,int horizontalDistance) {
         super(GameObjectType.BASIC_____, x, y);
-        this.patrolDistance = patrolDistance;
+        this.patrolDistance = horizontalDistance;
         this.traveledDistance = 0;
-        this.patrolDirection = Direction.RIGHT;
+        this.horizontalDirection = Direction.RIGHT;
         setMovementSpeed(1);
     }
     
     @Override
     public void move() {
-        if(patrolDirection == Direction.RIGHT){
+        if(horizontalDirection == Direction.RIGHT){
             setX(getX() + getMovementSpeed());
             traveledDistance += getMovementSpeed();
             if(traveledDistance >= patrolDistance){
-                patrolDirection = Direction.LEFT;
+                horizontalDirection = Direction.LEFT;
                 traveledDistance = 0;
             }
         }
-        else if(patrolDirection == Direction.LEFT){
+        else if(horizontalDirection == Direction.LEFT){
             setX(getX() - getMovementSpeed());
             traveledDistance += getMovementSpeed();
             if(traveledDistance >= patrolDistance){
-                patrolDirection = Direction.RIGHT;
+                horizontalDirection = Direction.RIGHT;
                 traveledDistance = 0;
             }
         }
 
     }
-
 
     public void update() {
         move();
     }
-
 
     public int getX() {
         return super.getX();
@@ -55,9 +53,14 @@ public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
         super.setX(x);
     }
 
-
     @Override
     public void updateHealth(int damage) {
 
+    }
+
+    @Override
+    public void toggleDirection() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toggleDirection'");
     }
 }
