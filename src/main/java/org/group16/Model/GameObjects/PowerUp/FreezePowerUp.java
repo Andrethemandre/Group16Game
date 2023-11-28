@@ -17,12 +17,12 @@ public class FreezePowerUp extends PowerUp {
         switch (enemy.getType()) {
             case BASIC_____:
                 enemy.setFrozen(true);
-                this.setRemove(true);
+                this.setIsDead(true);
                 break;
             
             case SPIKE_____:
                 enemy.setFrozen(true);
-                this.setRemove(true);
+                this.setIsDead(true);
                 break;
 
             

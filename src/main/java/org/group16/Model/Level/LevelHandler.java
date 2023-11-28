@@ -158,7 +158,7 @@ public class LevelHandler {
         for (PowerUp powerUp : powerUps){
             for (Block block : blocks){
                 if (powerUp.collidesWith(block)){
-                    powerUp.setRemove(true);
+                    powerUp.setIsDead(true);
                 }
             }
         }
@@ -289,7 +289,7 @@ public class LevelHandler {
     private void removeUsedPowerups(){
         PowerUp powerUpToRemove = null;
         for (PowerUp powerUp : powerUps){
-            if (powerUp.getRemove()){
+            if (powerUp.isDead()){
                 powerUpToRemove = powerUp;
             }
         }

@@ -6,13 +6,14 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Movable;
 import org.group16.Model.GameObjects.Enemy.Enemy;
+import org.group16.Model.Observers.CanDie;
 
-public abstract class PowerUp implements IGameObject, Movable {
+public abstract class PowerUp implements IGameObject, Movable, CanDie {
     private GameObject innerGameObject;
     private Boolean Movable;
     private int speed = 5;
     private Direction direction;
-    private boolean remove = false;
+    private boolean isDead = false;
 
      public PowerUp(int x, int y, boolean moveable, Direction direction, GameObjectType type) {
         innerGameObject = new GameObject(type, x, y, 16, 16);
@@ -53,12 +54,12 @@ public abstract class PowerUp implements IGameObject, Movable {
         return Movable;
     }
 
-    public boolean getRemove() {
-        return this.remove;
+    public boolean isDead() {
+        return isDead;
     }
 
-    public void setRemove(boolean remove) {
-        this.remove = remove;
+    public void setIsDead(boolean isDead) {
+        this.isDead = isDead;
     }
 
     @Override
