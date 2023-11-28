@@ -8,7 +8,11 @@ import org.group16.Model.GameObjects.Enemy.Enemy;
 public class SpearPowerUp extends PowerUp {
 
     public SpearPowerUp(int x, int y, boolean moveable, Direction direction) {
-        super(x, y, moveable, direction, SPEAR_____);
+        super(SPEAR_____, x, y, moveable, direction);
+    }
+
+    public SpearPowerUp(int x, int y) {
+        super(SPEAR_____, x, y);
     }
 
     @Override
@@ -25,12 +29,6 @@ public class SpearPowerUp extends PowerUp {
 
             default:
                 break;
-        }
-        
+        }   
     }
-
-    
-
-
-    
 }

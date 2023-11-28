@@ -10,15 +10,21 @@ import org.group16.Model.Observers.CanDie;
 
 public abstract class PowerUp implements IGameObject, Movable, CanDie {
     private GameObject innerGameObject;
-    private Boolean Movable;
+    private Boolean movable;
     private int speed = 5;
     private Direction direction;
     private boolean isDead = false;
 
-     public PowerUp(int x, int y, boolean moveable, Direction direction, GameObjectType type) {
+    public PowerUp(GameObjectType type, int x, int y, boolean moveable, Direction direction) {
         innerGameObject = new GameObject(type, x, y, 16, 16);
-        this.Movable = moveable;
+        this.movable = moveable;
         this.direction = direction;
+    }
+
+    public PowerUp(GameObjectType type, int x, int y) {
+        innerGameObject = new GameObject(type, x, y, 16, 16);
+        this.movable = false;
+        this.direction = Direction.NONE;
     }
 
     public void update() {
@@ -51,7 +57,7 @@ public abstract class PowerUp implements IGameObject, Movable, CanDie {
     }
 
     public boolean getMovable() {
-        return Movable;
+        return movable;
     }
 
     public boolean isDead() {
@@ -69,7 +75,7 @@ public abstract class PowerUp implements IGameObject, Movable, CanDie {
 
     @Override
     public void move() {
-        if (Movable){
+        if (movable){
             if (direction == Direction.LEFT){
                 innerGameObject.setX(getX() - speed);
             }

@@ -1,6 +1,7 @@
 package org.group16.Model.Level;
 
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
+import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 
 import java.util.ArrayList;
@@ -18,8 +19,9 @@ import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Enemy.EnemyFactory;
 import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
-import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.GameObjects.PowerUp.FreezePowerUp;
+import org.group16.Model.GameObjects.PowerUp.PowerUp;
+import org.group16.Model.GameObjects.PowerUp.PowerUpFactory;
 import org.group16.Model.GameObjects.PowerUp.SpearPowerUp;
 import org.group16.Model.Observers.GameObserver;
 import org.group16.Model.GameObjects.Movable;
@@ -36,6 +38,8 @@ public class LevelHandler {
             .asList(new GameObjectType[] { GameObjectType.BASIC_____, GameObjectType.SPIKE_____ });
     private Collection<GameObjectType> acceptedBlockTypes = Arrays
             .asList(new GameObjectType[] { GameObjectType.STATIONARY, GameObjectType.MOVABLE___ });
+    private Collection<GameObjectType> acceptedPowerUpTypes = Arrays
+            .asList(new GameObjectType[] { GameObjectType.SPEAR_____, GameObjectType.FREEZE____ });
     private Collection<GameObserver> observers;
     private int currentLevelNumber;
     private int score = 0;
@@ -215,21 +219,20 @@ public class LevelHandler {
                     addBlock(newBlock);
                     grid[j][i] = newBlock;
 
+                } else if (acceptedPowerUpTypes.contains(currentLevel.getLevelTile(i, j))) {
+                    PowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevel.getLevelTile(i, j), j * 16, i * 16);
+                    powerUps.add(newPowerUp);
+                    grid[j][i] = newPowerUp;
+
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.PLAYER____) {
                     // The grid uses /16 of the actual size
                     player = new Player(j*16, i*16, getHeight()*16, getWidth()*16);
                     grid[j][i] = player;
+
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.GOAL______) {
                     // will only reset if there is a new flag on next level.
                     goalFlag = new Flag(j * 16, i * 16);
                     grid[j][i] = goalFlag;
-                }   else if (currentLevel.getLevelTile(i,j) == GameObjectType.SPEAR_____){
-                        PowerUp powerUp = new SpearPowerUp(j*16,i*16,false, Direction.RIGHT);
-                        this.powerUps.add(powerUp);
-                }
-                    else if (currentLevel.getLevelTile(i,j) == GameObjectType.FREEZE____){
-                        PowerUp powerUp = new FreezePowerUp(j*16,i*16,false, Direction.RIGHT);
-                        this.powerUps.add(powerUp);
                 }
             }
         }
@@ -384,12 +387,12 @@ public class LevelHandler {
         PowerUp powerUp;
         switch (player.getHasPowerUp()) {
             case SPEAR_____:
-                powerUp = new SpearPowerUp(player.getX(), player.getY(), true, player.getDirection());
+                powerUp = PowerUpFactory.createPowerUpUsableAt(SPEAR_____, player.getX(), player.getY(), true, player.getDirection());
                 powerUps.add(powerUp);
                 player.setHasPowerUp(GameObjectType.NOTHING___);
                 break;
             case FREEZE____:
-                powerUp = new FreezePowerUp(player.getX(), player.getY(), true, player.getDirection());
+                powerUp = PowerUpFactory.createPowerUpUsableAt(FREEZE____, player.getX(), player.getY(), true, player.getDirection());
                 powerUps.add(powerUp);
                 player.setHasPowerUp(GameObjectType.NOTHING___);
                 break;

@@ -9,7 +9,11 @@ import org.group16.Model.GameObjects.Enemy.Enemy;
 public class FreezePowerUp extends PowerUp {
 
     public FreezePowerUp(int x, int y, boolean moveable, Direction direction) {
-        super(x, y, moveable, direction, FREEZE____);
+        super(FREEZE____, x, y, moveable, direction);
+    }
+
+    public FreezePowerUp(int x, int y) {
+        super(FREEZE____, x, y);
     }
 
     @Override
