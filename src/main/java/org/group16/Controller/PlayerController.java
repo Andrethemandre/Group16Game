@@ -28,11 +28,21 @@ public class PlayerController extends GameController implements KeyListener, Mou
         this.currentPlayer = levelHandler.getPlayer();
         mainWindow.addKeyListener(this);
         mainWindow.addMouseListener(this);
+
+        levelPanel.getPauseButton().addActionListener(e -> {
+            currentPlayer.startMovingInDirection(Direction.NONE);
+            if(levelHandler.getGameState() == GameState.PLAYING){       
+                levelHandler.togglePause();
+            }
+            mainWindow.requestFocusInWindow();
+        });
     }
 
     public void update(){
         currentPlayer = levelHandler.getPlayer();
     }
+
+  
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -41,6 +51,7 @@ public class PlayerController extends GameController implements KeyListener, Mou
 
     @Override
     public void keyPressed(KeyEvent e) {
+        System.out.println(e.getKeyCode());
 
         switch(e.getKeyCode()) {
             // w for going up
@@ -108,6 +119,7 @@ public class PlayerController extends GameController implements KeyListener, Mou
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        System.out.println("mouse clicked");
     }
 
     @Override

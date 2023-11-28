@@ -24,6 +24,7 @@ public class LevelAndPauseLayer extends JLayeredPane implements GameObserver{
         this.setLayout(null);
 
         levelPanel.setBounds(0, 0, x, y);
+        levelPanel.setLayout(null);
 
         // PausePanel positioning
         int pausePanelWidth = 400;

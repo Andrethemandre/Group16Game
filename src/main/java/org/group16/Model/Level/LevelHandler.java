@@ -230,7 +230,6 @@ public class LevelHandler {
         return System.currentTimeMillis() - levelStartTime - totalPauseTime;
     }
     public void update() {
-        System.out.println("update");
         moveMovableBlocks();
         player.update();
         checkIfPlayerAtFlag();
