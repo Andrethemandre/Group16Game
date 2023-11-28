@@ -38,7 +38,7 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         }
     }
 
-    public void applyGravity() {
+    private void applyGravity() {
         yAcceleration = yAcceleration + AffectedByGravity.GRAVITY_FACTOR;
         if (yAcceleration > AffectedByGravity.GRAVITY_LIMIT) {
             yAcceleration = AffectedByGravity.GRAVITY_LIMIT;
@@ -48,7 +48,7 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         setY(newY);
     }
 
-    public void applyFriction() {
+    private void applyFriction() {
         if (xAcceleration > 1) {
             xAcceleration -= 1;
         } else if (xAcceleration < -1) {
