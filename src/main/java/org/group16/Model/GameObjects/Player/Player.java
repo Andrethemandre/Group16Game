@@ -307,17 +307,7 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     }
 
     public Direction getDirection() {
-        if (moveLeft && !moveRight) {
-            lastDirection = Direction.LEFT;
-            return Direction.LEFT;
-
-        } else if (moveRight && !moveLeft) {
-            lastDirection = Direction.RIGHT;
-            return Direction.RIGHT;
-
-        } else {
-            return lastDirection;
-        }
+        return lastDirection;
     }
 
     private boolean isOnTopOf(MovableBlock movableBlock) {
