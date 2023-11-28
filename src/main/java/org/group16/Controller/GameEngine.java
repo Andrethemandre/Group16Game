@@ -10,6 +10,8 @@ import java.util.Map;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.View.GameWindow;
+import org.group16.View.LevelPanel;
+import org.group16.View.StartPanel;
 
 public class GameEngine {
     private GameWindow mainWindow;
@@ -26,11 +28,12 @@ public class GameEngine {
     public GameEngine(LevelHandler levelHandler, GameWindow mainWindow) {
         this.mainWindow = mainWindow;
         this.levelHandler = levelHandler;
- 
+
         // Initialize the controllers for each game state
         controllers.put(GameState.START, new StartController(levelHandler, mainWindow.getStartPanel()));
         controllers.put(GameState.PLAYING, new PlayerController(levelHandler, mainWindow.getLevelPanel(), mainWindow));
         controllers.put(GameState.PAUSED, new PauseController(levelHandler, mainWindow.getPausePanel()));
+
 
         // Set gameController to the controller for the initial game state
         gameController = controllers.get(levelHandler.getGameState());
@@ -43,6 +46,7 @@ public class GameEngine {
 
     // update stuff
     public void update() {
+ 
         if(levelHandler.getPauseState() == GameState.PAUSED){
             return;
         } 
@@ -54,6 +58,7 @@ public class GameEngine {
         if(levelHandler.getGameState() == GameState.PLAYING){
             levelHandler.update();
         }
+
     }
 
     private class TimerListener implements ActionListener {

@@ -52,6 +52,7 @@ public class PlayerController extends GameController implements KeyListener, Mou
 
     @Override
     public void keyPressed(KeyEvent e) {
+
         switch(e.getKeyCode()) {
             // w for going up
             case KeyEvent.VK_W:  
@@ -62,14 +63,17 @@ public class PlayerController extends GameController implements KeyListener, Mou
                     }
                 }   
 
+
                 
                 break;
 
             // a for going left
             case KeyEvent.VK_A:
+
                 if(levelHandler.getGameState() == GameState.PLAYING){
                     currentPlayer.startMovingInDirection(Direction.LEFT);
                 }
+
                 break;
 
             // s for going down
@@ -78,10 +82,12 @@ public class PlayerController extends GameController implements KeyListener, Mou
 
             // d for going right
             case KeyEvent.VK_D:
+
                 if(levelHandler.getGameState() == GameState.PLAYING){
                     currentPlayer.startMovingInDirection(Direction.RIGHT);
                 }
                 break;
+
             case KeyEvent.VK_ESCAPE:
                 currentPlayer.startMovingInDirection(Direction.NONE);
                 if(levelHandler.getGameState() == GameState.PLAYING || levelHandler.getGameState() == GameState.PAUSED){       

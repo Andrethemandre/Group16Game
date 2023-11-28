@@ -28,8 +28,7 @@ public class Spike extends Enemy {
 
     @Override
     public boolean isDead() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isDead'");
+        return false;
     }
     
     @Override

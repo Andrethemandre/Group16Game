@@ -50,10 +50,6 @@ public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
         throw new UnsupportedOperationException("Unimplemented method 'setHealth'");
     }
 
-    @Override
-    public boolean isDead() {
-        return false;
-    }
 
     @Override
     public void updateHealth(int damage) {

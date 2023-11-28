@@ -35,18 +35,22 @@ public class GameWindow extends JFrame implements GameObserver{
     private StartPanel startPanel;
     private LevelPanel levelPanel;
 
+
     private PausePanel pausePanel;
     private LevelAndPauseLayer levelAndPauseLayer;
+
     private JPanel cards;
 
     public GameWindow(String windowName, LevelHandler levelHandler){
         this.levelHandler = levelHandler;
         this.startPanel = new StartPanel(X, Y);
 
+
         this.levelPanel = new LevelPanel(X, Y, levelHandler);
         this.pausePanel = new PausePanel(X,Y);
         this.levelAndPauseLayer = new LevelAndPauseLayer(X, Y, levelPanel, pausePanel, levelHandler);
         this.levelHandler.addObserver(levelAndPauseLayer);
+
 
         this.mainScreen = new CardLayout();
         this.cards = new JPanel(mainScreen);
@@ -67,8 +71,10 @@ public class GameWindow extends JFrame implements GameObserver{
         this.add(cards);
         this.setFocusable(true);
 
+
         levelPanel.setPreferredSize(getPreferredSize());
         startPanel.setPreferredSize(getPreferredSize());
+
 
         // Make the frame pack all it's components by respecting the sizes if possible.
         this.pack();
@@ -101,11 +107,13 @@ public class GameWindow extends JFrame implements GameObserver{
 
     @Override
     public void updateObserver() {
+
         if(levelHandler.getGameState() == GameState.START){
             mainScreen.show(cards, "START");
         } 
         else if(levelHandler.getGameState() == GameState.PLAYING){
             mainScreen.show(cards, "PLAYING");
+
         }
 
         repaint();

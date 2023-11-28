@@ -14,7 +14,7 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
     private int xAcceleration;
     private double previousTime = 0;
     private double currentTime = 6;
-    private boolean hasPowerUp = false;
+    private GameObjectType hasPowerUp = GameObjectType.NOTHING___;
     private Direction lastDirection = Direction.RIGHT;
 
     private boolean falling = false;
@@ -246,11 +246,11 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
         innerGameObject.setY(y);
     }
 
-    public void setHasPowerUp(boolean hasPowerUp) {
+    public void setHasPowerUp(GameObjectType hasPowerUp) {
         this.hasPowerUp = hasPowerUp;
     }
 
-    public boolean getHasPowerUp() {
+    public GameObjectType getHasPowerUp() {
         return hasPowerUp;
     }
 
