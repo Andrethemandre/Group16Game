@@ -44,6 +44,7 @@ public class LevelHandler {
     private static int SCORE_LIMIT = 9999;
     private GameState gameState;
     FirstLevel firstLevel = new FirstLevel();
+    SecondLevel secondLevel = new SecondLevel();
     // width and height depending on how big the level is
 
     public LevelHandler() {
