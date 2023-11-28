@@ -11,6 +11,12 @@ import java.util.Collection;
 
 import javax.imageio.ImageIO;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+
+
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.Block;
@@ -20,27 +26,53 @@ import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.Level.LevelHandler;
 
-public class LevelPanel extends GamePanel{
+
+public class LevelPanel extends GamePanel implements GameObserver{
+
     private LevelHandler levelHandler;
     private BufferedImage redHeartImage;
     private BufferedImage grayHeartImage;
     private BufferedImage levelClockImage;
+    private BufferedImage pauseImage;
+    private JButton pauseButton;
 
     public LevelPanel(int x, int y, LevelHandler levelHandler) {
         super(x, y);
         this.levelHandler = levelHandler;
-
+        pauseButton = ViewUtility.createMenuButton("", new Dimension(40, 40));
+  
         try {
-            redHeartImage = ImageIO.read(new File("src\\main\\java\\org\\group16\\images\\hud\\red_heart.png"));
-            grayHeartImage = ImageIO.read(new File("src\\main\\java\\org\\group16\\images\\hud\\gray_heart.png"));
-            levelClockImage = ImageIO.read(new File("src\\main\\java\\org\\group16\\images\\hud\\level_clock.png"));
+            redHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/red_heart.png"));
+            grayHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/gray_heart.png"));
+            levelClockImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/level_clock.png"));
+            pauseImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/pause_menu_icon.png"));
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
+        pauseButton.setIcon(new ImageIcon(pauseImage));
+        pauseButton.setBorderPainted(false);
+        pauseButton.setContentAreaFilled(false);
+        pauseButton.setFocusPainted(false);
+        pauseButton.setOpaque(false);
+        add(pauseButton, JLayeredPane.DEFAULT_LAYER);
+    }
+
+    @Override
+    public void doLayout() {
+        super.doLayout();
+        int buttonWidth = 40;
+        int buttonHeight = 40;
+
+        pauseButton.setBounds(getWidth() - buttonWidth - 20, 13, buttonWidth, buttonHeight);
     }
 
     public Player getPlayer() {
         return levelHandler.getPlayer();
+    }
+
+    public JButton getPauseButton(){
+        return pauseButton;
     }
 
     /**
@@ -64,11 +96,6 @@ public class LevelPanel extends GamePanel{
         // Gameplay hud
         paintHealthBar(g, cellSize, currentPlayer);
         paintStats(g, currentPlayer);
-
-        // Temporay Pause screen
-        if(levelHandler.getPauseState() == GameState.PAUSED){
-            paintPaused(g);
-        }
     }
 
     private void paintPaused(Graphics g) {
@@ -147,9 +174,9 @@ public class LevelPanel extends GamePanel{
         String levelText = "Level: " + levelHandler.getCurrentLevelNumber();
         String formattedElapsedTimeText = formatTime(levelHandler.getElapsedTime());
     
-        drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX, statsY, lineSpacing);
+        drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX - 55, statsY, lineSpacing);
     
-        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding, padding+3, this);
+        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding - 55, padding+3, this);
     }
    
     private void paintGridWithSize(Graphics g, int cellSize) {
@@ -227,4 +254,16 @@ public class LevelPanel extends GamePanel{
             g.fillRect(powerUpX, powerUpY, powerUp.getWidth(),powerUp.getHeight());
         }
     }
+
+    
+    @Override
+    public void updateObserver() {
+        if(levelHandler.getGameState() == GameState.PLAYING){
+            pauseButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        }
+        else{
+            pauseButton.setCursor(Cursor.getDefaultCursor());
+        }
+    }
+    
 }

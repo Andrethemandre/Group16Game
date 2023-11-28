@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import org.group16.Model.GameObjects.GameState;
@@ -29,40 +30,36 @@ public class GameWindow extends JFrame implements GameObserver{
     private static final int Y = 480 + WINDOW_OFFSET_Y;
 
     // mainScreen that changes depending on type of panel (for now it is just a screen of a level)
-    private GamePanel mainScreen;
+    private CardLayout mainScreen;
     private LevelHandler levelHandler;
     private StartPanel startPanel;
     private LevelPanel levelPanel;
-    private CardLayout cardLayout;
+
+
+    private PausePanel pausePanel;
+    private LevelAndPauseLayer levelAndPauseLayer;
+
     private JPanel cards;
 
     public GameWindow(String windowName, LevelHandler levelHandler){
         this.levelHandler = levelHandler;
         this.startPanel = new StartPanel(X, Y);
+
+
         this.levelPanel = new LevelPanel(X, Y, levelHandler);
-        this.mainScreen = startPanel;
-        this.cardLayout = new CardLayout();
-        this.cards = new JPanel(cardLayout);
+        this.pausePanel = new PausePanel(X,Y);
+        this.levelAndPauseLayer = new LevelAndPauseLayer(X, Y, levelPanel, pausePanel, levelHandler);
+        this.levelHandler.addObserver(levelAndPauseLayer);
+
+
+        this.mainScreen = new CardLayout();
+        this.cards = new JPanel(mainScreen);
 
         cards.add(startPanel, "START");
-        cards.add(levelPanel, "PLAYING");
-
-
-        //this.mainScreen = new LevelPanel(X, Y, levelHandler);
-
+        cards.add(levelAndPauseLayer, "PLAYING");
         initComponents(windowName);
+        levelAndPauseLayer.setBounds(getBounds());
         this.requestFocusInWindow();
-    }
-    public StartPanel getStartPanel(){
-        return startPanel;
-    }
-
-    public LevelPanel getLevelPanel(){
-        return levelPanel;
-    }
-
-    public GamePanel getMainScreen(){
-        return mainScreen;
     }
 
     // Sets everything in place and fits everything
@@ -73,7 +70,11 @@ public class GameWindow extends JFrame implements GameObserver{
         this.setVisible(true);
         this.add(cards);
         this.setFocusable(true);
-        mainScreen.setPreferredSize(getPreferredSize());
+
+
+        levelPanel.setPreferredSize(getPreferredSize());
+        startPanel.setPreferredSize(getPreferredSize());
+
 
         // Make the frame pack all it's components by respecting the sizes if possible.
         this.pack();
@@ -88,42 +89,31 @@ public class GameWindow extends JFrame implements GameObserver{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public StartPanel getStartPanel(){
+        return startPanel;
+    }
+
+    public PausePanel getPausePanel(){
+        return pausePanel;
+    }
+
+    public LevelPanel getLevelPanel(){
+        return levelPanel;
+    }
+
+    public CardLayout getMainScreen(){
+         return mainScreen;
+    }
 
     @Override
     public void updateObserver() {
-        // // Remove the old mainScreen from the JFrame
-        // this.remove(mainScreen);
-
-        // if(levelHandler.getGameState() == GameState.START){
-        //     mainScreen = startPanel;
-        // } 
-        // else if(levelHandler.getGameState() == GameState.PLAYING){
-        //     mainScreen = levelPanel;
-        // }
-        // // else if(levelHandler.getGameState() == GameState.PAUSED){
-        // //     mainScreen = new PausePanel(X, Y);
-        // // }
-        // // else if(levelHandler.getGameState() == GameState.GAMEOVER){
-        // //     mainScreen = new GameOverPanel(X, Y);
-        // // }
-        // // else if(levelHandler.getGameState() == GameState.WIN){
-        // //     mainScreen = new WinPanel(X, Y);
-        // // }
-        // // else if(levelHandler.getGameState() == GameState.QUIT){
-        // //     System.exit(0);
-        // // }
-        //     // Add the new mainScreen to the JFrame
-        // this.add(mainScreen);
-
-        // // Refresh the JFrame
-        // this.revalidate();
-
 
         if(levelHandler.getGameState() == GameState.START){
-            cardLayout.show(cards, "START");
+            mainScreen.show(cards, "START");
         } 
         else if(levelHandler.getGameState() == GameState.PLAYING){
-            cardLayout.show(cards, "PLAYING");
+            mainScreen.show(cards, "PLAYING");
+
         }
 
         repaint();

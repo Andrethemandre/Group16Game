@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.Level.LevelHandler;
-import org.group16.View.GamePanel;
 import org.group16.View.GameWindow;
 import org.group16.View.LevelPanel;
 import org.group16.View.StartPanel;
@@ -29,13 +28,12 @@ public class GameEngine {
     public GameEngine(LevelHandler levelHandler, GameWindow mainWindow) {
         this.mainWindow = mainWindow;
         this.levelHandler = levelHandler;
-        // this.gameController = new StartPanelController(levelHandler, mainWindow.getMainScreen());
 
         // Initialize the controllers for each game state
-        controllers.put(GameState.START, new StartPanelController(levelHandler, mainWindow.getStartPanel()));
+        controllers.put(GameState.START, new StartController(levelHandler, mainWindow.getStartPanel()));
         controllers.put(GameState.PLAYING, new PlayerController(levelHandler, mainWindow.getLevelPanel(), mainWindow));
-        
-        // Add more game states as needed
+        controllers.put(GameState.PAUSED, new PauseController(levelHandler, mainWindow.getPausePanel()));
+
 
         // Set gameController to the controller for the initial game state
         gameController = controllers.get(levelHandler.getGameState());
@@ -51,15 +49,7 @@ public class GameEngine {
  
         if(levelHandler.getPauseState() == GameState.PAUSED){
             return;
-        }
-        
-        // // for when controller is switched
-        // if(levelHandler.getGameState() == GameState.START && gameController != null){
-        //     gameController = new StartPanelController(levelHandler, mainWindow.getMainScreen());
-        // }
-        // else if(levelHandler.getGameState() == GameState.PLAYING && gameController != null){
-        //     gameController = new PlayerController(levelHandler, mainWindow.getMainScreen());
-        // }
+        } 
 
         // Set gameController to the controller for the current game state
         gameController = controllers.get(levelHandler.getGameState());
@@ -68,6 +58,7 @@ public class GameEngine {
         if(levelHandler.getGameState() == GameState.PLAYING){
             levelHandler.update();
         }
+
     }
 
     private class TimerListener implements ActionListener {

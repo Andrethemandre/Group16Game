@@ -148,6 +148,10 @@ public class Player implements Movable, IGameObject, Health, AffectedByGravity {
             case RIGHT:
                 moveRight = true;
                 break;
+            case NONE:
+                moveRight = false;
+                moveLeft = false;
+                break;
             default:
                 break;
         }

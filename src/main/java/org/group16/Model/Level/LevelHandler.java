@@ -24,7 +24,6 @@ import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.GameObjects.PowerUp.PowerUpFactory;
 import org.group16.Model.GameObjects.PowerUp.SpearPowerUp;
 import org.group16.Model.Observers.GameObserver;
-import org.group16.Model.GameObjects.Movable;
 
 public class LevelHandler {
     private Player player;
@@ -48,7 +47,9 @@ public class LevelHandler {
     private int levelAttempts = 0;
     private static int SCORE_LIMIT = 9999;
     private GameState gameState;
-    // width and height depending on how big the level is
+
+    private long pauseStartTime = 0;
+    private long totalPauseTime = 0;
 
     public LevelHandler() {
         observers = new ArrayList<>();
@@ -57,7 +58,9 @@ public class LevelHandler {
 
       
         // directions of blocks on level 1
+
         // setxandydirectionofmovableblocks(20, 0);
+
 
         // Schedule the movable blocks movement at fixed intervals
     }
@@ -82,7 +85,7 @@ public class LevelHandler {
         int pointsPerSecond = 100; // Number of points per second
 
         // Calculate the number of seconds that have passed
-        int secondsPassed = (int) ((System.currentTimeMillis() - levelStartTime) / 1000);
+        int secondsPassed = (int) ((System.currentTimeMillis() - levelStartTime - totalPauseTime) / 1000);
 
         // Add points for each second that has passed
         int timeBonus = secondsPassed * pointsPerSecond;
@@ -187,6 +190,27 @@ public class LevelHandler {
         setxandydirectionofmovableblocks(20, 0);
     }
 
+    public void startGame(){
+        setLevel(1);
+
+        levelAttempts = 0;
+        score = 0;
+        levelStartTime = System.currentTimeMillis();
+    }
+
+    
+    public void restartGame() {
+        setLevel(currentLevelNumber);
+
+        levelAttempts = 0;
+        score = 0;
+        levelStartTime = System.currentTimeMillis();
+
+        for (GameObserver o : observers) {
+            o.updateObserver();
+        }
+    }
+
     private void setLevel(int levelNumber) {
         gameState = GameState.PLAYING;
 
@@ -203,7 +227,7 @@ public class LevelHandler {
         blocks.clear();
         powerUps.clear();
         currentLevel = LevelFactory.createLevel(levelNumber);
-
+ 
         // GameStats
         currentLevelNumber = levelNumber;
         grid = new IGameObject[currentLevel.getWidth()][currentLevel.getHeight()];
@@ -236,10 +260,12 @@ public class LevelHandler {
                 }
             }
         }
+
+        setxandydirectionofmovableblocks(20, 0);
     }
 
     public long getElapsedTime() {
-        return System.currentTimeMillis() - levelStartTime;
+        return System.currentTimeMillis() - levelStartTime - totalPauseTime;
     }
     public void update() {
 
@@ -366,12 +392,23 @@ public class LevelHandler {
 
     public void togglePause() {
         GameState currentGameState = getGameState();
+
         if(currentGameState == GameState.PLAYING){
+            pauseStartTime = System.currentTimeMillis();
             setGameState(GameState.PAUSED);
         }
         else if(currentGameState == GameState.PAUSED) {
+            totalPauseTime += System.currentTimeMillis() - pauseStartTime;
             setGameState(GameState.PLAYING);
         }
+
+        for (GameObserver o : observers) {
+            o.updateObserver();
+        }
+    }
+
+    public void goToMainMenu() {
+        setGameState(GameState.START);
 
         for (GameObserver o : observers) {
             o.updateObserver();
