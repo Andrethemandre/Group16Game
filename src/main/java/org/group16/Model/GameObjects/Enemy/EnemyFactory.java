@@ -1,5 +1,6 @@
 package org.group16.Model.GameObjects.Enemy;
 
+import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 
 public class EnemyFactory {
@@ -10,7 +11,7 @@ public class EnemyFactory {
             case SPIKE_____:
                 return new Spike(x, y);
             case FLYING____:
-                return new FlyingEnemy(x, y,100);
+                return new FlyingEnemy(x, y, Direction.LEFT,128,true);
             default:
                 throw new IllegalArgumentException("Enemy type is not supported");
         }

@@ -10,43 +10,77 @@ public class FlyingEnemy extends MovableEnemy implements AffectedByGravity {
     private int traveledDistance;
     private double timeCounter = 0;
 
-    public FlyingEnemy(int x, int y, int patrolDistance) {
+    private boolean diagonalPattern;
+    private boolean diagonalUp;
+
+    private int maxHeight;
+
+
+
+    public FlyingEnemy(int x, int y,Direction patrolDirection, int patrolDistance,boolean diagonalPattern){
         super(GameObjectType.FLYING____, x, y);
         this.patrolDistance = patrolDistance;
-        this.patrolDirection = Direction.LEFT;
+        this.patrolDirection = patrolDirection;
         this.traveledDistance = 0;
         setMovementSpeed(1);
+        this.diagonalPattern = diagonalPattern;
+
     }
 
-    @Override
-    public void move() {
-//        timeCounter++;
+    //        timeCounter++;
 //        if(timeCounter < 1.2){
 //           return;
 //        }
 //        timeCounter = 0; // reset moveCounter
 
-        if(patrolDirection == Direction.RIGHT) {
-            setX(getX() + getMovementSpeed());
-            setY(getY() + getMovementSpeed());
-            traveledDistance += getMovementSpeed();
-            if (traveledDistance >= patrolDistance) {
-                patrolDirection = Direction.LEFT;
-                traveledDistance = 0;
-            }
+    @Override
+    public void move() {
+        if (diagonalPattern) {
+            moveDiagonally();
+        } else {
+            moveHorizontally();
         }
+    }
 
-        else if(patrolDirection == Direction.LEFT) {
-            setX(getX() - getMovementSpeed());
+    private void moveDiagonally() {
+        int directionMultiplier = getDirectionMultiplier();
+        setX(getX() + directionMultiplier * getMovementSpeed());
+        if (diagonalUp) {
             setY(getY() - getMovementSpeed());
-            traveledDistance += getMovementSpeed();
-            if (traveledDistance >= patrolDistance) {
-                patrolDirection = Direction.RIGHT;
-                traveledDistance = 0;
+        } else {
+            setY(getY() + getMovementSpeed());
+        }
+        updateTraveledDistanceAndDirection();
+    }
+
+    private void moveHorizontally() {
+        int directionMultiplier = getDirectionMultiplier();
+        setX(getX() + directionMultiplier * getMovementSpeed());
+        updateTraveledDistanceAndDirection();
+    }
+
+    private int getDirectionMultiplier() {
+        return patrolDirection == Direction.RIGHT ? 1 : -1;
+    }
+
+    private void updateTraveledDistanceAndDirection() {
+        traveledDistance += getMovementSpeed();
+        if (traveledDistance >= patrolDistance) {
+            toggleDirection();
+            traveledDistance = 0;
+            if (diagonalPattern) {
+                diagonalUp = !diagonalUp;
             }
         }
     }
 
+    private void toggleDirection() {
+        patrolDirection = patrolDirection == Direction.RIGHT ? Direction.LEFT : Direction.RIGHT;
+    }
+
+    public void toggleDiagonalPattern() {
+        diagonalPattern = !diagonalPattern;
+    }
 
 
     @Override
@@ -58,7 +92,6 @@ public class FlyingEnemy extends MovableEnemy implements AffectedByGravity {
     public void update() {
         move();
     }
-
 
 
     @Override
