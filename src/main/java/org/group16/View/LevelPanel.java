@@ -89,8 +89,8 @@ public class LevelPanel extends GamePanel implements GameObserver {
                 }
             }
         });
-        colorChangeThread.start();
 
+        colorChangeThread.start();
     }
 
     public Player getPlayer() {

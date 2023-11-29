@@ -21,7 +21,7 @@ import java.util.List;
 
 public class FirstLevel extends Level implements LevelWithMovableBlocks {
     // matrix 45X30 to represent level 1
-  private List<MovableBlock> movableBlocks;
+   private List<MovableBlock> movableBlocks;
     private static GameObjectType[][] level1 = {
 
     

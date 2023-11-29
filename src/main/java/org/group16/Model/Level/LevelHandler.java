@@ -300,7 +300,7 @@ public class LevelHandler {
     public void update() {
         moveMovableBlocks();
         player.update();
-
+        
         checkIfPlayerAtFlag();
         checkIfPlayerCollidesWithBlocks();
         checkIfPlayerCollidesWithEnemies();
