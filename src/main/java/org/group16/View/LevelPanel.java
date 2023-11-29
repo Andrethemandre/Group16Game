@@ -202,9 +202,9 @@ public class LevelPanel extends GamePanel implements GameObserver {
         String levelText = "Level: " + levelHandler.getCurrentLevelNumber();
         String formattedElapsedTimeText = formatTime(levelHandler.getElapsedTime());
 
-        drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX, statsY, lineSpacing);
+        drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX - 55, statsY, lineSpacing);
 
-        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding, padding + 3, this);
+        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding -55, padding + 3, this);
     }
 
     private void paintGridWithSize(Graphics g, int cellSize) {
