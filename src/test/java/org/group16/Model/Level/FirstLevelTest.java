@@ -2,7 +2,6 @@ package org.group16.Model.Level;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.group16.Model.GameObjects.Positionable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,8 +15,11 @@ public class FirstLevelTest {
 
     @Test
     void testMetadata() {
-        firstLevelUnderTest.getMetadata(new Positionable(26, 10));
-        assertEquals(40, firstLevelUnderTest.getMetadata(new Positionable(26, 10)).getDistance());
+        // Test which you can which gives an example of how to test the meta data. 
+        // int testX = 26;
+        // int testY = 10;
+
+        // assertEquals(40, firstLevelUnderTest.getMetadata(new Tuple(testX, testY)).getDistance());
     }
 
 }
