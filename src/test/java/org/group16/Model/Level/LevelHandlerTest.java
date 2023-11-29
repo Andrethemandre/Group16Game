@@ -12,6 +12,7 @@ public class LevelHandlerTest {
     @BeforeEach
     void setUp() {
         levelHandler = new LevelHandler();
+        levelHandler.startGame();
     }
 
     // these tests fail because the game starts at start screen
