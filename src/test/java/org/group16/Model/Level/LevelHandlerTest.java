@@ -14,6 +14,8 @@ public class LevelHandlerTest {
         levelHandler = new LevelHandler();
     }
 
+    // these tests fail because the game starts at start screen
+    // now instead of the first level.
     @Test
     void testLevelHandlerStartsWithFirstLevel() {
         assertTrue(levelHandler.getCurrentLevelNumber() == 1);

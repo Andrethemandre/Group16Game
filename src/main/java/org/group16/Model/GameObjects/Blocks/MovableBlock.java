@@ -1,7 +1,5 @@
 package org.group16.Model.GameObjects.Blocks;
 
-import java.awt.Rectangle;
-import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Direction;
 
@@ -11,14 +9,6 @@ public class MovableBlock extends Block implements Movable {
     public int blockspeed = 0; // speed of the block
     public int horizontalMovement = 0; // how far the block can move(+-) in the x direction from its starting position
     public int verticalMovement = 0; // how far the block can move (+-) in the y direction from its starting position
-    private int currentHorizontalMovement = 0; // how far the block has moved (+-) in the x direction from its starting
-                                               // position
-    private int currentVerticalMovement = 0; // how far the block has moved (+-) in the y direction from its starting
-                                             // position
-    private Boolean hasReachedMaxDistancePosX = false;
-    private Boolean hasReachedMaxDistanceNegX = false;
-    private Boolean hasReachedMaxDistancePosY = false;
-    private Boolean hasReachedMaxDistanceNegY = false;
     public Direction horizontalDirection;
     public Direction verticalDirection;
     private int patrolDistance;
