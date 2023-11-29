@@ -10,7 +10,7 @@ public class FlyingEnemy extends MovableEnemy implements AffectedByGravity {
     private int patrolDistance;
     private int traveledDistance;
 
-    public FlyingEnemy(int x, int y, Direction horizontalDirection, Direction verticalDirection, int patrolDistance){
+    public FlyingEnemy(int x, int y,int patrolDistance, Direction horizontalDirection, Direction verticalDirection){
         super(GameObjectType.FLYING____, x, y);
         this.patrolDistance = patrolDistance;
         this.horizontalDirection = horizontalDirection;
@@ -56,8 +56,12 @@ public class FlyingEnemy extends MovableEnemy implements AffectedByGravity {
     }
 
     public void toggleDirection() {
-        horizontalDirection = horizontalDirection == Direction.RIGHT ? Direction.LEFT : Direction.RIGHT;
-        verticalDirection = verticalDirection == Direction.DOWN ? Direction.UP : Direction.DOWN;
+        if (horizontalDirection == Direction.RIGHT || horizontalDirection == Direction.LEFT) {
+            horizontalDirection = horizontalDirection == Direction.RIGHT ? Direction.LEFT : Direction.RIGHT;
+        }
+        if (verticalDirection == Direction.UP || verticalDirection == Direction.DOWN) {
+            verticalDirection = verticalDirection == Direction.DOWN ? Direction.UP : Direction.DOWN;
+        }
     }
 
     @Override

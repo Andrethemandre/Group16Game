@@ -197,7 +197,6 @@ public class LevelHandler {
     private void checkIfPlayerIsDead() {
         if (player.isDead()) {
             setLevel(currentLevelNumber);
-            setxandydirectionofmovableblocks(firstLevel.getMovableBlocks());
 
             this.levelAttempts++;
         }
@@ -211,7 +210,6 @@ public class LevelHandler {
 
     public void startGame() {
         setLevel(1);
-        setxandydirectionofmovableblocks(firstLevel.getMovableBlocks());
 
         totalPauseTime = 0;
         pauseStartTime = 0;
@@ -222,7 +220,7 @@ public class LevelHandler {
 
     public void restartGame() {
         setLevel(currentLevelNumber);
-        
+
         totalPauseTime = 0;
         pauseStartTime = 0;
         levelAttempts = 0;
@@ -257,13 +255,17 @@ public class LevelHandler {
         grid = new IGameObject[currentLevel.getWidth()][currentLevel.getHeight()];
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
+                Metadata metadata = currentLevel.getMetadata(new Tuple(j, i));
+                System.out.println(metadata);
                 if (acceptedEnemyTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    Enemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), j * 16, i * 16);
+                    Enemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
+                            metadata);
                     addEnemy(newEnemy);
                     grid[j][i] = newEnemy;
 
                 } else if (acceptedBlockTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j * 16, i * 16);
+                    Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
+                            metadata);
                     addBlock(newBlock);
                     grid[j][i] = newBlock;
                     if (newBlock instanceof MovableBlock) {
@@ -289,8 +291,6 @@ public class LevelHandler {
                 }
             }
         }
-
-        setxandydirectionofmovableblocks(firstLevel.getMovableBlocks());
     }
 
     public long getElapsedTime() {
@@ -300,7 +300,7 @@ public class LevelHandler {
     public void update() {
         moveMovableBlocks();
         player.update();
-        
+
         checkIfPlayerAtFlag();
         checkIfPlayerCollidesWithBlocks();
         checkIfPlayerCollidesWithEnemies();
@@ -361,7 +361,8 @@ public class LevelHandler {
     private void freezeFrozenEnemy() {
         for (Enemy enemy : enemies) {
             if (enemy.getFrozen()) {
-                Block frozenEnemy = BlockFactory.createBlockAt(STATIONARY, enemy.getX(), enemy.getY());
+                Block frozenEnemy = BlockFactory.createBlockAt(STATIONARY, enemy.getX(), enemy.getY(),
+                        new Metadata(0, Direction.NONE, Direction.NONE));
                 addBlock(frozenEnemy);
                 enemy.setIsDead(true);
             }
@@ -473,16 +474,6 @@ public class LevelHandler {
                 ((MovableBlock) block).move();
             }
         }
-    }
-
-    public void setxandydirectionofmovableblocks(List<MovableBlock> settings) {
-        for (int i = 0; i < Math.min(movableBlocks.size(), settings.size()); i++) {
-            MovableBlock movableBlock = movableBlocks.get(i);
-            MovableBlock settingBlock = settings.get(i);
-            System.out.println(settingBlock.getHorizontalMovement() + " " + settingBlock.getVerticalMovement());
-            movableBlock.setdirection(settingBlock.getHorizontalMovement(), settingBlock.getVerticalMovement());
-        }
-
     }
 
 }

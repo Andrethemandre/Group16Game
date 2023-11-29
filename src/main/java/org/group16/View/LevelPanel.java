@@ -30,7 +30,6 @@ import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
 
 public class LevelPanel extends GamePanel implements GameObserver {
-
     private LevelHandler levelHandler;
     private BufferedImage redHeartImage;
     private BufferedImage grayHeartImage;
@@ -125,7 +124,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
         // Temporay Pause screen
         // if (levelHandler.getPauseState() == GameState.PAUSED) {
-        //     paintPaused(g);
+        // paintPaused(g);
         // }
     }
 
@@ -133,7 +132,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 50));
         g.drawString("PAUSED", 250, 250);
-
     }
 
     private void drawTwoStringSCentered(Graphics g, String text, String formattedText, int x, int y, int lineSpacing) {
@@ -159,7 +157,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
                 g.drawImage(grayHeartImage, startX + i * spacing, 10, this);
             }
         }
-
     }
 
     private String formatTime(long millis) {

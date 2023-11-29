@@ -5,7 +5,7 @@ import org.group16.Model.GameObjects.Blocks.MovableBlock;
 
 import java.util.List;
 
-public interface LevelWithMovableBlocks {
+interface LevelWithMovableBlocks {
     List<MovableBlock> getMovableBlocks();
 
     void moveMovableBlocks();

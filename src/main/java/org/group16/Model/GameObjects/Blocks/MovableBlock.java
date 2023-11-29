@@ -3,6 +3,7 @@ package org.group16.Model.GameObjects.Blocks;
 import java.awt.Rectangle;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.GameObjects.Direction;
 
 import org.group16.Model.GameObjects.Movable;
 
@@ -18,120 +19,67 @@ public class MovableBlock extends Block implements Movable {
     private Boolean hasReachedMaxDistanceNegX = false;
     private Boolean hasReachedMaxDistancePosY = false;
     private Boolean hasReachedMaxDistanceNegY = false;
-    public int horizontaldirection = 0;
-    public int verticaldirection = 0;
+    public Direction horizontalDirection;
+    public Direction verticalDirection;
+    private int patrolDistance;
+    private int traveledDistance;
 
-    public void setblockspeed(int blockspeed) {
-        this.blockspeed = blockspeed;
-    }
-
-    public void setdirection(int horizontalMovement, int verticalMovement) {
-        this.horizontalMovement = horizontalMovement;
-        this.verticalMovement = verticalMovement;
-    }
-
-    public int getHorizontalMovement() {
-
-        return horizontalMovement;
-    }
-
-    public int getVerticalMovement() {
-        return verticalMovement;
-    }
-
-    public MovableBlock(int x, int y) {
+    public MovableBlock(int x, int y, int patrolDistance, Direction horizontalDirection, Direction verticalDirection) {
         super(GameObjectType.MOVABLE___, x, y);
+        this.patrolDistance = patrolDistance;
+        this.horizontalDirection = horizontalDirection;
+        this.verticalDirection = verticalDirection;
 
     }
 
     public void move() {
-        moveInXDirection();
-        moveInYDirection();
+        moveVertically();
+        moveHorizontally();
+        updateTraveledDistanceAndDirection();
 
     }
 
-    private void moveInXDirection() {
-        if (currentHorizontalMovement > 0 && horizontalMovement != 0) {
-            if (!hasReachedMaxDistancePosX) {
-                incrementX();
-                currentHorizontalMovement++;
-                hasReachedMaxDistanceNegX = false;
-            }
+    private void moveHorizontally() {
+        int directionMultiplier = getDirectionMultiplier(horizontalDirection);
+        setX(getX() + directionMultiplier);
+    }
 
-            if (currentHorizontalMovement >= horizontalMovement || hasReachedMaxDistancePosX) {
-                hasReachedMaxDistancePosX = true;
-                decrementX();
-                currentHorizontalMovement--;
-                if (currentHorizontalMovement == 0) {
-                    hasReachedMaxDistancePosX = false;
-                }
-            }
-        } else if (horizontalMovement != 0 && currentHorizontalMovement <= 0) {
-            if (!hasReachedMaxDistanceNegX) {
-                decrementX();
-                currentHorizontalMovement--;
-                hasReachedMaxDistancePosX = false;
-            }
+    private void moveVertically() {
+        int directionMultiplier = getDirectionMultiplier(verticalDirection);
+        setY(getY() + directionMultiplier);
+    }
 
-            if (currentHorizontalMovement <= -horizontalMovement || hasReachedMaxDistanceNegX) {
-                hasReachedMaxDistanceNegX = true;
-                incrementX();
-                currentHorizontalMovement++;
-                if (currentHorizontalMovement == 0) {
-                    hasReachedMaxDistanceNegX = false;
-                }
-            }
+    private int getDirectionMultiplier(Direction direction) {
+        if (direction == Direction.RIGHT || direction == Direction.DOWN) {
+            return 1;
+        } else if (direction == Direction.LEFT || direction == Direction.UP) {
+            return -1;
+        } else {
+            return 0;
         }
     }
 
-    private void moveInYDirection() {
-        if (currentVerticalMovement > 0 && verticalMovement != 0) {
-            if (!hasReachedMaxDistancePosY) {
-                incrementY();
-                currentVerticalMovement++;
-                hasReachedMaxDistanceNegY = false;
-            }
-
-            if (currentVerticalMovement == verticalMovement || hasReachedMaxDistancePosY) {
-                hasReachedMaxDistancePosY = true;
-                decrementY();
-                currentVerticalMovement--;
-                if (currentVerticalMovement == 0) {
-                    hasReachedMaxDistancePosY = false;
-                }
-            }
-        } else if (verticalMovement != 0 && currentVerticalMovement <= 0) {
-            if (!hasReachedMaxDistanceNegY) {
-                decrementY();
-                currentVerticalMovement--;
-                hasReachedMaxDistancePosY = false;
-            }
-
-            if (currentVerticalMovement == -verticalMovement || hasReachedMaxDistanceNegY) {
-                hasReachedMaxDistanceNegY = true;
-                incrementY();
-                currentVerticalMovement++;
-                if (currentVerticalMovement == 0) {
-                    hasReachedMaxDistanceNegY = false;
-                }
-            }
+    private void updateTraveledDistanceAndDirection() {
+        traveledDistance += 1;
+        if (traveledDistance >= patrolDistance) {
+            System.out.println(traveledDistance);
+            System.out.println(patrolDistance);
+            toggleDirection();
+            traveledDistance = 0;
         }
     }
 
-    private void incrementX() {
-        setX(getX() + 1);
+    public void toggleDirection() {
+        if (horizontalDirection == Direction.RIGHT || horizontalDirection == Direction.LEFT) {
+            horizontalDirection = horizontalDirection == Direction.RIGHT ? Direction.LEFT : Direction.RIGHT;
+        }
+        if (verticalDirection == Direction.UP || verticalDirection == Direction.DOWN) {
+            verticalDirection = verticalDirection == Direction.DOWN ? Direction.UP : Direction.DOWN;
+        }
     }
 
-    private void decrementX() {
-        setX(getX() - 1);
-    }
-
-    private void incrementY() {
-        setY(getY() + 1);
-    }
-
-    private void decrementY() {
-        setY(getY() - 1);
+    public void update() {
+        move();
     }
 
     @Override
@@ -164,66 +112,12 @@ public class MovableBlock extends Block implements Movable {
     }
 
     public int isitgoingposornegh() {
-        if (currentHorizontalMovement > 0) {
-            if (!hasReachedMaxDistancePosX) {
-                horizontaldirection = 1;
-
-            }
-
-            if (currentHorizontalMovement == horizontalMovement || hasReachedMaxDistancePosX) {
-                horizontaldirection = -1;
-
-            }
-        }
-        if (getHorizontalMovement() == 0) {
-            horizontaldirection = 0;
-
-        }
-
-        else {
-            if (!hasReachedMaxDistanceNegX && horizontalMovement != 0) {
-                horizontaldirection = -1;
-
-            }
-
-            if (currentHorizontalMovement == -horizontalMovement && horizontalMovement != 0
-                    || hasReachedMaxDistanceNegX) {
-                horizontaldirection = 1;
-
-            }
-        }
-        return horizontaldirection;
+        int horisontalMultiplier = getDirectionMultiplier(horizontalDirection);
+        return horisontalMultiplier;
     }
 
     public int isitgoingposornegv() {
-        if (currentVerticalMovement > 0) {
-            if (!hasReachedMaxDistancePosY) {
-                verticaldirection = 1;
-
-            }
-
-            if (currentHorizontalMovement == horizontalMovement || hasReachedMaxDistancePosY) {
-                verticaldirection = -1;
-
-            }
-        }
-        if (getHorizontalMovement() == 0) {
-            verticaldirection = 0;
-
-        }
-
-        else {
-            if (!hasReachedMaxDistanceNegX && verticalMovement != 0) {
-                verticaldirection = -1;
-
-            }
-
-            if (currentVerticalMovement == -verticalMovement && verticalMovement != 0
-                    || hasReachedMaxDistanceNegY) {
-                verticaldirection = 1;
-
-            }
-        }
-        return verticaldirection;
+        int verticalMultiplier = getDirectionMultiplier(verticalDirection);
+        return verticalMultiplier;
     }
 }
