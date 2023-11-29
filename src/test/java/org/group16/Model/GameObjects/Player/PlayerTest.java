@@ -14,6 +14,7 @@ public class PlayerTest {
     @BeforeEach
     void setUp() {
         levelHandler = new LevelHandler();
+        levelHandler.startGame();
         player = levelHandler.getPlayer();
     }
 
@@ -42,6 +43,7 @@ public class PlayerTest {
         levelHandler.update();
         assertTrue(player.getY() < startY);
     }
+    // this test should probably be changed.
     @Test
     void testPlayerJumpTwice() {
         int startY = player.getY();

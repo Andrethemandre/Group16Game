@@ -4,9 +4,7 @@ import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Random;
@@ -21,7 +19,6 @@ import javax.management.timer.TimerMBean;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.Block;
@@ -30,10 +27,9 @@ import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.Level.LevelHandler;
+import org.group16.Model.Observers.GameObserver;
 
-
-public class LevelPanel extends GamePanel implements GameObserver{
-
+public class LevelPanel extends GamePanel implements GameObserver {
     private LevelHandler levelHandler;
     private BufferedImage redHeartImage;
     private BufferedImage grayHeartImage;
@@ -74,39 +70,33 @@ public class LevelPanel extends GamePanel implements GameObserver{
 
         pauseButton.setBounds(getWidth() - buttonWidth - 20, 13, buttonWidth, buttonHeight);
 
-
         random = new Random();
         flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+        // Thread not good for view in mvc, maybe causing problem with the framerate
+        Thread colorChangeThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+                    // Calling repaint here is bad
+                    // repaint();
+                }
+            }
+        });
 
-       Thread colorChangeThread = new Thread(new Runnable() {
-           @Override
-           public void run() {
-               while (true) {
-                   try {
-                       Thread.sleep(1000);
-                   } catch (InterruptedException e) {
-                       e.printStackTrace();
-                   }
-                   flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
-                   repaint();
-               }
-           }
-       });
-       colorChangeThread.start();
-
-
-        random = new Random();
-        flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
-
-
+        colorChangeThread.start();
     }
 
     public Player getPlayer() {
         return levelHandler.getPlayer();
     }
 
-
-    public JButton getPauseButton(){
+    public JButton getPauseButton() {
         return pauseButton;
     }
 
@@ -117,7 +107,7 @@ public class LevelPanel extends GamePanel implements GameObserver{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         int cellSize = 16; // hard coded
-        //paintGridWithSize(g, cellSize);
+        // paintGridWithSize(g, cellSize);
 
         Player currentPlayer = levelHandler.getPlayer();
 
@@ -133,16 +123,15 @@ public class LevelPanel extends GamePanel implements GameObserver{
         paintStats(g, currentPlayer);
 
         // Temporay Pause screen
-        if (levelHandler.getPauseState() == GameState.PAUSED) {
-            paintPaused(g);
-        }
+        // if (levelHandler.getPauseState() == GameState.PAUSED) {
+        // paintPaused(g);
+        // }
     }
 
     private void paintPaused(Graphics g) {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 50));
         g.drawString("PAUSED", 250, 250);
-
     }
 
     private void drawTwoStringSCentered(Graphics g, String text, String formattedText, int x, int y, int lineSpacing) {
@@ -150,11 +139,11 @@ public class LevelPanel extends GamePanel implements GameObserver{
         int textWidth = fm.stringWidth(text);
         int formattedTextWidth = fm.stringWidth(formattedText);
         int formattedTextX = x + (textWidth - formattedTextWidth) / 2;
-    
+
         g.drawString(text, x, y);
         g.drawString(formattedText, formattedTextX, y + lineSpacing);
     }
-  
+
     private void paintHealthBar(Graphics g, int cellSize, Player currentPlayer) {
         int health = currentPlayer.getHealth();
         int startX = 0;
@@ -168,7 +157,6 @@ public class LevelPanel extends GamePanel implements GameObserver{
                 g.drawImage(grayHeartImage, startX + i * spacing, 10, this);
             }
         }
-
     }
 
     private String formatTime(long millis) {
@@ -181,44 +169,44 @@ public class LevelPanel extends GamePanel implements GameObserver{
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 12));
         FontMetrics fm = g.getFontMetrics();
-    
-        int padding = 10; 
+
+        int padding = 10;
         int lineSpacing = 15; // Space between lines of text
-    
+
         int attemptsX = 175;
         int statsY = 20 + fm.getAscent(); // fm.getAscent() is needed to align the text properly
-    
+
         String attemptsText = "Attempts";
         String formattedAttempts = String.format("%04d", levelHandler.getCurrentAttempts());
-    
+
         drawTwoStringSCentered(g, attemptsText, formattedAttempts, attemptsX, statsY, lineSpacing);
 
         // Position the score text after the attempts text
-        int scoreX = attemptsX + fm.stringWidth(attemptsText) + padding; 
-    
+        int scoreX = attemptsX + fm.stringWidth(attemptsText) + padding;
+
         String scoreText = "Score";
         String formattedScore = "";
-        
+
         // The amount of decimals reduce if score is negative
         if (levelHandler.getScore() < 0) {
-            formattedScore = String.format("%05d",levelHandler.getScore());
+            formattedScore = String.format("%05d", levelHandler.getScore());
         } else {
             formattedScore = String.format("%04d", levelHandler.getScore());
         }
-    
+
         drawTwoStringSCentered(g, scoreText, formattedScore, scoreX, statsY, lineSpacing);
 
         // Position the level text next to the right edge of the panel
-        int levelX = getWidth() - fm.stringWidth("Level: " + levelHandler.getCurrentLevelNumber()) - padding - 60; 
-    
+        int levelX = getWidth() - fm.stringWidth("Level: " + levelHandler.getCurrentLevelNumber()) - padding - 60;
+
         String levelText = "Level: " + levelHandler.getCurrentLevelNumber();
         String formattedElapsedTimeText = formatTime(levelHandler.getElapsedTime());
-    
-        drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX, statsY, lineSpacing);
-    
-        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding, padding+3, this);
+
+        drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX - 55, statsY, lineSpacing);
+
+        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding -55, padding + 3, this);
     }
-   
+
     private void paintGridWithSize(Graphics g, int cellSize) {
         g.setColor(Color.red);
         for (int i = 0; i <= levelHandler.getWidth(); i++) {
@@ -247,29 +235,25 @@ public class LevelPanel extends GamePanel implements GameObserver{
             if (enemy.getType() == GameObjectType.BASIC_____) {
                 g.setColor(Color.red);
                 g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
-            // For spike
+                // For spike
             } else if (enemy.getType() == GameObjectType.SPIKE_____) {
-                int[] xPoints = {enemyX, enemyX + (enemyWidth / 2), enemyX + enemyWidth};
-                int[] yPoints = {enemyY + enemyHeight, enemyY, enemyY + enemyHeight};
+                int[] xPoints = { enemyX, enemyX + (enemyWidth / 2), enemyX + enemyWidth };
+                int[] yPoints = { enemyY + enemyHeight, enemyY, enemyY + enemyHeight };
                 int nPoints = 3;
                 g.setColor(Color.darkGray);
                 g.fillPolygon(xPoints, yPoints, nPoints);
 
                 // For flying enemies
             } else if (enemy.getType() == GameObjectType.FLYING____) {
-                g.setColor(flyingEnemyColor); // Purple
-                g.fillOval(enemyX, enemyY, enemy.getWidth() , enemy.getHeight());
+                g.setColor(flyingEnemyColor);
+                g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
 
-
-
-            } else if (enemy.getType() == GameObjectType.TELEPORT__){
+            } else if (enemy.getType() == GameObjectType.TELEPORT__) {
                 g.setColor(Color.black);
                 g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
 
-            }
-
-            // Default colour and shape
-            else {
+                // Default colour and shape
+            } else {
                 g.setColor(Color.black);
                 g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
             }
@@ -300,29 +284,20 @@ public class LevelPanel extends GamePanel implements GameObserver{
             int powerUpX = (int) powerUp.getX();
             int powerUpY = (int) powerUp.getY();
 
-            g.setColor(Color.yellow);
+            if (powerUp.getType() == SPEAR_____) {
+                g.setColor(Color.yellow);
+            } else if (powerUp.getType() == FREEZE____) {
+                g.setColor(Color.CYAN);
+            }
             g.fillRect(powerUpX, powerUpY, powerUp.getWidth(), powerUp.getHeight());
         }
     }
 
-            if (powerUp.getType() == SPEAR_____){
-                g.setColor(Color.yellow);
-            }
-            else if (powerUp.getType() == FREEZE____){
-                g.setColor(Color.CYAN);
-            }
-            g.fillRect(powerUpX, powerUpY, powerUp.getWidth(),powerUp.getHeight());
-        }
-    }
-
-    
-
     @Override
     public void updateObserver() {
-        if(levelHandler.getGameState() == GameState.PLAYING){
+        if (levelHandler.getGameState() == GameState.PLAYING) {
             pauseButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        }
-        else{
+        } else {
             pauseButton.setCursor(Cursor.getDefaultCursor());
         }
     }

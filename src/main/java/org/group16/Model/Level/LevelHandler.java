@@ -39,7 +39,8 @@ public class LevelHandler {
     private boolean playerIsAtFlag;
     private IGameObject[][] grid;
     private Collection<GameObjectType> acceptedEnemyTypes = Arrays
-            .asList(new GameObjectType[] { GameObjectType.BASIC_____, GameObjectType.SPIKE_____, GameObjectType.FLYING____,GameObjectType.TELEPORT__ });
+            .asList(new GameObjectType[] { GameObjectType.BASIC_____, GameObjectType.SPIKE_____,
+                    GameObjectType.FLYING____, GameObjectType.TELEPORT__ });
     private Collection<GameObjectType> acceptedBlockTypes = Arrays
             .asList(new GameObjectType[] { GameObjectType.STATIONARY, GameObjectType.MOVABLE___ });
     private Collection<GameObjectType> acceptedPowerUpTypes = Arrays
@@ -57,29 +58,18 @@ public class LevelHandler {
     SecondLevel secondLevel = new SecondLevel();
     // width and height depending on how big the level is
 
-
     private long pauseStartTime = 0;
     private long totalPauseTime = 0;
-
 
     public LevelHandler() {
         movableBlocks = new ArrayList<>();
         observers = new ArrayList<>();
         gameState = GameState.START;
-s
-        setLevel(1);
-        setxandydirectionofmovableblocks(firstLevel.getMovableBlocks());
 
-        //setLevel(1);
-
-      
-        // directions of blocks on level 1
-
-        // setxandydirectionofmovableblocks(20, 0);
-
+        // setLevel(1);
+        // setxandydirectionofmovableblocks(firstLevel.getMovableBlocks());
 
         // Schedule the movable blocks movement at fixed intervals
-
     }
 
     public GameState getGameState() {
@@ -131,24 +121,14 @@ s
     }
 
     // collision checkers
-
-    public void checkIfPlayerAtFlag() {
-        if (player.collidesWith(goalFlag)) {
-
     private void checkIfPlayerAtFlag() {
-        if(player.collidesWith(goalFlag)){
-
+        if (player.collidesWith(goalFlag)) {
             setLevel(2);
         }
     }
 
-
-    public void checkIfPlayerCollidesWithBlocks() {
-        for (Block block : blocks) {
-
     private void checkIfPlayerCollidesWithBlocks() {
-        for (Block block : blocks){
-
+        for (Block block : blocks) {
             player.collision(block);
         }
     }
@@ -161,12 +141,12 @@ s
         }
     }
 
-
-    public void checkIfFlyingEnemyCollidesWithBlocks() {
+    private void checkIfFlyingEnemyCollidesWithBlocks() {
         for (Enemy enemy : enemies) {
             if (enemy.getType() == GameObjectType.FLYING____) {
                 for (Block block : blocks) {
                     if (enemy.collidesWith(block)) {
+                        System.out.println("collided");
                         ((FlyingEnemy) enemy).toggleDirection();
                     }
                 }
@@ -174,23 +154,9 @@ s
         }
     }
 
-    
-
-
-    public void checkIfPlayerCollidesWithPowerUp() {
-
-        PowerUp powerUptoremove = null;
-        if (powerUps != null) {
-            if (!player.getHasPowerUp()) {
-                for (PowerUp powerUp : powerUps) {
-                    if (player.collidesWith(powerUp)) {
-                        if (!powerUp.getMovable()) {
-                            powerUptoremove = powerUp;
-                            player.setHasPowerUp(true);
-
     private void checkIfPlayerCollidesWithPowerUp() {
         PowerUp powerUpToRemove = null;
-        if (powerUps!= null){
+        if (powerUps != null) {
             if (player.getHasPowerUp() == GameObjectType.NOTHING___) {
                 for (PowerUp powerUp : powerUps) {
                     if (player.collidesWith(powerUp)) {
@@ -208,9 +174,9 @@ s
     }
 
     private void checkIfPowerUpsCollidesWithEnemies() {
-        for (PowerUp powerUp : powerUps){
-            for (Enemy enemy : enemies){
-                if (powerUp.collidesWith(enemy)){
+        for (PowerUp powerUp : powerUps) {
+            for (Enemy enemy : enemies) {
+                if (powerUp.collidesWith(enemy)) {
                     powerUp.triggerPowerUp(enemy);
                 }
             }
@@ -218,9 +184,9 @@ s
     }
 
     private void checkIfPowerUpsCollidesWithBlocks() {
-        for (PowerUp powerUp : powerUps){
-            for (Block block : blocks){
-                if (powerUp.collidesWith(block)){
+        for (PowerUp powerUp : powerUps) {
+            for (Block block : blocks) {
+                if (powerUp.collidesWith(block)) {
                     powerUp.setIsDead(true);
                 }
             }
@@ -231,7 +197,6 @@ s
     private void checkIfPlayerIsDead() {
         if (player.isDead()) {
             setLevel(currentLevelNumber);
-            setxandydirectionofmovableblocks(firstLevel.getMovableBlocks());
 
             this.levelAttempts++;
         }
@@ -242,23 +207,22 @@ s
             enemy.update();
         }
     }
-    public void startGame(){
-        setLevel(1);
-        setxandydirectionofmovableblocks(20, 0);
-    }
 
-    public void startGame(){
+    public void startGame() {
         setLevel(1);
 
+        totalPauseTime = 0;
+        pauseStartTime = 0;
         levelAttempts = 0;
         score = 0;
         levelStartTime = System.currentTimeMillis();
     }
 
-    
     public void restartGame() {
         setLevel(currentLevelNumber);
 
+        totalPauseTime = 0;
+        pauseStartTime = 0;
         levelAttempts = 0;
         score = 0;
         levelStartTime = System.currentTimeMillis();
@@ -291,13 +255,17 @@ s
         grid = new IGameObject[currentLevel.getWidth()][currentLevel.getHeight()];
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
+                Metadata metadata = currentLevel.getMetadata(new Tuple(j, i));
+                System.out.println(metadata);
                 if (acceptedEnemyTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    Enemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), j * 16, i * 16);
+                    Enemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
+                            metadata);
                     addEnemy(newEnemy);
                     grid[j][i] = newEnemy;
 
                 } else if (acceptedBlockTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j * 16, i * 16);
+                    Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
+                            metadata);
                     addBlock(newBlock);
                     grid[j][i] = newBlock;
                     if (newBlock instanceof MovableBlock) {
@@ -305,7 +273,8 @@ s
                     }
 
                 } else if (acceptedPowerUpTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    PowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevel.getLevelTile(i, j), j * 16, i * 16);
+                    PowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevel.getLevelTile(i, j), j * 16,
+                            i * 16);
                     powerUps.add(newPowerUp);
                     grid[j][i] = newPowerUp;
 
@@ -319,15 +288,9 @@ s
                     goalFlag = new Flag(j * 16, i * 16);
                     grid[j][i] = goalFlag;
 
-                } else if (currentLevel.getLevelTile(i, j) == GameObjectType.POWERUP___) {
-                    PowerUp powerUp = new PowerUp(j * 16, i * 16, false, Direction.RIGHT);
-                    this.powerUps.add(powerUp);
-
                 }
             }
         }
-
-        setxandydirectionofmovableblocks(20, 0);
     }
 
     public long getElapsedTime() {
@@ -335,7 +298,6 @@ s
     }
 
     public void update() {
-
         moveMovableBlocks();
         player.update();
 
@@ -346,14 +308,12 @@ s
 
         checkIfFlyingEnemyCollidesWithBlocks();
 
-
         checkIfPowerUpsCollidesWithEnemies();
         checkIfPowerUpsCollidesWithBlocks();
 
         updateProjectilePositions();
         removeDeadEntities();
         updateEnemies();
-
 
         for (GameObserver o : observers) {
             o.updateObserver();
@@ -368,47 +328,46 @@ s
         }
     }
 
-
-    private void removeDeadEntities(){
+    private void removeDeadEntities() {
         removeDeadEnemy();
         removeUsedPowerUps();
         freezeFrozenEnemy();
     }
 
-    private void removeDeadEnemy(){
+    private void removeDeadEnemy() {
         Enemy enemyToRemove = null;
-        for (Enemy enemy : enemies){
-            if (enemy.isDead()){
+        for (Enemy enemy : enemies) {
+            if (enemy.isDead()) {
                 enemyToRemove = enemy;
             }
         }
-        if (enemyToRemove != null){
+        if (enemyToRemove != null) {
             enemies.remove(enemyToRemove);
         }
     }
 
-    private void removeUsedPowerUps(){
+    private void removeUsedPowerUps() {
         PowerUp powerUpToRemove = null;
-        for (PowerUp powerUp : powerUps){
-            if (powerUp.isDead()){
+        for (PowerUp powerUp : powerUps) {
+            if (powerUp.isDead()) {
                 powerUpToRemove = powerUp;
             }
         }
-        if (powerUpToRemove != null){
+        if (powerUpToRemove != null) {
             powerUps.remove(powerUpToRemove);
         }
     }
 
     private void freezeFrozenEnemy() {
-        for (Enemy enemy : enemies){
-            if (enemy.getFrozen()){
-                Block frozenEnemy = BlockFactory.createBlockAt(STATIONARY, enemy.getX(), enemy.getY());
+        for (Enemy enemy : enemies) {
+            if (enemy.getFrozen()) {
+                Block frozenEnemy = BlockFactory.createBlockAt(STATIONARY, enemy.getX(), enemy.getY(),
+                        new Metadata(0, Direction.NONE, Direction.NONE));
                 addBlock(frozenEnemy);
                 enemy.setIsDead(true);
             }
         }
     }
-
 
     public void addObserver(GameObserver observer) {
         observers.add(observer);
@@ -418,11 +377,9 @@ s
         this.enemies.add(enemy);
     }
 
-
     public void removeEnemy(Enemy enemy) {
         this.enemies.remove(enemy);
     }
-
 
     public void addBlock(Block block) {
         this.blocks.add(block);
@@ -468,17 +425,10 @@ s
         GameState currentGameState = getGameState();
 
         if (currentGameState == GameState.PLAYING) {
-            setGameState(GameState.PAUSED);
-        } else if (currentGameState == GameState.PAUSED) {
-
-
-        if(currentGameState == GameState.PLAYING){
             pauseStartTime = System.currentTimeMillis();
             setGameState(GameState.PAUSED);
-        }
-        else if(currentGameState == GameState.PAUSED) {
+        } else if (currentGameState == GameState.PAUSED) {
             totalPauseTime += System.currentTimeMillis() - pauseStartTime;
-
             setGameState(GameState.PLAYING);
         }
 
@@ -486,15 +436,6 @@ s
             o.updateObserver();
         }
     }
-
-
-    // is here because levelHandler has the power ups list that I need to change for
-    // things to be drawn
-    public void usePowerUp() {
-        if (player.getHasPowerUp()) {
-            PowerUp powerUp = new PowerUp(player.getX(), player.getY(), true, player.getDirection());
-            powerUps.add(powerUp);
-            player.setHasPowerUp(false);
 
     public void goToMainMenu() {
         setGameState(GameState.START);
@@ -504,17 +445,20 @@ s
         }
     }
 
-    // is here because levelHandler has the power ups list that I need to change for things to be drawn
+    // is here because levelHandler has the power ups list that I need to change for
+    // things to be drawn
     public void usePowerUp() {
         PowerUp powerUp;
         switch (player.getHasPowerUp()) {
             case SPEAR_____:
-                powerUp = PowerUpFactory.createPowerUpUsableAt(SPEAR_____, player.getX(), player.getY(), true, player.getDirection());
+                powerUp = PowerUpFactory.createPowerUpUsableAt(SPEAR_____, player.getX(), player.getY(), true,
+                        player.getDirection());
                 powerUps.add(powerUp);
                 player.setHasPowerUp(GameObjectType.NOTHING___);
                 break;
             case FREEZE____:
-                powerUp = PowerUpFactory.createPowerUpUsableAt(FREEZE____, player.getX(), player.getY(), true, player.getDirection());
+                powerUp = PowerUpFactory.createPowerUpUsableAt(FREEZE____, player.getX(), player.getY(), true,
+                        player.getDirection());
                 powerUps.add(powerUp);
                 player.setHasPowerUp(GameObjectType.NOTHING___);
                 break;
@@ -528,21 +472,8 @@ s
         for (Block block : blocks) {
             if (block instanceof MovableBlock) {
                 ((MovableBlock) block).move();
-                System.out.println("LevelHandler: moveMovableBlocks: " + block.getX() + ", " + block.getY());
             }
         }
-
     }
-
-    public void setxandydirectionofmovableblocks(List<MovableBlock> settings) {
-        for (int i = 0; i < Math.min(movableBlocks.size(), settings.size()); i++) {
-            MovableBlock movableBlock = movableBlocks.get(i);
-            MovableBlock settingBlock = settings.get(i);
-            System.out.println(settingBlock.getHorizontalMovement() + " " + settingBlock.getVerticalMovement());
-            movableBlock.setdirection(settingBlock.getHorizontalMovement(), settingBlock.getVerticalMovement());
-        }
-
-    }
-
 
 }

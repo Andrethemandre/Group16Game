@@ -12,8 +12,11 @@ public class LevelHandlerTest {
     @BeforeEach
     void setUp() {
         levelHandler = new LevelHandler();
+        levelHandler.startGame();
     }
 
+    // these tests fail because the game starts at start screen
+    // now instead of the first level.
     @Test
     void testLevelHandlerStartsWithFirstLevel() {
         assertTrue(levelHandler.getCurrentLevelNumber() == 1);
