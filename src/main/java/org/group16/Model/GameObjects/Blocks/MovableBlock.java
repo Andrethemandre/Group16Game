@@ -52,8 +52,6 @@ public class MovableBlock extends Block implements Movable {
     private void updateTraveledDistanceAndDirection() {
         traveledDistance += 1;
         if (traveledDistance >= patrolDistance) {
-            System.out.println(traveledDistance);
-            System.out.println(patrolDistance);
             toggleDirection();
             traveledDistance = 0;
         }

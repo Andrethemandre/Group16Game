@@ -5,7 +5,6 @@ import java.util.List;
 
 class Eventmanager implements ObservableEvents{
     public void updateObserver() {
-        System.out.println("Eventmanager: Notified");
     };
 
     public List<GameObserver> observers = new ArrayList<GameObserver>();
