@@ -12,6 +12,10 @@ public class StartController extends GameController {
             levelHandler.startGame();
         });
 
+        startPanel.getLoadGameButton().addActionListener(e -> {
+            levelHandler.loadGame();
+        });
+
         startPanel.getQuitButton().addActionListener(e -> {
             System.exit(0);
         });

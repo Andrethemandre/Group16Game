@@ -33,6 +33,8 @@ public class GameEngine {
         controllers.put(GameState.START, new StartController(levelHandler, mainWindow.getStartPanel()));
         controllers.put(GameState.PLAYING, new PlayerController(levelHandler, mainWindow.getLevelPanel(), mainWindow));
         controllers.put(GameState.PAUSED, new PauseController(levelHandler, mainWindow.getPausePanel()));
+        controllers.put(GameState.LEVELSELECT, new LevelSelectController(levelHandler, mainWindow.getLevelSelectPanel()));
+
 
 
         // Set gameController to the controller for the initial game state

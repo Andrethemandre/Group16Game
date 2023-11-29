@@ -71,10 +71,10 @@ public class FirstLevel extends Level  {
 
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
-        metadataQueue.add(new Metadata(20, Direction.RIGHT, Direction.DOWN));
+        metadataQueue.add(new Metadata(20, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(40,Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(40, Direction.LEFT, Direction.DOWN));
-        metadataQueue.add(new Metadata(80, Direction.LEFT, Direction.DOWN));
+        metadataQueue.add(new Metadata(40, Direction.LEFT, Direction.NONE));
+        metadataQueue.add(new Metadata(80, Direction.LEFT, Direction.NONE));
         metadataQueue.add(new Metadata(60, Direction.RIGHT, Direction.NONE));
 
         return metadataQueue;

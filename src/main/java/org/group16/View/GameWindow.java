@@ -34,7 +34,7 @@ public class GameWindow extends JFrame implements GameObserver{
     private LevelHandler levelHandler;
     private StartPanel startPanel;
     private LevelPanel levelPanel;
-
+    private LevelSelectorPanel levelSelectorPanel;
 
     private PausePanel pausePanel;
     private LevelAndPauseLayer levelAndPauseLayer;
@@ -47,6 +47,7 @@ public class GameWindow extends JFrame implements GameObserver{
 
         this.levelPanel = new LevelPanel(X, Y, levelHandler);
         this.pausePanel = new PausePanel(X,Y);
+        levelSelectorPanel = new LevelSelectorPanel(X, Y, levelHandler);
         this.levelAndPauseLayer = new LevelAndPauseLayer(X, Y, levelPanel, pausePanel, levelHandler);
         this.levelHandler.addObserver(levelAndPauseLayer);
 
@@ -56,9 +57,15 @@ public class GameWindow extends JFrame implements GameObserver{
 
         cards.add(startPanel, "START");
         cards.add(levelAndPauseLayer, "PLAYING");
+        cards.add(levelSelectorPanel, "LEVELSELECT");
+        
         initComponents(windowName);
         levelAndPauseLayer.setBounds(getBounds());
         this.requestFocusInWindow();
+    }
+
+    public LevelSelectorPanel getLevelSelectPanel(){
+        return levelSelectorPanel;
     }
 
     // Sets everything in place and fits everything
@@ -106,14 +113,17 @@ public class GameWindow extends JFrame implements GameObserver{
 
     @Override
     public void updateObserver() {
-
         if(levelHandler.getGameState() == GameState.START){
             mainScreen.show(cards, "START");
         } 
         else if(levelHandler.getGameState() == GameState.PLAYING){
             mainScreen.show(cards, "PLAYING");
-
         }
+
+        else if(levelHandler.getGameState() == GameState.LEVELSELECT){
+            mainScreen.show(cards, "LEVELSELECT");
+        }
+
 
         repaint();
     }

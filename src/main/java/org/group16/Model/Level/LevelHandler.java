@@ -6,7 +6,9 @@ import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Arrays;
 
 import org.group16.Model.GameObjects.Enemy.FlyingEnemy;
@@ -53,9 +55,8 @@ public class LevelHandler {
     private int levelAttempts = 0;
     private static int SCORE_LIMIT = 9999;
     private GameState gameState;
+    private Map<Integer,Level> levels = new HashMap<Integer,Level>();          
 
-    FirstLevel firstLevel = new FirstLevel();
-    SecondLevel secondLevel = new SecondLevel();
     // width and height depending on how big the level is
 
     private long pauseStartTime = 0;
@@ -66,10 +67,17 @@ public class LevelHandler {
         observers = new ArrayList<>();
         gameState = GameState.START;
 
+        levels.put(1, LevelFactory.createLevel(1));
+        levels.put(2, LevelFactory.createLevel(2));
+
         // setLevel(1);
         // setxandydirectionofmovableblocks(firstLevel.getMovableBlocks());
 
         // Schedule the movable blocks movement at fixed intervals
+    }
+
+    public Map<Integer,Level> getLevels() {
+        return this.levels;
     }
 
     public GameState getGameState() {
@@ -230,8 +238,8 @@ public class LevelHandler {
             o.updateObserver();
         }
     }
-
-    private void setLevel(int levelNumber) {
+    // vill ha det private
+    public void setLevel(int levelNumber) {
         gameState = GameState.PLAYING;
 
         if (levelNumber != currentLevelNumber) {
@@ -471,6 +479,14 @@ public class LevelHandler {
             if (block instanceof MovableBlock) {
                 ((MovableBlock) block).move();
             }
+        }
+    }
+
+    public void loadGame() {
+        setGameState(gameState.LEVELSELECT);
+
+        for (GameObserver o : observers) {
+            o.updateObserver();
         }
     }
 
