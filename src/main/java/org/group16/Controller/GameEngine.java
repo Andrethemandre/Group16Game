@@ -50,6 +50,7 @@ public class GameEngine {
         if(levelHandler.getPauseState() == GameState.PAUSED){
             return;
         } 
+        
 
         // Set gameController to the controller for the current game state
         gameController = controllers.get(levelHandler.getGameState());

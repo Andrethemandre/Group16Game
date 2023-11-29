@@ -45,7 +45,6 @@ public class GameWindow extends JFrame implements GameObserver{
         this.levelHandler = levelHandler;
         this.startPanel = new StartPanel(X, Y);
 
-
         this.levelPanel = new LevelPanel(X, Y, levelHandler);
         this.pausePanel = new PausePanel(X,Y);
         this.levelAndPauseLayer = new LevelAndPauseLayer(X, Y, levelPanel, pausePanel, levelHandler);

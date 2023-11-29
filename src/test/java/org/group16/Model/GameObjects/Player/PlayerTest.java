@@ -14,6 +14,7 @@ public class PlayerTest {
     @BeforeEach
     void setUp() {
         levelHandler = new LevelHandler();
+        levelHandler.startGame();
         player = levelHandler.getPlayer();
     }
 

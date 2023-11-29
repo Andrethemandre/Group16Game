@@ -73,7 +73,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
         random = new Random();
         flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
-
+        // Thread not good for view in mvc, maybe causing problem with the framerate
         Thread colorChangeThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -84,7 +84,8 @@ public class LevelPanel extends GamePanel implements GameObserver {
                         e.printStackTrace();
                     }
                     flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
-                    repaint();
+                    // Calling repaint here is bad
+                    // repaint();
                 }
             }
         });
@@ -123,9 +124,9 @@ public class LevelPanel extends GamePanel implements GameObserver {
         paintStats(g, currentPlayer);
 
         // Temporay Pause screen
-        if (levelHandler.getPauseState() == GameState.PAUSED) {
-            paintPaused(g);
-        }
+        // if (levelHandler.getPauseState() == GameState.PAUSED) {
+        //     paintPaused(g);
+        // }
     }
 
     private void paintPaused(Graphics g) {

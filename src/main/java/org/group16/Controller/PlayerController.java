@@ -124,7 +124,6 @@ public class PlayerController extends GameController implements KeyListener, Mou
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("mouse clicked");
     }
 
     @Override

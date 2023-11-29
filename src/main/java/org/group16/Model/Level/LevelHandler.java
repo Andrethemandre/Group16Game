@@ -213,6 +213,8 @@ public class LevelHandler {
         setLevel(1);
         setxandydirectionofmovableblocks(firstLevel.getMovableBlocks());
 
+        totalPauseTime = 0;
+        pauseStartTime = 0;
         levelAttempts = 0;
         score = 0;
         levelStartTime = System.currentTimeMillis();
@@ -220,7 +222,9 @@ public class LevelHandler {
 
     public void restartGame() {
         setLevel(currentLevelNumber);
-
+        
+        totalPauseTime = 0;
+        pauseStartTime = 0;
         levelAttempts = 0;
         score = 0;
         levelStartTime = System.currentTimeMillis();
@@ -294,7 +298,6 @@ public class LevelHandler {
     }
 
     public void update() {
-
         moveMovableBlocks();
         player.update();
 
