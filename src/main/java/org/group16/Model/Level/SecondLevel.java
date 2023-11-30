@@ -1,11 +1,13 @@
 package org.group16.Model.Level;
 
+import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Blocks.MovableBlock;
 
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
@@ -61,8 +63,9 @@ public class SecondLevel extends Level {
 
     @Override
     protected Queue<Metadata> createMetadata() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createMetadata'");
+        Queue<Metadata> metadataQueue = new LinkedList<>();
+
+        return metadataQueue;
     }
 
 }

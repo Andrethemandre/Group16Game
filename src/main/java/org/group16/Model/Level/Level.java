@@ -29,6 +29,7 @@ public abstract class Level {
 
     public Level(GameObjectType[][] level) {
         this.level = level;
+        initializeMetadata();
     }
 
     public GameObjectType[][] getLevel() {
@@ -62,7 +63,6 @@ public abstract class Level {
         for (int i = 0; i < level.length; i++) {
             for (int j = 0; j < level[i].length; j++) {
                 if (isValidGameObjectType(i, j)) {
-                    System.out.println("i: " + i + " j: " + j);
                     metadataMap.put(new Tuple(j, i), metadataQueue.poll());
                 }
             }
