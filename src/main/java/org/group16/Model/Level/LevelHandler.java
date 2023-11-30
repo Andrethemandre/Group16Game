@@ -23,15 +23,12 @@ import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Enemy.EnemyFactory;
 import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
-import org.group16.Model.GameObjects.PowerUp.FreezePowerUp;
 import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.GameObjects.PowerUp.PowerUpFactory;
-import org.group16.Model.GameObjects.PowerUp.SpearPowerUp;
 import org.group16.Model.Observers.GameObserver;
 
 public class LevelHandler {
     private List<MovableBlock> movableBlocks; // Add this member variable
-
     private Player player;
     private Flag goalFlag;
     private Collection<Enemy> enemies;
@@ -56,9 +53,6 @@ public class LevelHandler {
     private static int SCORE_LIMIT = 9999;
     private GameState gameState;
     private Map<Integer,Level> levels = new HashMap<Integer,Level>();          
-
-    // width and height depending on how big the level is
-
     private long pauseStartTime = 0;
     private long totalPauseTime = 0;
 
@@ -69,11 +63,6 @@ public class LevelHandler {
 
         levels.put(1, LevelFactory.createLevel(1));
         levels.put(2, LevelFactory.createLevel(2));
-
-        // setLevel(1);
-        // setxandydirectionofmovableblocks(firstLevel.getMovableBlocks());
-
-        // Schedule the movable blocks movement at fixed intervals
     }
 
     public Map<Integer,Level> getLevels() {
@@ -489,5 +478,4 @@ public class LevelHandler {
             o.updateObserver();
         }
     }
-
 }

@@ -43,8 +43,6 @@ public class PlayerController extends GameController implements KeyListener, Mou
         currentPlayer = levelHandler.getPlayer();
     }
 
-  
-
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -62,9 +60,6 @@ public class PlayerController extends GameController implements KeyListener, Mou
                     wKeyHeldDown = true;
                     }
                 }   
-
-
-                
                 break;
 
             // a for going left

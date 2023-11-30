@@ -35,8 +35,6 @@ public class GameEngine {
         controllers.put(GameState.PAUSED, new PauseController(levelHandler, mainWindow.getPausePanel()));
         controllers.put(GameState.LEVELSELECT, new LevelSelectController(levelHandler, mainWindow.getLevelSelectPanel()));
 
-
-
         // Set gameController to the controller for the initial game state
         gameController = controllers.get(levelHandler.getGameState());
     }
@@ -48,12 +46,10 @@ public class GameEngine {
 
     // update stuff
     public void update() {
- 
         if(levelHandler.getPauseState() == GameState.PAUSED){
             return;
         } 
         
-
         // Set gameController to the controller for the current game state
         gameController = controllers.get(levelHandler.getGameState());
         gameController.update();
@@ -61,7 +57,6 @@ public class GameEngine {
         if(levelHandler.getGameState() == GameState.PLAYING){
             levelHandler.update();
         }
-
     }
 
     private class TimerListener implements ActionListener {
