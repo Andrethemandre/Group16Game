@@ -29,6 +29,7 @@ public abstract class Level {
 
     public Level(GameObjectType[][] level) {
         this.level = level;
+        initializeMetadata();
     }
 
     public GameObjectType[][] getLevel() {
