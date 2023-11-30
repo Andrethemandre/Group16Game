@@ -146,7 +146,6 @@ public class LevelHandler {
             if (enemy.getType() == GameObjectType.FLYING____) {
                 for (Block block : blocks) {
                     if (enemy.collidesWith(block)) {
-                        System.out.println("collided");
                         ((FlyingEnemy) enemy).toggleDirection();
                     }
                 }
@@ -256,7 +255,6 @@ public class LevelHandler {
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
                 Metadata metadata = currentLevel.getMetadata(new Tuple(j, i));
-                System.out.println(metadata);
                 if (acceptedEnemyTypes.contains(currentLevel.getLevelTile(i, j))) {
                     Enemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
                             metadata);
