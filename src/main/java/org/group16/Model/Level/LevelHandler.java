@@ -26,8 +26,6 @@ import org.group16.Model.GameObjects.PowerUp.PowerUpFactory;
 import org.group16.Model.Observers.GameObserver;
 
 public class LevelHandler {
-    private List<MovableBlock> movableBlocks; // Add this member variable
-
     private Player player;
     private Goal goal;
     private Collection<IEnemy> enemies;
@@ -58,7 +56,6 @@ public class LevelHandler {
     private long totalPauseTime = 0;
 
     public LevelHandler() {
-        movableBlocks = new ArrayList<>();
         observers = new ArrayList<>();
         gameState = GameState.START;
     }
@@ -237,7 +234,6 @@ public class LevelHandler {
         enemies.clear();
         blocks.clear();
         powerUps.clear();
-        movableBlocks.clear();
         currentLevel = LevelFactory.createLevel(levelNumber);
 
         // GameStats
@@ -257,9 +253,6 @@ public class LevelHandler {
                             metadata);
                     addBlock(newBlock);
                     grid[j][i] = newBlock;
-                    if (newBlock instanceof MovableBlock) {
-                        movableBlocks.add((MovableBlock) newBlock);
-                    }
 
                 } else if (acceptedPowerUpTypes.contains(currentLevel.getLevelTile(i, j))) {
                     PowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevel.getLevelTile(i, j), j * 16,
