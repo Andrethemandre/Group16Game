@@ -59,7 +59,7 @@ public class FirstLevel extends Level  {
                                                 {AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,},
                                                 {AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,FREEZE____,AIR_______,AIR_______,AIR_______,AIR_______,SPEAR_____,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,MOVABLE___,AIR_______,AIR_______,AIR_______,MOVABLE___,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,},
                                                 {PLAYER____,AIR_______,AIR_______,AIR_______,AIR_______,STATIONARY,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,},
-                                                {AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,AIR_______,SPIKE_____,AIR_______,AIR_______,AIR_______,BASIC_____,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,GOAL______,AIR_______,},
+                                                {AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,AIR_______,SPIKE_____,AIR_______,AIR_______,AIR_______,BASIC_____,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,BASIC_____,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,GOAL______,AIR_______,},
                                                 {STATIONARY,STATIONARY,AIR_______,AIR_______,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,STATIONARY,},                                        
                                                 };
 
@@ -71,10 +71,11 @@ public class FirstLevel extends Level  {
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
         metadataQueue.add(new Metadata(20, Direction.RIGHT, Direction.DOWN));
-        metadataQueue.add(new Metadata(40,Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(40, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(40, Direction.LEFT, Direction.DOWN));
         metadataQueue.add(new Metadata(80, Direction.LEFT, Direction.DOWN));
-        metadataQueue.add(new Metadata(60, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(40, Direction.LEFT, Direction.NONE));
+        metadataQueue.add(new Metadata(80, Direction.RIGHT, Direction.NONE));
 
         return metadataQueue;
     }

@@ -8,7 +8,7 @@ public class EnemyFactory {
     public static Enemy createEnemyAt(GameObjectType type, int x, int y, Metadata metadata) {
         switch(type) {
             case BASIC_____:
-                return new BasicEnemy(x, y, metadata.getDistance());
+                return new BasicEnemy(x, y, metadata.getDistance(), metadata.getHorizontalDirection());
             case SPIKE_____:
                 return new Spike(x, y);
             case FLYING____:

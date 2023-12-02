@@ -2,42 +2,44 @@ package org.group16.Model.GameObjects.Enemy;
 
 import org.group16.Model.GameObjects.AffectedByGravity;
 import org.group16.Model.GameObjects.Direction;
-import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
-import org.group16.Model.GameObjects.Player.Player;
 
 public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
     private Direction horizontalDirection;
     private int patrolDistance;
-    private int traveledDistance;
+    private int currentDistance;
 
-    BasicEnemy(int x, int y,int horizontalDistance) {
+    BasicEnemy(int x, int y, int patrolDistance, Direction horizontalDirection) {
         super(GameObjectType.BASIC_____, x, y);
-        this.patrolDistance = horizontalDistance;
-        this.traveledDistance = 0;
-        this.horizontalDirection = Direction.RIGHT;
+        this.patrolDistance = patrolDistance;
+        this.currentDistance = 0;
+        this.horizontalDirection = horizontalDirection;
         setMovementSpeed(1);
     }
     
     @Override
     public void move() {
-        if(horizontalDirection == Direction.RIGHT){
-            setX(getX() + getMovementSpeed());
-            traveledDistance += getMovementSpeed();
-            if(traveledDistance >= patrolDistance){
-                horizontalDirection = Direction.LEFT;
-                traveledDistance = 0;
-            }
-        }
-        else if(horizontalDirection == Direction.LEFT){
-            setX(getX() - getMovementSpeed());
-            traveledDistance += getMovementSpeed();
-            if(traveledDistance >= patrolDistance){
-                horizontalDirection = Direction.RIGHT;
-                traveledDistance = 0;
-            }
-        }
+        setX(getX() + getDirectionMultiplier(horizontalDirection)*getMovementSpeed());
+        currentDistance += getMovementSpeed();
 
+        checkIfReachedDistance();
+    }
+
+    private int getDirectionMultiplier(Direction direction) {
+        if (direction == Direction.RIGHT) {
+            return 1;
+        } else if (direction == Direction.LEFT) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
+
+    private void checkIfReachedDistance() {
+        if (currentDistance >= patrolDistance) {
+            toggleDirection();
+            currentDistance = 0;
+        }
     }
 
     public void update() {
@@ -60,7 +62,17 @@ public class BasicEnemy extends MovableEnemy implements AffectedByGravity {
 
     @Override
     public void toggleDirection() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toggleDirection'");
+        switch (horizontalDirection) {
+            case RIGHT:
+                horizontalDirection = Direction.LEFT;
+                break;
+
+            case LEFT:
+                horizontalDirection = Direction.RIGHT;
+                break;
+
+            default:
+                break;
+        }
     }
 }
