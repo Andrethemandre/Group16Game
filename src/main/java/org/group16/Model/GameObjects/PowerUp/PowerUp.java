@@ -5,7 +5,7 @@ import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Movable;
-import org.group16.Model.GameObjects.Enemy.Enemy;
+import org.group16.Model.GameObjects.Enemy.IEnemy;
 import org.group16.Model.Observers.CanDie;
 
 public abstract class PowerUp implements IGameObject, Movable, CanDie {
@@ -89,6 +89,6 @@ public abstract class PowerUp implements IGameObject, Movable, CanDie {
         }
     }
 
-    public abstract void triggerPowerUp(Enemy enemy);
+    public abstract void triggerPowerUp(IEnemy enemy);
 }
 

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Arrays;
 
 import org.group16.Model.GameObjects.Enemy.FlyingEnemy;
+import org.group16.Model.GameObjects.Enemy.IEnemy;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
@@ -17,14 +18,11 @@ import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
 import org.group16.Model.GameObjects.Blocks.MovableBlock;
-import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Enemy.EnemyFactory;
 import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
-import org.group16.Model.GameObjects.PowerUp.FreezePowerUp;
 import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.GameObjects.PowerUp.PowerUpFactory;
-import org.group16.Model.GameObjects.PowerUp.SpearPowerUp;
 import org.group16.Model.Observers.GameObserver;
 
 public class LevelHandler {
@@ -32,7 +30,7 @@ public class LevelHandler {
 
     private Player player;
     private Flag goalFlag;
-    private Collection<Enemy> enemies;
+    private Collection<IEnemy> enemies;
     private Collection<Block> blocks;
     // private MovableBlock movableBlock;
     private Collection<PowerUp> powerUps;
@@ -134,7 +132,7 @@ public class LevelHandler {
     }
 
     private void checkIfPlayerCollidesWithEnemies() {
-        for (Enemy enemy : enemies) {
+        for (IEnemy enemy : enemies) {
             if (player.collidesWith(enemy)) {
                 enemy.dealDamage(player);
             }
@@ -142,7 +140,7 @@ public class LevelHandler {
     }
 
     private void checkIfFlyingEnemyCollidesWithBlocks() {
-        for (Enemy enemy : enemies) {
+        for (IEnemy enemy : enemies) {
             if (enemy.getType() == GameObjectType.FLYING____) {
                 for (Block block : blocks) {
                     if (enemy.collidesWith(block)) {
@@ -174,7 +172,7 @@ public class LevelHandler {
 
     private void checkIfPowerUpsCollidesWithEnemies() {
         for (PowerUp powerUp : powerUps) {
-            for (Enemy enemy : enemies) {
+            for (IEnemy enemy : enemies) {
                 if (powerUp.collidesWith(enemy)) {
                     powerUp.triggerPowerUp(enemy);
                 }
@@ -202,7 +200,7 @@ public class LevelHandler {
     }
 
     public void updateEnemies() {
-        for (Enemy enemy : enemies) {
+        for (IEnemy enemy : enemies) {
             enemy.update();
         }
     }
@@ -256,7 +254,7 @@ public class LevelHandler {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
                 Metadata metadata = currentLevel.getMetadata(new Tuple(j, i));
                 if (acceptedEnemyTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    Enemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
+                    IEnemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
                             metadata);
                     addEnemy(newEnemy);
                     grid[j][i] = newEnemy;
@@ -333,8 +331,8 @@ public class LevelHandler {
     }
 
     private void removeDeadEnemy() {
-        Enemy enemyToRemove = null;
-        for (Enemy enemy : enemies) {
+        IEnemy enemyToRemove = null;
+        for (IEnemy enemy : enemies) {
             if (enemy.isDead()) {
                 enemyToRemove = enemy;
             }
@@ -357,12 +355,12 @@ public class LevelHandler {
     }
 
     private void freezeFrozenEnemy() {
-        for (Enemy enemy : enemies) {
+        for (IEnemy enemy : enemies) {
             if (enemy.isFrozen()) {
                 Block frozenEnemy = BlockFactory.createBlockAt(STATIONARY, enemy.getX(), enemy.getY(),
                         new Metadata(0, Direction.NONE, Direction.NONE));
                 addBlock(frozenEnemy);
-                enemy.setIsDead(true);
+                enemy.updateHealth(enemy.getHealth());
             }
         }
     }
@@ -371,11 +369,11 @@ public class LevelHandler {
         observers.add(observer);
     }
 
-    public void addEnemy(Enemy enemy) {
+    public void addEnemy(IEnemy enemy) {
         this.enemies.add(enemy);
     }
 
-    public void removeEnemy(Enemy enemy) {
+    public void removeEnemy(IEnemy enemy) {
         this.enemies.remove(enemy);
     }
 
@@ -391,7 +389,7 @@ public class LevelHandler {
         return goalFlag;
     }
 
-    public Collection<Enemy> getEnemies() {
+    public Collection<IEnemy> getEnemies() {
         return this.enemies;
     }
 
@@ -425,6 +423,7 @@ public class LevelHandler {
         if (currentGameState == GameState.PLAYING) {
             pauseStartTime = System.currentTimeMillis();
             setGameState(GameState.PAUSED);
+
         } else if (currentGameState == GameState.PAUSED) {
             totalPauseTime += System.currentTimeMillis() - pauseStartTime;
             setGameState(GameState.PLAYING);

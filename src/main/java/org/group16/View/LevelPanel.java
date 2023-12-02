@@ -22,7 +22,7 @@ import javax.swing.border.EmptyBorder;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.Block;
-import org.group16.Model.GameObjects.Enemy.Enemy;
+import org.group16.Model.GameObjects.Enemy.IEnemy;
 import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.GameObjects.PowerUp.PowerUp;
@@ -224,8 +224,8 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
     private void paintEnemies(Graphics g) {
-        Collection<Enemy> currentEnemies = levelHandler.getEnemies();
-        for (Enemy enemy : currentEnemies) {
+        Collection<IEnemy> currentEnemies = levelHandler.getEnemies();
+        for (IEnemy enemy : currentEnemies) {
             int enemyX = enemy.getX();
             int enemyY = enemy.getY();
             int enemyWidth = enemy.getWidth();

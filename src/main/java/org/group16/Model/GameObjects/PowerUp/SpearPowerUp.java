@@ -3,7 +3,7 @@ package org.group16.Model.GameObjects.PowerUp;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 
 import org.group16.Model.GameObjects.Direction;
-import org.group16.Model.GameObjects.Enemy.Enemy;
+import org.group16.Model.GameObjects.Enemy.IEnemy;
 
 public class SpearPowerUp extends PowerUp {
 
@@ -16,10 +16,10 @@ public class SpearPowerUp extends PowerUp {
     }
 
     @Override
-    public void triggerPowerUp(Enemy enemy) {
+    public void triggerPowerUp(IEnemy enemy) {
         switch (enemy.getType()) {
             case BASIC_____:
-                enemy.setIsDead(true);
+                enemy.updateHealth(enemy.getHealth());
                 this.setIsDead(true);
                 break;
 

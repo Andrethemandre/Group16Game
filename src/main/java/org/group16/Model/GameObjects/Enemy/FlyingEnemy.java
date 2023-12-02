@@ -3,21 +3,24 @@ package org.group16.Model.GameObjects.Enemy;
 import org.group16.Model.GameObjects.AffectedByGravity;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.GameObjects.IGameObject;
+import org.group16.Model.Observers.HasHealth;
 
-public class FlyingEnemy extends MovableEnemy implements AffectedByGravity {
+public class FlyingEnemy implements IMovableEnemy, AffectedByGravity {
     private Direction horizontalDirection;
     private Direction verticalDirection;
     private int patrolDistance;
     private int traveledDistance;
+    private MovableEnemy innerMovableEnemy;
 
-    public FlyingEnemy(int x, int y,int patrolDistance, Direction horizontalDirection, Direction verticalDirection){
-        super(GameObjectType.FLYING____, x, y);
+    public FlyingEnemy(int x, int y,int patrolDistance, Direction horizontalDirection, Direction verticalDirection) {
+        innerMovableEnemy = new MovableEnemy(GameObjectType.FLYING____, x, y, 1);
         this.patrolDistance = patrolDistance;
         this.horizontalDirection = horizontalDirection;
         this.verticalDirection = verticalDirection;
 
         this.traveledDistance = 0;
-        setMovementSpeed(1);
+        innerMovableEnemy.setMovementSpeed(1);
     }
 
     @Override
@@ -38,12 +41,15 @@ public class FlyingEnemy extends MovableEnemy implements AffectedByGravity {
     }
 
     private int getDirectionMultiplier(Direction direction) {
-        if (direction == Direction.RIGHT || direction == Direction.DOWN) {
-            return 1;
-        } else if (direction == Direction.LEFT || direction == Direction.UP) {
-            return -1;
-        } else {
-            return 0;
+        switch (direction) {
+            case RIGHT:
+            case DOWN:
+                return 1;
+            case LEFT:
+            case UP:
+                return -1;
+            default:
+                return 0;
         }
     }
 
@@ -66,7 +72,7 @@ public class FlyingEnemy extends MovableEnemy implements AffectedByGravity {
 
     @Override
     public boolean isDead() {
-        return false;
+        return innerMovableEnemy.isDead();
     }
 
     @Override
@@ -74,9 +80,71 @@ public class FlyingEnemy extends MovableEnemy implements AffectedByGravity {
         move();
     }
 
-
     @Override
     public void updateHealth(int damage) {
+        innerMovableEnemy.updateHealth(damage);
+    }
 
+    @Override
+    public void dealDamage(HasHealth otherGameObject) {
+        innerMovableEnemy.dealDamage(otherGameObject);
+    }
+
+    @Override
+    public int getWidth() {
+        return innerMovableEnemy.getWidth();
+    }
+
+    @Override
+    public int getHeight() {
+        return innerMovableEnemy.getHeight();
+    }
+
+    @Override
+    public GameObjectType getType() {
+        return innerMovableEnemy.getType();
+    }
+
+    @Override
+    public int getX() {
+        return innerMovableEnemy.getX();
+    }
+
+    void setX(int x) {
+        innerMovableEnemy.setX(x);
+    }
+
+    @Override
+    public int getY() {
+        return innerMovableEnemy.getY();
+    }
+
+    void setY(int y) {
+        innerMovableEnemy.setY(y);
+    }
+
+    @Override
+    public boolean collidesWith(IGameObject otherGameObject) {
+        return innerMovableEnemy.collidesWith(otherGameObject);
+    }
+
+    @Override
+    public int getHealth() {
+        return innerMovableEnemy.getHealth();
+    }
+
+    @Override
+    public void freeze() {
+        innerMovableEnemy.freeze();
+    }
+
+    @Override
+    public boolean isFrozen() {
+        return innerMovableEnemy.isFrozen();
+    }
+
+    @Override
+    public int getMovementSpeed() {
+        return innerMovableEnemy.getMovementSpeed();
     }
 }

@@ -3,8 +3,7 @@ package org.group16.Model.GameObjects.PowerUp;
 import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
 
 import org.group16.Model.GameObjects.Direction;
-import org.group16.Model.GameObjects.GameObjectType;
-import org.group16.Model.GameObjects.Enemy.Enemy;
+import org.group16.Model.GameObjects.Enemy.IEnemy;
 
 public class FreezePowerUp extends PowerUp {
 
@@ -17,19 +16,18 @@ public class FreezePowerUp extends PowerUp {
     }
 
     @Override
-    public void triggerPowerUp(Enemy enemy) {
+    public void triggerPowerUp(IEnemy enemy) {
         switch (enemy.getType()) {
             case BASIC_____:
-                enemy.setFrozen(true);
+                enemy.freeze();
                 this.setIsDead(true);
                 break;
             
             case SPIKE_____:
-                enemy.setFrozen(true);
+                enemy.freeze();
                 this.setIsDead(true);
                 break;
 
-            
             default:
                 break;
         }

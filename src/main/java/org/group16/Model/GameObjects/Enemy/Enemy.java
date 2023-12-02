@@ -6,19 +6,20 @@ import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.Observers.HasHealth;
 
-public abstract class Enemy implements IEnemy {
-    GameObject innerGameObject;
+class Enemy implements IEnemy {
+    private GameObject innerGameObject;
 
+    private int health;
     private int damage = 1;
-    private boolean isDead;
     private boolean isFrozen = false;
 
-    Enemy(GameObjectType enemyType, int x, int y) {
-        innerGameObject = new GameObject(enemyType, x, y, 16, 16);
+    Enemy(GameObjectType enemyType, int x, int y, int health) {
+        this(enemyType, x, y, 16, 16, health);
     }
 
-    Enemy(GameObjectType enemyType, int x,  int y, int width, int height){
+    Enemy(GameObjectType enemyType, int x, int y, int width, int height, int health) {
         innerGameObject = new GameObject(enemyType, x, y, width, height);
+        this.health = health;
     }
 
     // Enemy methods
@@ -28,7 +29,15 @@ public abstract class Enemy implements IEnemy {
     }
 
     // Game Object methods
-    public abstract void update();
+    public void update() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
+
+    @Override
+    public void updateHealth(int damage) {
+        health -= damage;
+    }
 
     @Override
     public GameObjectType getType() {
@@ -44,14 +53,14 @@ public abstract class Enemy implements IEnemy {
     public int getX() {
         return innerGameObject.getX();
     }
+    
+    void setX(int x) {
+        innerGameObject.setX(x);
+    }
 
     @Override
     public int getY() {
         return innerGameObject.getY();
-    }
-
-    void setX(int x) {
-        innerGameObject.setX(x);
     }
 
     void setY(int y) {
@@ -69,20 +78,22 @@ public abstract class Enemy implements IEnemy {
     }
 
     // HasHealth methods
-    public abstract void setHealth(int newHealth);
-
-    public void setIsDead(boolean isDead){
-        this.isDead = isDead;
+    @Override
+    public int getHealth() {
+        return health;
     }
 
-    public boolean isDead(){
-        return isDead;
+    @Override
+    public boolean isDead() {
+        return health == 0;
     }
 
-    public void setFrozen(boolean frozen){
-        this.isFrozen = frozen;
+    @Override
+    public void freeze(){
+        isFrozen = true;
     }
 
+    @Override
     public boolean isFrozen(){
         return isFrozen;
     }
