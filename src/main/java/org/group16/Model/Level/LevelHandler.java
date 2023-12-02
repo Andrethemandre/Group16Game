@@ -6,7 +6,6 @@ import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Arrays;
 
 import org.group16.Model.GameObjects.Enemy.IEnemy;
@@ -58,6 +57,9 @@ public class LevelHandler {
     public LevelHandler() {
         observers = new ArrayList<>();
         gameState = GameState.START;
+        enemies = new ArrayList<>();
+        blocks = new ArrayList<>();
+        powerUps = new ArrayList<>();
     }
 
     public GameState getGameState() {
@@ -228,9 +230,6 @@ public class LevelHandler {
             levelStartTime = System.currentTimeMillis();
         }
 
-        enemies = new ArrayList<>();
-        blocks = new ArrayList<>();
-        powerUps = new ArrayList<>();
         enemies.clear();
         blocks.clear();
         powerUps.clear();
@@ -239,6 +238,7 @@ public class LevelHandler {
         // GameStats
         currentLevelNumber = levelNumber;
         grid = new IGameObject[currentLevel.getWidth()][currentLevel.getHeight()];
+
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
                 Metadata metadata = currentLevel.getMetadata(new Tuple(j, i));
