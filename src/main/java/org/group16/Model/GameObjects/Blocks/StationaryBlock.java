@@ -18,5 +18,9 @@ class StationaryBlock extends Block {
         return super.getHeight();
     }
 
+    @Override
+    public void update() {
+        // Stationary blocks don't need to update
+    }
 
 }

@@ -41,4 +41,9 @@ public class Goal implements IGameObject{
     public boolean collidesWith(IGameObject otherGameObject) {
         return innerGameObject.collidesWith(otherGameObject);
     }
+
+    @Override
+    public void update() {
+        // Goal doesn't need to update right now
+    }
 }

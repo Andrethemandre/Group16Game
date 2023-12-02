@@ -6,5 +6,4 @@ import org.group16.Model.Observers.HasHealth;
 
 public interface IEnemy extends IGameObject, HasHealth, Freezeable {
     void dealDamage(HasHealth otherGameObject);
-    void update();
 }

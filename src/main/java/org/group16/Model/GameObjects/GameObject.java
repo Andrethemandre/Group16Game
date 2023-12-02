@@ -57,4 +57,9 @@ public class GameObject implements IGameObject {
         && gameObjectY < otherGameObjectY + otherGameObjectHeight 
         && gameObjectY + gameObjectHeight > otherGameObjectY;
     }
+
+    @Override
+    public void update() {
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
 }
