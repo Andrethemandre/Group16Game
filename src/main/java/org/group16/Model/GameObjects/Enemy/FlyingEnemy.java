@@ -6,7 +6,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.Observers.HasHealth;
 
-public class FlyingEnemy implements IMovableEnemy, AffectedByGravity {
+class FlyingEnemy implements IMovableEnemy, AffectedByGravity {
     private Direction horizontalDirection;
     private Direction verticalDirection;
     private int patrolDistance;

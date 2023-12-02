@@ -6,7 +6,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.Observers.HasHealth;
 
-public class BasicEnemy implements IMovableEnemy, AffectedByGravity {
+class BasicEnemy implements IMovableEnemy, AffectedByGravity {
     private Direction horizontalDirection;
     private int patrolDistance;
     private int currentDistance;

@@ -9,8 +9,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Arrays;
 
-import org.group16.Model.GameObjects.Enemy.FlyingEnemy;
 import org.group16.Model.GameObjects.Enemy.IEnemy;
+import org.group16.Model.GameObjects.Enemy.IMovableEnemy;
 import org.group16.Model.GameObjects.Goal.Goal;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Direction;
@@ -52,8 +52,6 @@ public class LevelHandler {
     private static int SCORE_LIMIT = 9999;
     private GameState gameState;
 
-    FirstLevel firstLevel = new FirstLevel();
-    SecondLevel secondLevel = new SecondLevel();
     // width and height depending on how big the level is
 
     private long pauseStartTime = 0;
@@ -63,11 +61,6 @@ public class LevelHandler {
         movableBlocks = new ArrayList<>();
         observers = new ArrayList<>();
         gameState = GameState.START;
-
-        // setLevel(1);
-        // setxandydirectionofmovableblocks(firstLevel.getMovableBlocks());
-
-        // Schedule the movable blocks movement at fixed intervals
     }
 
     public GameState getGameState() {
@@ -144,7 +137,7 @@ public class LevelHandler {
             if (enemy.getType() == GameObjectType.FLYING____) {
                 for (Block block : blocks) {
                     if (enemy.collidesWith(block)) {
-                        ((FlyingEnemy) enemy).toggleDirection();
+                        ((IMovableEnemy) enemy).toggleDirection();
                     }
                 }
             }

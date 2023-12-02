@@ -5,7 +5,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.Observers.HasHealth;
 
-public class TeleportRushEnemy implements IMovableEnemy, AffectedByGravity {
+class TeleportRushEnemy implements IMovableEnemy, AffectedByGravity {
     private MovableEnemy innerMovableEnemy;
     
     public TeleportRushEnemy(int x, int y,int width, int height) {

@@ -4,7 +4,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.Observers.HasHealth;
 
-public class Spike implements IEnemy {
+class Spike implements IEnemy {
     Enemy innerEnemy;
 
     Spike(int x, int y) {
