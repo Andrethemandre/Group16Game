@@ -46,7 +46,7 @@ public class LevelHandler {
     private Level currentLevel;
     private long levelStartTime;
     private int levelAttempts = 0;
-    private static int SCORE_LIMIT = 9999;
+    private final static int SCORE_LIMIT = 9999;
     private GameState gameState;
 
     // width and height depending on how big the level is
