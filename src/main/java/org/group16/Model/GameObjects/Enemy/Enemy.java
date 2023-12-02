@@ -4,33 +4,35 @@ import org.group16.Model.GameObjects.IGameObject;
 
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
-import org.group16.Model.GameObjects.Player.Player;
-import org.group16.Model.Observers.Health;
+import org.group16.Model.Observers.HasHealth;
 
-public abstract class Enemy implements IGameObject, Health /* implements Health */ {
+public abstract class Enemy implements IEnemy {
     GameObject innerGameObject;
-    private int width;
-    private int height;
 
     private int damage = 1;
     private boolean isDead;
-    private boolean frozen = false;
+    private boolean isFrozen = false;
 
     Enemy(GameObjectType enemyType, int x, int y) {
         innerGameObject = new GameObject(enemyType, x, y, 16, 16);
     }
 
-    Enemy(GameObjectType enemyType,int x,  int y, int width, int height){
+    Enemy(GameObjectType enemyType, int x,  int y, int width, int height){
         innerGameObject = new GameObject(enemyType, x, y, width, height);
     }
+
+    // Enemy methods
+    @Override
+    public void dealDamage(HasHealth otherGameObject) {
+        otherGameObject.updateHealth(damage);
+    }
+
+    // Game Object methods
+    public abstract void update();
 
     @Override
     public GameObjectType getType() {
         return innerGameObject.getType();
-    }
-
-    public void dealDamage(Player player) {
-        player.updateHealth(damage);
     }
 
     @Override
@@ -66,6 +68,9 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
         return innerGameObject.getHeight();
     }
 
+    // HasHealth methods
+    public abstract void setHealth(int newHealth);
+
     public void setIsDead(boolean isDead){
         this.isDead = isDead;
     }
@@ -75,15 +80,10 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
     }
 
     public void setFrozen(boolean frozen){
-        this.frozen = frozen;
+        this.isFrozen = frozen;
     }
 
-    public boolean getFrozen(){
-        return this.frozen;
+    public boolean isFrozen(){
+        return isFrozen;
     }
-
-    public abstract void setHealth(int newHealth);
-
-    public abstract void update();
-
 }

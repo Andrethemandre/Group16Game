@@ -358,7 +358,7 @@ public class LevelHandler {
 
     private void freezeFrozenEnemy() {
         for (Enemy enemy : enemies) {
-            if (enemy.getFrozen()) {
+            if (enemy.isFrozen()) {
                 Block frozenEnemy = BlockFactory.createBlockAt(STATIONARY, enemy.getX(), enemy.getY(),
                         new Metadata(0, Direction.NONE, Direction.NONE));
                 addBlock(frozenEnemy);

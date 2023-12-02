@@ -2,9 +2,9 @@ package org.group16.Model.GameObjects.Player;
 
 import org.group16.Model.GameObjects.*;
 import org.group16.Model.GameObjects.Blocks.MovableBlock;
-import org.group16.Model.Observers.Health;
+import org.group16.Model.Observers.HasHealth;
 
-public class Player implements Movable, IGameObject, Health, AffectedByGravity {
+public class Player implements Movable, IGameObject, HasHealth, AffectedByGravity {
     private boolean moveLeft = false;
     private boolean moveRight = false;
     private boolean doJump = false;

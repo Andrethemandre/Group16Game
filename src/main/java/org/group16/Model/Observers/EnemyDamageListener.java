@@ -2,7 +2,7 @@ package org.group16.Model.Observers;
 
 import org.group16.Model.GameObjects.Enemy.Enemy;
 
-class EnemyDamageListener implements Health {
+class EnemyDamageListener implements HasHealth {
     // suposed to daamage the enemy but need specific enemy to do so both it´s type
     // and health. also need to add get/set health methods to the enemy class(es?)
     Enemy enemy;
