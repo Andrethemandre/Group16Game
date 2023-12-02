@@ -23,7 +23,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Enemy.IEnemy;
-import org.group16.Model.GameObjects.Flag.Flag;
+import org.group16.Model.GameObjects.Goal.Goal;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.Level.LevelHandler;
@@ -115,7 +115,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         paintPlayer(g, currentPlayer);
         paintEnemies(g);
         paintBlocks(g);
-        paintFlag(g);
+        paintGoal(g);
         paintPowerups(g);
 
         // Gameplay hud
@@ -270,12 +270,12 @@ public class LevelPanel extends GamePanel implements GameObserver {
         }
     }
 
-    private void paintFlag(Graphics g) {
-        Flag flag = levelHandler.getGoalFlag();
-        int flagX = flag.getX();
-        int flagY = flag.getY();
+    private void paintGoal(Graphics g) {
+        Goal Goal = levelHandler.getGoal();
+        int GoalX = Goal.getX();
+        int GoalY = Goal.getY();
         g.setColor(Color.green);
-        g.fillRect(flagX, flagY, flag.getWidth(), flag.getHeight());
+        g.fillRect(GoalX, GoalY, Goal.getWidth(), Goal.getHeight());
     }
 
     private void paintPowerups(Graphics g) {

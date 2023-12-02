@@ -1,14 +1,14 @@
-package org.group16.Model.GameObjects.Flag;
+package org.group16.Model.GameObjects.Goal;
 
 import org.group16.Model.GameObjects.IGameObject;
 
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 
-public class Flag implements IGameObject{
+public class Goal implements IGameObject{
     private GameObject innerGameObject;
 
-    public Flag(int x, int y) {
+    public Goal(int x, int y) {
         innerGameObject = new GameObject(GameObjectType.GOAL______, x, y, 16, 16);
     }
     

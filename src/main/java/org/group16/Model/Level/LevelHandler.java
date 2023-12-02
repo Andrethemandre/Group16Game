@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 import org.group16.Model.GameObjects.Enemy.FlyingEnemy;
 import org.group16.Model.GameObjects.Enemy.IEnemy;
+import org.group16.Model.GameObjects.Goal.Goal;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
@@ -19,7 +20,6 @@ import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
 import org.group16.Model.GameObjects.Blocks.MovableBlock;
 import org.group16.Model.GameObjects.Enemy.EnemyFactory;
-import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.GameObjects.PowerUp.PowerUpFactory;
@@ -29,12 +29,12 @@ public class LevelHandler {
     private List<MovableBlock> movableBlocks; // Add this member variable
 
     private Player player;
-    private Flag goalFlag;
+    private Goal goal;
     private Collection<IEnemy> enemies;
     private Collection<Block> blocks;
     // private MovableBlock movableBlock;
     private Collection<PowerUp> powerUps;
-    private boolean playerIsAtFlag;
+    private boolean playerIsAtGoal;
     private IGameObject[][] grid;
     private Collection<GameObjectType> acceptedEnemyTypes = Arrays
             .asList(new GameObjectType[] { GameObjectType.BASIC_____, GameObjectType.SPIKE_____,
@@ -119,8 +119,8 @@ public class LevelHandler {
     }
 
     // collision checkers
-    private void checkIfPlayerAtFlag() {
-        if (player.collidesWith(goalFlag)) {
+    private void checkIfPlayerAtGoal() {
+        if (player.collidesWith(goal)) {
             setLevel(2);
         }
     }
@@ -280,9 +280,9 @@ public class LevelHandler {
                     grid[j][i] = player;
 
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.GOAL______) {
-                    // will only reset if there is a new flag on next level.
-                    goalFlag = new Flag(j * 16, i * 16);
-                    grid[j][i] = goalFlag;
+                    // will only reset if there is a new goal on next level.
+                    goal = new Goal(j * 16, i * 16);
+                    grid[j][i] = goal;
 
                 }
             }
@@ -297,7 +297,7 @@ public class LevelHandler {
         moveMovableBlocks();
         player.update();
 
-        checkIfPlayerAtFlag();
+        checkIfPlayerAtGoal();
         checkIfPlayerCollidesWithBlocks();
         checkIfPlayerCollidesWithEnemies();
         checkIfPlayerCollidesWithPowerUp();
@@ -385,8 +385,8 @@ public class LevelHandler {
         return this.player;
     }
 
-    public Flag getGoalFlag() {
-        return goalFlag;
+    public Goal getGoal() {
+        return goal;
     }
 
     public Collection<IEnemy> getEnemies() {
