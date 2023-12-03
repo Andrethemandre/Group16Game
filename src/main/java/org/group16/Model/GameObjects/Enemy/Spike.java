@@ -2,6 +2,7 @@ package org.group16.Model.GameObjects.Enemy;
 
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
+import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.Observers.HasHealth;
 
 class Spike implements ITrap {
@@ -64,5 +65,16 @@ class Spike implements ITrap {
     @Override
     public void dealDamage(HasHealth otherGameObject) {
         innerEnemy.dealDamage(otherGameObject);
+    }
+
+    @Override
+    public void triggerPowerUp(GameObjectType powerUp) {
+        switch (powerUp) {
+            case FREEZE____:
+                innerEnemy.freeze();
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -186,7 +186,8 @@ public class LevelHandler {
         for (PowerUp powerUp : powerUps) {
             for (IEnemy enemy : enemies) {
                 if (powerUp.collidesWith(enemy)) {
-                    powerUp.triggerPowerUp(enemy);
+                    enemy.triggerPowerUp(powerUp.getType());
+                    powerUp.use();
                 }
             }
         }
@@ -196,7 +197,8 @@ public class LevelHandler {
         for (PowerUp powerUp : powerUps) {
             for (ITrap trap : traps) {
                 if (powerUp.collidesWith(trap)) {
-                    powerUp.triggerPowerUp(trap);
+                    trap.triggerPowerUp(powerUp.getType());
+                    powerUp.use();
                 }
             }
         }
@@ -206,7 +208,7 @@ public class LevelHandler {
         for (PowerUp powerUp : powerUps) {
             for (Block block : blocks) {
                 if (powerUp.collidesWith(block)) {
-                    powerUp.setIsDead(true);
+                    powerUp.use();
                 }
             }
         }

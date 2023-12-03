@@ -27,7 +27,6 @@ public class TestLevel extends Level {
 
     @Override
     protected Queue<Metadata> createMetadata() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'createMetadata'");
     }
 }

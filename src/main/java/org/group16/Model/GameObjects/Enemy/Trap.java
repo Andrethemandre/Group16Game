@@ -61,4 +61,9 @@ public class Trap implements ITrap {
     public boolean isFrozen() {
         return innerObstacle.isFrozen();
     }
+
+    @Override
+    public void triggerPowerUp(GameObjectType powerUp) {
+        throw new UnsupportedOperationException("Unimplemented method 'triggerPowerUp'");
+    }
 }

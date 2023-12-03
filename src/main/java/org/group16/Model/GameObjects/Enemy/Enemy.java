@@ -93,4 +93,9 @@ class Enemy implements IEnemy {
     public boolean isFrozen() {
         return innerObstacle.isFrozen();
     }
+
+    @Override
+    public void triggerPowerUp(GameObjectType powerUp) {
+        throw new UnsupportedOperationException("Unimplemented method 'triggerPowerUp'");
+    }
 }

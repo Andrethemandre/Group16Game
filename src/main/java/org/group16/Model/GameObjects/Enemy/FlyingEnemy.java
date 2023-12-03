@@ -147,4 +147,18 @@ class FlyingEnemy implements IMovableEnemy, AffectedByGravity {
     public int getMovementSpeed() {
         return innerMovableEnemy.getMovementSpeed();
     }
+
+    @Override
+    public void triggerPowerUp(GameObjectType powerUp) {
+        switch (powerUp) {
+            case SPEAR_____:
+                updateHealth(1);
+                break;
+            case FREEZE____:
+                freeze();
+                break;
+            default:
+                break;
+        }
+    }
 }

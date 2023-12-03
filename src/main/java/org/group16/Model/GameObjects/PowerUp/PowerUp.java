@@ -61,12 +61,13 @@ public abstract class PowerUp implements IGameObject, Movable, CanDie {
         return movable;
     }
 
+    @Override
     public boolean isDead() {
         return isDead;
     }
 
-    public void setIsDead(boolean isDead) {
-        this.isDead = isDead;
+    public void use() {
+        isDead = true;
     }
 
     @Override
@@ -89,7 +90,5 @@ public abstract class PowerUp implements IGameObject, Movable, CanDie {
             }
         }
     }
-
-    public abstract void triggerPowerUp(IObstacle enemy);
 }
 

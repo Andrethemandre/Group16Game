@@ -31,7 +31,6 @@ class TeleportRushEnemy implements IMovableEnemy, AffectedByGravity {
 
     @Override
     public void toggleDirection() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'toggleDirection'");
     }
 
@@ -92,5 +91,10 @@ class TeleportRushEnemy implements IMovableEnemy, AffectedByGravity {
     @Override
     public int getMovementSpeed() {
         return innerMovableEnemy.getMovementSpeed();
+    }
+
+    @Override
+    public void triggerPowerUp(GameObjectType powerUp) {
+        // shouldn't be affected by power-ups
     }
 }

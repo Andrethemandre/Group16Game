@@ -16,21 +16,4 @@ public class SpearPowerUp extends PowerUp {
     public SpearPowerUp(int x, int y) {
         super(SPEAR_____, x, y);
     }
-
-    @Override
-    public void triggerPowerUp(IObstacle enemy) {
-        switch (enemy.getType()) {
-            case BASIC_____:
-                ((HasHealth) enemy).updateHealth(((HasHealth) enemy).getHealth());
-                this.setIsDead(true);
-                break;
-
-            case SPIKE_____:
-                this.setIsDead(true);
-                break;
-
-            default:
-                break;
-        }   
-    }
 }

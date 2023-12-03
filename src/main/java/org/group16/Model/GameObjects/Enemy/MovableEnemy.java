@@ -4,6 +4,7 @@ import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Movable;
+import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.Observers.HasHealth;
 
 class MovableEnemy implements IMovableEnemy {
@@ -39,7 +40,6 @@ class MovableEnemy implements IMovableEnemy {
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
@@ -103,14 +103,17 @@ class MovableEnemy implements IMovableEnemy {
 
     @Override
     public void move() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'move'");
     }
 
     @Override
     public void toggleDirection() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'toggleDirection'");
+    }
+
+    @Override
+    public void triggerPowerUp(GameObjectType powerUp) {
+        throw new UnsupportedOperationException("Unimplemented method 'triggerPowerUp'");
     }
 
 }

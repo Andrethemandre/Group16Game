@@ -3,6 +3,7 @@ package org.group16.Model.GameObjects.Enemy;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
+import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.Observers.HasHealth;
 
 public class Obstacle implements IObstacle {
@@ -80,6 +81,11 @@ public class Obstacle implements IObstacle {
     @Override
     public void dealDamage(HasHealth otherGameObject) {
         otherGameObject.updateHealth(damage);
+    }
+
+    @Override
+    public void triggerPowerUp(GameObjectType powerUp) {
+        throw new UnsupportedOperationException("Unimplemented method 'triggerPowerUp'");
     }
     
 }

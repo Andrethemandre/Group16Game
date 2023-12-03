@@ -14,24 +14,5 @@ public class FreezePowerUp extends PowerUp {
 
     public FreezePowerUp(int x, int y) {
         super(FREEZE____, x, y);
-    }
-
-    @Override
-    public void triggerPowerUp(IObstacle enemy) {
-        switch (enemy.getType()) {
-            case BASIC_____:
-                enemy.freeze();
-                this.setIsDead(true);
-                break;
-            
-            case SPIKE_____:
-                enemy.freeze();
-                this.setIsDead(true);
-                break;
-
-            default:
-                break;
-        }
-    }
-    
+    }    
 }
