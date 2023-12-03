@@ -58,7 +58,7 @@ public class SecondLevel extends Level {
 
     // Construct the level by positioning game objects in the grid
     public SecondLevel() {
-        super(level2);
+        super(level2, 2);
     }
 
     @Override

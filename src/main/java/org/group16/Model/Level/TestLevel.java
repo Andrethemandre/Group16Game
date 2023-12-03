@@ -22,7 +22,7 @@ public class TestLevel extends Level {
     };
 
     public TestLevel() {
-        super(testLevel);
+        super(testLevel, -1);
     }
 
     @Override

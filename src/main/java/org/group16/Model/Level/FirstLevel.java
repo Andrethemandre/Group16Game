@@ -65,7 +65,7 @@ public class FirstLevel extends Level  {
 
     // Construct the level by positioning game objects in the grid
     public FirstLevel() {
-        super(level1);
+        super(level1, 1);
     }
 
     protected Queue<Metadata> createMetadata() {

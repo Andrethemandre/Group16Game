@@ -21,14 +21,16 @@ import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
 import static org.group16.Model.GameObjects.GameObjectType.FLYING____;
 
 public abstract class Level {
-    public final int WIDTH = 45;
-    public final int HEIGHT = 30;
+    private final int WIDTH = 45;
+    private final int HEIGHT = 30;
+    private final int levelNumber;
 
     private GameObjectType[][] level;
     private Map<Tuple, Metadata> metadataMap;
 
-    public Level(GameObjectType[][] level) {
+    public Level(GameObjectType[][] level, int levelNumber) {
         this.level = level;
+        this.levelNumber = levelNumber;
         initializeMetadata();
     }
 
@@ -72,4 +74,8 @@ public abstract class Level {
     public Metadata getMetadata(Tuple tuple) {
         return metadataMap.get(tuple);
     }
+
+    public int getLevelNumber() {
+        return levelNumber;
+    }   
 }

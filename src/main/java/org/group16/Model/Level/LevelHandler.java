@@ -36,17 +36,9 @@ public class LevelHandler {
 
     private boolean playerIsAtGoal;
     private IGameObject[][] grid;
-
-    private Collection<GameObjectType> acceptedEnemyTypes = Arrays
-            .asList(new GameObjectType[] { GameObjectType.BASIC_____, GameObjectType.FLYING____, GameObjectType.TELEPORT__ });
-    private Collection<GameObjectType> acceptedBlockTypes = Arrays
-            .asList(new GameObjectType[] { GameObjectType.STATIONARY, GameObjectType.MOVABLE___ });
-    private Collection<GameObjectType> acceptedPowerUpTypes = Arrays
-            .asList(new GameObjectType[] { GameObjectType.SPEAR_____, GameObjectType.FREEZE____ });
-    private Collection<GameObjectType> acceptedTrapTypes = Arrays.asList(new GameObjectType[] { GameObjectType.SPIKE_____ });
     
     private Collection<GameObserver> observers;
-    private int currentLevelNumber;
+    private int lastLevelNumber = 0;
     private int score = 0;
     private Level currentLevel;
     private long levelStartTime;
@@ -77,7 +69,7 @@ public class LevelHandler {
     }
 
     public int getCurrentLevelNumber() {
-        return this.currentLevelNumber;
+        return currentLevel.getLevelNumber();
     }
 
     private void addScore(int points) {
@@ -209,7 +201,7 @@ public class LevelHandler {
 
     private void checkIfPlayerIsDead() {
         if (player.isDead()) {
-            setLevel(currentLevelNumber);
+            setLevel(currentLevel.getLevelNumber());
 
             this.levelAttempts++;
         }
@@ -232,7 +224,7 @@ public class LevelHandler {
     }
 
     public void restartGame() {
-        setLevel(currentLevelNumber);
+        setLevel(currentLevel.getLevelNumber());
 
         totalPauseTime = 0;
         pauseStartTime = 0;
@@ -248,7 +240,7 @@ public class LevelHandler {
     private void setLevel(int levelNumber) {
         gameState = GameState.PLAYING;
 
-        if (levelNumber != currentLevelNumber) {
+        if (levelNumber != lastLevelNumber) {
             levelAttempts = 0;
             score = 0;
             levelStartTime = System.currentTimeMillis();
@@ -258,47 +250,54 @@ public class LevelHandler {
         blocks.clear();
         powerUps.clear();
         currentLevel = LevelFactory.createLevel(levelNumber);
+        lastLevelNumber = levelNumber;
 
         // GameStats
-        currentLevelNumber = levelNumber;
         grid = new IGameObject[currentLevel.getWidth()][currentLevel.getHeight()];
 
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
                 Metadata metadata = currentLevel.getMetadata(new Tuple(j, i));
-                if (acceptedEnemyTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    IEnemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
-                            metadata);
-                    addEnemy(newEnemy);
-                    grid[j][i] = newEnemy;
-
-                } else if (acceptedBlockTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
-                            metadata);
-                    addBlock(newBlock);
-                    grid[j][i] = newBlock;
-
-                } else if (acceptedPowerUpTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    PowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevel.getLevelTile(i, j), j * 16,
-                            i * 16);
-                    powerUps.add(newPowerUp);
-                    grid[j][i] = newPowerUp;
-
-                } else if (acceptedTrapTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    ITrap newTrap = TrapFactory.createTrapAt(currentLevel.getLevelTile(i, j), j * 16, i * 16);
-                    addTrap(newTrap);
-                    grid[j][i] = newTrap;
-
-                } else if (currentLevel.getLevelTile(i, j) == GameObjectType.PLAYER____) {
-                    // The grid uses /16 of the actual size
-                    player = new Player(j * 16, i * 16, getHeight() * 16, getWidth() * 16);
-                    grid[j][i] = player;
-
-                } else if (currentLevel.getLevelTile(i, j) == GameObjectType.GOAL______) {
-                    // will only reset if there is a new goal on next level.
-                    goal = new Goal(j * 16, i * 16);
-                    grid[j][i] = goal;
-
+                switch (currentLevel.getLevelTile(i, j)) {
+                    case BASIC_____:
+                    case FLYING____:
+                    case TELEPORT__:
+                        IEnemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
+                                metadata);
+                        addEnemy(newEnemy);
+                        grid[j][i] = newEnemy;
+                        break;
+                    case STATIONARY:
+                    case MOVABLE___:
+                        Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
+                                metadata);
+                        addBlock(newBlock);
+                        grid[j][i] = newBlock;
+                        break;
+                    case SPEAR_____:
+                    case FREEZE____:
+                        PowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevel.getLevelTile(i, j),
+                                j * 16, i * 16);
+                        powerUps.add(newPowerUp);
+                        grid[j][i] = newPowerUp;
+                        break;
+                    case SPIKE_____:
+                        ITrap newTrap = TrapFactory.createTrapAt(currentLevel.getLevelTile(i, j), j * 16, i * 16);
+                        addTrap(newTrap);
+                        grid[j][i] = newTrap;
+                        break;
+                    case PLAYER____:
+                        // The grid uses /16 of the actual size
+                        player = new Player(j * 16, i * 16, getHeight() * 16, getWidth() * 16);
+                        grid[j][i] = player;
+                        break;
+                    case GOAL______:
+                        // will only reset if there is a new goal on next level.
+                        goal = new Goal(j * 16, i * 16);
+                        grid[j][i] = goal;
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -451,12 +450,13 @@ public class LevelHandler {
         return grid;
     }
 
+    // Somehow this is the right way to do it
     public int getWidth() {
-        return grid[0].length;
+        return currentLevel.getHeight();
     }
 
     public int getHeight() {
-        return grid.length;
+        return currentLevel.getWidth();
     }
 
     public GameState getPauseState() {
