@@ -83,8 +83,8 @@ public class Player implements Movable, IGameObject, HasHealth, AffectedByGravit
                 MovableBlock movableBlock = (MovableBlock) otherGameObject;
 
                 // Player is getting pushed from the side or is on top of the block
-                int blockHorizontalDirection = movableBlock.isitgoingposornegh();
-                int blockVerticalDirection = movableBlock.isitgoingposornegv();
+                int blockHorizontalDirection = movableBlock.getHorisontalDirectionValue();
+                int blockVerticalDirection = movableBlock.getVerticalDirectionValue();
 
                 if (blockHorizontalDirection != 0) {
                     // Adjust X position based on the block's horizontal movement
@@ -129,7 +129,7 @@ public class Player implements Movable, IGameObject, HasHealth, AffectedByGravit
             // Adjust player's X position based on MovableBlock's movement
             if (otherGameObject instanceof MovableBlock && isOnTopOf((MovableBlock) otherGameObject)) {
                 MovableBlock movableBlock = (MovableBlock) otherGameObject;
-                setX(getX() + movableBlock.isitgoingposornegh());
+                setX(getX() + movableBlock.getHorisontalDirectionValue());
             }
         }
     }

@@ -21,7 +21,7 @@ import javax.swing.border.EmptyBorder;
 
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
-import org.group16.Model.GameObjects.Blocks.Block;
+import org.group16.Model.GameObjects.Blocks.IBlock;
 import org.group16.Model.GameObjects.Enemy.IEnemy;
 import org.group16.Model.GameObjects.Enemy.ITrap;
 import org.group16.Model.GameObjects.Goal.Goal;
@@ -286,8 +286,8 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
     private void paintBlocks(Graphics g) {
-        Collection<Block> currentBlocks = levelHandler.getBlocks();
-        for (Block block : currentBlocks) {
+        Collection<IBlock> currentBlocks = levelHandler.getBlocks();
+        for (IBlock block : currentBlocks) {
             int blockX = (int) block.getX();
             int blockY = (int) block.getY();
             g.setColor(Color.ORANGE);

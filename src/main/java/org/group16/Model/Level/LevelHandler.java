@@ -6,20 +6,17 @@ import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Arrays;
 
 import org.group16.Model.GameObjects.Enemy.IEnemy;
 import org.group16.Model.GameObjects.Enemy.IMovableEnemy;
 import org.group16.Model.GameObjects.Enemy.ITrap;
 import org.group16.Model.GameObjects.Enemy.TrapFactory;
 import org.group16.Model.GameObjects.Goal.Goal;
-import org.group16.Model.GameObjects.IGameObject;
-import org.group16.Model.GameObjects.Movable;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
-import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
+import org.group16.Model.GameObjects.Blocks.IBlock;
 import org.group16.Model.GameObjects.Blocks.MovableBlock;
 import org.group16.Model.GameObjects.Enemy.EnemyFactory;
 import org.group16.Model.GameObjects.Player.Player;
@@ -32,7 +29,7 @@ public class LevelHandler {
     private Goal goal;
     private Collection<IEnemy> enemies;
     private Collection<IMovableEnemy> movableEnemies;
-    private Collection<Block> blocks;
+    private Collection<IBlock> blocks;
     private Collection<PowerUp> powerUps;
     private Collection<ITrap> traps;
 
@@ -118,7 +115,7 @@ public class LevelHandler {
     }
 
     private void checkIfPlayerCollidesWithBlocks() {
-        for (Block block : blocks) {
+        for (IBlock block : blocks) {
             player.collision(block);
         }
     }
@@ -143,14 +140,14 @@ public class LevelHandler {
         for (IMovableEnemy enemy : movableEnemies) {
             switch (enemy.getType()) {
                 case FLYING____:
-                    for (Block block : blocks) {
+                    for (IBlock block : blocks) {
                         if (enemy.collidesWith(block)) {
                             enemy.toggleDirection();
                         }
                     }
                     break;
                 case BASIC_____:
-                    for (Block block : blocks) {
+                    for (IBlock block : blocks) {
                         if (enemy.collidesWith(block)) {
                             enemy.toggleDirection();
                         }
@@ -164,7 +161,7 @@ public class LevelHandler {
 
     private void checkIfPlayerCollidesWithPowerUp() {
         PowerUp powerUpToRemove = null;
-        
+
         if (player.getHasPowerUp() == GameObjectType.NOTHING___) {
             for (PowerUp powerUp : powerUps) {
                 if (player.collidesWith(powerUp)) {
@@ -203,7 +200,7 @@ public class LevelHandler {
 
     private void checkIfPowerUpsCollidesWithBlocks() {
         for (PowerUp powerUp : powerUps) {
-            for (Block block : blocks) {
+            for (IBlock block : blocks) {
                 if (powerUp.collidesWith(block)) {
                     powerUp.use();
                 }
@@ -324,7 +321,7 @@ public class LevelHandler {
     }
 
     private void createBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
-        Block newBlock = BlockFactory.createBlockAt(currentLevelTile, j * 16, i * 16, metadata);
+        IBlock newBlock = BlockFactory.createBlockAt(currentLevelTile, j * 16, i * 16, metadata);
         blocks.add(newBlock);
     }
 
@@ -416,7 +413,7 @@ public class LevelHandler {
     private void freezeFrozenEnemy() {
         for (IEnemy enemy : enemies) {
             if (enemy.isFrozen()) {
-                Block frozenEnemy = BlockFactory.createBlockAt(STATIONARY, enemy.getX(), enemy.getY(),
+                IBlock frozenEnemy = BlockFactory.createBlockAt(STATIONARY, enemy.getX(), enemy.getY(),
                         new Metadata(0, Direction.NONE, Direction.NONE));
                 blocks.add(frozenEnemy);
                 enemy.updateHealth(enemy.getHealth());
@@ -425,7 +422,7 @@ public class LevelHandler {
 
         for (ITrap trap : traps) {
             if (trap.isFrozen()) {
-                Block frozenTrap = BlockFactory.createBlockAt(STATIONARY, trap.getX(), trap.getY(),
+                IBlock frozenTrap = BlockFactory.createBlockAt(STATIONARY, trap.getX(), trap.getY(),
                         new Metadata(0, Direction.NONE, Direction.NONE));
                 blocks.add(frozenTrap);
             }
@@ -464,7 +461,7 @@ public class LevelHandler {
         return enemies;
     }
 
-    public Collection<Block> getBlocks() {
+    public Collection<IBlock> getBlocks() {
         return blocks;
     }
 
@@ -538,7 +535,7 @@ public class LevelHandler {
     }
 
     public void updateBlocks() {
-        for (Block block : blocks) {
+        for (IBlock block : blocks) {
             block.update();
         }
     }
