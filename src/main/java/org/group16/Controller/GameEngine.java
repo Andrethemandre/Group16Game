@@ -46,7 +46,7 @@ public class GameEngine {
 
     // update stuff
     public void update() {
-        if(levelHandler.getPauseState() == GameState.PAUSED){
+        if(levelHandler.getGameState() == GameState.PAUSED){
             return;
         } 
         

@@ -12,6 +12,12 @@ public class GameStateManager {
     private long pauseStartTime;
     private long totalPauseTime;
 
+
+    GameStateManager() {
+        gameState = GameState.START;
+    }
+
+
     public void togglePause() {
         if (gameState == GameState.PLAYING) {
             pauseStartTime = System.currentTimeMillis();
@@ -24,15 +30,35 @@ public class GameStateManager {
         notifyObservers();
     }
 
-    // public void startGame() {
-    //     setLevel(1);
+    private void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
 
-    //     totalPauseTime = 0;
-    //     pauseStartTime = 0;
-    //     levelAttempts = 0;
-    //     score = 0;
-    //     levelStartTime = System.currentTimeMillis();
-    // }
+    public void newGame() {
+        // TODO: SAVE SYSTEM
+        // Temporary due to lack of save system
+
+        setGameState(GameState.LEVELSELECT);
+    }
+
+    public void loadGame() {
+        // TODO: SAVE SYSTEM
+    }
+
+    public void goToMainMenu() {
+        setGameState(GameState.START);
+        notifyObservers();
+    }
+
+    public void goToLevelSelect() {
+        setGameState(GameState.LEVELSELECT);
+        notifyObservers();
+    }
+
+    public void startGame() {
+        setGameState(GameState.PLAYING);
+        notifyObservers();
+    }
 
 
     // public void restartGame() {
@@ -48,26 +74,15 @@ public class GameStateManager {
     //         o.updateObserver();
     //     }
     // }
-    private void setGameState(GameState gameState) {
-        this.gameState = gameState;
-    }
-
-    public void loadGame() {
-        setGameState(GameState.LEVELSELECT);
-
-        for (GameObserver o : observers) {
-            o.updateObserver();
-        }
-    }
-
-    public void goToMainMenu() {
-        setGameState(GameState.START);
-        notifyObservers();
-    }
 
     private void notifyObservers() {
         for (GameObserver o : observers) {
             o.updateObserver();
         }
+    }
+
+
+    public GameState getGameState() {
+        return gameState;
     }
 }

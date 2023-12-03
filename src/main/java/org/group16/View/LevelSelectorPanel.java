@@ -83,7 +83,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
 
     private JPanel createLevelInfoPanel(){
         JPanel levelInfoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        levelInfoPanel.setBackground(Color.red);
+        levelInfoPanel.setBackground(Color.LIGHT_GRAY);
         levelSelectLabel = createCurrentSelectedLevelLabel();
         levelInfoPanel.add(levelSelectLabel);
         levelInfoPanel.add(createLevelImageLabel());
@@ -113,7 +113,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         JPanel horizontalButtonPanel = ViewUtility.createHorizontalPanel();
         horizontalButtonPanel.setAlignmentX(JButton.CENTER_ALIGNMENT);
         horizontalButtonPanel.setBorder(BorderFactory.createEmptyBorder(100, 20, 0, 0)); // Add padding
-        horizontalButtonPanel.setBackground(Color.ORANGE);
+        horizontalButtonPanel.setBackground(Color.LIGHT_GRAY);
     
         backToMainMenuButton = ViewUtility.createButton("Back to Main Menu", LARGE_BUTTON_SIZE);
         backToMainMenuButton.setFont(BUTTON_FONT);
@@ -154,7 +154,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
 
         levelVerticalSelectPanel.setBackground(Color.GRAY);
 
-        levelBrowseMenu.setBackground(Color.green);
+        levelBrowseMenu.setBackground(Color.GRAY);
         levelBrowseMenu.add(levelVerticalSelectPanel, BorderLayout.CENTER);
         navigationPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0)); // Add padding
         levelBrowseMenu.add(navigationPanel,BorderLayout.SOUTH);
@@ -204,7 +204,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
 
         navigationPanel.add(levelPageNextButton);
 
-        navigationPanel.setBackground(Color.PINK);
+        navigationPanel.setBackground(Color.GRAY);
         navigationPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0)); // Add padding
 
         return navigationPanel;

@@ -50,7 +50,8 @@ public class LevelHandler {
     private long levelStartTime;
     private int levelAttempts = 0;
     private static int SCORE_LIMIT = 9999;
-    private GameState gameState;
+    private GameStateManager gameStateManager;
+    //private GameState gameState;
     private Map<Integer,Level> levels;      
     private long pauseStartTime = 0;
     private long totalPauseTime = 0;
@@ -63,7 +64,7 @@ public class LevelHandler {
         levels = new HashMap<Integer,Level>();
         movableBlocks = new ArrayList<>();
         observers = new ArrayList<>();
-        gameState = GameState.START;
+        gameStateManager = new GameStateManager();
 
 
         levels.put(1, LevelFactory.createLevel(1));
@@ -102,7 +103,7 @@ public class LevelHandler {
     }
 
     public void goToLevelSelect() {
-        setGameState(GameState.LEVELSELECT);
+        gameStateManager.goToLevelSelect();
     }
 
     public Map<Integer,Level> getLevels() {
@@ -110,11 +111,7 @@ public class LevelHandler {
     }
 
     public GameState getGameState() {
-        return gameState;
-    }
-
-    private void setGameState(GameState gameState) {
-        this.gameState = gameState;
+        return gameStateManager.getGameState();
     }
 
     public int getCurrentLevelNumber() {
@@ -249,13 +246,15 @@ public class LevelHandler {
     }
 
     public void startGame() {
+        gameStateManager.startGame();
         setLevel(currentLevelNumber);
 
         totalPauseTime = 0;
         pauseStartTime = 0;
         levelAttempts = 0;
-        scoreManager.resetScore();
         levelStartTime = System.currentTimeMillis();
+        
+        scoreManager.resetScore();
     }
 
     public void restartGame() {
@@ -271,10 +270,28 @@ public class LevelHandler {
             o.updateObserver();
         }
     }
-    // vill ha det private
-    private void setLevel(int levelNumber) {
-        gameState = GameState.PLAYING;
 
+    public void togglePause() {
+        gameStateManager.togglePause();
+
+        for (GameObserver o : observers) {
+            o.updateObserver();
+        }
+    }
+
+    public void goToMainMenu() {
+        gameStateManager.goToMainMenu();
+
+        for (GameObserver o : observers) {
+            o.updateObserver();
+        }
+    }
+
+    public void loadGame() {
+        // TODO: SAVE SYSTEM
+    }
+
+    private void setLevel(int levelNumber) {
         if (levelNumber != currentLevelNumber) {
             levelAttempts = 0;
             scoreManager.resetScore();
@@ -462,34 +479,6 @@ public class LevelHandler {
         return grid.length;
     }
 
-    public GameState getPauseState() {
-        return this.gameState;
-    }
-
-    public void togglePause() {
-        GameState currentGameState = getGameState();
-
-        if (currentGameState == GameState.PLAYING) {
-            pauseStartTime = System.currentTimeMillis();
-            setGameState(GameState.PAUSED);
-        } else if (currentGameState == GameState.PAUSED) {
-            totalPauseTime += System.currentTimeMillis() - pauseStartTime;
-            setGameState(GameState.PLAYING);
-        }
-
-        for (GameObserver o : observers) {
-            o.updateObserver();
-        }
-    }
-
-    public void goToMainMenu() {
-        setGameState(GameState.START);
-
-        for (GameObserver o : observers) {
-            o.updateObserver();
-        }
-    }
-
     // is here because levelHandler has the power ups list that I need to change for
     // things to be drawn
     public void usePowerUp() {
@@ -519,9 +508,5 @@ public class LevelHandler {
                 ((MovableBlock) block).move();
             }
         }
-    }
-
-    public void loadGame() {
-        // TODO: SAVE SYSTEM
     }
 }
