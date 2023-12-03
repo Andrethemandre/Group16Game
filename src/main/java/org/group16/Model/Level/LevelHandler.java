@@ -56,6 +56,7 @@ public class LevelHandler {
 
     FirstLevel firstLevel = new FirstLevel();
     SecondLevel secondLevel = new SecondLevel();
+    FifthLevel fifthLevel = new FifthLevel();
     // width and height depending on how big the level is
 
     private long pauseStartTime = 0;
@@ -208,7 +209,7 @@ public class LevelHandler {
     }
 
     public void startGame() {
-        setLevel(1);
+        setLevel(5);
 
         totalPauseTime = 0;
         pauseStartTime = 0;
