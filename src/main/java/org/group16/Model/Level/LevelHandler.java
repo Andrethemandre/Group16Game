@@ -35,7 +35,6 @@ public class LevelHandler {
     private Collection<ITrap> traps;
 
     private boolean playerIsAtGoal;
-    private IGameObject[][] grid;
     
     private Collection<GameObserver> observers;
     private int lastLevelNumber = 0;
@@ -252,9 +251,6 @@ public class LevelHandler {
         currentLevel = LevelFactory.createLevel(levelNumber);
         lastLevelNumber = levelNumber;
 
-        // GameStats
-        grid = new IGameObject[currentLevel.getWidth()][currentLevel.getHeight()];
-
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
                 Metadata metadata = currentLevel.getMetadata(new Tuple(j, i));
@@ -265,37 +261,37 @@ public class LevelHandler {
                         IEnemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
                                 metadata);
                         addEnemy(newEnemy);
-                        grid[j][i] = newEnemy;
                         break;
+
                     case STATIONARY:
                     case MOVABLE___:
                         Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
                                 metadata);
                         addBlock(newBlock);
-                        grid[j][i] = newBlock;
                         break;
+
                     case SPEAR_____:
                     case FREEZE____:
                         PowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevel.getLevelTile(i, j),
                                 j * 16, i * 16);
                         powerUps.add(newPowerUp);
-                        grid[j][i] = newPowerUp;
                         break;
+
                     case SPIKE_____:
                         ITrap newTrap = TrapFactory.createTrapAt(currentLevel.getLevelTile(i, j), j * 16, i * 16);
                         addTrap(newTrap);
-                        grid[j][i] = newTrap;
                         break;
+
                     case PLAYER____:
                         // The grid uses /16 of the actual size
                         player = new Player(j * 16, i * 16, getHeight() * 16, getWidth() * 16);
-                        grid[j][i] = player;
                         break;
+
                     case GOAL______:
                         // will only reset if there is a new goal on next level.
                         goal = new Goal(j * 16, i * 16);
-                        grid[j][i] = goal;
                         break;
+
                     default:
                         break;
                 }
@@ -444,10 +440,6 @@ public class LevelHandler {
 
     public Collection<ITrap> getTraps() {
         return traps;
-    }
-
-    public IGameObject[][] getGrid() {
-        return grid;
     }
 
     // Somehow this is the right way to do it
