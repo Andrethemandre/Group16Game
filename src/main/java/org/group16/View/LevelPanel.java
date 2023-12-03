@@ -24,7 +24,7 @@ import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.IBlock;
 import org.group16.Model.GameObjects.Enemy.IEnemy;
 import org.group16.Model.GameObjects.Enemy.ITrap;
-import org.group16.Model.GameObjects.Goal.Goal;
+import org.group16.Model.GameObjects.Goal.IGoal;
 import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.Level.LevelHandler;
@@ -292,7 +292,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
     private void paintGoal(Graphics g) {
-        Goal Goal = levelHandler.getGoal();
+        IGoal Goal = levelHandler.getGoal();
         int GoalX = Goal.getX();
         int GoalY = Goal.getY();
         g.setColor(Color.green);

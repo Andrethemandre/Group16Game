@@ -5,7 +5,7 @@ import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 
-public class Goal implements IGameObject{
+class Goal implements IGoal {
     private GameObject innerGameObject;
 
     public Goal(int x, int y) {

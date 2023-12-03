@@ -11,7 +11,8 @@ import org.group16.Model.GameObjects.Enemy.IEnemy;
 import org.group16.Model.GameObjects.Enemy.IMovableEnemy;
 import org.group16.Model.GameObjects.Enemy.ITrap;
 import org.group16.Model.GameObjects.Enemy.TrapFactory;
-import org.group16.Model.GameObjects.Goal.Goal;
+import org.group16.Model.GameObjects.Goal.IGoal;
+import org.group16.Model.GameObjects.Goal.GoalFactory;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
@@ -27,7 +28,7 @@ import org.group16.Model.Observers.GameObserver;
 
 public class LevelHandler {
     private IPlayer player;
-    private Goal goal;
+    private IGoal goal;
     private Collection<IEnemy> enemies;
     private Collection<IMovableEnemy> movableEnemies;
     private Collection<IBlock> blocks;
@@ -301,7 +302,7 @@ public class LevelHandler {
 
                     case GOAL______:
                         // will only reset if there is a new goal on next level.
-                        goal = new Goal(j * 16, i * 16);
+                        goal = GoalFactory.createGoalAt(currentLevelTile, j * 16, i * 16);
                         break;
 
                     default:
@@ -454,7 +455,7 @@ public class LevelHandler {
         return player;
     }
 
-    public Goal getGoal() {
+    public IGoal getGoal() {
         return goal;
     }
 
