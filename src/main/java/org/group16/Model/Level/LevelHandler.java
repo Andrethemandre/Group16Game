@@ -248,38 +248,40 @@ public class LevelHandler {
         enemies.clear();
         blocks.clear();
         powerUps.clear();
+        traps.clear();
         currentLevel = LevelFactory.createLevel(levelNumber);
         lastLevelNumber = levelNumber;
 
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
                 Metadata metadata = currentLevel.getMetadata(new Tuple(j, i));
-                switch (currentLevel.getLevelTile(i, j)) {
+                GameObjectType currentLevelTile = currentLevel.getLevelTile(i, j);
+                switch (currentLevelTile) {
                     case BASIC_____:
                     case FLYING____:
                     case TELEPORT__:
-                        IEnemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
+                        IEnemy newEnemy = EnemyFactory.createEnemyAt(currentLevelTile, j * 16, i * 16,
                                 metadata);
-                        addEnemy(newEnemy);
+                        enemies.add(newEnemy);
                         break;
 
                     case STATIONARY:
                     case MOVABLE___:
-                        Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
+                        Block newBlock = BlockFactory.createBlockAt(currentLevelTile, j * 16, i * 16,
                                 metadata);
-                        addBlock(newBlock);
+                        blocks.add(newBlock);
                         break;
 
                     case SPEAR_____:
                     case FREEZE____:
-                        PowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevel.getLevelTile(i, j),
+                        PowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevelTile,
                                 j * 16, i * 16);
                         powerUps.add(newPowerUp);
                         break;
 
                     case SPIKE_____:
-                        ITrap newTrap = TrapFactory.createTrapAt(currentLevel.getLevelTile(i, j), j * 16, i * 16);
-                        addTrap(newTrap);
+                        ITrap newTrap = TrapFactory.createTrapAt(currentLevelTile, j * 16, i * 16);
+                        traps.add(newTrap);
                         break;
 
                     case PLAYER____:
@@ -297,10 +299,6 @@ public class LevelHandler {
                 }
             }
         }
-    }
-
-    public void addTrap(ITrap newTrap) {
-        traps.add(newTrap);
     }
 
     public long getElapsedTime() {
@@ -376,7 +374,7 @@ public class LevelHandler {
             if (enemy.isFrozen()) {
                 Block frozenEnemy = BlockFactory.createBlockAt(STATIONARY, enemy.getX(), enemy.getY(),
                         new Metadata(0, Direction.NONE, Direction.NONE));
-                addBlock(frozenEnemy);
+                blocks.add(frozenEnemy);
                 enemy.updateHealth(enemy.getHealth());
             }
         }
@@ -385,7 +383,7 @@ public class LevelHandler {
             if (trap.isFrozen()) {
                 Block frozenTrap = BlockFactory.createBlockAt(STATIONARY, trap.getX(), trap.getY(),
                         new Metadata(0, Direction.NONE, Direction.NONE));
-                addBlock(frozenTrap);
+                blocks.add(frozenTrap);
             }
         }
     }
@@ -406,16 +404,8 @@ public class LevelHandler {
         observers.add(observer);
     }
 
-    public void addEnemy(IEnemy enemy) {
-        enemies.add(enemy);
-    }
-
     public void removeEnemy(IEnemy enemy) {
         enemies.remove(enemy);
-    }
-
-    public void addBlock(Block block) {
-        blocks.add(block);
     }
 
     public Player getPlayer() {
