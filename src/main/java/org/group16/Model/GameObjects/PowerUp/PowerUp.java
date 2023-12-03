@@ -5,8 +5,6 @@ import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Movable;
-import org.group16.Model.GameObjects.Enemy.IEnemy;
-import org.group16.Model.GameObjects.Enemy.IObstacle;
 import org.group16.Model.Observers.CanDie;
 
 public abstract class PowerUp implements IGameObject, Movable, CanDie {

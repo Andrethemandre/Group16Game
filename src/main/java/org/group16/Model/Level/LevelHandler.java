@@ -164,19 +164,18 @@ public class LevelHandler {
 
     private void checkIfPlayerCollidesWithPowerUp() {
         PowerUp powerUpToRemove = null;
-        if (powerUps != null) {
-            if (player.getHasPowerUp() == GameObjectType.NOTHING___) {
-                for (PowerUp powerUp : powerUps) {
-                    if (player.collidesWith(powerUp)) {
-                        if (!powerUp.getMovable()) {
-                            powerUpToRemove = powerUp;
-                            player.setHasPowerUp(powerUp.getType());
+        
+        if (player.getHasPowerUp() == GameObjectType.NOTHING___) {
+            for (PowerUp powerUp : powerUps) {
+                if (player.collidesWith(powerUp)) {
+                    if (!powerUp.getMovable()) {
+                        powerUpToRemove = powerUp;
+                        player.setHasPowerUp(powerUp.getType());
 
-                        }
                     }
                 }
-                powerUps.remove(powerUpToRemove);
             }
+            powerUps.remove(powerUpToRemove);
         }
     }
 
