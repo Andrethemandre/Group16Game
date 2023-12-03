@@ -260,28 +260,21 @@ public class LevelHandler {
                     case BASIC_____:
                     case FLYING____:
                     case TELEPORT__:
-                        IEnemy newEnemy = EnemyFactory.createEnemyAt(currentLevelTile, j * 16, i * 16,
-                                metadata);
-                        enemies.add(newEnemy);
+                        createEnemy(i, j, metadata, currentLevelTile);
                         break;
 
                     case STATIONARY:
                     case MOVABLE___:
-                        Block newBlock = BlockFactory.createBlockAt(currentLevelTile, j * 16, i * 16,
-                                metadata);
-                        blocks.add(newBlock);
+                        createBlock(i, j, metadata, currentLevelTile);
                         break;
 
                     case SPEAR_____:
                     case FREEZE____:
-                        PowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevelTile,
-                                j * 16, i * 16);
-                        powerUps.add(newPowerUp);
+                        createPowerUp(i, j, currentLevelTile);
                         break;
 
                     case SPIKE_____:
-                        ITrap newTrap = TrapFactory.createTrapAt(currentLevelTile, j * 16, i * 16);
-                        traps.add(newTrap);
+                        createTrap(i, j, currentLevelTile);
                         break;
 
                     case PLAYER____:
@@ -299,6 +292,26 @@ public class LevelHandler {
                 }
             }
         }
+    }
+
+    private void createTrap(int i, int j, GameObjectType currentLevelTile) {
+        ITrap newTrap = TrapFactory.createTrapAt(currentLevelTile, j * 16, i * 16);
+        traps.add(newTrap);
+    }
+
+    private void createPowerUp(int i, int j, GameObjectType currentLevelTile) {
+        PowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevelTile, j * 16, i * 16);
+        powerUps.add(newPowerUp);
+    }
+
+    private void createBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
+        Block newBlock = BlockFactory.createBlockAt(currentLevelTile, j * 16, i * 16, metadata);
+        blocks.add(newBlock);
+    }
+
+    private void createEnemy(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
+        IEnemy newEnemy = EnemyFactory.createEnemyAt(currentLevelTile, j * 16, i * 16, metadata);
+        enemies.add(newEnemy);
     }
 
     public long getElapsedTime() {
