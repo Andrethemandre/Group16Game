@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 public class PlayerTest {
     private LevelHandler levelHandler;
-    private Player player;
+    private IPlayer player;
 
     @BeforeEach
     void setUp() {
@@ -39,17 +39,7 @@ public class PlayerTest {
     @Test
     void testPlayerJump() {
         int startY = player.getY();
-        player.jump();
-        levelHandler.update();
-        assertTrue(player.getY() < startY);
-    }
-    // this test should probably be changed.
-    @Test
-    void testPlayerJumpTwice() {
-        int startY = player.getY();
-        player.jump();
-        levelHandler.update();
-        player.jump();
+        player.startJumping();
         levelHandler.update();
         assertTrue(player.getY() < startY);
     }
@@ -57,7 +47,7 @@ public class PlayerTest {
     void testPlayerJumpAndMove() {
         int startX = player.getX();
         int startY = player.getY();
-        player.jump();
+        player.startJumping();
         player.startMovingInDirection(Direction.RIGHT);
         levelHandler.update();
         assertTrue(player.getX() > startX && player.getY() < startY);

@@ -25,7 +25,7 @@ import org.group16.Model.GameObjects.Blocks.IBlock;
 import org.group16.Model.GameObjects.Enemy.IEnemy;
 import org.group16.Model.GameObjects.Enemy.ITrap;
 import org.group16.Model.GameObjects.Goal.Goal;
-import org.group16.Model.GameObjects.Player.Player;
+import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
@@ -93,10 +93,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
         colorChangeThread.start();
     }
 
-    public Player getPlayer() {
-        return levelHandler.getPlayer();
-    }
-
     public JButton getPauseButton() {
         return pauseButton;
     }
@@ -110,7 +106,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         int cellSize = 16; // hard coded
         // paintGridWithSize(g, cellSize);
 
-        Player currentPlayer = levelHandler.getPlayer();
+        IPlayer currentPlayer = levelHandler.getPlayer();
 
         // GameObjects are painted
         paintPlayer(g, currentPlayer);
@@ -146,7 +142,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.drawString(formattedText, formattedTextX, y + lineSpacing);
     }
 
-    private void paintHealthBar(Graphics g, int cellSize, Player currentPlayer) {
+    private void paintHealthBar(Graphics g, int cellSize, IPlayer currentPlayer) {
         int health = currentPlayer.getHealth();
         int startX = 0;
         int spacing = 50;
@@ -167,7 +163,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         return String.format("%02d:%02d", minutes, seconds);
     }
 
-    private void paintStats(Graphics g, Player currentPlayer) {
+    private void paintStats(Graphics g, IPlayer currentPlayer) {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 12));
         FontMetrics fm = g.getFontMetrics();
@@ -218,7 +214,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         }
     }
 
-    private void paintPlayer(Graphics g, Player currentPlayer) {
+    private void paintPlayer(Graphics g, IPlayer currentPlayer) {
         g.setColor(Color.blue);
         int playerX = currentPlayer.getX();
         int playerY = currentPlayer.getY();

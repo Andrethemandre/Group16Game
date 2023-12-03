@@ -19,13 +19,14 @@ import org.group16.Model.GameObjects.Blocks.BlockFactory;
 import org.group16.Model.GameObjects.Blocks.IBlock;
 import org.group16.Model.GameObjects.Blocks.MovableBlock;
 import org.group16.Model.GameObjects.Enemy.EnemyFactory;
-import org.group16.Model.GameObjects.Player.Player;
+import org.group16.Model.GameObjects.Player.IPlayer;
+import org.group16.Model.GameObjects.Player.PlayerFactory;
 import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.GameObjects.PowerUp.PowerUpFactory;
 import org.group16.Model.Observers.GameObserver;
 
 public class LevelHandler {
-    private Player player;
+    private IPlayer player;
     private Goal goal;
     private Collection<IEnemy> enemies;
     private Collection<IMovableEnemy> movableEnemies;
@@ -162,12 +163,12 @@ public class LevelHandler {
     private void checkIfPlayerCollidesWithPowerUp() {
         PowerUp powerUpToRemove = null;
 
-        if (player.getHasPowerUp() == GameObjectType.NOTHING___) {
+        if (player.getCurrentPowerUp() == GameObjectType.NOTHING___) {
             for (PowerUp powerUp : powerUps) {
                 if (player.collidesWith(powerUp)) {
                     if (!powerUp.getMovable()) {
                         powerUpToRemove = powerUp;
-                        player.setHasPowerUp(powerUp.getType());
+                        player.setCurrentPowerUp(powerUp.getType());
 
                     }
                 }
@@ -295,7 +296,7 @@ public class LevelHandler {
 
                     case PLAYER____:
                         // The grid uses /16 of the actual size
-                        player = new Player(j * 16, i * 16, getHeight() * 16, getWidth() * 16);
+                        player = PlayerFactory.createPlayerAt(currentLevelTile, j * 16, i * 16, getHeight() * 16, getWidth() * 16);
                         break;
 
                     case GOAL______:
@@ -449,7 +450,7 @@ public class LevelHandler {
         enemies.remove(enemy);
     }
 
-    public Player getPlayer() {
+    public IPlayer getPlayer() {
         return player;
     }
 
@@ -515,18 +516,18 @@ public class LevelHandler {
     // things to be drawn
     public void usePowerUp() {
         PowerUp powerUp;
-        switch (player.getHasPowerUp()) {
+        switch (player.getCurrentPowerUp()) {
             case SPEAR_____:
                 powerUp = PowerUpFactory.createPowerUpUsableAt(SPEAR_____, player.getX(), player.getY(), true,
                         player.getDirection());
                 powerUps.add(powerUp);
-                player.setHasPowerUp(GameObjectType.NOTHING___);
+                player.setCurrentPowerUp(GameObjectType.NOTHING___);
                 break;
             case FREEZE____:
                 powerUp = PowerUpFactory.createPowerUpUsableAt(FREEZE____, player.getX(), player.getY(), true,
                         player.getDirection());
                 powerUps.add(powerUp);
-                player.setHasPowerUp(GameObjectType.NOTHING___);
+                player.setCurrentPowerUp(GameObjectType.NOTHING___);
                 break;
             default:
                 break;
