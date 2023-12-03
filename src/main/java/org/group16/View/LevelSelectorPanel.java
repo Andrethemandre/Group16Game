@@ -65,12 +65,11 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         if(levelNumber == 1){
             levelImage = placeHolderImage;
         }
-
-
     }
 
     private void initComponents() {
         setLayout(new BorderLayout());
+        initLevelButtons();
         JPanel levelBrowseMenu = createLevelBrowseMenu();
         JPanel levelInfoPanel = createLevelInfoPanel();
         
@@ -149,39 +148,44 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         levelSelectLabel = createTitle();
         levelBrowseMenu.add(levelSelectLabel, BorderLayout.NORTH);
         
-        initLevelSelectPanel();
+        initLevelSelectPanel(1);
 
         JPanel navigationPanel = createLevelBrowseNavigationPanel();
 
         levelVerticalSelectPanel.setBackground(Color.GRAY);
-        
-        levelVerticalSelectPanel.add(navigationPanel);
-
-        int totalButtonHeight = levelButtons.length * levelButtons[0].getPreferredSize().height;
-        levelVerticalSelectPanel.setMaximumSize(new Dimension(200, 200));
 
         levelBrowseMenu.setBackground(Color.green);
         levelBrowseMenu.add(levelVerticalSelectPanel, BorderLayout.CENTER);
-
+        navigationPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0)); // Add padding
+        levelBrowseMenu.add(navigationPanel,BorderLayout.SOUTH);
         return levelBrowseMenu;
     }
 
-    private void initLevelSelectPanel(){
-        initLevelButtons();
+    private void initLevelSelectPanel(int currentPage){
         levelVerticalSelectPanel = ViewUtility.createVerticalPanel();
-        levelVerticalSelectPanel.add(Box.createVerticalStrut(27));    
-
-        for (int i = 0; i < levelButtons.length; i++) {
+        levelVerticalSelectPanel.add(Box.createVerticalStrut(27));   
+    
+        int start = (currentPage - 1) * 4; // Calculate the starting index for the current page
+        int end = Math.min(start + 4, levelButtons.length); // Calculate the ending index for the current page
+    
+        for (int i = start; i < end; i++) {
             levelVerticalSelectPanel.add(levelButtons[i]);
-
-            if (i < levelButtons.length - 1) { // Don't add strut after the last button
+    
+            if (i < end - 1) { // Don't add strut after the last button
                 levelVerticalSelectPanel.add(Box.createVerticalStrut(15)); // Add 10px vertical gap
             }
-
-            if(i == levelButtons.length - 1){
-                levelVerticalSelectPanel.add(Box.createVerticalStrut(67));
-            }
         }
+    }
+    private void updateCurrentPageLabel(){
+        int totalLevels = levelHandler.getLevels().size();
+        levelCurrentPageLabel.setText(levelHandler.getCurrentPage() + "/" +  (int) (totalLevels/4 + 1));
+    }
+    private JLabel createLevelCurrentPageLabel(){
+        int totalLevels = levelHandler.getLevels().size();
+        String labelText = levelHandler.getCurrentPage() + "/" +  (int) (totalLevels/4 + 1);
+        Font labelFont = new Font("Arial", Font.PLAIN, 14);
+
+        return ViewUtility.createLabel(labelText, labelFont,0,0,0,0, JLabel.CENTER);
     }
 
     private JPanel createLevelBrowseNavigationPanel(){
@@ -195,7 +199,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         navigationPanel.add(Box.createHorizontalGlue());
 
         Font labelFont3 = new Font("Arial", Font.PLAIN, 14);
-        navigationPanel.add(levelCurrentPageLabel = ViewUtility.createLabel("1/x", labelFont3,0,0,0,0, JLabel.CENTER));
+        navigationPanel.add(levelCurrentPageLabel = createLevelCurrentPageLabel());
         navigationPanel.add(Box.createHorizontalGlue());
 
         navigationPanel.add(levelPageNextButton);
@@ -229,14 +233,31 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         return levelPageBackButton;
     }
 
-    public JLabel getLevelCurrentPageLabel() {
-        return levelCurrentPageLabel;
-    }
+    private void updateVisibleLevelButtons(int currentPage) {
+        levelVerticalSelectPanel.removeAll(); // Remove all existing components
 
+        levelVerticalSelectPanel.add(Box.createVerticalStrut(27));   
+    
+        int start = (currentPage - 1) * 4; // Calculate the starting index for the current page
+        int end = Math.min(start + 4, levelButtons.length); // Calculate the ending index for the current page
+    
+        for (int i = start; i < end; i++) {
+            levelVerticalSelectPanel.add(levelButtons[i]);
+    
+            if (i < end - 1) { // Don't add strut after the last button
+                levelVerticalSelectPanel.add(Box.createVerticalStrut(15)); // Add 10px vertical gap
+            }
+        }
+
+        levelVerticalSelectPanel.revalidate(); // Revalidate to apply changes
+        levelVerticalSelectPanel.repaint(); // Repaint to apply changes
+
+    }
     @Override
     public void updateObserver() {
         setLevelImage(levelHandler.getCurrentLevelNumber());
-        //levelSelectTitle.setText("Level " + levelHandler.getCurrentLevelNumber());
+        updateCurrentPageLabel();
+        updateVisibleLevelButtons(levelHandler.getCurrentPage());
         levelSelectLabel.setText("Level " + levelHandler.getCurrentLevelNumber());
     }
 }

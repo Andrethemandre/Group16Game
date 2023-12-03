@@ -34,14 +34,12 @@ public class ViewUtility {
         JPanel verticalPanel = new JPanel();
         verticalPanel.setLayout(new BoxLayout(verticalPanel, BoxLayout.Y_AXIS));
 
-
         return verticalPanel;
     }
 
     public static JPanel createHorizontalPanel(){
         JPanel horizontalPanel = new JPanel();
         horizontalPanel.setLayout(new BoxLayout(horizontalPanel, BoxLayout.X_AXIS));
-        //horizontalPanel.add(Box.createHorizontalGlue());
 
         return horizontalPanel;
     }

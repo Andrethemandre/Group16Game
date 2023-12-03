@@ -24,7 +24,6 @@ public class StartController extends GameController {
     @Override
     protected void update() {
         // TODO Auto-generated method stub
-
     }
     
 }

@@ -25,6 +25,14 @@ public class LevelSelectController extends GameController{
         levelSelectorPanel.getBackToMainMenuButton().addActionListener(e -> {
             levelHandler.goToMainMenu();
         });
+
+        levelSelectorPanel.getLevelPageNextButton().addActionListener(e -> {
+            levelHandler.nextPage();
+        });
+
+        levelSelectorPanel.getLevelPageBackButton().addActionListener(e -> {
+            levelHandler.previousPage();
+        });
     }
 
     @Override

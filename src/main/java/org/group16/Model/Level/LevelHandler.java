@@ -55,19 +55,45 @@ public class LevelHandler {
     private long pauseStartTime = 0;
     private long totalPauseTime = 0;
     private ScoreManager scoreManager;
+    private int currentPage;
 
     public LevelHandler() {
+        currentPage = 1;
         scoreManager = new ScoreManager();
         levels = new HashMap<Integer,Level>();
         movableBlocks = new ArrayList<>();
         observers = new ArrayList<>();
         gameState = GameState.START;
-        setCurrentLevelNumber(1);
+
 
         levels.put(1, LevelFactory.createLevel(1));
         levels.put(2, LevelFactory.createLevel(2));
         levels.put(3, LevelFactory.createLevel(2));
         levels.put(4, LevelFactory.createLevel(2));
+        levels.put(5, LevelFactory.createLevel(2));
+        levels.put(6, LevelFactory.createLevel(2));
+        levels.put(7, LevelFactory.createLevel(2));
+        levels.put(8, LevelFactory.createLevel(2));
+        levels.put(9, LevelFactory.createLevel(2));
+
+        setCurrentLevelNumber(1);
+    }
+
+    public int getCurrentPage(){
+        return this.currentPage;
+    }
+
+    public void nextPage() {
+        int end = levels.size()/4 + 1;
+        if (currentPage < end) {
+            currentPage++;
+        }
+    }
+
+    public void previousPage() {
+        if (currentPage > 1) {
+            currentPage--;
+        }
     }
 
     public void newGame() {
@@ -96,7 +122,7 @@ public class LevelHandler {
     }
 
     public void setCurrentLevelNumber(int levelNumber) {
-        if(levelNumber > 0 && levelNumber < 5){
+        if(levelNumber > 0 && levelNumber < levels.size() + 1){
             this.currentLevelNumber = levelNumber;
         }
     }
