@@ -24,6 +24,10 @@ public class PauseController extends GameController implements KeyListener{
             levelHandler.restartGame();
         });
 
+        pausePanel.getLevelSelectButton().addActionListener(e -> {
+            levelHandler.goToLevelSelect();
+        });
+
         pausePanel.getMainMenuButton().addActionListener(e -> {
             levelHandler.goToMainMenu();
         });

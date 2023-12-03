@@ -71,6 +71,11 @@ public class LevelHandler {
     }
 
     public void newGame() {
+        // Temporary due to lack of save system
+        goToLevelSelect();
+    }
+
+    public void goToLevelSelect() {
         setGameState(GameState.LEVELSELECT);
     }
 

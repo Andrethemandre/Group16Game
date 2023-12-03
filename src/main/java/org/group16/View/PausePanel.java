@@ -16,6 +16,7 @@ public class PausePanel extends GamePanel {
     private JLabel pauseLabel;
     private JButton resumeButton;
     private JButton restartButton;
+    private JButton levelSelectButton;
     private JButton mainMenuButton;
     private JButton settingsButton;
     private JButton quitButton;
@@ -26,6 +27,11 @@ public class PausePanel extends GamePanel {
         initComponents();
 
     }
+
+    public JButton getLevelSelectButton(){
+        return levelSelectButton;
+    }
+
     private void initComponents(){
         setBackground(Color.GRAY);
         setLayout(new BorderLayout()); 
@@ -42,6 +48,7 @@ public class PausePanel extends GamePanel {
         JButton[] buttons = {
             resumeButton = ViewUtility.createButton("Resume", buttonSize),
             restartButton = ViewUtility.createButton("Restart", buttonSize),
+            levelSelectButton = ViewUtility.createButton("Level Select", buttonSize),
             mainMenuButton = ViewUtility.createButton("Main Menu", buttonSize),
             settingsButton = ViewUtility.createButton("Settings", buttonSize),
             quitButton= ViewUtility.createButton("Quit to desktop", buttonSize)
