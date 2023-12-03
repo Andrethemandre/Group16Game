@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import org.group16.Model.Level.Level;
 import org.group16.Model.Level.LevelHandler;
+import org.group16.Model.Level.Stats;
 import org.group16.Model.Observers.GameObserver;
 
 public class LevelSelectorPanel extends GamePanel implements GameObserver {
@@ -42,6 +43,8 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
 
     private BufferedImage levelImage;
     private BufferedImage placeHolderImage;
+
+    private JLabel highScoreLabel;
 
     private static final Dimension LARGE_BUTTON_SIZE = new Dimension(200, 28);
     private static final Dimension SMALL_BUTTON_SIZE = new Dimension(100, 28);
@@ -85,9 +88,11 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         JPanel levelInfoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         levelInfoPanel.setBackground(Color.LIGHT_GRAY);
         levelSelectLabel = createCurrentSelectedLevelLabel();
+        highScoreLabel = createHighScoreLabel();
+
         levelInfoPanel.add(levelSelectLabel);
         levelInfoPanel.add(createLevelImageLabel());
-        levelInfoPanel.add(createHighScoreLabel());
+        levelInfoPanel.add(highScoreLabel);
         levelInfoPanel.add(createLevelInfoNavigationPanel());
 
         return levelInfoPanel;
@@ -130,10 +135,10 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     }
 
     private void initLevelButtons(){
-        levelButtons = new JButton[levelHandler.getLevels().size()];
+        levelButtons = new JButton[levelHandler.getRecordedLevelStats().size()];
         int i = 0;
 
-        for (Map.Entry<Integer, Level> entry : levelHandler.getLevels().entrySet()) {
+        for (Map.Entry<Integer, Stats> entry : levelHandler.getRecordedLevelStats().entrySet()) {
             Integer levelNumber = entry.getKey();
 
             levelButtons[i] = ViewUtility.createButton("Level " + levelNumber, new Dimension(200, 55));
@@ -177,11 +182,11 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         }
     }
     private void updateCurrentPageLabel(){
-        int totalLevels = levelHandler.getLevels().size();
+        int totalLevels = levelHandler.getRecordedLevelStats().size();
         levelCurrentPageLabel.setText(levelHandler.getCurrentPage() + "/" +  (int) (totalLevels/4 + 1));
     }
     private JLabel createLevelCurrentPageLabel(){
-        int totalLevels = levelHandler.getLevels().size();
+        int totalLevels = levelHandler.getRecordedLevelStats().size();
         String labelText = levelHandler.getCurrentPage() + "/" +  (int) (totalLevels/4 + 1);
         Font labelFont = new Font("Arial", Font.PLAIN, 14);
 
@@ -251,10 +256,19 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
 
         levelVerticalSelectPanel.revalidate(); // Revalidate to apply changes
         levelVerticalSelectPanel.repaint(); // Repaint to apply changes
-
     }
+
+    private void updateHighScoreLabel(int levelNumber) {
+        if(levelNumber < levelHandler.getRecordedLevelStats().size() + 1 && levelNumber > 0){
+            Stats stats = levelHandler.getRecordedLevelStats().get(levelNumber);
+            highScoreLabel.setText("High Score: " + stats.getScore());
+        }
+    }
+
+
     @Override
     public void updateObserver() {
+        updateHighScoreLabel(levelHandler.getCurrentLevelNumber());
         setLevelImage(levelHandler.getCurrentLevelNumber());
         updateCurrentPageLabel();
         updateVisibleLevelButtons(levelHandler.getCurrentPage());

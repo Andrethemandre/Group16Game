@@ -60,6 +60,8 @@ public class GameStateManager {
         notifyObservers();
     }
 
+    // Implement a function that increments for every level attempt
+
 
     // public void restartGame() {
     //     setLevel(currentLevelNumber);
