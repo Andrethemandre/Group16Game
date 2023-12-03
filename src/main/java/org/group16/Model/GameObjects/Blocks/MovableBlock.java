@@ -66,6 +66,7 @@ public class MovableBlock extends Block implements Movable {
         }
     }
 
+    @Override
     public void update() {
         move();
     }

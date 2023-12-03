@@ -14,6 +14,7 @@ import org.group16.Model.GameObjects.Enemy.ITrap;
 import org.group16.Model.GameObjects.Enemy.TrapFactory;
 import org.group16.Model.GameObjects.Goal.Goal;
 import org.group16.Model.GameObjects.IGameObject;
+import org.group16.Model.GameObjects.Movable;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
@@ -30,6 +31,8 @@ public class LevelHandler {
     private Player player;
     private Goal goal;
     private Collection<IEnemy> enemies;
+    private Collection<IMovableEnemy> movableEnemies;
+    private Collection<Movable> movableGameObjects;
     private Collection<Block> blocks;
     private Collection<PowerUp> powerUps;
     private Collection<ITrap> traps;
@@ -57,6 +60,8 @@ public class LevelHandler {
         blocks = new ArrayList<>();
         powerUps = new ArrayList<>();
         traps = new ArrayList<>();
+        movableEnemies = new ArrayList<>();
+        movableGameObjects = new ArrayList<>();
     }
 
     public GameState getGameState() {
@@ -136,14 +141,25 @@ public class LevelHandler {
         }
     }
 
-    private void checkIfFlyingEnemyCollidesWithBlocks() {
-        for (IEnemy enemy : enemies) {
-            if (enemy.getType() == GameObjectType.FLYING____) {
-                for (Block block : blocks) {
-                    if (enemy.collidesWith(block)) {
-                        ((IMovableEnemy) enemy).toggleDirection();
+    private void checkIfMovableEnemiesCollidesWithBlocks() {
+        for (IMovableEnemy enemy : movableEnemies) {
+            switch (enemy.getType()) {
+                case FLYING____:
+                    for (Block block : blocks) {
+                        if (enemy.collidesWith(block)) {
+                            enemy.toggleDirection();
+                        }
                     }
-                }
+                    break;
+                case BASIC_____:
+                    for (Block block : blocks) {
+                        if (enemy.collidesWith(block)) {
+                            enemy.toggleDirection();
+                        }
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -162,7 +178,6 @@ public class LevelHandler {
                     }
                 }
                 powerUps.remove(powerUpToRemove);
-
             }
         }
     }
@@ -249,6 +264,9 @@ public class LevelHandler {
         blocks.clear();
         powerUps.clear();
         traps.clear();
+        movableEnemies.clear();
+        movableGameObjects.clear();
+
         currentLevel = LevelFactory.createLevel(levelNumber);
         lastLevelNumber = levelNumber;
 
@@ -260,12 +278,15 @@ public class LevelHandler {
                     case BASIC_____:
                     case FLYING____:
                     case TELEPORT__:
-                        createEnemy(i, j, metadata, currentLevelTile);
+                        createMovableEnemy(i, j, metadata, currentLevelTile);
                         break;
 
                     case STATIONARY:
-                    case MOVABLE___:
                         createBlock(i, j, metadata, currentLevelTile);
+                        break;
+
+                    case MOVABLE___:
+                        createMovableBlock(i, j, metadata, currentLevelTile);
                         break;
 
                     case SPEAR_____:
@@ -280,6 +301,7 @@ public class LevelHandler {
                     case PLAYER____:
                         // The grid uses /16 of the actual size
                         player = new Player(j * 16, i * 16, getHeight() * 16, getWidth() * 16);
+                        movableGameObjects.add(player);
                         break;
 
                     case GOAL______:
@@ -309,9 +331,23 @@ public class LevelHandler {
         blocks.add(newBlock);
     }
 
+    private void createMovableBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
+        MovableBlock newBlock = BlockFactory.createMovableBlockAt(currentLevelTile, j * 16, i * 16, metadata);
+        blocks.add(newBlock);
+        movableGameObjects.add(newBlock);
+    }
+
+    // exists for when we want non movable enemies
     private void createEnemy(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
         IEnemy newEnemy = EnemyFactory.createEnemyAt(currentLevelTile, j * 16, i * 16, metadata);
         enemies.add(newEnemy);
+    }
+
+    private void createMovableEnemy(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
+        IMovableEnemy newEnemy = EnemyFactory.createMovableEnemyAt(currentLevelTile, j * 16, i * 16, metadata);
+        enemies.add(newEnemy);
+        movableEnemies.add(newEnemy);
+        movableGameObjects.add(newEnemy);
     }
 
     public long getElapsedTime() {
@@ -319,7 +355,7 @@ public class LevelHandler {
     }
 
     public void update() {
-        moveMovableBlocks();
+        updateBlocks();
         player.update();
 
         checkIfPlayerAtGoal();
@@ -328,7 +364,7 @@ public class LevelHandler {
         checkIfPlayerCollidesWithTraps();
         checkIfPlayerCollidesWithPowerUp();
 
-        checkIfFlyingEnemyCollidesWithBlocks();
+        checkIfMovableEnemiesCollidesWithBlocks();
 
         checkIfPowerUpsCollidesWithEnemies();
         checkIfPowerUpsCollidesWithTraps();
@@ -506,11 +542,9 @@ public class LevelHandler {
         }
     }
 
-    public void moveMovableBlocks() {
+    public void updateBlocks() {
         for (Block block : blocks) {
-            if (block instanceof MovableBlock) {
-                ((MovableBlock) block).move();
-            }
+            block.update();
         }
     }
 
