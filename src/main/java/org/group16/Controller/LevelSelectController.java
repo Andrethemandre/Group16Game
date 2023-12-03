@@ -15,6 +15,7 @@ public class LevelSelectController extends GameController{
 
             levelSelectorPanel.getLevelButtons()[i].addActionListener(e -> {
                 levelHandler.setCurrentLevelNumber(levelNumber + 1);
+                levelHandler.updateObservers();
             });
         }
 

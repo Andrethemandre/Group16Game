@@ -164,7 +164,7 @@ public class LevelHandler {
                 currentLevelNumber = 1;
             }
             else{
-                restartGame();
+                startGame();
                 setLevel(currentLevelNumber);
             }
 
@@ -272,7 +272,7 @@ public class LevelHandler {
         levelAttempts = 0;
         scoreManager.resetScore();
         levelStartTime = System.currentTimeMillis();
-
+        gameStateManager.togglePause();
 
         for (GameObserver o : observers) {
             o.updateObserver();
