@@ -32,7 +32,6 @@ public class LevelHandler {
     private Goal goal;
     private Collection<IEnemy> enemies;
     private Collection<IMovableEnemy> movableEnemies;
-    private Collection<Movable> movableGameObjects;
     private Collection<Block> blocks;
     private Collection<PowerUp> powerUps;
     private Collection<ITrap> traps;
@@ -61,7 +60,6 @@ public class LevelHandler {
         powerUps = new ArrayList<>();
         traps = new ArrayList<>();
         movableEnemies = new ArrayList<>();
-        movableGameObjects = new ArrayList<>();
     }
 
     public GameState getGameState() {
@@ -218,8 +216,8 @@ public class LevelHandler {
     private void checkIfPlayerIsDead() {
         if (player.isDead()) {
             setLevel(currentLevel.getLevelNumber());
-
-            this.levelAttempts++;
+            
+            levelAttempts++;
         }
     }
 
@@ -267,7 +265,6 @@ public class LevelHandler {
         powerUps.clear();
         traps.clear();
         movableEnemies.clear();
-        movableGameObjects.clear();
 
         currentLevel = LevelFactory.createLevel(levelNumber);
         lastLevelNumber = levelNumber;
@@ -303,7 +300,6 @@ public class LevelHandler {
                     case PLAYER____:
                         // The grid uses /16 of the actual size
                         player = new Player(j * 16, i * 16, getHeight() * 16, getWidth() * 16);
-                        movableGameObjects.add(player);
                         break;
 
                     case GOAL______:
@@ -336,7 +332,6 @@ public class LevelHandler {
     private void createMovableBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
         MovableBlock newBlock = BlockFactory.createMovableBlockAt(currentLevelTile, j * 16, i * 16, metadata);
         blocks.add(newBlock);
-        movableGameObjects.add(newBlock);
     }
 
     // exists for when we want non movable enemies
@@ -349,7 +344,6 @@ public class LevelHandler {
         IMovableEnemy newEnemy = EnemyFactory.createMovableEnemyAt(currentLevelTile, j * 16, i * 16, metadata);
         enemies.add(newEnemy);
         movableEnemies.add(newEnemy);
-        movableGameObjects.add(newEnemy);
     }
 
     public long getElapsedTime() {
