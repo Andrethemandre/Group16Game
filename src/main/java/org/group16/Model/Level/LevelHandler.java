@@ -10,6 +10,8 @@ import java.util.Arrays;
 
 import org.group16.Model.GameObjects.Enemy.IEnemy;
 import org.group16.Model.GameObjects.Enemy.IMovableEnemy;
+import org.group16.Model.GameObjects.Enemy.ITrap;
+import org.group16.Model.GameObjects.Enemy.TrapFactory;
 import org.group16.Model.GameObjects.Goal.Goal;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Direction;
@@ -29,17 +31,20 @@ public class LevelHandler {
     private Goal goal;
     private Collection<IEnemy> enemies;
     private Collection<Block> blocks;
-    // private MovableBlock movableBlock;
     private Collection<PowerUp> powerUps;
+    private Collection<ITrap> traps;
+
     private boolean playerIsAtGoal;
     private IGameObject[][] grid;
+
     private Collection<GameObjectType> acceptedEnemyTypes = Arrays
-            .asList(new GameObjectType[] { GameObjectType.BASIC_____, GameObjectType.SPIKE_____,
-                    GameObjectType.FLYING____, GameObjectType.TELEPORT__ });
+            .asList(new GameObjectType[] { GameObjectType.BASIC_____, GameObjectType.FLYING____, GameObjectType.TELEPORT__ });
     private Collection<GameObjectType> acceptedBlockTypes = Arrays
             .asList(new GameObjectType[] { GameObjectType.STATIONARY, GameObjectType.MOVABLE___ });
     private Collection<GameObjectType> acceptedPowerUpTypes = Arrays
             .asList(new GameObjectType[] { GameObjectType.SPEAR_____, GameObjectType.FREEZE____ });
+    private Collection<GameObjectType> acceptedTrapTypes = Arrays.asList(new GameObjectType[] { GameObjectType.SPIKE_____ });
+    
     private Collection<GameObserver> observers;
     private int currentLevelNumber;
     private int score = 0;
@@ -60,6 +65,7 @@ public class LevelHandler {
         enemies = new ArrayList<>();
         blocks = new ArrayList<>();
         powerUps = new ArrayList<>();
+        traps = new ArrayList<>();
     }
 
     public GameState getGameState() {
@@ -131,6 +137,14 @@ public class LevelHandler {
         }
     }
 
+    private void checkIfPlayerCollidesWithTraps() {
+        for (ITrap trap : traps) {
+            if (player.collidesWith(trap)) {
+                trap.dealDamage(player);
+            }
+        }
+    }
+
     private void checkIfFlyingEnemyCollidesWithBlocks() {
         for (IEnemy enemy : enemies) {
             if (enemy.getType() == GameObjectType.FLYING____) {
@@ -167,6 +181,16 @@ public class LevelHandler {
             for (IEnemy enemy : enemies) {
                 if (powerUp.collidesWith(enemy)) {
                     powerUp.triggerPowerUp(enemy);
+                }
+            }
+        }
+    }
+
+    private void checkIfPowerUpsCollidesWithTraps() {
+        for (PowerUp powerUp : powerUps) {
+            for (ITrap trap : traps) {
+                if (powerUp.collidesWith(trap)) {
+                    powerUp.triggerPowerUp(trap);
                 }
             }
         }
@@ -260,6 +284,11 @@ public class LevelHandler {
                     powerUps.add(newPowerUp);
                     grid[j][i] = newPowerUp;
 
+                } else if (acceptedTrapTypes.contains(currentLevel.getLevelTile(i, j))) {
+                    ITrap newTrap = TrapFactory.createTrapAt(currentLevel.getLevelTile(i, j), j * 16, i * 16);
+                    addTrap(newTrap);
+                    grid[j][i] = newTrap;
+
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.PLAYER____) {
                     // The grid uses /16 of the actual size
                     player = new Player(j * 16, i * 16, getHeight() * 16, getWidth() * 16);
@@ -275,6 +304,10 @@ public class LevelHandler {
         }
     }
 
+    public void addTrap(ITrap newTrap) {
+        traps.add(newTrap);
+    }
+
     public long getElapsedTime() {
         return System.currentTimeMillis() - levelStartTime - totalPauseTime;
     }
@@ -286,15 +319,18 @@ public class LevelHandler {
         checkIfPlayerAtGoal();
         checkIfPlayerCollidesWithBlocks();
         checkIfPlayerCollidesWithEnemies();
+        checkIfPlayerCollidesWithTraps();
         checkIfPlayerCollidesWithPowerUp();
 
         checkIfFlyingEnemyCollidesWithBlocks();
 
         checkIfPowerUpsCollidesWithEnemies();
+        checkIfPowerUpsCollidesWithTraps();
         checkIfPowerUpsCollidesWithBlocks();
 
         updateProjectilePositions();
         removeDeadEntities();
+        removeFrozenTrap();
         updateEnemies();
 
         for (GameObserver o : observers) {
@@ -349,6 +385,26 @@ public class LevelHandler {
                 enemy.updateHealth(enemy.getHealth());
             }
         }
+
+        for (ITrap trap : traps) {
+            if (trap.isFrozen()) {
+                Block frozenTrap = BlockFactory.createBlockAt(STATIONARY, trap.getX(), trap.getY(),
+                        new Metadata(0, Direction.NONE, Direction.NONE));
+                addBlock(frozenTrap);
+            }
+        }
+    }
+
+    private void removeFrozenTrap() {
+        ITrap trapToRemove = null;
+        for (ITrap trap : traps) {
+            if (trap.isFrozen()) {
+                trapToRemove = trap;
+            }
+        }
+        if (trapToRemove != null) {
+            traps.remove(trapToRemove);
+        }
     }
 
     public void addObserver(GameObserver observer) {
@@ -356,19 +412,19 @@ public class LevelHandler {
     }
 
     public void addEnemy(IEnemy enemy) {
-        this.enemies.add(enemy);
+        enemies.add(enemy);
     }
 
     public void removeEnemy(IEnemy enemy) {
-        this.enemies.remove(enemy);
+        enemies.remove(enemy);
     }
 
     public void addBlock(Block block) {
-        this.blocks.add(block);
+        blocks.add(block);
     }
 
     public Player getPlayer() {
-        return this.player;
+        return player;
     }
 
     public Goal getGoal() {
@@ -376,19 +432,23 @@ public class LevelHandler {
     }
 
     public Collection<IEnemy> getEnemies() {
-        return this.enemies;
+        return enemies;
     }
 
     public Collection<Block> getBlocks() {
-        return this.blocks;
+        return blocks;
     }
 
     public Collection<PowerUp> getPowerUps() {
-        return this.powerUps;
+        return powerUps;
+    }
+
+    public Collection<ITrap> getTraps() {
+        return traps;
     }
 
     public IGameObject[][] getGrid() {
-        return this.grid;
+        return grid;
     }
 
     public int getWidth() {
@@ -400,7 +460,7 @@ public class LevelHandler {
     }
 
     public GameState getPauseState() {
-        return this.gameState;
+        return gameState;
     }
 
     public void togglePause() {

@@ -4,6 +4,8 @@ import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.Enemy.IEnemy;
+import org.group16.Model.GameObjects.Enemy.IObstacle;
+import org.group16.Model.Observers.HasHealth;
 
 public class SpearPowerUp extends PowerUp {
 
@@ -16,10 +18,10 @@ public class SpearPowerUp extends PowerUp {
     }
 
     @Override
-    public void triggerPowerUp(IEnemy enemy) {
+    public void triggerPowerUp(IObstacle enemy) {
         switch (enemy.getType()) {
             case BASIC_____:
-                enemy.updateHealth(enemy.getHealth());
+                ((HasHealth) enemy).updateHealth(((HasHealth) enemy).getHealth());
                 this.setIsDead(true);
                 break;
 

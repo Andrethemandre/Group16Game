@@ -9,8 +9,6 @@ public class EnemyFactory {
         switch(type) {
             case BASIC_____:
                 return new BasicEnemy(x, y, metadata.getDistance(), metadata.getHorizontalDirection());
-            case SPIKE_____:
-                return new Spike(x, y);
             case FLYING____:
                 return new FlyingEnemy(x, y, metadata.getDistance(), metadata.getHorizontalDirection(), metadata.getVerticalDirection());
             case TELEPORT__:

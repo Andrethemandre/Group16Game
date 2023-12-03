@@ -4,6 +4,7 @@ import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
 
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.Enemy.IEnemy;
+import org.group16.Model.GameObjects.Enemy.IObstacle;
 
 public class FreezePowerUp extends PowerUp {
 
@@ -16,7 +17,7 @@ public class FreezePowerUp extends PowerUp {
     }
 
     @Override
-    public void triggerPowerUp(IEnemy enemy) {
+    public void triggerPowerUp(IObstacle enemy) {
         switch (enemy.getType()) {
             case BASIC_____:
                 enemy.freeze();

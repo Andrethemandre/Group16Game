@@ -23,6 +23,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Enemy.IEnemy;
+import org.group16.Model.GameObjects.Enemy.ITrap;
 import org.group16.Model.GameObjects.Goal.Goal;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.GameObjects.PowerUp.PowerUp;
@@ -114,6 +115,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         // GameObjects are painted
         paintPlayer(g, currentPlayer);
         paintEnemies(g);
+        paintTraps(g);
         paintBlocks(g);
         paintGoal(g);
         paintPowerups(g);
@@ -256,6 +258,29 @@ public class LevelPanel extends GamePanel implements GameObserver {
             } else {
                 g.setColor(Color.black);
                 g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
+            }
+        }
+    }
+
+    private void paintTraps(Graphics g) {
+        Collection<ITrap> currentTraps = levelHandler.getTraps();
+
+        for (ITrap trap : currentTraps) {
+            int trapX = trap.getX();
+            int trapY = trap.getY();
+            int trapWidth = trap.getWidth();
+            int trapHeight = trap.getHeight();
+
+            if (trap.getType() == GameObjectType.SPIKE_____) {
+                int[] xPoints = { trapX, trapX + (trapWidth / 2), trapX + trapWidth };
+                int[] yPoints = { trapY + trapHeight, trapY, trapY + trapHeight };
+                int nPoints = 3;
+                g.setColor(Color.darkGray);
+                g.fillPolygon(xPoints, yPoints, nPoints);
+
+            } else {
+                g.setColor(Color.black);
+                g.fillRect(trapX, trapY, trap.getWidth(), trap.getHeight());
             }
         }
     }

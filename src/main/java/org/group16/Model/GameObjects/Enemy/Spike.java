@@ -4,24 +4,11 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.Observers.HasHealth;
 
-class Spike implements IEnemy {
+class Spike implements ITrap {
     Enemy innerEnemy;
 
     Spike(int x, int y) {
         innerEnemy = new Enemy(GameObjectType.SPIKE_____, x, y, Integer.MAX_VALUE);
-    }
-
-    @Override
-    public int getHealth() {
-        return innerEnemy.getHealth();
-    }
-
-    // right now not very fitting for a spike to take damage.
-    // but it's needed for the interface.
-    // TODO: change the hierarchy so that spike doesn't have to implement HasHealth
-    @Override
-    public void updateHealth(int damage) {
-        innerEnemy.updateHealth(damage);
     }
 
     @Override
