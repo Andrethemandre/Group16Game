@@ -99,7 +99,6 @@ public class PlayerController extends GameController implements KeyListener, Mou
         }
     }
     
-
     @Override
     public void keyReleased(KeyEvent e) {
         if(levelHandler.getGameState() == GameState.PLAYING){

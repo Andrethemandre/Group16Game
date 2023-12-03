@@ -1,5 +1,6 @@
 package org.group16.Controller;
 
+import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.View.GamePanel;
 import org.group16.View.LevelSelectorPanel;
@@ -13,9 +14,17 @@ public class LevelSelectController extends GameController{
             int levelNumber = i;
 
             levelSelectorPanel.getLevelButtons()[i].addActionListener(e -> {
-                levelHandler.setLevel(levelNumber + 1);
+                levelHandler.setCurrentLevelNumber(levelNumber + 1);
             });
         }
+
+        levelSelectorPanel.getPlayButton().addActionListener(e -> {
+            levelHandler.startGame();
+        });
+
+        levelSelectorPanel.getBackToMainMenuButton().addActionListener(e -> {
+            levelHandler.goToMainMenu();
+        });
     }
 
     @Override

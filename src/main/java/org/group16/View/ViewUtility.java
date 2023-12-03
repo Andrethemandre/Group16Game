@@ -14,7 +14,7 @@ public class ViewUtility {
     // Private constructor to prevent instantiation
     private ViewUtility() {};
 
-    public static JButton createMenuButton(String text, Dimension size) {
+    public static JButton createButton(String text, Dimension size) {
         JButton button = new JButton();
         button.setText(text);
         button.setPreferredSize(size);
@@ -30,25 +30,33 @@ public class ViewUtility {
         buttonPanel.add(Box.createRigidArea(new Dimension(widthSpacing, heightSpacing))); // Add space after button
     }
 
-    public static JPanel createVerticalButtonPanel(){
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        buttonPanel.add(Box.createVerticalGlue());
+    public static JPanel createVerticalPanel(){
+        JPanel verticalPanel = new JPanel();
+        verticalPanel.setLayout(new BoxLayout(verticalPanel, BoxLayout.Y_AXIS));
 
-        return buttonPanel;
+
+        return verticalPanel;
+    }
+
+    public static JPanel createHorizontalPanel(){
+        JPanel horizontalPanel = new JPanel();
+        horizontalPanel.setLayout(new BoxLayout(horizontalPanel, BoxLayout.X_AXIS));
+        //horizontalPanel.add(Box.createHorizontalGlue());
+
+        return horizontalPanel;
     }
 
     public static void addCenteredButtonsToPanel(JButton[] buttons, JPanel buttonPanel) {
         for (JButton button : buttons) {
             ViewUtility.addCenteredToButtonPanel(buttonPanel, button,0,10);
         }
-        
-        buttonPanel.add(Box.createVerticalGlue());
     }
-
-    public static JLabel createCenteredMenuTitle(String text, Font font, int top, int left, int bottom, int right){
+    
+    public static JLabel createLabel(String text, Font font, int top, int left, int bottom, int right, float alignment){
         JLabel label = new JLabel(text,JLabel.CENTER);
         label.setFont(font);
+
+
         label.setBorder(BorderFactory.createEmptyBorder(top, left, bottom, right)); // Add padding 
         return label;
     }

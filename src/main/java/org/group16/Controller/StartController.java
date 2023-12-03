@@ -9,7 +9,7 @@ public class StartController extends GameController {
         super(levelHandler, startPanel);
 
         startPanel.getPlayButton().addActionListener(e -> {
-            levelHandler.startGame();
+            levelHandler.newGame();
         });
 
         startPanel.getLoadGameButton().addActionListener(e -> {

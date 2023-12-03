@@ -38,7 +38,6 @@ public class GameWindow extends JFrame implements GameObserver{
 
     private PausePanel pausePanel;
     private LevelAndPauseLayer levelAndPauseLayer;
-
     private JPanel cards;
 
     public GameWindow(String windowName, LevelHandler levelHandler){
@@ -47,10 +46,10 @@ public class GameWindow extends JFrame implements GameObserver{
 
         this.levelPanel = new LevelPanel(X, Y, levelHandler);
         this.pausePanel = new PausePanel(X,Y);
-        levelSelectorPanel = new LevelSelectorPanel(X, Y, levelHandler);
+        this.levelSelectorPanel = new LevelSelectorPanel(X,Y, levelHandler);
         this.levelAndPauseLayer = new LevelAndPauseLayer(X, Y, levelPanel, pausePanel, levelHandler);
         this.levelHandler.addObserver(levelAndPauseLayer);
-
+        this.levelHandler.addObserver(levelSelectorPanel);
 
         this.mainScreen = new CardLayout();
         this.cards = new JPanel(mainScreen);
@@ -58,14 +57,9 @@ public class GameWindow extends JFrame implements GameObserver{
         cards.add(startPanel, "START");
         cards.add(levelAndPauseLayer, "PLAYING");
         cards.add(levelSelectorPanel, "LEVELSELECT");
-        
         initComponents(windowName);
         levelAndPauseLayer.setBounds(getBounds());
         this.requestFocusInWindow();
-    }
-
-    public LevelSelectorPanel getLevelSelectPanel(){
-        return levelSelectorPanel;
     }
 
     // Sets everything in place and fits everything
@@ -77,10 +71,8 @@ public class GameWindow extends JFrame implements GameObserver{
         this.add(cards);
         this.setFocusable(true);
 
-
         levelPanel.setPreferredSize(getPreferredSize());
         startPanel.setPreferredSize(getPreferredSize());
-
 
         // Make the frame pack all it's components by respecting the sizes if possible.
         this.pack();
@@ -107,6 +99,10 @@ public class GameWindow extends JFrame implements GameObserver{
         return levelPanel;
     }
 
+    public LevelSelectorPanel getLevelSelectPanel(){
+        return levelSelectorPanel;
+    }
+
     public CardLayout getMainScreen(){
          return mainScreen;
     }
@@ -124,8 +120,6 @@ public class GameWindow extends JFrame implements GameObserver{
             mainScreen.show(cards, "LEVELSELECT");
         }
 
-
         repaint();
     }
-
 }

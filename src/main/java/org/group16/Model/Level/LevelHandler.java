@@ -46,23 +46,32 @@ public class LevelHandler {
             .asList(new GameObjectType[] { GameObjectType.SPEAR_____, GameObjectType.FREEZE____ });
     private Collection<GameObserver> observers;
     private int currentLevelNumber;
-    private int score = 0;
     private Level currentLevel;
     private long levelStartTime;
     private int levelAttempts = 0;
     private static int SCORE_LIMIT = 9999;
     private GameState gameState;
-    private Map<Integer,Level> levels = new HashMap<Integer,Level>();          
+    private Map<Integer,Level> levels;      
     private long pauseStartTime = 0;
     private long totalPauseTime = 0;
+    private ScoreManager scoreManager;
 
     public LevelHandler() {
+        scoreManager = new ScoreManager();
+        levels = new HashMap<Integer,Level>();
         movableBlocks = new ArrayList<>();
         observers = new ArrayList<>();
         gameState = GameState.START;
+        setCurrentLevelNumber(1);
 
         levels.put(1, LevelFactory.createLevel(1));
         levels.put(2, LevelFactory.createLevel(2));
+        levels.put(3, LevelFactory.createLevel(2));
+        levels.put(4, LevelFactory.createLevel(2));
+    }
+
+    public void newGame() {
+        setGameState(GameState.LEVELSELECT);
     }
 
     public Map<Integer,Level> getLevels() {
@@ -81,11 +90,13 @@ public class LevelHandler {
         return this.currentLevelNumber;
     }
 
-    private void addScore(int points) {
-        this.score += points;
+    public void setCurrentLevelNumber(int levelNumber) {
+        if(levelNumber > 0 && levelNumber < 5){
+            this.currentLevelNumber = levelNumber;
+        }
     }
 
-    private void calculateScore() {
+    private int calculateScore() {
         // int baseScore = 9999;
         int pointsPerSecond = 100; // Number of points per second
 
@@ -97,20 +108,22 @@ public class LevelHandler {
 
         // Some points deducted for each attempt
         int attemptsPenalty = levelAttempts * 500;
-
+        int score = scoreManager.getScore();
         int totalScore = SCORE_LIMIT - timeBonus - attemptsPenalty;
-        addScore(totalScore - score);
+        scoreManager.addPoints(totalScore - score);
 
+        score = scoreManager.getScore();
         if (score < -SCORE_LIMIT) {
             score = -SCORE_LIMIT;
         } else if (score > SCORE_LIMIT) {
             score = SCORE_LIMIT;
         }
+        return score;
     }
 
     public int getScore() {
         calculateScore();
-        return this.score;
+        return calculateScore();
     }
 
     public int getCurrentAttempts() {
@@ -205,12 +218,12 @@ public class LevelHandler {
     }
 
     public void startGame() {
-        setLevel(1);
+        setLevel(currentLevelNumber);
 
         totalPauseTime = 0;
         pauseStartTime = 0;
         levelAttempts = 0;
-        score = 0;
+        scoreManager.resetScore();
         levelStartTime = System.currentTimeMillis();
     }
 
@@ -220,7 +233,7 @@ public class LevelHandler {
         totalPauseTime = 0;
         pauseStartTime = 0;
         levelAttempts = 0;
-        score = 0;
+        scoreManager.resetScore();
         levelStartTime = System.currentTimeMillis();
 
         for (GameObserver o : observers) {
@@ -228,12 +241,12 @@ public class LevelHandler {
         }
     }
     // vill ha det private
-    public void setLevel(int levelNumber) {
+    private void setLevel(int levelNumber) {
         gameState = GameState.PLAYING;
 
         if (levelNumber != currentLevelNumber) {
             levelAttempts = 0;
-            score = 0;
+            scoreManager.resetScore();
             levelStartTime = System.currentTimeMillis();
         }
 
@@ -315,6 +328,12 @@ public class LevelHandler {
         }
 
         checkIfPlayerIsDead();
+    }
+
+    public void updateObservers() {
+        for (GameObserver o : observers) {
+            o.updateObserver();
+        }
     }
 
     private void updateProjectilePositions() {
@@ -472,10 +491,6 @@ public class LevelHandler {
     }
 
     public void loadGame() {
-        setGameState(gameState.LEVELSELECT);
-
-        for (GameObserver o : observers) {
-            o.updateObserver();
-        }
+        // TODO: SAVE SYSTEM
     }
 }

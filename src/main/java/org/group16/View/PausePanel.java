@@ -33,22 +33,24 @@ public class PausePanel extends GamePanel {
         String labelText = "Paused";
         Font labelFont = new Font("Arial", Font.BOLD, 30);
 
-        pauseLabel = ViewUtility.createCenteredMenuTitle(labelText, labelFont,25,0,0,0);
+        pauseLabel = ViewUtility.createLabel(labelText, labelFont,25,0,0,0, JLabel.CENTER);
         add(pauseLabel, BorderLayout.NORTH);
 
         Dimension buttonSize = new Dimension(200, 50); // Set the preferred width to 200 and the preferred height to 50
 
         // Buttons in order of how they will appear in the menu
         JButton[] buttons = {
-            resumeButton = ViewUtility.createMenuButton("Resume", buttonSize),
-            restartButton = ViewUtility.createMenuButton("Restart", buttonSize),
-            mainMenuButton = ViewUtility.createMenuButton("Main Menu", buttonSize),
-            settingsButton = ViewUtility.createMenuButton("Settings", buttonSize),
-            quitButton= ViewUtility.createMenuButton("Quit to desktop", buttonSize)
+            resumeButton = ViewUtility.createButton("Resume", buttonSize),
+            restartButton = ViewUtility.createButton("Restart", buttonSize),
+            mainMenuButton = ViewUtility.createButton("Main Menu", buttonSize),
+            settingsButton = ViewUtility.createButton("Settings", buttonSize),
+            quitButton= ViewUtility.createButton("Quit to desktop", buttonSize)
         };
 
-        verticalButtonPanel = ViewUtility.createVerticalButtonPanel();
+        verticalButtonPanel = ViewUtility.createVerticalPanel();
+        verticalButtonPanel.add(Box.createVerticalGlue());
         ViewUtility.addCenteredButtonsToPanel(buttons, verticalButtonPanel);
+        verticalButtonPanel.add(Box.createVerticalGlue());
         verticalButtonPanel.setBackground(Color.GRAY);
         add(verticalButtonPanel, BorderLayout.CENTER);
     }

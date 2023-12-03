@@ -43,7 +43,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     public LevelPanel(int x, int y, LevelHandler levelHandler) {
         super(x, y);
         this.levelHandler = levelHandler;
-        pauseButton = ViewUtility.createMenuButton("", new Dimension(40, 40));
+        pauseButton = ViewUtility.createButton("", new Dimension(40, 40));
 
         try {
             redHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/red_heart.png"));
@@ -54,6 +54,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         pauseButton.setIcon(new ImageIcon(pauseImage));
         pauseButton.setBorderPainted(false);
         pauseButton.setContentAreaFilled(false);

@@ -57,6 +57,7 @@ public class GameEngine {
         if(levelHandler.getGameState() == GameState.PLAYING){
             levelHandler.update();
         }
+        levelHandler.updateObservers();
     }
 
     private class TimerListener implements ActionListener {

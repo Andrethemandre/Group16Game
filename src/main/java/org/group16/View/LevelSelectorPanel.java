@@ -2,18 +2,29 @@ package org.group16.View;
 
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import org.group16.Model.Level.Level;
 import org.group16.Model.Level.LevelHandler;
+import org.group16.Model.Observers.GameObserver;
 
-public class LevelSelectorPanel extends GamePanel {
+public class LevelSelectorPanel extends GamePanel implements GameObserver {
     private LevelHandler levelHandler;
 
     private JLabel levelSelectTitle;
@@ -22,62 +33,210 @@ public class LevelSelectorPanel extends GamePanel {
     private JButton backToMainMenuButton;
 
     private JButton[] levelButtons;
-    private JPanel verticalButtonPanel;
-    
+    private JButton[] difficultyButtons;
+    private JPanel levelVerticalSelectPanel;
+    private JLabel levelSelectLabel;
+    private JButton levelPageNextButton;
+    private JButton levelPageBackButton;
+    private JLabel levelCurrentPageLabel;
+
+    private BufferedImage levelImage;
+    private BufferedImage placeHolderImage;
+
+    private static final Dimension LARGE_BUTTON_SIZE = new Dimension(200, 28);
+    private static final Dimension SMALL_BUTTON_SIZE = new Dimension(100, 28);
+    private static final Font LABEL_FONT = new Font("Arial", Font.BOLD, 30);
+    private static final Font BUTTON_FONT = new Font("Arial", Font.BOLD, 14);
+
+    // for defualt set to level 1 display
     public LevelSelectorPanel(int x, int y, LevelHandler levelHandler) {
         super(x, y);
         this.levelHandler = levelHandler;
+        try {
+            placeHolderImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/placeholder_level_image.png"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         initComponents();
+    }
+
+    public void setLevelImage(int levelNumber){
+        if(levelNumber == 1){
+            levelImage = placeHolderImage;
+        }
+
+
+    }
+
+    private void initComponents() {
+        setLayout(new BorderLayout());
+        JPanel levelBrowseMenu = createLevelBrowseMenu();
+        JPanel levelInfoPanel = createLevelInfoPanel();
+        
+        add(levelBrowseMenu, BorderLayout.WEST);
+        add(levelInfoPanel, BorderLayout.CENTER);
     }
 
     public JButton[] getLevelButtons() {
         return levelButtons;
     }
 
-    private void initComponents() {
-        //levelSelectTitle = ViewUtility.createCenteredMenuTitle("Level Select", 30, 0, 0, 0);
-        setLayout(new BorderLayout());
-        Dimension buttonSize = new Dimension(200, 50);
+    private JPanel createLevelInfoPanel(){
+        JPanel levelInfoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        levelInfoPanel.setBackground(Color.red);
+        levelSelectLabel = createCurrentSelectedLevelLabel();
+        levelInfoPanel.add(levelSelectLabel);
+        levelInfoPanel.add(createLevelImageLabel());
+        levelInfoPanel.add(createHighScoreLabel());
+        levelInfoPanel.add(createLevelInfoNavigationPanel());
 
+        return levelInfoPanel;
+    }
+
+    private JLabel createCurrentSelectedLevelLabel() {
+        String labelText = "Level 1";
+        return ViewUtility.createLabel(labelText, LABEL_FONT, 14, 20, 0, 0, JLabel.CENTER);
+    }
+    
+    private JLabel createLevelImageLabel() {
+        JLabel picLabel = new JLabel(new ImageIcon(placeHolderImage));
+        picLabel.setBorder(BorderFactory.createEmptyBorder(27, 20, 0, 0)); // Add padding
+        return picLabel;
+    }
+    
+    private JLabel createHighScoreLabel() {
+        String labelText = "High Score: x";
+        return ViewUtility.createLabel(labelText, LABEL_FONT, 15, 20, 0, 0, JLabel.LEFT);
+    }
+    
+    private JPanel createLevelInfoNavigationPanel() {
+        JPanel horizontalButtonPanel = ViewUtility.createHorizontalPanel();
+        horizontalButtonPanel.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        horizontalButtonPanel.setBorder(BorderFactory.createEmptyBorder(100, 20, 0, 0)); // Add padding
+        horizontalButtonPanel.setBackground(Color.ORANGE);
+    
+        backToMainMenuButton = ViewUtility.createButton("Back to Main Menu", LARGE_BUTTON_SIZE);
+        backToMainMenuButton.setFont(BUTTON_FONT);
+        horizontalButtonPanel.add(backToMainMenuButton);
+    
+        horizontalButtonPanel.add(Box.createRigidArea(new Dimension(175, 0))); // Add space after button
+    
+        playButton = ViewUtility.createButton("Play", SMALL_BUTTON_SIZE);
+        playButton.setFont(BUTTON_FONT);
+
+        horizontalButtonPanel.add(playButton);
+    
+        return horizontalButtonPanel;
+    }
+
+    private void initLevelButtons(){
         levelButtons = new JButton[levelHandler.getLevels().size()];
         int i = 0;
 
         for (Map.Entry<Integer, Level> entry : levelHandler.getLevels().entrySet()) {
             Integer levelNumber = entry.getKey();
-            Level level = entry.getValue();
 
-            levelButtons[i] = ViewUtility.createMenuButton("Level " + levelNumber, buttonSize);
+            levelButtons[i] = ViewUtility.createButton("Level " + levelNumber, new Dimension(200, 55));
             i++;
         }
+    }
+    
+    private JPanel createLevelBrowseMenu(){
+        JPanel levelBrowseMenu = new JPanel();
+        levelBrowseMenu.setLayout(new BorderLayout());
 
-        verticalButtonPanel = ViewUtility.createVerticalButtonPanel();
-        ViewUtility.addCenteredButtonsToPanel(levelButtons, verticalButtonPanel);
-        verticalButtonPanel.setBackground(Color.GRAY);
-        add(verticalButtonPanel, BorderLayout.CENTER);
+        levelSelectLabel = createTitle();
+        levelBrowseMenu.add(levelSelectLabel, BorderLayout.NORTH);
+        
+        initLevelSelectPanel();
 
-        // setBackground(Color.GRAY);
-        // setLayout(new BorderLayout()); 
+        JPanel navigationPanel = createLevelBrowseNavigationPanel();
 
-        // String labelText = "Paused";
-        // Font labelFont = new Font("Arial", Font.BOLD, 30);
+        levelVerticalSelectPanel.setBackground(Color.GRAY);
+        
+        levelVerticalSelectPanel.add(navigationPanel);
 
-        // pauseLabel = ViewUtility.createCenteredMenuTitle(labelText, labelFont,25,0,0,0);
-        // add(pauseLabel, BorderLayout.NORTH);
+        int totalButtonHeight = levelButtons.length * levelButtons[0].getPreferredSize().height;
+        levelVerticalSelectPanel.setMaximumSize(new Dimension(200, 200));
 
-        // Dimension buttonSize = new Dimension(200, 50); // Set the preferred width to 200 and the preferred height to 50
+        levelBrowseMenu.setBackground(Color.green);
+        levelBrowseMenu.add(levelVerticalSelectPanel, BorderLayout.CENTER);
 
-        // // Buttons in order of how they will appear in the menu
-        // JButton[] buttons = {
-        //     resumeButton = ViewUtility.createMenuButton("Resume", buttonSize),
-        //     restartButton = ViewUtility.createMenuButton("Restart", buttonSize),
-        //     mainMenuButton = ViewUtility.createMenuButton("Main Menu", buttonSize),
-        //     settingsButton = ViewUtility.createMenuButton("Settings", buttonSize),
-        //     quitButton= ViewUtility.createMenuButton("Quit to desktop", buttonSize)
-        // };
+        return levelBrowseMenu;
+    }
 
-        // verticalButtonPanel = ViewUtility.createVerticalButtonPanel();
-        // ViewUtility.addCenteredButtonsToPanel(buttons, verticalButtonPanel);
-        // verticalButtonPanel.setBackground(Color.GRAY);
-        // add(verticalButtonPanel, BorderLayout.CENTER);
+    private void initLevelSelectPanel(){
+        initLevelButtons();
+        levelVerticalSelectPanel = ViewUtility.createVerticalPanel();
+        levelVerticalSelectPanel.add(Box.createVerticalStrut(27));    
+
+        for (int i = 0; i < levelButtons.length; i++) {
+            levelVerticalSelectPanel.add(levelButtons[i]);
+
+            if (i < levelButtons.length - 1) { // Don't add strut after the last button
+                levelVerticalSelectPanel.add(Box.createVerticalStrut(15)); // Add 10px vertical gap
+            }
+
+            if(i == levelButtons.length - 1){
+                levelVerticalSelectPanel.add(Box.createVerticalStrut(67));
+            }
+        }
+    }
+
+    private JPanel createLevelBrowseNavigationPanel(){
+        JPanel navigationPanel = ViewUtility.createHorizontalPanel();
+
+        levelPageNextButton = ViewUtility.createButton("Next", new Dimension(60, 50));
+        levelPageBackButton = ViewUtility.createButton("Back", new Dimension(60, 50));
+
+        navigationPanel.setLayout(new BoxLayout(navigationPanel, BoxLayout.LINE_AXIS));
+        navigationPanel.add(levelPageBackButton);
+        navigationPanel.add(Box.createHorizontalGlue());
+
+        Font labelFont3 = new Font("Arial", Font.PLAIN, 14);
+        navigationPanel.add(levelCurrentPageLabel = ViewUtility.createLabel("1/x", labelFont3,0,0,0,0, JLabel.CENTER));
+        navigationPanel.add(Box.createHorizontalGlue());
+
+        navigationPanel.add(levelPageNextButton);
+
+        navigationPanel.setBackground(Color.PINK);
+        navigationPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0)); // Add padding
+
+        return navigationPanel;
+    }
+
+    private JLabel createTitle(){
+        String labelText = "Level Select";
+        Font labelFont = new Font("Arial", Font.BOLD, 30);
+
+        return ViewUtility.createLabel(labelText, labelFont,14,0,0,0, JLabel.CENTER);
+    }
+
+    public JButton getPlayButton() {
+        return playButton;
+    }
+
+    public JButton getBackToMainMenuButton() {
+        return backToMainMenuButton;
+    }
+
+    public JButton getLevelPageNextButton() {
+        return levelPageNextButton;
+    }
+
+    public JButton getLevelPageBackButton() {
+        return levelPageBackButton;
+    }
+
+    public JLabel getLevelCurrentPageLabel() {
+        return levelCurrentPageLabel;
+    }
+
+    @Override
+    public void updateObserver() {
+        setLevelImage(levelHandler.getCurrentLevelNumber());
+        //levelSelectTitle.setText("Level " + levelHandler.getCurrentLevelNumber());
+        levelSelectLabel.setText("Level " + levelHandler.getCurrentLevelNumber());
     }
 }
