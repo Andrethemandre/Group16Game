@@ -3,9 +3,9 @@ package org.group16.Controller;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.View.LevelSelectorPanel;
 
-public class LevelSelectController extends GameController{
+class LevelSelectController extends GameController{
 
-    public LevelSelectController(LevelHandler levelHandler, LevelSelectorPanel levelSelectorPanel) {
+    LevelSelectController(LevelHandler levelHandler, LevelSelectorPanel levelSelectorPanel) {
         super(levelHandler, levelSelectorPanel);
 
         for (int i = 0; i < levelSelectorPanel.getLevelButtons().length; i++) {

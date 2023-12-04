@@ -39,7 +39,7 @@ public class GameEngine {
         levelHandler.notifyObservers();
     }
 
-    public void start(){
+    void start(){
         timer.start();
     }
 

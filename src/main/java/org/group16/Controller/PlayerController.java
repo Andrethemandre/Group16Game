@@ -9,8 +9,7 @@ import org.group16.Model.Level.LevelHandler;
 import org.group16.View.GameWindow;
 import org.group16.View.LevelPanel;
 
-public class PlayerController extends GameController implements KeyListener{
-
+class PlayerController extends GameController implements KeyListener{
     private LevelPanel levelPanel;
     private LevelHandler levelHandler;
     private Player currentPlayer;
@@ -18,7 +17,7 @@ public class PlayerController extends GameController implements KeyListener{
     // flag to only allow one jump per keypress
     private boolean wKeyHeldDown = false;
 
-    public PlayerController(LevelHandler levelHandler, LevelPanel levelPanel, GameWindow mainWindow){
+    PlayerController(LevelHandler levelHandler, LevelPanel levelPanel, GameWindow mainWindow){
         super(levelHandler, levelPanel);
         this.levelHandler = levelHandler;
         this.levelPanel = levelPanel;

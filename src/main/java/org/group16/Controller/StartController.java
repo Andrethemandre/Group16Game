@@ -3,9 +3,9 @@ package org.group16.Controller;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.View.StartPanel;
 
-public class StartController extends GameController {
+class StartController extends GameController {
 
-    public StartController(LevelHandler levelHandler, StartPanel startPanel) {
+    StartController(LevelHandler levelHandler, StartPanel startPanel) {
         super(levelHandler, startPanel);
 
         startPanel.getPlayButton().addActionListener(e -> {

@@ -3,11 +3,11 @@ package org.group16.Controller;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.View.PausePanel;
 
-public class PauseController extends GameController{
+class PauseController extends GameController{
     private PausePanel pausePanel;
     private LevelHandler levelHandler;
 
-    public PauseController(LevelHandler levelHandler, PausePanel pausePanel) {
+    PauseController(LevelHandler levelHandler, PausePanel pausePanel) {
         super(levelHandler, pausePanel);
 
         this.pausePanel = pausePanel;

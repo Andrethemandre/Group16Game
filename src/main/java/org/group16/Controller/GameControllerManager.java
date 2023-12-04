@@ -7,11 +7,11 @@ import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.View.GameWindow;
 
-public class GameControllerManager {
+class GameControllerManager {
     private Map<GameState, GameController> controllers;
     private GameController gameController;
 
-    public GameControllerManager(LevelHandler levelHandler, GameWindow mainWindow) {
+    GameControllerManager(LevelHandler levelHandler, GameWindow mainWindow) {
         controllers = new HashMap<>();
 
         // Initialize the controllers for each game state
@@ -24,7 +24,7 @@ public class GameControllerManager {
         gameController = controllers.get(levelHandler.getGameState());
     }
 
-    public void updateGameController(GameState gameState) {
+    void updateGameController(GameState gameState) {
         gameController = controllers.get(gameState);
         gameController.update();
     }
