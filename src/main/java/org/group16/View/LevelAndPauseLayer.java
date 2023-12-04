@@ -1,9 +1,7 @@
 package org.group16.View;
 
 import java.awt.Color;
-import java.util.logging.Level;
 
-import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
 import org.group16.Model.GameObjects.GameState;
@@ -48,5 +46,4 @@ public class LevelAndPauseLayer extends JLayeredPane implements GameObserver{
 
         levelPanel.updateObserver();
     }
-    
 }

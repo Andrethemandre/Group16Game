@@ -4,16 +4,11 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.HashMap;
 
 import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import org.group16.Model.GameObjects.GameState;
-import org.group16.Model.Level.FirstLevel;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
 
@@ -29,7 +24,7 @@ public class GameWindow extends JFrame implements GameObserver{
     private static final int X = 720 + WINDOW_OFFSET_X;
     private static final int Y = 480 + WINDOW_OFFSET_Y;
 
-    // mainScreen that changes depending on type of panel (for now it is just a screen of a level)
+    // mainScreen that changes depending on type of panel 
     private CardLayout mainScreen;
     private LevelHandler levelHandler;
     private StartPanel startPanel;
@@ -56,7 +51,7 @@ public class GameWindow extends JFrame implements GameObserver{
 
         cards.add(startPanel, "START");
         cards.add(levelAndPauseLayer, "PLAYING");
-        cards.add(levelSelectorPanel, "LEVELSELECT");
+        cards.add(levelSelectorPanel, "LEVEL_SELECT");
         initComponents(windowName);
         levelAndPauseLayer.setBounds(getBounds());
         this.requestFocusInWindow();
@@ -116,8 +111,8 @@ public class GameWindow extends JFrame implements GameObserver{
             mainScreen.show(cards, "PLAYING");
         }
 
-        else if(levelHandler.getGameState() == GameState.LEVELSELECT){
-            mainScreen.show(cards, "LEVELSELECT");
+        else if(levelHandler.getGameState() == GameState.LEVEL_SELECT){
+            mainScreen.show(cards, "LEVEL_SELECT");
         }
 
         repaint();

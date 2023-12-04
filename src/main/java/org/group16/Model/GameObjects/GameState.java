@@ -2,7 +2,7 @@ package org.group16.Model.GameObjects;
 
 public enum GameState {
         START,
-        LEVELSELECT,
+        LEVEL_SELECT,
         PLAYING,
         PAUSED
     }

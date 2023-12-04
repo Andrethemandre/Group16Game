@@ -9,21 +9,16 @@ import org.group16.Model.Observers.GameObserver;
 public class GameStateManager {
     private List<GameObserver> observers = new ArrayList<>();
     private GameState gameState;
-    private long pauseStartTime;
-    private long totalPauseTime;
-
 
     GameStateManager() {
         gameState = GameState.START;
     }
 
-
     public void togglePause() {
         if (gameState == GameState.PLAYING) {
-            pauseStartTime = System.currentTimeMillis();
             gameState = GameState.PAUSED;
-        } else if (gameState == GameState.PAUSED) {
-            totalPauseTime += System.currentTimeMillis() - pauseStartTime;
+        } 
+        else if (gameState == GameState.PAUSED) {
             gameState = GameState.PLAYING;
         }
 
@@ -38,7 +33,7 @@ public class GameStateManager {
         // TODO: SAVE SYSTEM
         // Temporary due to lack of save system
 
-        setGameState(GameState.LEVELSELECT);
+        setGameState(GameState.LEVEL_SELECT);
     }
 
     public void loadGame() {
@@ -51,7 +46,7 @@ public class GameStateManager {
     }
 
     public void goToLevelSelect() {
-        setGameState(GameState.LEVELSELECT);
+        setGameState(GameState.LEVEL_SELECT);
         notifyObservers();
     }
 
@@ -60,29 +55,11 @@ public class GameStateManager {
         notifyObservers();
     }
 
-    // Implement a function that increments for every level attempt
-
-
-    // public void restartGame() {
-    //     setLevel(currentLevelNumber);
-
-    //     totalPauseTime = 0;
-    //     pauseStartTime = 0;
-    //     levelAttempts = 0;
-    //     score = 0;
-    //     levelStartTime = System.currentTimeMillis();
-
-    //     for (GameObserver o : observers) {
-    //         o.updateObserver();
-    //     }
-    // }
-
     private void notifyObservers() {
         for (GameObserver o : observers) {
             o.updateObserver();
         }
     }
-
 
     public GameState getGameState() {
         return gameState;

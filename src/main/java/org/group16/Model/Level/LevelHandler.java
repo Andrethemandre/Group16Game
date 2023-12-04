@@ -6,9 +6,7 @@ import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Arrays;
 
 import org.group16.Model.GameObjects.Enemy.FlyingEnemy;
@@ -44,7 +42,6 @@ public class LevelHandler {
     private Collection<GameObserver> observers;
     private int currentLevelNumber;
     private Level currentLevel;
-    // private int levelAttempts = 0;
     private GameStateManager gameStateManager;    
     private StatsManager statsManager;
     private LevelSelectPageManager levelSelectPageManager;
@@ -56,6 +53,8 @@ public class LevelHandler {
         levelSelectPageManager = new LevelSelectPageManager(TOTAL_LEVELS);
 
         gameStateManager = new GameStateManager();
+
+        // Temporary due to lack of save system
         statsManager = new StatsManager();
         statsManager.recordStats(1, new Stats(0));
         statsManager.recordStats(2, new Stats(0));
@@ -86,15 +85,6 @@ public class LevelHandler {
 
     public int getLevelHighScore(int levelNumber){
         return statsManager.getStats(levelNumber).getScore();
-    }
-
-    public void newGame() {
-        // Temporary due to lack of save system
-        gameStateManager.goToLevelSelect();
-    }
-
-    public void goToLevelSelect() {
-        gameStateManager.goToLevelSelect();
     }
 
     public GameState getGameState() {
@@ -222,11 +212,32 @@ public class LevelHandler {
         }
     }
 
+    public void newGame() {
+        // Temporary due to lack of save system
+        gameStateManager.goToLevelSelect();
+    }
+
+    public void goToLevelSelect() {
+        gameStateManager.goToLevelSelect();
+    }
+
     public void startGame() {
         gameStateManager.startGame();
         setLevel(currentLevelNumber);
 
         statsManager.resetScore();
+
+        notifyObservers();
+    }
+
+    public void goToMainMenu() {
+        gameStateManager.goToMainMenu();
+
+        notifyObservers();
+    }
+
+    public void loadGame() {
+        // TODO: SAVE SYSTEM
 
         notifyObservers();
     }
@@ -243,17 +254,14 @@ public class LevelHandler {
     public void togglePause() {
         gameStateManager.togglePause();
 
+        if (gameStateManager.getGameState() == GameState.PAUSED) {
+            statsManager.setPauseStartTime();
+            
+        } else if (gameStateManager.getGameState() == GameState.PLAYING) {
+            statsManager.setTotalPauseTime();
+        }
+
         notifyObservers();
-    }
-
-    public void goToMainMenu() {
-        gameStateManager.goToMainMenu();
-
-        notifyObservers();
-    }
-
-    public void loadGame() {
-        // TODO: SAVE SYSTEM
     }
 
     private void setLevel(int levelNumber) {
@@ -262,9 +270,8 @@ public class LevelHandler {
         powerUps.clear();
         movableBlocks.clear();
         currentLevel = LevelFactory.createLevel(levelNumber);
-
-        // GameStats
-        currentLevelNumber = levelNumber;
+        
+        setCurrentLevelNumber(levelNumber);
 
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
@@ -323,6 +330,7 @@ public class LevelHandler {
         checkIfPlayerCollidesWithBlocks();
         checkIfPlayerCollidesWithEnemies();
         checkIfPlayerCollidesWithPowerUp();
+        checkIfPlayerIsDead();
 
         checkIfFlyingEnemyCollidesWithBlocks();
 
@@ -333,9 +341,8 @@ public class LevelHandler {
         removeDeadEntities();
         updateEnemies();
 
-        notifyObservers();
 
-        checkIfPlayerIsDead();
+        notifyObservers();
     }
 
     private void updateProjectilePositions() {

@@ -1,10 +1,6 @@
 package org.group16.Controller;
 import java.awt.event.KeyListener;
-import java.awt.Cursor;
 import java.awt.event.KeyEvent;
-
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameState;
@@ -13,7 +9,7 @@ import org.group16.Model.Level.LevelHandler;
 import org.group16.View.GameWindow;
 import org.group16.View.LevelPanel;
 
-public class PlayerController extends GameController implements KeyListener, MouseListener  {
+public class PlayerController extends GameController implements KeyListener{
 
     private LevelPanel levelPanel;
     private LevelHandler levelHandler;
@@ -28,7 +24,6 @@ public class PlayerController extends GameController implements KeyListener, Mou
         this.levelPanel = levelPanel;
         this.currentPlayer = levelHandler.getPlayer();
         mainWindow.addKeyListener(this);
-        mainWindow.addMouseListener(this);
 
         levelPanel.getPauseButton().addActionListener(e -> {
             currentPlayer.startMovingInDirection(Direction.NONE);
@@ -44,13 +39,10 @@ public class PlayerController extends GameController implements KeyListener, Mou
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
+    public void keyTyped(KeyEvent e) {}
 
     @Override
     public void keyPressed(KeyEvent e) {
-
         switch(e.getKeyCode()) {
             // w for going up
             case KeyEvent.VK_W:  
@@ -115,25 +107,4 @@ public class PlayerController extends GameController implements KeyListener, Mou
             }
         }
     }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-    }
-  
 }

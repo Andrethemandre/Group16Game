@@ -1,7 +1,5 @@
 package org.group16.View;
 
-import java.util.Map;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -10,7 +8,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -20,9 +17,8 @@ import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import org.group16.Model.Level.Level;
+import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.Level.LevelHandler;
-import org.group16.Model.Level.Stats;
 import org.group16.Model.Observers.GameObserver;
 
 public class LevelSelectorPanel extends GamePanel implements GameObserver {
@@ -284,10 +280,11 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         levelSelectLabel.setText("Level " + levelHandler.getCurrentLevelNumber());
     }
 
-
     @Override
     public void updateObserver() {
-        updateDisplay();
-        repaint();
+        if(levelHandler.getGameState() == GameState.LEVEL_SELECT){
+            updateDisplay();
+            repaint();
+        }
     }
 }

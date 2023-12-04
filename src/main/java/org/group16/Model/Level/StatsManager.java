@@ -11,12 +11,14 @@ public class StatsManager {
     private long pauseStartTime;
     private long totalPauseTime;
 
-    private int levelAttempts = 0;
+    private int levelAttempts;
     private long levelStartTime;
 
-    public StatsManager() {
+    StatsManager() {
         this.recordedLevelStats = new HashMap<>();
         this.score = 0;
+
+        this.levelAttempts = 0;
     }
 
     public void incrementLevelAttempts() {
@@ -86,6 +88,21 @@ public class StatsManager {
     public int getScore() {
         score = calculateScore();
         return score;
+    }
+        // if (gameState == GameState.PLAYING) {
+        //     // pauseStartTime = System.currentTimeMillis();
+        //     gameState = GameState.PAUSED;
+        // } else if (gameState == GameState.PAUSED) {
+        //    // totalPauseTime += System.currentTimeMillis() - pauseStartTime;
+        //     gameState = GameState.PLAYING;
+        // }
+
+    public void setPauseStartTime(){
+        pauseStartTime = System.currentTimeMillis();
+    }
+
+    public void setTotalPauseTime(){
+        totalPauseTime += System.currentTimeMillis() - pauseStartTime;
     }
 
     public long getElapsedTime() {

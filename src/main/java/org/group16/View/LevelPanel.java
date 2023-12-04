@@ -14,10 +14,6 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.management.timer.TimerMBean;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
@@ -122,17 +118,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
         // Gameplay hud
         paintHealthBar(g, cellSize, currentPlayer);
         paintStats(g, currentPlayer);
-
-        // Temporay Pause screen
-        // if (levelHandler.getPauseState() == GameState.PAUSED) {
-        // paintPaused(g);
-        // }
-    }
-
-    private void paintPaused(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.PLAIN, 50));
-        g.drawString("PAUSED", 250, 250);
     }
 
     private void drawTwoStringSCentered(Graphics g, String text, String formattedText, int x, int y, int lineSpacing) {
@@ -293,5 +278,4 @@ public class LevelPanel extends GamePanel implements GameObserver {
             pauseButton.setCursor(Cursor.getDefaultCursor());
         }
     }
-
 }
