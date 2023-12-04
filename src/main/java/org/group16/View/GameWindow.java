@@ -11,6 +11,11 @@ import javax.swing.JPanel;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
+import org.group16.View.Panels.LevelAndPauseLayer;
+import org.group16.View.Panels.LevelPanel;
+import org.group16.View.Panels.LevelSelectorPanel;
+import org.group16.View.Panels.PausePanel;
+import org.group16.View.Panels.StartPanel;
 
 public class GameWindow extends JFrame implements GameObserver{
     // Offsets makes it display correctly

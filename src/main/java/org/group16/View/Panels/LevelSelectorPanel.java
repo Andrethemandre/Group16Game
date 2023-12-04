@@ -1,4 +1,4 @@
-package org.group16.View;
+package org.group16.View.Panels;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -20,6 +20,7 @@ import java.io.IOException;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
+import org.group16.View.ViewUtility;
 
 public class LevelSelectorPanel extends GamePanel implements GameObserver {
     private LevelHandler levelHandler;

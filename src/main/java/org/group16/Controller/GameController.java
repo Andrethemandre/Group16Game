@@ -1,7 +1,7 @@
 package org.group16.Controller;
 
 import org.group16.Model.Level.LevelHandler;
-import org.group16.View.GamePanel;
+import org.group16.View.Panels.GamePanel;
 
 abstract class GameController {
     private GamePanel gamePanel;

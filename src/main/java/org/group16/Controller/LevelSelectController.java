@@ -1,7 +1,7 @@
 package org.group16.Controller;
 
 import org.group16.Model.Level.LevelHandler;
-import org.group16.View.LevelSelectorPanel;
+import org.group16.View.Panels.LevelSelectorPanel;
 
 class LevelSelectController extends GameController{
 

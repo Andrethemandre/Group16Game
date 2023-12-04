@@ -7,7 +7,7 @@ import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.View.GameWindow;
-import org.group16.View.LevelPanel;
+import org.group16.View.Panels.LevelPanel;
 
 class PlayerController extends GameController implements KeyListener{
     private LevelPanel levelPanel;

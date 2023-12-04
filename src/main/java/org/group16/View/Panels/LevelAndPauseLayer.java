@@ -1,4 +1,4 @@
-package org.group16.View;
+package org.group16.View.Panels;
 
 import java.awt.Color;
 

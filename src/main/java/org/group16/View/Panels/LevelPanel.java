@@ -1,4 +1,4 @@
-package org.group16.View;
+package org.group16.View.Panels;
 
 import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
@@ -24,6 +24,7 @@ import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
+import org.group16.View.ViewUtility;
 
 public class LevelPanel extends GamePanel implements GameObserver {
     private LevelHandler levelHandler;

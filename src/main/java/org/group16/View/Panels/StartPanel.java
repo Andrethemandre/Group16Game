@@ -1,4 +1,4 @@
-package org.group16.View;
+package org.group16.View.Panels;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -7,6 +7,8 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import org.group16.View.ViewUtility;
 
 public class StartPanel extends GamePanel {
     private JLabel gameTitleLabel;

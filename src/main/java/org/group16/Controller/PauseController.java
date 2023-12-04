@@ -1,7 +1,7 @@
 package org.group16.Controller;
 
 import org.group16.Model.Level.LevelHandler;
-import org.group16.View.PausePanel;
+import org.group16.View.Panels.PausePanel;
 
 class PauseController extends GameController{
     private PausePanel pausePanel;
