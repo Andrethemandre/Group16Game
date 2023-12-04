@@ -264,8 +264,8 @@ public class LevelHandler {
         traps.clear();
         movableEnemies.clear();
 
-        currentLevel = LevelFactory.createLevel(levelNumber);
-        lastLevelNumber = levelNumber;
+        currentLevel = LevelFactory.createLevel(10);
+        lastLevelNumber = 10;
 
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
