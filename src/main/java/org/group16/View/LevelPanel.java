@@ -189,10 +189,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
         String formattedScore = "";
 
         // The amount of decimals reduce if score is negative
-        if (levelHandler.getScore() < 0) {
-            formattedScore = String.format("%05d", levelHandler.getScore());
+        if (levelHandler.getCurrentScore() < 0) {
+            formattedScore = String.format("%05d", levelHandler.getCurrentScore());
         } else {
-            formattedScore = String.format("%04d", levelHandler.getScore());
+            formattedScore = String.format("%04d", levelHandler.getCurrentScore());
         }
 
         drawTwoStringSCentered(g, scoreText, formattedScore, scoreX, statsY, lineSpacing);
@@ -206,15 +206,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
         drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX - 55, statsY, lineSpacing);
 
         g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding -55, padding + 3, this);
-    }
-
-    private void paintGridWithSize(Graphics g, int cellSize) {
-        g.setColor(Color.red);
-        for (int i = 0; i <= levelHandler.getWidth(); i++) {
-            g.drawLine(i * cellSize, 0, i * cellSize, levelHandler.getHeight() * cellSize);
-            if (i <= levelHandler.getWidth())
-                g.drawLine(0, i * cellSize, levelHandler.getWidth() * cellSize, i * cellSize);
-        }
     }
 
     private void paintPlayer(Graphics g, Player currentPlayer) {

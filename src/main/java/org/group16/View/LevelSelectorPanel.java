@@ -72,7 +72,6 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     }
 
     private void setLevelImage(int levelNumber){
-        System.out.println(levelHandler.getCurrentLevelNumber());
         if(levelNumber == 1){
             picLabel.setIcon(new ImageIcon(firstLevelImage));
         }
@@ -151,14 +150,10 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     }
 
     private void initLevelButtons(){
-        levelButtons = new JButton[levelHandler.getRecordedLevelStats().size()];
-        int i = 0;
+        levelButtons = new JButton[levelHandler.getTotalLevels()];
 
-        for (Map.Entry<Integer, Stats> entry : levelHandler.getRecordedLevelStats().entrySet()) {
-            Integer levelNumber = entry.getKey();
-
-            levelButtons[i] = ViewUtility.createButton("Level " + levelNumber, new Dimension(200, 55));
-            i++;
+        for (int i = 0; i < levelButtons.length; i++) {
+            levelButtons[i] = ViewUtility.createButton("Level " + (i+1), new Dimension(200, 55));
         }
     }
     
@@ -198,12 +193,12 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         }
     }
     private void updateCurrentPageLabel(){
-        int totalLevels = levelHandler.getRecordedLevelStats().size();
-        levelCurrentPageLabel.setText(levelHandler.getCurrentPage() + "/" +  (int) (totalLevels/4 + 1));
+        int totalLevels = levelHandler.getTotalLevels();
+        levelCurrentPageLabel.setText(levelHandler.getCurrentLevelSelectPage() + "/" +  (int) (totalLevels/4 + 1));
     }
     private JLabel createLevelCurrentPageLabel(){
-        int totalLevels = levelHandler.getRecordedLevelStats().size();
-        String labelText = levelHandler.getCurrentPage() + "/" +  (int) (totalLevels/4 + 1);
+        int totalLevels = levelHandler.getTotalLevels();
+        String labelText = levelHandler.getCurrentLevelSelectPage() + "/" +  (int) (totalLevels/4 + 1);
         Font labelFont = new Font("Arial", Font.PLAIN, 14);
 
         return ViewUtility.createLabel(labelText, labelFont,0,0,0,0, JLabel.CENTER);
@@ -275,20 +270,24 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     }
 
     private void updateHighScoreLabel(int levelNumber) {
-        if(levelNumber < levelHandler.getRecordedLevelStats().size() + 1 && levelNumber > 0){
-            Stats stats = levelHandler.getRecordedLevelStats().get(levelNumber);
-            highScoreLabel.setText("High Score: " + stats.getScore());
+        if(levelNumber < levelHandler.getTotalLevels() + 1 && levelNumber > 0){
+            int highScore = levelHandler.getLevelHighScore(levelNumber);
+            highScoreLabel.setText("High Score: " + highScore);
         }
+    }
+
+    private void updateDisplay(){
+        updateHighScoreLabel(levelHandler.getCurrentLevelNumber());
+        setLevelImage(levelHandler.getCurrentLevelNumber());
+        updateCurrentPageLabel();
+        updateVisibleLevelButtons(levelHandler.getCurrentLevelSelectPage());
+        levelSelectLabel.setText("Level " + levelHandler.getCurrentLevelNumber());
     }
 
 
     @Override
     public void updateObserver() {
-        updateHighScoreLabel(levelHandler.getCurrentLevelNumber());
-        setLevelImage(levelHandler.getCurrentLevelNumber());
-        updateCurrentPageLabel();
-        updateVisibleLevelButtons(levelHandler.getCurrentPage());
-        levelSelectLabel.setText("Level " + levelHandler.getCurrentLevelNumber());
+        updateDisplay();
         repaint();
     }
 }

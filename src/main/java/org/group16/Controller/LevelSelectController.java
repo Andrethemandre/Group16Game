@@ -15,7 +15,7 @@ public class LevelSelectController extends GameController{
 
             levelSelectorPanel.getLevelButtons()[i].addActionListener(e -> {
                 levelHandler.setCurrentLevelNumber(levelNumber + 1);
-                levelHandler.updateObservers();
+                levelHandler.notifyObservers();
             });
         }
 
@@ -28,11 +28,11 @@ public class LevelSelectController extends GameController{
         });
 
         levelSelectorPanel.getLevelPageNextButton().addActionListener(e -> {
-            levelHandler.nextPage();
+            levelHandler.nextLevelSelectPage();
         });
 
         levelSelectorPanel.getLevelPageBackButton().addActionListener(e -> {
-            levelHandler.previousPage();
+            levelHandler.previousLevelSelectPage();
         });
     }
 
