@@ -226,7 +226,7 @@ public class LevelHandler {
     }
 
     public void startGame() {
-        setLevel(1);
+        setLevel(10);
 
         totalPauseTime = 0;
         pauseStartTime = 0;
@@ -264,8 +264,8 @@ public class LevelHandler {
         traps.clear();
         movableEnemies.clear();
 
-        currentLevel = LevelFactory.createLevel(10);
-        lastLevelNumber = 10;
+        currentLevel = LevelFactory.createLevel(levelNumber);
+        lastLevelNumber = levelNumber;
 
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
