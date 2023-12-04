@@ -25,21 +25,21 @@ public abstract class Level {
     private final int HEIGHT = 30;
     private final int levelNumber;
 
-    private GameObjectType[][] level;
+    private final GameObjectType[][] levelLayout;
     private Map<Tuple, Metadata> metadataMap;
 
     public Level(GameObjectType[][] level, int levelNumber) {
-        this.level = level;
+        this.levelLayout = level;
         this.levelNumber = levelNumber;
         initializeMetadata();
     }
 
-    public GameObjectType[][] getLevel() {
-        return level;
+    public GameObjectType[][] getLevelLayout() {
+        return levelLayout;
     }
 
     public GameObjectType getLevelTile(int x, int y) {
-        return level[x][y];
+        return levelLayout[x][y];
     }
 
     public int getWidth() {
@@ -51,9 +51,9 @@ public abstract class Level {
     }
 
     private boolean isValidGameObjectType(int j, int i) {
-        return level[j][i] == BASIC_____ ||
-                level[j][i] == MOVABLE___ ||
-                level[j][i] == FLYING____;
+        return levelLayout[j][i] == BASIC_____ ||
+                levelLayout[j][i] == MOVABLE___ ||
+                levelLayout[j][i] == FLYING____;
     }
 
     protected abstract Queue<Metadata> createMetadata();
@@ -62,8 +62,8 @@ public abstract class Level {
         metadataMap = new HashMap<>();
         Queue<Metadata> metadataQueue = createMetadata();
 
-        for (int i = 0; i < level.length; i++) {
-            for (int j = 0; j < level[i].length; j++) {
+        for (int i = 0; i < levelLayout.length; i++) {
+            for (int j = 0; j < levelLayout[i].length; j++) {
                 if (isValidGameObjectType(i, j)) {
                     metadataMap.put(new Tuple(j, i), metadataQueue.poll());
                 }

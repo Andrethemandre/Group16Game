@@ -15,7 +15,6 @@ import static org.group16.Model.GameObjects.GameObjectType.POWERUP___;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
 import static org.group16.Model.GameObjects.GameObjectType.FLYING____;
-import org.group16.Model.GameObjects.Blocks.MovableBlock;
 
 
 import java.util.ArrayList;
@@ -27,9 +26,8 @@ import java.util.Queue;
 
 public class FirstLevel extends Level  {
     // matrix 45X30 to represent level 1
-    private List<MovableBlock> movableBlocks;
     
-    private static GameObjectType[][] level1 = {
+    private static final GameObjectType[][] levelLayout = {
     
                                                 {AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,},
                                                 {AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,},
@@ -65,7 +63,7 @@ public class FirstLevel extends Level  {
 
     // Construct the level by positioning game objects in the grid
     public FirstLevel() {
-        super(level1, 1);
+        super(levelLayout, 1);
     }
 
     protected Queue<Metadata> createMetadata() {
