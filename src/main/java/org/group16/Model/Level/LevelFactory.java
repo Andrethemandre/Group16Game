@@ -12,12 +12,15 @@ public class LevelFactory {
                 return new SecondLevel();
             case 3:
                 return new ThirdLevel();
+            case 6:
+                return new SixthLevel();   
             case 7:
                 return new SeventhLevel();
             case 8:
                 return new EighthLevel();
             default:
                 throw new IllegalArgumentException("Level is not supported");
+
         }
     }
 }

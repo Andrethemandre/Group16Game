@@ -56,6 +56,7 @@ public class LevelHandler {
 
     FirstLevel firstLevel = new FirstLevel();
     SecondLevel secondLevel = new SecondLevel();
+    SixthLevel sixthLevel = new SixthLevel();
     // width and height depending on how big the level is
 
     private long pauseStartTime = 0;
