@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-public class FifthLevel extends Level {
+public final class FifthLevel extends Level {
     // matrix 45X30 to represent level 1
     // private List<MovableBlock> movableBlocks;
 
