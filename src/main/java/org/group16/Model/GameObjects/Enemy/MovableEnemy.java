@@ -47,10 +47,10 @@ public abstract class MovableEnemy extends Enemy implements Movable {
         this.visibility = visibility;
     }
 
-    public void toggleVisibility() {
-        this.visibility = !this.visibility;
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toggleVisibility'");
-    }
+//    public void toggleVisibility() {
+//        this.visibility = !this.visibility;
+//        // TODO Auto-generated method stub
+//        throw new UnsupportedOperationException("Unimplemented method 'toggleVisibility'");
+//    }
 
 }

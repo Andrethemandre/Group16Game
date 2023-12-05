@@ -19,6 +19,9 @@ import javax.management.timer.TimerMBean;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import org.group16.Model.GameObjects.Enemy.EnemyBehavior;
+import org.group16.Model.GameObjects.Enemy.MovableEnemy;
+import org.group16.Model.GameObjects.Enemy.TeleportRushEnemy;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.Block;
@@ -223,6 +226,14 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.fillRect(playerX, playerY, currentPlayer.getWidth(), currentPlayer.getHeight());
     }
 
+    private Color getPulsingColor() {
+        float pulse = (float) ((Math.sin(System.currentTimeMillis() / 2000.0) + 1) / 2); // Oscillates between 0 and 1
+        int red = (int) (Color.BLACK.getRed() * pulse + Color.WHITE.getRed() * (1 - pulse));
+        int green = (int) (Color.BLACK.getGreen() * pulse + Color.WHITE.getGreen() * (1 - pulse));
+        int blue = (int) (Color.BLACK.getBlue() * pulse + Color.WHITE.getBlue() * (1 - pulse));
+        return new Color(red, green, blue);
+    }
+
     private void paintEnemies(Graphics g) {
         Collection<Enemy> currentEnemies = levelHandler.getEnemies();
         for (Enemy enemy : currentEnemies) {
@@ -247,13 +258,22 @@ public class LevelPanel extends GamePanel implements GameObserver {
             } else if (enemy.getType() == GameObjectType.FLYING____) {
                 g.setColor(flyingEnemyColor);
                 g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
-
+                // For teleporting enemies
             } else if (enemy.getType() == GameObjectType.TELEPORT__) {
-                g.setColor(Color.black);
-                g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
+                System.out.println("Processing a TeleportRushEnemy"); // Print statement 2
+                EnemyBehavior<? extends MovableEnemy> behavior = enemy.getBehavior();
+                if (behavior != null && behavior.getCurrentState() == 1) {
+                    System.out.println("TeleportRushEnemy is idle"); // Print statement 3
+                    g.setColor(getPulsingColor());
+                    System.out.println("Color set to: " + getPulsingColor()); // Print statement 4
+                } else {
+                    g.setColor(Color.red);
+                }
+                g.fillRect(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight());
+            }
 
                 // Default colour and shape
-            } else {
+            else {
                 g.setColor(Color.black);
                 g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
             }

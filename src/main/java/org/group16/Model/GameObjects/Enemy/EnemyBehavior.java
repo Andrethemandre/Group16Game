@@ -11,13 +11,17 @@ public class EnemyBehavior <T extends MovableEnemy> {
 
     private static final int NEAR_DISTANCE_X = 100; // threshold distance for player to be considered near
 
-    private LevelHandler levelHandler;
+    private static LevelHandler levelHandler;
+
+    public static void setLevelHandler(LevelHandler levelHandler) {
+        EnemyBehavior.levelHandler = levelHandler;
+    }
 
     private int currentState;
     private T enemy; // generic type can be any type of enemy
     private Player player;
 
-    public EnemyBehavior(T enemy, Player player) {
+    public EnemyBehavior(T enemy) {
         this.enemy = enemy;
         this.player = player;
         currentState = STATE_IDLE;
@@ -39,17 +43,18 @@ public class EnemyBehavior <T extends MovableEnemy> {
 //        return levelHandler.getPlayer().getY();
 //    }
 
-    public boolean isPlayerNear(LevelHandler levelHandler) {
+    public boolean isPlayerNear() {
         // Check if player is near
-        int PlayerX = levelHandler.getPlayer().getX();
-        //int PlayerY = getPlayerY();
-
-        int enemyX = enemy.getX();
-        //int enemyY = enemy.getY();
-
-        int distanceX = Math.abs(PlayerX - enemyX);
-
-        return distanceX < NEAR_DISTANCE_X;
+//        //int PlayerX = levelHandler.getPlayer().getX();
+//        //int PlayerY = getPlayerY();
+//
+//        int enemyX = enemy.getX();
+//        //int enemyY = enemy.getY();
+//
+//        int distanceX = Math.abs(PlayerX - enemyX);
+//
+//        return distanceX < NEAR_DISTANCE_X;
+        return false;
     }
 
     public void teleportBehindPlayer() {
@@ -58,21 +63,21 @@ public class EnemyBehavior <T extends MovableEnemy> {
     }
 
     public void printInfo(){
-//        System.out.println("Enemy X: " + enemy.getX());
-//        System.out.println("Enemy Y: " + enemy.getY());
+        System.out.println("Enemy X: " + enemy.getX());
+        System.out.println("Enemy Y: " + enemy.getY());
 //        System.out.println("Player X: " + getPlayerX());
 //        System.out.println("Player Y: " + getPlayerY());
 //        System.out.println("Distance X: " + Math.abs(getPlayerX() - enemy.getX()));
 //        System.out.println("Distance Y: " + Math.abs(getPlayerY() - enemy.getY()));
         System.out.println("Enemy state: " + currentState);
         //System.out.println("Player position: (" + getPlayerX() + ", " + getPlayerY() + ")");
-        System.out.println("Is player near: " + (isPlayerNear(levelHandler) ? "Yes" : "No"));
+        System.out.println("Is player near: " + (isPlayerNear() ? "Yes" : "No"));
 
     }
 
     public void idle() {
         // Idle behavior
-        if(isPlayerNear(levelHandler)) {
+        if(isPlayerNear()) {
             currentState = STATE_DISAPPEAR;
         }
     }
@@ -81,7 +86,7 @@ public class EnemyBehavior <T extends MovableEnemy> {
         // Disappear behavior
         // After disappearing, the enemy will reappear after a certain amount of time
 
-            enemy.toggleVisibility();
+            //enemy.toggleVisibility();
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -94,7 +99,7 @@ public class EnemyBehavior <T extends MovableEnemy> {
     public void reappear() {
         // Reappear behavior
         // After reappearing, the enemy will chase the player
-       enemy.toggleVisibility();
+       //enemy.toggleVisibility();
         teleportBehindPlayer();
         currentState = STATE_CHASE;
     }
@@ -102,11 +107,11 @@ public class EnemyBehavior <T extends MovableEnemy> {
     public void chase() {
         // Chase behavior
         // Move the enemy towards the players position
-        if(player.getX() > enemy.getX()) {
-            enemy.setX(enemy.getX() + 1);
-        } else if(player.getX() < enemy.getX()){
-            enemy.setX(enemy.getX() - 1);
-        }
+//        if(player.getX() > enemy.getX()) {
+//            enemy.setX(enemy.getX() + 1);
+//        } else if(player.getX() < enemy.getX()){
+//            enemy.setX(enemy.getX() - 1);
+//        }
     }
 
     public void update() {
@@ -119,6 +124,9 @@ public class EnemyBehavior <T extends MovableEnemy> {
         }
     }
 
+    public int getCurrentState() {
+        //return this.currentState;
+        return 1;
 
-
+    }
 }

@@ -10,17 +10,18 @@ public class TeleportRushEnemy extends MovableEnemy implements AffectedByGravity
     private Player player;
     private LevelHandler levelHandler;
 
-    public TeleportRushEnemy(int x, int y, int width, int height, Player player) {
+    public TeleportRushEnemy(int x, int y, int width, int height) {
         super(GameObjectType.TELEPORT__, x, y,width,height);
         setMovementSpeed(1);
         //this.player = player; // initialize player
-        behavior = new EnemyBehavior<>(this, player);
+        behavior = new EnemyBehavior<>(this);
         //behavior.setPlayer(player);
 
     }
 
-
-
+    public EnemyBehavior<TeleportRushEnemy> getBehavior() {
+        return behavior;
+    }
 
     @Override
     public boolean isDead() {

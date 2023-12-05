@@ -7,6 +7,8 @@ import org.group16.Model.Level.Metadata;
 
 
 public class EnemyFactory {
+
+
     public static Enemy createEnemyAt(GameObjectType type, int x, int y, Metadata metadata) {
         switch(type) {
             case BASIC_____:
@@ -16,7 +18,7 @@ public class EnemyFactory {
             case FLYING____:
                 return new FlyingEnemy(x, y, metadata.getDistance(), metadata.getHorizontalDirection(), metadata.getVerticalDirection());
             case TELEPORT__:
-                return new TeleportRushEnemy(x, y,16,16,metadata.getPlayer());
+                return new TeleportRushEnemy(x, y,16,16);
             default:
                 throw new IllegalArgumentException("Enemy type is not supported");
         }

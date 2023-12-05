@@ -24,6 +24,10 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
         innerGameObject = new GameObject(enemyType, x, y, width, height);
     }
 
+    public EnemyBehavior<? extends MovableEnemy> getBehavior() {
+        return null;
+    }
+
     @Override
     public GameObjectType getType() {
         return innerGameObject.getType();
