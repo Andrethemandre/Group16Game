@@ -33,12 +33,12 @@ public class LevelHandler {
     private Collection<Block> blocks;
     private Collection<PowerUp> powerUps;
     private Collection<GameObjectType> acceptedEnemyTypes = Arrays
-            .asList(new GameObjectType[] { GameObjectType.BASIC_____, GameObjectType.SPIKE_____,
-                    GameObjectType.FLYING____, GameObjectType.TELEPORT__ });
+            .asList(GameObjectType.BASIC_____, GameObjectType.SPIKE_____,
+                    GameObjectType.FLYING____, GameObjectType.TELEPORT__);
     private Collection<GameObjectType> acceptedBlockTypes = Arrays
-            .asList(new GameObjectType[] { GameObjectType.STATIONARY, GameObjectType.MOVABLE___ });
+            .asList(GameObjectType.STATIONARY, GameObjectType.MOVABLE___);
     private Collection<GameObjectType> acceptedPowerUpTypes = Arrays
-            .asList(new GameObjectType[] { GameObjectType.SPEAR_____, GameObjectType.FREEZE____ });
+            .asList(GameObjectType.SPEAR_____, GameObjectType.FREEZE____);
     private Collection<GameObserver> observers;
     private int currentLevelNumber;
     private Level currentLevel;
