@@ -3,7 +3,7 @@ package org.group16.Model.GameObjects.Enemy;
 import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Level.LevelHandler;
 
-public class EnemyBehavior <T extends MovableEnemy> {
+class EnemyBehavior <T extends MovableEnemy> {
     private static final int STATE_IDLE = 0;
     private static final int STATE_DISAPPEAR = 1;
     private static final int STATE_REAPPEAR = 2;
@@ -11,11 +11,8 @@ public class EnemyBehavior <T extends MovableEnemy> {
 
     private static final int NEAR_DISTANCE_X = 100; // threshold distance for player to be considered near
 
-    private static LevelHandler levelHandler;
-
-    public static void setLevelHandler(LevelHandler levelHandler) {
-        EnemyBehavior.levelHandler = levelHandler;
-    }
+    private int targetX;
+    private int targetY;
 
     private int currentState;
     private T enemy; // generic type can be any type of enemy
@@ -23,15 +20,7 @@ public class EnemyBehavior <T extends MovableEnemy> {
 
     public EnemyBehavior(T enemy) {
         this.enemy = enemy;
-        this.player = player;
         currentState = STATE_IDLE;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-    public Player getPlayer() {
-        return this.player;
     }
 
 //    public int getPlayerX() {
@@ -44,17 +33,14 @@ public class EnemyBehavior <T extends MovableEnemy> {
 //    }
 
     public boolean isPlayerNear() {
-        // Check if player is near
-//        //int PlayerX = levelHandler.getPlayer().getX();
-//        //int PlayerY = getPlayerY();
-//
-//        int enemyX = enemy.getX();
-//        //int enemyY = enemy.getY();
-//
-//        int distanceX = Math.abs(PlayerX - enemyX);
-//
-//        return distanceX < NEAR_DISTANCE_X;
-        return false;
+       // Check if player is near
+
+       int enemyX = enemy.getX();
+       // int enemyY = enemy.getY();
+
+       int distanceX = Math.abs(targetX - enemyX);
+
+       return distanceX < NEAR_DISTANCE_X;
     }
 
     public void teleportBehindPlayer() {
@@ -114,6 +100,12 @@ public class EnemyBehavior <T extends MovableEnemy> {
 //        }
     }
 
+    public void setTargetCoordinates(int x, int y) {
+        // Set target coordinates for the enemy to move to
+        this.targetX = x;
+        this.targetY = y;
+    }
+
     public void update() {
         switch(currentState) {
             case STATE_IDLE -> idle();
@@ -125,8 +117,6 @@ public class EnemyBehavior <T extends MovableEnemy> {
     }
 
     public int getCurrentState() {
-        //return this.currentState;
-        return 1;
-
+        return currentState;
     }
 }

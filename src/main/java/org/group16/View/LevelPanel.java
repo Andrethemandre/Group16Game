@@ -19,7 +19,6 @@ import javax.management.timer.TimerMBean;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import org.group16.Model.GameObjects.Enemy.EnemyBehavior;
 import org.group16.Model.GameObjects.Enemy.MovableEnemy;
 import org.group16.Model.GameObjects.Enemy.TeleportRushEnemy;
 import org.group16.Model.GameObjects.GameObjectType;
@@ -260,9 +259,8 @@ public class LevelPanel extends GamePanel implements GameObserver {
                 g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
                 // For teleporting enemies
             } else if (enemy.getType() == GameObjectType.TELEPORT__) {
-                System.out.println("Processing a TeleportRushEnemy"); // Print statement 2
-                EnemyBehavior<? extends MovableEnemy> behavior = enemy.getBehavior();
-                if (behavior != null && behavior.getCurrentState() == 1) {
+                int enemyState = ((TeleportRushEnemy) enemy).getCurrentState();
+                if (enemyState == 0) {
                     System.out.println("TeleportRushEnemy is idle"); // Print statement 3
                     g.setColor(getPulsingColor());
                     System.out.println("Color set to: " + getPulsingColor()); // Print statement 4

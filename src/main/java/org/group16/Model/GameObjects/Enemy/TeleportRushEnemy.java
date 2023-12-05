@@ -46,4 +46,14 @@ public class TeleportRushEnemy extends MovableEnemy implements AffectedByGravity
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'toggleDirection'");
     }
+
+    public void setTargetCoordinates(int x, int y) {
+        behavior.setTargetCoordinates(x, y);
+    }
+
+    public int getCurrentState() {
+        return behavior.getCurrentState();
+    }
 }
+
+

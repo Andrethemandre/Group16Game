@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Arrays;
 
 import org.group16.Model.GameObjects.Enemy.FlyingEnemy;
+import org.group16.Model.GameObjects.Enemy.TeleportRushEnemy;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
@@ -34,6 +35,7 @@ public class LevelHandler {
     private Flag goalFlag;
     private Collection<Enemy> enemies;
     private Collection<Block> blocks;
+    private Collection<TeleportRushEnemy> teleportRushEnemies;
     // private MovableBlock movableBlock;
     private Collection<PowerUp> powerUps;
     private boolean playerIsAtFlag;
@@ -65,6 +67,7 @@ public class LevelHandler {
         movableBlocks = new ArrayList<>();
         observers = new ArrayList<>();
         gameState = GameState.START;
+        teleportRushEnemies = new ArrayList<>();
 
         // setLevel(1);
         // setxandydirectionofmovableblocks(firstLevel.getMovableBlocks());
@@ -247,6 +250,7 @@ public class LevelHandler {
         blocks.clear();
         powerUps.clear();
         movableBlocks.clear();
+        teleportRushEnemies.clear();
         currentLevel = LevelFactory.createLevel(levelNumber);
 
         // GameStats
@@ -261,6 +265,13 @@ public class LevelHandler {
                     addEnemy(newEnemy);
                     grid[j][i] = newEnemy;
 
+                } else if (currentLevel.getLevelTile(i, j) == GameObjectType.TELEPORT__) {
+                    TeleportRushEnemy newEnemy = (TeleportRushEnemy) EnemyFactory.createEnemyAt(
+                            currentLevel.getLevelTile(i, j), j * 16, i * 16, metadata);
+                    teleportRushEnemies.add(newEnemy);
+                    addEnemy(newEnemy);
+                    grid[j][i] = newEnemy;
+                
                 } else if (acceptedBlockTypes.contains(currentLevel.getLevelTile(i, j))) {
                     Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
                             metadata);
@@ -323,6 +334,13 @@ public class LevelHandler {
     private void updateProjectilePositions() {
         for (PowerUp powerUp : powerUps) {
             powerUp.update();
+        }
+    }
+
+    private void updateTeleportRushEnemy() {
+        for (TeleportRushEnemy enemy : teleportRushEnemies) {
+            enemy.setTargetCoordinates(player.getX(), player.getY());
+            enemy.update();
         }
     }
 
