@@ -43,6 +43,6 @@ public class LevelHandlerTest {
     // Currently fails because a test value is used in LevelHandler instead of zero.
     @Test
     void testLevelHandlerStartsWithZeroScore() {
-        assertTrue(levelHandler.getScore() == 0);
+        assertTrue(levelHandler.getCurrentScore() == 0);
     }
 }

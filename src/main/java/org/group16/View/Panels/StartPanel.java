@@ -1,15 +1,19 @@
-package org.group16.View;
+package org.group16.View.Panels;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.group16.View.ViewUtility;
+
 public class StartPanel extends GamePanel {
     private JLabel gameTitleLabel;
-    private JButton playButton;
+    private JButton continueButton;
+    private JButton newGameButton;
     private JButton loadGameButton;
     private JButton settingsButton;
     private JButton quitButton;
@@ -25,26 +29,33 @@ public class StartPanel extends GamePanel {
 
         String labelText = "Game Title";
         Font labelFont = new Font("Arial", Font.BOLD, 30);
-        gameTitleLabel = ViewUtility.createCenteredMenuTitle(labelText, labelFont,25,0,0,0);
+        gameTitleLabel = ViewUtility.createLabel(labelText, labelFont,25,0,0,0, JLabel.CENTER);
         add(gameTitleLabel, BorderLayout.NORTH);
 
         Dimension buttonSize = new Dimension(200, 50); // Set the preferred width to 200 and the preferred height to 50
 
         // Buttons in order of how they will appear in the menu
         JButton[] buttons = {
-            playButton = ViewUtility.createMenuButton("New Game", buttonSize),
-            loadGameButton = ViewUtility.createMenuButton("Load Game", buttonSize),
-            settingsButton = ViewUtility.createMenuButton("Settings", buttonSize),
-            quitButton= ViewUtility.createMenuButton("Quit", buttonSize)
+            continueButton = ViewUtility.createButton("Continue", buttonSize),
+            newGameButton = ViewUtility.createButton("New Game", buttonSize),
+            loadGameButton = ViewUtility.createButton("Load Game", buttonSize),
+            settingsButton = ViewUtility.createButton("Settings", buttonSize),
+            quitButton= ViewUtility.createButton("Quit", buttonSize)
         };
 
-        verticalButtonPanel = ViewUtility.createVerticalButtonPanel();
+        verticalButtonPanel = ViewUtility.createVerticalPanel();
+        verticalButtonPanel.add(Box.createVerticalGlue());
         ViewUtility.addCenteredButtonsToPanel(buttons, verticalButtonPanel);
+        verticalButtonPanel.add(Box.createVerticalGlue());
+        
         add(verticalButtonPanel, BorderLayout.CENTER);
     }
+    public JButton getContinueButton() {
+        return continueButton;
+    }
 
-    public JButton getPlayButton() {
-        return playButton;
+    public JButton getNewGameButton() {
+        return newGameButton;
     }
 
     public JButton getLoadGameButton() {

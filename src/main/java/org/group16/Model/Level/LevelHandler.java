@@ -39,80 +39,110 @@ public class LevelHandler {
     
     private Collection<GameObserver> observers;
     private int lastLevelNumber = 0;
-    private int score = 0;
     private Level currentLevel;
-    private long levelStartTime;
-    private int levelAttempts = 0;
-    private final static int SCORE_LIMIT = 9999;
     private GameState gameState;
+
+    private GameStateManager gameStateManager;    
+    private StatsManager statsManager;
+    private LevelSelectPageManager levelSelectPageManager;
+
+    private final static int TOTAL_LEVELS = 10;
 
     // width and height depending on how big the level is
 
-    private long pauseStartTime = 0;
-    private long totalPauseTime = 0;
-
     public LevelHandler() {
         observers = new ArrayList<>();
-        gameState = GameState.START;
+
+        levelSelectPageManager = new LevelSelectPageManager(TOTAL_LEVELS);
+        gameStateManager = new GameStateManager();
+
         enemies = new ArrayList<>();
         blocks = new ArrayList<>();
         powerUps = new ArrayList<>();
         traps = new ArrayList<>();
         movableEnemies = new ArrayList<>();
+
+        statsManager = new StatsManager();
+        statsManager.recordStats(1, new Stats(0));
+        statsManager.recordStats(2, new Stats(0));
+        statsManager.recordStats(3, new Stats(0));
+        statsManager.recordStats(4, new Stats(0));
+        statsManager.recordStats(5, new Stats(0));
+        statsManager.recordStats(6, new Stats(0));
+        statsManager.recordStats(7, new Stats(0));
+        statsManager.recordStats(8, new Stats(0));
+        statsManager.recordStats(9, new Stats(0));
+        statsManager.recordStats(10, new Stats(0));
+
+        levelSelectPageManager.setSelectedLevelNumber(1);
+
+    }
+
+    public int getTotalLevels(){
+        return TOTAL_LEVELS;
+    }
+
+    public int getCurrentLevelSelectPage(){
+        return levelSelectPageManager.getCurrentPage();
+    }
+
+    public void nextLevelSelectPage() {
+        levelSelectPageManager.nextPage();
+    }
+
+    public void previousLevelSelectPage() {
+        levelSelectPageManager.previousPage();
+    }
+
+    public int getLevelHighScore(int levelNumber){
+        return statsManager.getStats(levelNumber).getScore();
     }
 
     public GameState getGameState() {
-        return gameState;
+        return gameStateManager.getGameState();
     }
 
-    private void setGameState(GameState gameState) {
-        this.gameState = gameState;
+    public int getCurrentSelectedLevelNumber() {
+        return levelSelectPageManager.getSelectedLevelNumber();
     }
 
     public int getCurrentLevelNumber() {
         return currentLevel.getLevelNumber();
     }
 
-    private void addScore(int points) {
-        this.score += points;
+    public void setSelectLevelNumber(int levelNumber) {
+        levelSelectPageManager.setSelectedLevelNumber(levelNumber);
     }
 
-    private void calculateScore() {
-        // int baseScore = 9999;
-        int pointsPerSecond = 100; // Number of points per second
-
-        // Calculate the number of seconds that have passed
-        int secondsPassed = (int) ((System.currentTimeMillis() - levelStartTime - totalPauseTime) / 1000);
-
-        // Add points for each second that has passed
-        int timeBonus = secondsPassed * pointsPerSecond;
-
-        // Some points deducted for each attempt
-        int attemptsPenalty = levelAttempts * 500;
-
-        int totalScore = SCORE_LIMIT - timeBonus - attemptsPenalty;
-        addScore(totalScore - score);
-
-        if (score < -SCORE_LIMIT) {
-            score = -SCORE_LIMIT;
-        } else if (score > SCORE_LIMIT) {
-            score = SCORE_LIMIT;
+    public void setCurrentLevelNumber(int levelNumber) {
+        if(levelNumber > 0 && levelNumber < TOTAL_LEVELS + 1){
+            lastLevelNumber = levelNumber;
         }
     }
 
-    public int getScore() {
-        calculateScore();
-        return this.score;
+    public int getCurrentScore() {
+        return statsManager.getScore();
     }
 
     public int getCurrentAttempts() {
-        return this.levelAttempts;
+        return statsManager.getLevelAttempts();
     }
 
     // collision checkers
     private void checkIfPlayerAtGoal() {
         if (player.collidesWith(goal)) {
-            setLevel(2);
+            if(getLevelHighScore(currentLevel.getLevelNumber()) < getCurrentScore()){
+                statsManager.recordStats(currentLevel.getLevelNumber(), new Stats(getCurrentScore()));
+            }
+
+            if (currentLevel.getLevelNumber() > TOTAL_LEVELS) {
+                goToMainMenu();
+            }
+            else{
+                startGame();
+                setLevel(currentLevel.getLevelNumber() + 1);
+            }
+
         }
     }
 
@@ -202,14 +232,12 @@ public class LevelHandler {
                 }
             }
         }
-
     }
 
     private void checkIfPlayerIsDead() {
         if (player.isDead()) {
             setLevel(currentLevel.getLevelNumber());
-            
-            levelAttempts++;
+            statsManager.incrementLevelAttempts();
         }
     }
 
@@ -219,39 +247,57 @@ public class LevelHandler {
         }
     }
 
-    public void startGame() {
-        setLevel(1);
-
-        totalPauseTime = 0;
-        pauseStartTime = 0;
-        levelAttempts = 0;
-        score = 0;
-        levelStartTime = System.currentTimeMillis();
-    }
-
-    public void restartGame() {
-        setLevel(currentLevel.getLevelNumber());
-
-        totalPauseTime = 0;
-        pauseStartTime = 0;
-        levelAttempts = 0;
-        score = 0;
-        levelStartTime = System.currentTimeMillis();
-
+    public void notifyObservers() {
         for (GameObserver o : observers) {
             o.updateObserver();
         }
     }
 
+    public void newGame() {
+        // TODO: SAVE SYSTEM
+        gameStateManager.newGame();
+    }
+
+    public void continueGame() {
+        gameStateManager.continueGame();
+    }
+
+    public void goToLevelSelect() {
+        gameStateManager.goToLevelSelect();
+    }
+
+    public void startGame() {
+        gameStateManager.startGame();
+        setLevel(lastLevelNumber);
+
+        statsManager.resetScore();
+
+        notifyObservers();
+    }
+
+    public void goToMainMenu() {
+        gameStateManager.goToMainMenu();
+
+        notifyObservers();
+    }
+
+    public void loadGame() {
+        // TODO: SAVE SYSTEM
+        gameStateManager.loadGame();
+
+        notifyObservers();
+    }
+
+    public void restartGame() {
+        setLevel(currentLevel.getLevelNumber());
+
+        statsManager.resetScore();
+        gameStateManager.togglePause();
+
+        notifyObservers();
+    }
+
     private void setLevel(int levelNumber) {
-        gameState = GameState.PLAYING;
-
-        if (levelNumber != lastLevelNumber) {
-            levelAttempts = 0;
-            score = 0;
-            levelStartTime = System.currentTimeMillis();
-        }
-
         enemies.clear();
         blocks.clear();
         powerUps.clear();
@@ -259,7 +305,8 @@ public class LevelHandler {
         movableEnemies.clear();
 
         currentLevel = LevelFactory.createLevel(levelNumber);
-        lastLevelNumber = levelNumber;
+        
+        setCurrentLevelNumber(levelNumber);
 
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
@@ -339,7 +386,7 @@ public class LevelHandler {
     }
 
     public long getElapsedTime() {
-        return System.currentTimeMillis() - levelStartTime - totalPauseTime;
+        return statsManager.getElapsedTime();
     }
 
     public void update() {
@@ -351,6 +398,7 @@ public class LevelHandler {
         checkIfPlayerCollidesWithEnemies();
         checkIfPlayerCollidesWithTraps();
         checkIfPlayerCollidesWithPowerUp();
+        checkIfPlayerIsDead();
 
         checkIfMovableEnemiesCollidesWithBlocks();
 
@@ -363,11 +411,8 @@ public class LevelHandler {
         removeFrozenTrap();
         updateEnemies();
 
-        for (GameObserver o : observers) {
-            o.updateObserver();
-        }
 
-        checkIfPlayerIsDead();
+        notifyObservers();
     }
 
     private void updatePowerUps() {
@@ -483,28 +528,16 @@ public class LevelHandler {
     }
 
     public void togglePause() {
-        GameState currentGameState = getGameState();
+        gameStateManager.togglePause();
 
-        if (currentGameState == GameState.PLAYING) {
-            pauseStartTime = System.currentTimeMillis();
-            setGameState(GameState.PAUSED);
-
-        } else if (currentGameState == GameState.PAUSED) {
-            totalPauseTime += System.currentTimeMillis() - pauseStartTime;
-            setGameState(GameState.PLAYING);
+        if (gameStateManager.getGameState() == GameState.PAUSED) {
+            statsManager.setPauseStartTime();
+            
+        } else if (gameStateManager.getGameState() == GameState.PLAYING) {
+            statsManager.setTotalPauseTime();
         }
 
-        for (GameObserver o : observers) {
-            o.updateObserver();
-        }
-    }
-
-    public void goToMainMenu() {
-        setGameState(GameState.START);
-
-        for (GameObserver o : observers) {
-            o.updateObserver();
-        }
+        notifyObservers();
     }
 
     // is here because levelHandler has the power ups list that I need to change for
@@ -535,5 +568,4 @@ public class LevelHandler {
             block.update();
         }
     }
-
 }

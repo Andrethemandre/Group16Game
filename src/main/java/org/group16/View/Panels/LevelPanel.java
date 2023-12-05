@@ -1,4 +1,4 @@
-package org.group16.View;
+package org.group16.View.Panels;
 
 import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
@@ -14,10 +14,6 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.management.timer.TimerMBean;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
@@ -29,6 +25,7 @@ import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.GameObjects.PowerUp.IPowerUp;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
+import org.group16.View.ViewUtility;
 
 public class LevelPanel extends GamePanel implements GameObserver {
     private LevelHandler levelHandler;
@@ -44,7 +41,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     public LevelPanel(int x, int y, LevelHandler levelHandler) {
         super(x, y);
         this.levelHandler = levelHandler;
-        pauseButton = ViewUtility.createMenuButton("", new Dimension(40, 40));
+        pauseButton = ViewUtility.createButton("", new Dimension(40, 40));
 
         try {
             redHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/red_heart.png"));
@@ -55,6 +52,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         pauseButton.setIcon(new ImageIcon(pauseImage));
         pauseButton.setBorderPainted(false);
         pauseButton.setContentAreaFilled(false);
@@ -119,17 +117,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
         // Gameplay hud
         paintHealthBar(g, cellSize, currentPlayer);
         paintStats(g, currentPlayer);
-
-        // Temporay Pause screen
-        // if (levelHandler.getPauseState() == GameState.PAUSED) {
-        // paintPaused(g);
-        // }
-    }
-
-    private void paintPaused(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.PLAIN, 50));
-        g.drawString("PAUSED", 250, 250);
     }
 
     private void drawTwoStringSCentered(Graphics g, String text, String formattedText, int x, int y, int lineSpacing) {
@@ -186,10 +173,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
         String formattedScore = "";
 
         // The amount of decimals reduce if score is negative
-        if (levelHandler.getScore() < 0) {
-            formattedScore = String.format("%05d", levelHandler.getScore());
+        if (levelHandler.getCurrentScore() < 0) {
+            formattedScore = String.format("%05d", levelHandler.getCurrentScore());
         } else {
-            formattedScore = String.format("%04d", levelHandler.getScore());
+            formattedScore = String.format("%04d", levelHandler.getCurrentScore());
         }
 
         drawTwoStringSCentered(g, scoreText, formattedScore, scoreX, statsY, lineSpacing);
@@ -203,15 +190,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
         drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX - 55, statsY, lineSpacing);
 
         g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding -55, padding + 3, this);
-    }
-
-    private void paintGridWithSize(Graphics g, int cellSize) {
-        g.setColor(Color.red);
-        for (int i = 0; i <= levelHandler.getWidth(); i++) {
-            g.drawLine(i * cellSize, 0, i * cellSize, levelHandler.getHeight() * cellSize);
-            if (i <= levelHandler.getWidth())
-                g.drawLine(0, i * cellSize, levelHandler.getWidth() * cellSize, i * cellSize);
-        }
     }
 
     private void paintPlayer(Graphics g, IPlayer currentPlayer) {
@@ -322,5 +300,4 @@ public class LevelPanel extends GamePanel implements GameObserver {
             pauseButton.setCursor(Cursor.getDefaultCursor());
         }
     }
-
 }
