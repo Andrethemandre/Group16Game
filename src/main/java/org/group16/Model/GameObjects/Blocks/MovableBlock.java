@@ -21,6 +21,7 @@ public class MovableBlock implements IBlock, Movable {
         this.verticalDirection = verticalDirection;
     }
 
+    @Override
     public void move() {
         moveVertically();
         moveHorizontally();

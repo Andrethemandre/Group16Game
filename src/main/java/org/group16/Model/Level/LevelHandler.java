@@ -220,7 +220,7 @@ public class LevelHandler {
     }
 
     public void startGame() {
-        setLevel(-1);
+        setLevel(1);
 
         totalPauseTime = 0;
         pauseStartTime = 0;

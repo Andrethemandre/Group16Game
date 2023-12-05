@@ -13,7 +13,7 @@ public class SpikeTest {
     
     @BeforeEach
     void setUp() {
-        spike = (Spike) EnemyFactory.createEnemyAt(SPIKE_____, 0, 0, new Metadata(0, Direction.NONE, Direction.NONE));
+        spike = (Spike) TrapFactory.createTrapAt(SPIKE_____, 0, 0);
     }
 
     @Test
