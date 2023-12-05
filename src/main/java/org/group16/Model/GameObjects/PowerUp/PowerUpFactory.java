@@ -2,9 +2,6 @@ package org.group16.Model.GameObjects.PowerUp;
 
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
-import org.group16.Model.GameObjects.PowerUp.SpearPowerUp;
-import org.group16.Model.GameObjects.PowerUp.PowerUp;
-import org.group16.Model.GameObjects.PowerUp.FreezePowerUp;
 
 public class PowerUpFactory {
     public static IPowerUp createPowerUpPickUpAt(GameObjectType type, int x, int y) {
