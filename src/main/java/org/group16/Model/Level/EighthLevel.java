@@ -26,10 +26,10 @@ import java.util.Map;
 import java.util.Queue;
 
 public class EighthLevel extends Level  {
-    // matrix 45X30 to represent level 1
+    // matrix 45X30 to represent level 8
 
     
-    private static final GameObjectType[][] level8 = {
+    private static final GameObjectType[][] levelLayout = {
     
                                                 {AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,},
                                                 {AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,},
@@ -65,7 +65,7 @@ public class EighthLevel extends Level  {
 
     // Construct the level by positioning game objects in the grid
     public EighthLevel() {
-        super(level8, 8);
+        super(levelLayout, 8);
     }
 
     protected Queue<Metadata> createMetadata() {

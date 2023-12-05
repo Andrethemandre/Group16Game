@@ -14,7 +14,6 @@ import static org.group16.Model.GameObjects.GameObjectType.POWERUP___;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
 import static org.group16.Model.GameObjects.GameObjectType.FLYING____;
-import org.group16.Model.GameObjects.Blocks.MovableBlock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,10 +23,9 @@ import java.util.Map;
 import java.util.Queue;
 
 public class FifthLevel extends Level {
-    // matrix 45X30 to represent level 1
-    // private List<MovableBlock> movableBlocks;
+    // matrix 45X30 to represent level 5
 
-    private final static GameObjectType[][] level5 = {
+    private final static GameObjectType[][] levelLayout = {
 
             { AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
@@ -213,7 +211,7 @@ public class FifthLevel extends Level {
 
     // Construct the level by positioning game objects in the grid
     public FifthLevel() {
-        super(level5, 5);
+        super(levelLayout, 5);
     }
 
     protected Queue<Metadata> createMetadata() {
