@@ -46,18 +46,24 @@ public class LevelHandler {
     private StatsManager statsManager;
     private LevelSelectPageManager levelSelectPageManager;
 
-    private final static int TOTAL_LEVELS = 2;
+    private final static int TOTAL_LEVELS = 9;
 
     public LevelHandler() {
         observers = new ArrayList<>();
         levelSelectPageManager = new LevelSelectPageManager(TOTAL_LEVELS);
-
         gameStateManager = new GameStateManager();
 
         // Temporary due to lack of save system
         statsManager = new StatsManager();
         statsManager.recordStats(1, new Stats(0));
         statsManager.recordStats(2, new Stats(0));
+        statsManager.recordStats(3, new Stats(0));
+        statsManager.recordStats(4, new Stats(0));
+        statsManager.recordStats(5, new Stats(0));
+        statsManager.recordStats(6, new Stats(0));
+        statsManager.recordStats(7, new Stats(0));
+        statsManager.recordStats(8, new Stats(0));
+        statsManager.recordStats(9, new Stats(0));
 
         movableBlocks = new ArrayList<>();
         enemies = new ArrayList<>();
@@ -115,6 +121,7 @@ public class LevelHandler {
             if(getLevelHighScore(currentLevelNumber) < getCurrentScore()){
                 statsManager.recordStats(currentLevelNumber, new Stats(getCurrentScore()));
             }
+
             currentLevelNumber += 1;
 
             if(currentLevelNumber > TOTAL_LEVELS){
@@ -213,8 +220,8 @@ public class LevelHandler {
     }
 
     public void newGame() {
-        // Temporary due to lack of save system
-        gameStateManager.goToLevelSelect();
+        // TODO: SAVE SYSTEM
+        gameStateManager.newGame();
     }
 
     public void goToLevelSelect() {
@@ -238,6 +245,7 @@ public class LevelHandler {
 
     public void loadGame() {
         // TODO: SAVE SYSTEM
+        gameStateManager.loadGame();
 
         notifyObservers();
     }
@@ -293,10 +301,12 @@ public class LevelHandler {
                 } else if (acceptedPowerUpTypes.contains(currentLevel.getLevelTile(i, j))) {
                     PowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevel.getLevelTile(i, j), j * 16,
                             i * 16);
+         
                     powerUps.add(newPowerUp);
 
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.PLAYER____) {
                     // The grid uses /16 of the actual size
+          
                     player = new Player(j * 16, i * 16, getWidth() * 16, getHeight() * 16);
 
                 } else if (currentLevel.getLevelTile(i, j) == GameObjectType.GOAL______) {

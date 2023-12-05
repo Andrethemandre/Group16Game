@@ -37,7 +37,5 @@ class LevelSelectController extends GameController{
     @Override
     protected void update() {
         // TODO Auto-generated method stub
-
     }
-    
 }

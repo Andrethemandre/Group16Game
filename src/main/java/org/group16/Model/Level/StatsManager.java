@@ -17,7 +17,6 @@ public class StatsManager {
     StatsManager() {
         this.recordedLevelStats = new HashMap<>();
         this.score = 0;
-
         this.levelAttempts = 0;
     }
 
