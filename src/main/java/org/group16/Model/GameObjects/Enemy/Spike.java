@@ -5,10 +5,10 @@ import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.Observers.HasHealth;
 
 class Spike implements ITrap {
-    Enemy innerEnemy;
+    private Trap innerTrap;
 
     Spike(int x, int y) {
-        innerEnemy = new Enemy(GameObjectType.SPIKE_____, x, y, Integer.MAX_VALUE);
+        innerTrap = new Trap(GameObjectType.SPIKE_____, x, y);
     }
 
     @Override
@@ -23,54 +23,54 @@ class Spike implements ITrap {
 
     @Override
     public int getWidth() {
-        return innerEnemy.getWidth();
+        return innerTrap.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return innerEnemy.getHeight();
+        return innerTrap.getHeight();
     }
 
     @Override
     public GameObjectType getType() {
-        return innerEnemy.getType();
+        return innerTrap.getType();
     }
 
     @Override
     public int getX() {
-        return innerEnemy.getX();
+        return innerTrap.getX();
     }
 
     @Override
     public int getY() {
-        return innerEnemy.getY();
+        return innerTrap.getY();
     }
 
     @Override
     public boolean collidesWith(IGameObject otherGameObject) {
-        return innerEnemy.collidesWith(otherGameObject);
+        return innerTrap.collidesWith(otherGameObject);
     }
 
     @Override
     public void freeze() {
-        innerEnemy.freeze();
+        innerTrap.freeze();
     }
 
     @Override
     public boolean isFrozen() {
-        return innerEnemy.isFrozen();
+        return innerTrap.isFrozen();
     }
 
     @Override
     public void dealDamage(HasHealth otherGameObject) {
-        innerEnemy.dealDamage(otherGameObject);
+        innerTrap.dealDamage(otherGameObject);
     }
 
     @Override
     public void triggerPowerUp(GameObjectType powerUp) {
         switch (powerUp) {
             case FREEZE____:
-                innerEnemy.freeze();
+                innerTrap.freeze();
                 break;
             default:
                 break;

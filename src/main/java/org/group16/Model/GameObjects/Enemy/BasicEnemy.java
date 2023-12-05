@@ -8,7 +8,7 @@ import org.group16.Model.Observers.HasHealth;
 
 class BasicEnemy implements IMovableEnemy, AffectedByGravity {
     private Direction horizontalDirection;
-    private int patrolDistance;
+    private final int patrolDistance;
     private int currentDistance;
     private MovableEnemy innerMovableEnemy;
 

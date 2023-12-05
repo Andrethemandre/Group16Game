@@ -17,8 +17,8 @@ class SizeHandler {
         this.width = width;
     }
 
-    public void setHeight(int width){
-        this.width = width;
+    public void setHeight(int height){
+        this.height = height;
     }
 
     public int getWidth(){

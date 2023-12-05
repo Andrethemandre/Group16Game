@@ -9,7 +9,7 @@ import org.group16.Model.Observers.HasHealth;
 class FlyingEnemy implements IMovableEnemy, AffectedByGravity {
     private Direction horizontalDirection;
     private Direction verticalDirection;
-    private int patrolDistance;
+    private final int patrolDistance;
     private int traveledDistance;
     private MovableEnemy innerMovableEnemy;
 

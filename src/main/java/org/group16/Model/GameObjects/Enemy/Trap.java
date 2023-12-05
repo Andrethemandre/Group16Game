@@ -4,8 +4,12 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.Observers.HasHealth;
 
-public class Trap implements ITrap {
+class Trap implements ITrap {
     private Obstacle innerObstacle;
+
+    public Trap(GameObjectType objectType, int x, int y) {
+        innerObstacle = new Obstacle(objectType, x, y);
+    }
 
     @Override
     public void dealDamage(HasHealth otherGameObject) {

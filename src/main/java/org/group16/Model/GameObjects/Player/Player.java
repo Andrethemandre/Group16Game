@@ -22,8 +22,8 @@ class Player implements IPlayer {
     private Direction lastDirection = Direction.RIGHT;
 
     private boolean isFalling = false;
-    private int maxX;
-    private int maxY;
+    private final int maxX;
+    private final int maxY;
 
     public Player(int x, int y, int maxX, int maxY) {
         innerGameObject = new GameObject(GameObjectType.PLAYER____, x, y, 16, 16);
