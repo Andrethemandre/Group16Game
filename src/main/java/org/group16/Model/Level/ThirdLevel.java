@@ -15,7 +15,7 @@ import static org.group16.Model.GameObjects.GameObjectType.POWERUP___;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
 import static org.group16.Model.GameObjects.GameObjectType.FLYING____;
-import org.group16.Model.GameObjects.Blocks.MovableBlock;
+
 
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import java.util.Queue;
 
 public class ThirdLevel extends Level  {
     // matrix 45X30 to represent level 1
-    private List<MovableBlock> movableBlocks;
+
     
     private static final GameObjectType[][] level3 = {
     
