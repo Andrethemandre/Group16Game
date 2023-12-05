@@ -5,7 +5,7 @@ import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 
-public abstract class Block implements IGameObject {
+class Block implements IBlock {
     private GameObject innerGameObject;
 
     Block(GameObjectType blockType, int x, int y) {
@@ -42,12 +42,17 @@ public abstract class Block implements IGameObject {
         return innerGameObject.collidesWith(otherGameObject);
     }
 
-    public void setX(int x) {
+    void setX(int x) {
         this.innerGameObject.setX(x);
     }
 
-    public void setY(int y) {
+    void setY(int y) {
         this.innerGameObject.setY(y);
+    }
+
+    @Override
+    public void update() {
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
 }

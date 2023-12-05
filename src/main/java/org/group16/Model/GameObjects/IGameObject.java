@@ -6,4 +6,6 @@ public interface IGameObject extends IPositionable, ICollidable {
     int getHeight();
 
     GameObjectType getType();
+
+    void update();
 }

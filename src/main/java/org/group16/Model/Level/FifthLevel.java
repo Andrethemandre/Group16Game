@@ -2,7 +2,6 @@ package org.group16.Model.Level;
 
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
-import org.group16.Model.GameObjects.Metadata;
 import static org.group16.Model.GameObjects.GameObjectType.MOVABLE___;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 import static org.group16.Model.GameObjects.GameObjectType.TELEPORT__;
@@ -15,7 +14,6 @@ import static org.group16.Model.GameObjects.GameObjectType.POWERUP___;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
 import static org.group16.Model.GameObjects.GameObjectType.FLYING____;
-import org.group16.Model.GameObjects.Blocks.MovableBlock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,10 +23,9 @@ import java.util.Map;
 import java.util.Queue;
 
 public class FifthLevel extends Level {
-    // matrix 45X30 to represent level 1
-    // private List<MovableBlock> movableBlocks;
+    // matrix 45X30 to represent level 5
 
-    private final static GameObjectType[][] level5 = {
+    private final static GameObjectType[][] levelLayout = {
 
             { AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
@@ -214,7 +211,7 @@ public class FifthLevel extends Level {
 
     // Construct the level by positioning game objects in the grid
     public FifthLevel() {
-        super(level5);
+        super(levelLayout, 5);
     }
 
     protected Queue<Metadata> createMetadata() {
@@ -224,9 +221,9 @@ public class FifthLevel extends Level {
         // enemy at platform
         metadataQueue.add(new Metadata(20, Direction.LEFT, Direction.NONE));
         // enemy at platform
-        metadataQueue.add(new Metadata(50, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(50, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(80, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(80, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(80, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(50, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(40, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(100, Direction.NONE, Direction.UP));

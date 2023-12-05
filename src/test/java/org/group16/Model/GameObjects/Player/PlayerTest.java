@@ -1,5 +1,6 @@
 package org.group16.Model.GameObjects.Player;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.group16.Model.GameObjects.Direction;
@@ -9,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 public class PlayerTest {
     private LevelHandler levelHandler;
-    private Player player;
+    private IPlayer player;
 
     @BeforeEach
     void setUp() {
@@ -39,17 +40,7 @@ public class PlayerTest {
     @Test
     void testPlayerJump() {
         int startY = player.getY();
-        player.jump();
-        levelHandler.update();
-        assertTrue(player.getY() < startY);
-    }
-    // this test should probably be changed.
-    @Test
-    void testPlayerJumpTwice() {
-        int startY = player.getY();
-        player.jump();
-        levelHandler.update();
-        player.jump();
+        player.startJumping();
         levelHandler.update();
         assertTrue(player.getY() < startY);
     }
@@ -57,17 +48,20 @@ public class PlayerTest {
     void testPlayerJumpAndMove() {
         int startX = player.getX();
         int startY = player.getY();
-        player.jump();
+        player.startJumping();
         player.startMovingInDirection(Direction.RIGHT);
         levelHandler.update();
         assertTrue(player.getX() > startX && player.getY() < startY);
     }
+    // This test depends on the level layout.
     @Test
     void testPlayerCantMoveOutOfBoundsToTheLeft() {
-        int startX = player.getX();
         player.startMovingInDirection(Direction.LEFT);
         levelHandler.update();
-        assertTrue(player.getX() == startX);
+        levelHandler.update();
+        levelHandler.update();
+        levelHandler.update();
+        assertEquals(0, player.getX());
     }
     @Test
     void testPlayerDirectionRight() {

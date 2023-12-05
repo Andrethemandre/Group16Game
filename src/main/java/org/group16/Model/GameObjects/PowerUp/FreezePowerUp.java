@@ -4,35 +4,71 @@ import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
 
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
-import org.group16.Model.GameObjects.Enemy.Enemy;
+import org.group16.Model.GameObjects.IGameObject;
 
-public class FreezePowerUp extends PowerUp {
+public class FreezePowerUp implements IPowerUp {
+    private PowerUp innerPowerUp;
 
     public FreezePowerUp(int x, int y, boolean moveable, Direction direction) {
-        super(FREEZE____, x, y, moveable, direction);
+        innerPowerUp = new PowerUp(FREEZE____, x, y, moveable, direction);
     }
 
     public FreezePowerUp(int x, int y) {
-        super(FREEZE____, x, y);
+        innerPowerUp = new PowerUp(FREEZE____, x, y);
     }
 
     @Override
-    public void triggerPowerUp(Enemy enemy) {
-        switch (enemy.getType()) {
-            case BASIC_____:
-                enemy.setFrozen(true);
-                this.setIsDead(true);
-                break;
-            
-            case SPIKE_____:
-                enemy.setFrozen(true);
-                this.setIsDead(true);
-                break;
-
-            
-            default:
-                break;
-        }
+    public int getWidth() {
+        return innerPowerUp.getWidth();
     }
-    
+
+    @Override
+    public int getHeight() {
+        return innerPowerUp.getHeight();
+    }
+
+    @Override
+    public GameObjectType getType() {
+        return innerPowerUp.getType();
+    }
+
+    @Override
+    public void update() {
+        innerPowerUp.update();
+    }
+
+    @Override
+    public int getX() {
+        return innerPowerUp.getX();
+    }
+
+    @Override
+    public int getY() {
+        return innerPowerUp.getY();
+    }
+
+    @Override
+    public boolean collidesWith(IGameObject otherGameObject) {
+        return innerPowerUp.collidesWith(otherGameObject);
+    }
+
+    @Override
+    public void move() {
+        innerPowerUp.move();
+    }
+
+    @Override
+    public boolean isDead() {
+        return innerPowerUp.isDead();
+    }
+
+    @Override
+    public void use() {
+        innerPowerUp.use();
+    }
+
+    @Override
+    public boolean isMoving() {
+        return innerPowerUp.isMoving();
+    }    
 }

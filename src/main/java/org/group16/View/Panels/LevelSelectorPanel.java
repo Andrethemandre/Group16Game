@@ -274,11 +274,11 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     }
 
     private void updateDisplay(){
-        updateHighScoreLabel(levelHandler.getCurrentLevelNumber());
-        setLevelImage(levelHandler.getCurrentLevelNumber());
+        updateHighScoreLabel(levelHandler.getCurrentSelectedLevelNumber());
+        setLevelImage(levelHandler.getCurrentSelectedLevelNumber());
         updateCurrentPageLabel();
         updateVisibleLevelButtons(levelHandler.getCurrentLevelSelectPage());
-        levelSelectLabel.setText("Level " + levelHandler.getCurrentLevelNumber());
+        levelSelectLabel.setText("Level " + levelHandler.getCurrentSelectedLevelNumber());
     }
 
     @Override

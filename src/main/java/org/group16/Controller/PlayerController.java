@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameState;
-import org.group16.Model.GameObjects.Player.Player;
+import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.View.GameWindow;
 import org.group16.View.Panels.LevelPanel;
@@ -12,7 +12,7 @@ import org.group16.View.Panels.LevelPanel;
 class PlayerController extends GameController implements KeyListener{
     private LevelPanel levelPanel;
     private LevelHandler levelHandler;
-    private Player currentPlayer;
+    private IPlayer currentPlayer;
     private GameWindow mainWindow;
     // flag to only allow one jump per keypress
     private boolean wKeyHeldDown = false;

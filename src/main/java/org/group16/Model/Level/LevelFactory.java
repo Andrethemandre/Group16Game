@@ -24,6 +24,8 @@ public class LevelFactory {
                 return new EighthLevel();
             case 9:
                 return new NinthLevel();
+            case 10:
+                return new TenthLevel();
             default:
                 throw new IllegalArgumentException("Level is not supported");
 

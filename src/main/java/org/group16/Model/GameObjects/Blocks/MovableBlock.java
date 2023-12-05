@@ -1,27 +1,27 @@
 package org.group16.Model.GameObjects.Blocks;
 
 import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Direction;
 
 import org.group16.Model.GameObjects.Movable;
 
-public class MovableBlock extends Block implements Movable {
-    public int blockspeed = 0; // speed of the block
-    public int horizontalMovement = 0; // how far the block can move(+-) in the x direction from its starting position
-    public int verticalMovement = 0; // how far the block can move (+-) in the y direction from its starting position
-    public Direction horizontalDirection;
-    public Direction verticalDirection;
+public class MovableBlock implements IBlock, Movable {
+    private int movementSpeed = 1;
+    private Direction horizontalDirection;
+    private Direction verticalDirection;
     private int patrolDistance;
     private int traveledDistance;
+    private Block innerBlock;
 
     public MovableBlock(int x, int y, int patrolDistance, Direction horizontalDirection, Direction verticalDirection) {
-        super(GameObjectType.MOVABLE___, x, y);
+        innerBlock = new Block(GameObjectType.MOVABLE___, x, y);
         this.patrolDistance = patrolDistance;
         this.horizontalDirection = horizontalDirection;
         this.verticalDirection = verticalDirection;
-
     }
 
+    @Override
     public void move() {
         moveVertically();
         moveHorizontally();
@@ -50,7 +50,7 @@ public class MovableBlock extends Block implements Movable {
     }
 
     private void updateTraveledDistanceAndDirection() {
-        traveledDistance += 1;
+        traveledDistance += movementSpeed;
         if (traveledDistance >= patrolDistance) {
             toggleDirection();
             traveledDistance = 0;
@@ -66,46 +66,57 @@ public class MovableBlock extends Block implements Movable {
         }
     }
 
+    @Override
     public void update() {
         move();
     }
 
     @Override
     public int getWidth() {
-        return super.getWidth();
+        return innerBlock.getWidth();
 
     }
 
     @Override
     public int getHeight() {
-        return super.getHeight();
+        return innerBlock.getHeight();
     }
 
     @Override
     public int getX() {
-        return super.getX();
+        return innerBlock.getX();
     }
 
-    public void setX(int x) {
-        super.setX(x);
+    void setX(int x) {
+        innerBlock.setX(x);
     }
 
     @Override
     public int getY() {
-        return super.getY();
+        return innerBlock.getY();
     }
 
-    public void setY(int y) {
-        super.setY(y);
+    void setY(int y) {
+        innerBlock.setY(y);
     }
 
-    public int isitgoingposornegh() {
+    public int getHorisontalDirectionValue() {
         int horisontalMultiplier = getDirectionMultiplier(horizontalDirection);
         return horisontalMultiplier;
     }
 
-    public int isitgoingposornegv() {
+    public int getVerticalDirectionValue() {
         int verticalMultiplier = getDirectionMultiplier(verticalDirection);
         return verticalMultiplier;
+    }
+
+    @Override
+    public GameObjectType getType() {
+        return innerBlock.getType();
+    }
+
+    @Override
+    public boolean collidesWith(IGameObject otherGameObject) {
+        return innerBlock.collidesWith(otherGameObject);
     }
 }

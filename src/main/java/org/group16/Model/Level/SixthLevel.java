@@ -28,7 +28,7 @@ public class SixthLevel extends Level {
     // matrix 45X30 to represent level 1
     
 
-    private final static GameObjectType[][] level6 = {
+    private final static GameObjectType[][] levelLayout = {
 
             { AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
@@ -214,7 +214,7 @@ public class SixthLevel extends Level {
 
     // Construct the level by positioning game objects in the grid
     public SixthLevel() {
-        super(level6);
+        super(levelLayout, 6);
     }
 
     protected Queue<Metadata> createMetadata() {

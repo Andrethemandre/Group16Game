@@ -17,11 +17,12 @@ import javax.swing.JLayeredPane;
 
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
-import org.group16.Model.GameObjects.Blocks.Block;
-import org.group16.Model.GameObjects.Enemy.Enemy;
-import org.group16.Model.GameObjects.Flag.Flag;
-import org.group16.Model.GameObjects.Player.Player;
-import org.group16.Model.GameObjects.PowerUp.PowerUp;
+import org.group16.Model.GameObjects.Blocks.IBlock;
+import org.group16.Model.GameObjects.Enemy.IEnemy;
+import org.group16.Model.GameObjects.Enemy.ITrap;
+import org.group16.Model.GameObjects.Goal.IGoal;
+import org.group16.Model.GameObjects.Player.IPlayer;
+import org.group16.Model.GameObjects.PowerUp.IPowerUp;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
 import org.group16.View.ViewUtility;
@@ -90,10 +91,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
         colorChangeThread.start();
     }
 
-    public Player getPlayer() {
-        return levelHandler.getPlayer();
-    }
-
     public JButton getPauseButton() {
         return pauseButton;
     }
@@ -107,13 +104,14 @@ public class LevelPanel extends GamePanel implements GameObserver {
         int cellSize = 16; // hard coded
         // paintGridWithSize(g, cellSize);
 
-        Player currentPlayer = levelHandler.getPlayer();
+        IPlayer currentPlayer = levelHandler.getPlayer();
 
         // GameObjects are painted
         paintPlayer(g, currentPlayer);
         paintEnemies(g);
+        paintTraps(g);
         paintBlocks(g);
-        paintFlag(g);
+        paintGoal(g);
         paintPowerups(g);
 
         // Gameplay hud
@@ -131,7 +129,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.drawString(formattedText, formattedTextX, y + lineSpacing);
     }
 
-    private void paintHealthBar(Graphics g, int cellSize, Player currentPlayer) {
+    private void paintHealthBar(Graphics g, int cellSize, IPlayer currentPlayer) {
         int health = currentPlayer.getHealth();
         int startX = 0;
         int spacing = 50;
@@ -152,7 +150,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         return String.format("%02d:%02d", minutes, seconds);
     }
 
-    private void paintStats(Graphics g, Player currentPlayer) {
+    private void paintStats(Graphics g, IPlayer currentPlayer) {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 12));
         FontMetrics fm = g.getFontMetrics();
@@ -194,7 +192,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding -55, padding + 3, this);
     }
 
-    private void paintPlayer(Graphics g, Player currentPlayer) {
+    private void paintPlayer(Graphics g, IPlayer currentPlayer) {
         g.setColor(Color.blue);
         int playerX = currentPlayer.getX();
         int playerY = currentPlayer.getY();
@@ -202,8 +200,8 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
     private void paintEnemies(Graphics g) {
-        Collection<Enemy> currentEnemies = levelHandler.getEnemies();
-        for (Enemy enemy : currentEnemies) {
+        Collection<IEnemy> currentEnemies = levelHandler.getEnemies();
+        for (IEnemy enemy : currentEnemies) {
             int enemyX = enemy.getX();
             int enemyY = enemy.getY();
             int enemyWidth = enemy.getWidth();
@@ -238,29 +236,52 @@ public class LevelPanel extends GamePanel implements GameObserver {
         }
     }
 
+    private void paintTraps(Graphics g) {
+        Collection<ITrap> currentTraps = levelHandler.getTraps();
+
+        for (ITrap trap : currentTraps) {
+            int trapX = trap.getX();
+            int trapY = trap.getY();
+            int trapWidth = trap.getWidth();
+            int trapHeight = trap.getHeight();
+
+            if (trap.getType() == GameObjectType.SPIKE_____) {
+                int[] xPoints = { trapX, trapX + (trapWidth / 2), trapX + trapWidth };
+                int[] yPoints = { trapY + trapHeight, trapY, trapY + trapHeight };
+                int nPoints = 3;
+                g.setColor(Color.darkGray);
+                g.fillPolygon(xPoints, yPoints, nPoints);
+
+            } else {
+                g.setColor(Color.black);
+                g.fillRect(trapX, trapY, trap.getWidth(), trap.getHeight());
+            }
+        }
+    }
+
     private void paintBlocks(Graphics g) {
-        Collection<Block> currentBlocks = levelHandler.getBlocks();
-        for (Block block : currentBlocks) {
-            int blockX = (int) block.getX();
-            int blockY = (int) block.getY();
+        Collection<IBlock> currentBlocks = levelHandler.getBlocks();
+        for (IBlock block : currentBlocks) {
+            int blockX = block.getX();
+            int blockY = block.getY();
             g.setColor(Color.ORANGE);
             g.fillRect(blockX, blockY, block.getWidth(), block.getHeight());
         }
     }
 
-    private void paintFlag(Graphics g) {
-        Flag flag = levelHandler.getGoalFlag();
-        int flagX = flag.getX();
-        int flagY = flag.getY();
+    private void paintGoal(Graphics g) {
+        IGoal Goal = levelHandler.getGoal();
+        int GoalX = Goal.getX();
+        int GoalY = Goal.getY();
         g.setColor(Color.green);
-        g.fillRect(flagX, flagY, flag.getWidth(), flag.getHeight());
+        g.fillRect(GoalX, GoalY, Goal.getWidth(), Goal.getHeight());
     }
 
     private void paintPowerups(Graphics g) {
-        Collection<PowerUp> currentPowerUps = levelHandler.getPowerUps();
-        for (PowerUp powerUp : currentPowerUps) {
-            int powerUpX = (int) powerUp.getX();
-            int powerUpY = (int) powerUp.getY();
+        Collection<IPowerUp> currentPowerUps = levelHandler.getPowerUps();
+        for (IPowerUp powerUp : currentPowerUps) {
+            int powerUpX = powerUp.getX();
+            int powerUpY = powerUp.getY();
 
             if (powerUp.getType() == SPEAR_____) {
                 g.setColor(Color.yellow);
