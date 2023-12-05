@@ -1,65 +1,46 @@
 package org.group16.Controller;
 
-import java.awt.Graphics;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.View.GameWindow;
-import org.group16.View.LevelPanel;
-import org.group16.View.StartPanel;
 
 public class GameEngine {
-    private GameWindow mainWindow;
-    private Map<GameState, GameController> controllers = new HashMap<>();
-    private GameController gameController;
     private LevelHandler levelHandler;
+    private GameControllerManager gameControllerManager;
+
     // The delay (ms) corresponds to 60 updates a sec (hz) ?
-    private final int delay = 1000/60;
     // The timer is started with an listener (see below) that executes the statements
     // each step between delays.
+
+    private final int delay = 1000/60;
     private Timer timer = new Timer(delay, new TimerListener(this));
     
-
     public GameEngine(LevelHandler levelHandler, GameWindow mainWindow) {
-        this.mainWindow = mainWindow;
         this.levelHandler = levelHandler;
-
-        // Initialize the controllers for each game state
-        controllers.put(GameState.START, new StartController(levelHandler, mainWindow.getStartPanel()));
-        controllers.put(GameState.PLAYING, new PlayerController(levelHandler, mainWindow.getLevelPanel(), mainWindow));
-        controllers.put(GameState.PAUSED, new PauseController(levelHandler, mainWindow.getPausePanel()));
-
-
-        // Set gameController to the controller for the initial game state
-        gameController = controllers.get(levelHandler.getGameState());
+        this.gameControllerManager = new GameControllerManager(levelHandler, mainWindow);
     }
 
-    // start timer
-    public void start(){
-        timer.start();
-    }
-
-    // update stuff
     public void update() {
- 
-        if(levelHandler.getPauseState() == GameState.PAUSED){
+        if(levelHandler.getGameState() == GameState.PAUSED){
             return;
         } 
         
-
         // Set gameController to the controller for the current game state
-        gameController = controllers.get(levelHandler.getGameState());
-        gameController.update();
+        gameControllerManager.updateGameController(levelHandler.getGameState());
 
         if(levelHandler.getGameState() == GameState.PLAYING){
             levelHandler.update();
         }
 
+        levelHandler.notifyObservers();
+    }
+
+    public void start(){
+        timer.start();
     }
 
     private class TimerListener implements ActionListener {

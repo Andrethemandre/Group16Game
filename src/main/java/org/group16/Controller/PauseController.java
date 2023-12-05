@@ -1,16 +1,13 @@
 package org.group16.Controller;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 import org.group16.Model.Level.LevelHandler;
-import org.group16.View.PausePanel;
+import org.group16.View.Panels.PausePanel;
 
-public class PauseController extends GameController implements KeyListener{
+class PauseController extends GameController{
     private PausePanel pausePanel;
     private LevelHandler levelHandler;
 
-    public PauseController(LevelHandler levelHandler, PausePanel pausePanel) {
+    PauseController(LevelHandler levelHandler, PausePanel pausePanel) {
         super(levelHandler, pausePanel);
 
         this.pausePanel = pausePanel;
@@ -22,6 +19,10 @@ public class PauseController extends GameController implements KeyListener{
 
         pausePanel.getRestartButton().addActionListener(e -> {
             levelHandler.restartGame();
+        });
+
+        pausePanel.getLevelSelectButton().addActionListener(e -> {
+            levelHandler.goToLevelSelect();
         });
 
         pausePanel.getMainMenuButton().addActionListener(e -> {
@@ -39,24 +40,5 @@ public class PauseController extends GameController implements KeyListener{
     @Override
     protected void update() {
         // TODO Auto-generated method stub
-    }
-
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
-    }
-
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-    }
-
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
     }
 }
