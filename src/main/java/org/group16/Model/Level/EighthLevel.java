@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-public class Level8 extends Level  {
+public class EighthLevel extends Level  {
     // matrix 45X30 to represent level 1
     private List<MovableBlock> movableBlocks;
     
@@ -64,7 +64,7 @@ public class Level8 extends Level  {
                                                 };
 
     // Construct the level by positioning game objects in the grid
-    public Level8() {
+    public EighthLevel() {
         super(level8);
     }
 

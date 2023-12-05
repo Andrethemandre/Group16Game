@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-public class Level7 extends Level  {
+public class SeventhLevel extends Level  {
     // matrix 45X30 to represent level 1
     private List<MovableBlock> movableBlocks;
     
@@ -64,7 +64,7 @@ public class Level7 extends Level  {
                                                 };
 
     // Construct the level by positioning game objects in the grid
-    public Level7() {
+    public SeventhLevel() {
         super(level7);
     }
 
@@ -78,7 +78,7 @@ public class Level7 extends Level  {
         metadataQueue.add(new Metadata(144, Direction.NONE, Direction.DOWN));
         metadataQueue.add(new Metadata(112, Direction.NONE, Direction.DOWN));
         metadataQueue.add(new Metadata(64, Direction.NONE, Direction.DOWN));
-        //metadataQueue.add(new Metadata(96, Direction.LEFT, Direction.NONE));
+        metadataQueue.add(new Metadata(96, Direction.LEFT, Direction.NONE));
     
 
         return metadataQueue;
