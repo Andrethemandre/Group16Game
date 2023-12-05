@@ -8,6 +8,7 @@ public abstract class MovableEnemy extends Enemy implements Movable {
     private int positionX = 1;
     private int positionY = 1;
     private int movementSpeed;
+    private boolean visibility;
 
     MovableEnemy(GameObjectType enemyType, int x, int y) {
         super(enemyType, x, y);
@@ -41,5 +42,15 @@ public abstract class MovableEnemy extends Enemy implements Movable {
     }
 
     public abstract void toggleDirection();
+
+    public void setVisibility(boolean visibility) {
+        this.visibility = visibility;
+    }
+
+    public void toggleVisibility() {
+        this.visibility = !this.visibility;
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toggleVisibility'");
+    }
 
 }

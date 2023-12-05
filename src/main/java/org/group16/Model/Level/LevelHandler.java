@@ -123,7 +123,7 @@ public class LevelHandler {
     // collision checkers
     private void checkIfPlayerAtFlag() {
         if (player.collidesWith(goalFlag)) {
-            setLevel(2);
+            setLevel(1);
         }
     }
 
@@ -208,7 +208,7 @@ public class LevelHandler {
     }
 
     public void startGame() {
-        setLevel(1);
+        setLevel(13);
 
         totalPauseTime = 0;
         pauseStartTime = 0;

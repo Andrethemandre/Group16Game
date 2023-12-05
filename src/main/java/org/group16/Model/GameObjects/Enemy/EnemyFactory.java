@@ -2,7 +2,9 @@ package org.group16.Model.GameObjects.Enemy;
 
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Level.Metadata;
+
 
 public class EnemyFactory {
     public static Enemy createEnemyAt(GameObjectType type, int x, int y, Metadata metadata) {
@@ -14,7 +16,7 @@ public class EnemyFactory {
             case FLYING____:
                 return new FlyingEnemy(x, y, metadata.getDistance(), metadata.getHorizontalDirection(), metadata.getVerticalDirection());
             case TELEPORT__:
-                return new TeleportRushEnemy(x, y,100,100);  
+                return new TeleportRushEnemy(x, y,16,16,metadata.getPlayer());
             default:
                 throw new IllegalArgumentException("Enemy type is not supported");
         }
