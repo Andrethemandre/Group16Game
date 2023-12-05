@@ -5,7 +5,7 @@ import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 
-public class PowerUp implements IPowerUp {
+class PowerUp implements IPowerUp {
     private GameObject innerGameObject;
     private Boolean isMoving;
     private int speed = 5;
