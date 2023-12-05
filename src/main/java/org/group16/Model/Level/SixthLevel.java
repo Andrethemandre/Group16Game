@@ -26,7 +26,6 @@ import java.util.Queue;
 
 public class SixthLevel extends Level {
     // matrix 45X30 to represent level 1
-    
 
     private final static GameObjectType[][] levelLayout = {
 
@@ -237,7 +236,7 @@ public class SixthLevel extends Level {
 
         return metadataQueue;
     }
-
+    
     // Initialize the movableBlocks list based on the level matrix
 
 }

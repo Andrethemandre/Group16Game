@@ -36,13 +36,13 @@ public class LevelHandler {
     private Collection<ITrap> traps;
 
     private boolean playerIsAtGoal;
-    
+
     private Collection<GameObserver> observers;
     private int lastLevelNumber = 0;
     private Level currentLevel;
     private GameState gameState;
 
-    private GameStateManager gameStateManager;    
+    private GameStateManager gameStateManager;
     private StatsManager statsManager;
     private LevelSelectPageManager levelSelectPageManager;
 
@@ -78,11 +78,11 @@ public class LevelHandler {
 
     }
 
-    public int getTotalLevels(){
+    public int getTotalLevels() {
         return TOTAL_LEVELS;
     }
 
-    public int getCurrentLevelSelectPage(){
+    public int getCurrentLevelSelectPage() {
         return levelSelectPageManager.getCurrentPage();
     }
 
@@ -94,7 +94,7 @@ public class LevelHandler {
         levelSelectPageManager.previousPage();
     }
 
-    public int getLevelHighScore(int levelNumber){
+    public int getLevelHighScore(int levelNumber) {
         return statsManager.getStats(levelNumber).getScore();
     }
 
@@ -115,7 +115,7 @@ public class LevelHandler {
     }
 
     public void setCurrentLevelNumber(int levelNumber) {
-        if(levelNumber > 0 && levelNumber < TOTAL_LEVELS + 1){
+        if (levelNumber > 0 && levelNumber < TOTAL_LEVELS + 1) {
             lastLevelNumber = levelNumber;
         }
     }
@@ -131,14 +131,13 @@ public class LevelHandler {
     // collision checkers
     private void checkIfPlayerAtGoal() {
         if (player.collidesWith(goal)) {
-            if(getLevelHighScore(currentLevel.getLevelNumber()) < getCurrentScore()){
+            if (getLevelHighScore(currentLevel.getLevelNumber()) < getCurrentScore()) {
                 statsManager.recordStats(currentLevel.getLevelNumber(), new Stats(getCurrentScore()));
             }
 
             if (currentLevel.getLevelNumber() > TOTAL_LEVELS) {
                 goToMainMenu();
-            }
-            else{
+            } else {
                 startGame();
                 setLevel(currentLevel.getLevelNumber() + 1);
             }
@@ -305,7 +304,7 @@ public class LevelHandler {
         movableEnemies.clear();
 
         currentLevel = LevelFactory.createLevel(levelNumber);
-        
+
         setCurrentLevelNumber(levelNumber);
 
         for (int i = 0; i < currentLevel.getHeight(); i++) {
@@ -322,6 +321,7 @@ public class LevelHandler {
                     case STATIONARY:
                         createBlock(i, j, metadata, currentLevelTile);
                         break;
+                    
 
                     case MOVABLE___:
                         createMovableBlock(i, j, metadata, currentLevelTile);
@@ -338,6 +338,7 @@ public class LevelHandler {
 
                     case PLAYER____:
                         // The grid uses /16 of the actual size
+                                
                         player = PlayerFactory.createPlayerAt(currentLevelTile, j * 16, i * 16, getHeight() * 16, getWidth() * 16);
                         break;
 
@@ -345,6 +346,9 @@ public class LevelHandler {
                         // will only reset if there is a new goal on next level.
                         goal = GoalFactory.createGoalAt(currentLevelTile, j * 16, i * 16);
                         break;
+                    case TELEPORTER:
+                        cre
+                        break;        
 
                     default:
                         break;
@@ -406,8 +410,7 @@ public class LevelHandler {
         checkIfPowerUpsCollidesWithTraps();
         checkIfPowerUpsCollidesWithBlocks();
 
-        updatePowerUps();
-        removeDeadEntities();
+
         removeFrozenTrap();
         updateEnemies();
 
@@ -528,8 +531,8 @@ public class LevelHandler {
     }
 
     public void togglePause() {
-        gameStateManager.togglePause();
 
+        
         if (gameStateManager.getGameState() == GameState.PAUSED) {
             statsManager.setPauseStartTime();
             
