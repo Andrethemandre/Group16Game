@@ -10,6 +10,10 @@ public class LevelFactory {
                 return new FirstLevel();
             case 2:
                 return new SecondLevel();
+
+            case 5:
+                return new FifthLevel();
+
             case 3:
                 return new ThirdLevel();
             case 6:
