@@ -65,7 +65,7 @@ public class ThirdLevel extends Level  {
 
     // Construct the level by positioning game objects in the grid
     public ThirdLevel() {
-        super(level3);
+        super(level3, 3);
     }
 
     protected Queue<Metadata> createMetadata() {

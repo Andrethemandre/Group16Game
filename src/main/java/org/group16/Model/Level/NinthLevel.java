@@ -60,9 +60,7 @@ public class NinthLevel extends Level {
                                                 };
     
     public NinthLevel() {
-        super(level9);
-        initializeMetadata();
-        //TODO Auto-generated constructor stub
+        super(level9, 9);
     }
 
     @Override

@@ -2,7 +2,6 @@ package org.group16.Model.Level;
 
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
-import org.group16.Model.GameObjects.Metadata;
 import static org.group16.Model.GameObjects.GameObjectType.MOVABLE___;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 import static org.group16.Model.GameObjects.GameObjectType.TELEPORT__;
@@ -214,7 +213,7 @@ public class FifthLevel extends Level {
 
     // Construct the level by positioning game objects in the grid
     public FifthLevel() {
-        super(level5);
+        super(level5, 5);
     }
 
     protected Queue<Metadata> createMetadata() {
@@ -224,9 +223,9 @@ public class FifthLevel extends Level {
         // enemy at platform
         metadataQueue.add(new Metadata(20, Direction.LEFT, Direction.NONE));
         // enemy at platform
-        metadataQueue.add(new Metadata(50, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(50, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(80, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(80, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(80, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(50, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(40, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(100, Direction.NONE, Direction.UP));

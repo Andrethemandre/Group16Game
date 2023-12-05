@@ -214,7 +214,7 @@ public class SixthLevel extends Level {
 
     // Construct the level by positioning game objects in the grid
     public SixthLevel() {
-        super(level6);
+        super(level6, 6);
     }
 
     protected Queue<Metadata> createMetadata() {

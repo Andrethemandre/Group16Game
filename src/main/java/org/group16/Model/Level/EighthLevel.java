@@ -65,7 +65,7 @@ public class EighthLevel extends Level  {
 
     // Construct the level by positioning game objects in the grid
     public EighthLevel() {
-        super(level8);
+        super(level8, 8);
     }
 
     protected Queue<Metadata> createMetadata() {
