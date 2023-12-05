@@ -24,11 +24,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-public final class FifthLevel extends Level {
+public class FifthLevel extends Level {
     // matrix 45X30 to represent level 1
     // private List<MovableBlock> movableBlocks;
 
-    private static GameObjectType[][] level5 = {
+    private final static GameObjectType[][] level5 = {
 
             { AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
