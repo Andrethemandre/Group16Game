@@ -321,7 +321,6 @@ public class LevelHandler {
                     case STATIONARY:
                         createBlock(i, j, metadata, currentLevelTile);
                         break;
-                    
 
                     case MOVABLE___:
                         createMovableBlock(i, j, metadata, currentLevelTile);
@@ -338,17 +337,15 @@ public class LevelHandler {
 
                     case PLAYER____:
                         // The grid uses /16 of the actual size
-                                
-                        player = PlayerFactory.createPlayerAt(currentLevelTile, j * 16, i * 16, getHeight() * 16, getWidth() * 16);
+
+                        player = PlayerFactory.createPlayerAt(currentLevelTile, j * 16, i * 16, getHeight() * 16,
+                                getWidth() * 16);
                         break;
 
                     case GOAL______:
                         // will only reset if there is a new goal on next level.
                         goal = GoalFactory.createGoalAt(currentLevelTile, j * 16, i * 16);
                         break;
-                    case TELEPORTER:
-                        cre
-                        break;        
 
                     default:
                         break;
@@ -410,10 +407,8 @@ public class LevelHandler {
         checkIfPowerUpsCollidesWithTraps();
         checkIfPowerUpsCollidesWithBlocks();
 
-
         removeFrozenTrap();
         updateEnemies();
-
 
         notifyObservers();
     }
@@ -532,10 +527,9 @@ public class LevelHandler {
 
     public void togglePause() {
 
-        
         if (gameStateManager.getGameState() == GameState.PAUSED) {
             statsManager.setPauseStartTime();
-            
+
         } else if (gameStateManager.getGameState() == GameState.PLAYING) {
             statsManager.setTotalPauseTime();
         }

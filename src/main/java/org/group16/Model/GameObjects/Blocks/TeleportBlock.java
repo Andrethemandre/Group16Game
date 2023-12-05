@@ -1,6 +1,7 @@
 package org.group16.Model.GameObjects.Blocks;
 
 import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.GameObjects.IGameObject;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class TeleportBlock implements IBlock {
     Block innerBlock;
 
     TeleportBlock(int x, int y) {
-        innerBlock = new Block(GameObjectType.TELEPORT, x, y);
+        innerBlock = new Block(GameObjectType.TELEPORTER__, x, y);
     }
 
     @Override

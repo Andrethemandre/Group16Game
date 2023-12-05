@@ -1,5 +1,6 @@
 package org.group16.Model.Level;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,15 @@ public abstract class Level {
 
     private final GameObjectType[][] levelLayout;
     private Map<Tuple, Metadata> metadataMap;
-    private List<int[]> teleporterLocations;
+    private List<Integer> teleporterDestinations = new ArrayList<Integer>();
+
+    public List<Integer> getTeleporterDestinations() {
+        return teleporterDestinations;
+    }
+
+    public void setTeleporterDestinations(List<int[]> teleporterLocations) {
+        this.teleporterDestinations = teleporterDestinations;
+    }
 
     public Level(GameObjectType[][] level, int levelNumber) {
         this.levelLayout = level;

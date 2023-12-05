@@ -236,7 +236,14 @@ public class SixthLevel extends Level {
 
         return metadataQueue;
     }
-    
+
+    @Override
+    public void setTeleporterDestinations(List<int[]> teleporterLocations) {
+        teleporterLocations.add(new int[] { 0, 1 });
+        teleporterLocations.add(new int[] { 0, 2 });
+
+        super.setTeleporterDestinations(teleporterLocations);
+    }
     // Initialize the movableBlocks list based on the level matrix
 
 }
