@@ -21,10 +21,8 @@ import org.group16.Model.GameObjects.Enemy.Enemy;
 import org.group16.Model.GameObjects.Enemy.EnemyFactory;
 import org.group16.Model.GameObjects.Flag.Flag;
 import org.group16.Model.GameObjects.Player.Player;
-import org.group16.Model.GameObjects.PowerUp.FreezePowerUp;
 import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.GameObjects.PowerUp.PowerUpFactory;
-import org.group16.Model.GameObjects.PowerUp.SpearPowerUp;
 import org.group16.Model.Observers.GameObserver;
 
 public class LevelHandler {
@@ -39,12 +37,12 @@ public class LevelHandler {
     private boolean playerIsAtFlag;
     private IGameObject[][] grid;
     private Collection<GameObjectType> acceptedEnemyTypes = Arrays
-            .asList(new GameObjectType[] { GameObjectType.BASIC_____, GameObjectType.SPIKE_____,
-                    GameObjectType.FLYING____, GameObjectType.TELEPORT__ });
+            .asList(GameObjectType.BASIC_____, GameObjectType.SPIKE_____,
+                    GameObjectType.FLYING____, GameObjectType.TELEPORT__);
     private Collection<GameObjectType> acceptedBlockTypes = Arrays
-            .asList(new GameObjectType[] { GameObjectType.STATIONARY, GameObjectType.MOVABLE___ });
+            .asList(GameObjectType.STATIONARY, GameObjectType.MOVABLE___);
     private Collection<GameObjectType> acceptedPowerUpTypes = Arrays
-            .asList(new GameObjectType[] { GameObjectType.SPEAR_____, GameObjectType.FREEZE____ });
+            .asList(GameObjectType.SPEAR_____, GameObjectType.FREEZE____);
     private Collection<GameObserver> observers;
     private int currentLevelNumber;
     private int score = 0;
@@ -71,7 +69,7 @@ public class LevelHandler {
         observers = new ArrayList<>();
         gameState = GameState.START;
 
-        // setLevel(1);
+         //setLevel(4);
         // setxandydirectionofmovableblocks(firstLevel.getMovableBlocks());
 
         // Schedule the movable blocks movement at fixed intervals
@@ -213,7 +211,7 @@ public class LevelHandler {
     }
 
     public void startGame() {
-        setLevel(1);
+        setLevel(4);
 
         totalPauseTime = 0;
         pauseStartTime = 0;
