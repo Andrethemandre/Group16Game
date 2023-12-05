@@ -12,7 +12,8 @@ import org.group16.View.ViewUtility;
 
 public class StartPanel extends GamePanel {
     private JLabel gameTitleLabel;
-    private JButton playButton;
+    private JButton continueButton;
+    private JButton newGameButton;
     private JButton loadGameButton;
     private JButton settingsButton;
     private JButton quitButton;
@@ -35,7 +36,8 @@ public class StartPanel extends GamePanel {
 
         // Buttons in order of how they will appear in the menu
         JButton[] buttons = {
-            playButton = ViewUtility.createButton("New Game", buttonSize),
+            continueButton = ViewUtility.createButton("Continue", buttonSize),
+            newGameButton = ViewUtility.createButton("New Game", buttonSize),
             loadGameButton = ViewUtility.createButton("Load Game", buttonSize),
             settingsButton = ViewUtility.createButton("Settings", buttonSize),
             quitButton= ViewUtility.createButton("Quit", buttonSize)
@@ -48,9 +50,12 @@ public class StartPanel extends GamePanel {
         
         add(verticalButtonPanel, BorderLayout.CENTER);
     }
+    public JButton getContinueButton() {
+        return continueButton;
+    }
 
-    public JButton getPlayButton() {
-        return playButton;
+    public JButton getNewGameButton() {
+        return newGameButton;
     }
 
     public JButton getLoadGameButton() {

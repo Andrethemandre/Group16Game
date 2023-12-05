@@ -7,8 +7,11 @@ class StartController extends GameController {
 
     StartController(LevelHandler levelHandler, StartPanel startPanel) {
         super(levelHandler, startPanel);
-
-        startPanel.getPlayButton().addActionListener(e -> {
+        startPanel.getContinueButton().addActionListener(e -> {
+            levelHandler.continueGame();
+        });
+        
+        startPanel.getNewGameButton().addActionListener(e -> {
             levelHandler.newGame();
         });
 

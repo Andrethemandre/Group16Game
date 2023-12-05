@@ -224,6 +224,10 @@ public class LevelHandler {
         gameStateManager.newGame();
     }
 
+    public void continueGame() {
+        gameStateManager.continueGame();
+    }
+
     public void goToLevelSelect() {
         gameStateManager.goToLevelSelect();
     }
