@@ -28,7 +28,7 @@ public class SixthLevel extends Level {
     // matrix 45X30 to represent level 1
     private List<MovableBlock> movableBlocks;
 
-    private static GameObjectType[][] level6 = {
+    private final static GameObjectType[][] level6 = {
 
             { AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
