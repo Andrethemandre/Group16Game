@@ -38,7 +38,7 @@ public class LevelHandler {
     private boolean playerIsAtGoal;
     
     private Collection<GameObserver> observers;
-    private int lastLevelNumber = 0;
+    private int lastLevelNumber = 1;
     private Level currentLevel;
     private GameState gameState;
 
