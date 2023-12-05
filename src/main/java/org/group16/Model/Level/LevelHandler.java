@@ -38,7 +38,7 @@ public class LevelHandler {
     private boolean playerIsAtGoal;
 
     private Collection<GameObserver> observers;
-    private int lastLevelNumber = 0;
+    private int lastLevelNumber = 1;
     private Level currentLevel;
     private GameState gameState;
 
@@ -46,7 +46,7 @@ public class LevelHandler {
     private StatsManager statsManager;
     private LevelSelectPageManager levelSelectPageManager;
 
-    private final static int TOTAL_LEVELS = 10;
+    private final static int TOTAL_LEVELS = LevelFactory.getTotalLevels();
 
     // width and height depending on how big the level is
 
@@ -63,19 +63,12 @@ public class LevelHandler {
         movableEnemies = new ArrayList<>();
 
         statsManager = new StatsManager();
-        statsManager.recordStats(1, new Stats(0));
-        statsManager.recordStats(2, new Stats(0));
-        statsManager.recordStats(3, new Stats(0));
-        statsManager.recordStats(4, new Stats(0));
-        statsManager.recordStats(5, new Stats(0));
-        statsManager.recordStats(6, new Stats(0));
-        statsManager.recordStats(7, new Stats(0));
-        statsManager.recordStats(8, new Stats(0));
-        statsManager.recordStats(9, new Stats(0));
-        statsManager.recordStats(10, new Stats(0));
+        
+        for (int i = 1; i <= TOTAL_LEVELS; i++) {
+            statsManager.recordStats(i, new Stats(0));
+        }
 
         levelSelectPageManager.setSelectedLevelNumber(1);
-
     }
 
     public int getTotalLevels() {
