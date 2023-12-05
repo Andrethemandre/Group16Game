@@ -20,6 +20,7 @@ class Player implements IPlayer {
     private double currentTime = 6;
     private GameObjectType currentPowerUp = GameObjectType.NOTHING___;
     private Direction lastDirection = Direction.RIGHT;
+    private final int damageDelay = 1;
 
     private boolean isFalling = false;
     private final int maxX;
@@ -242,7 +243,7 @@ class Player implements IPlayer {
     public void updateHealth(int damage) {
         currentTime = System.currentTimeMillis() / 1000.0;
 
-        if (health > 0 && currentTime - previousTime > 2) {
+        if (health > 0 && currentTime - previousTime > damageDelay) {
             health -= damage;
             previousTime = currentTime;
         }
