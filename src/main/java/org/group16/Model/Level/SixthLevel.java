@@ -223,19 +223,12 @@ public class SixthLevel extends Level {
         metadataQueue.add(new Metadata(45, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(40, Direction.LEFT, Direction.DOWN));
         metadataQueue.add(new Metadata(70, Direction.LEFT, Direction.DOWN));
-
         metadataQueue.add(new Metadata(80, Direction.LEFT, Direction.NONE));
-
         metadataQueue.add(new Metadata(80, Direction.RIGHT, Direction.DOWN));
-
         metadataQueue.add(new Metadata(70, Direction.LEFT, Direction.DOWN));
-
         metadataQueue.add(new Metadata(40, Direction.LEFT, Direction.DOWN));
-
         metadataQueue.add(new Metadata(50, Direction.LEFT, Direction.DOWN));
-
         metadataQueue.add(new Metadata(50, Direction.LEFT, Direction.NONE));
-
         metadataQueue.add(new Metadata(30, Direction.RIGHT, Direction.DOWN));
         metadataQueue.add(new Metadata(40, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(40, Direction.LEFT, Direction.DOWN));
