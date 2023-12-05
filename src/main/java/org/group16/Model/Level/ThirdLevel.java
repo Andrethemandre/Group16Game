@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-public class Level3 extends Level  {
+public class ThirdLevel extends Level  {
     // matrix 45X30 to represent level 1
     private List<MovableBlock> movableBlocks;
     
@@ -64,7 +64,7 @@ public class Level3 extends Level  {
                                                 };
 
     // Construct the level by positioning game objects in the grid
-    public Level3() {
+    public ThirdLevel() {
         super(level3);
     }
 
