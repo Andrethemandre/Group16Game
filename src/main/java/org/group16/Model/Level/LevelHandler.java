@@ -22,6 +22,7 @@ import org.group16.Model.GameObjects.Blocks.MovableBlock;
 import org.group16.Model.GameObjects.Enemy.EnemyFactory;
 import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.GameObjects.Player.PlayerFactory;
+import org.group16.Model.GameObjects.PowerUp.IPowerUp;
 import org.group16.Model.GameObjects.PowerUp.PowerUp;
 import org.group16.Model.GameObjects.PowerUp.PowerUpFactory;
 import org.group16.Model.Observers.GameObserver;
@@ -32,7 +33,7 @@ public class LevelHandler {
     private Collection<IEnemy> enemies;
     private Collection<IMovableEnemy> movableEnemies;
     private Collection<IBlock> blocks;
-    private Collection<PowerUp> powerUps;
+    private Collection<IPowerUp> powerUps;
     private Collection<ITrap> traps;
 
     private boolean playerIsAtGoal;
@@ -142,12 +143,6 @@ public class LevelHandler {
         for (IMovableEnemy enemy : movableEnemies) {
             switch (enemy.getType()) {
                 case FLYING____:
-                    for (IBlock block : blocks) {
-                        if (enemy.collidesWith(block)) {
-                            enemy.toggleDirection();
-                        }
-                    }
-                    break;
                 case BASIC_____:
                     for (IBlock block : blocks) {
                         if (enemy.collidesWith(block)) {
@@ -162,12 +157,12 @@ public class LevelHandler {
     }
 
     private void checkIfPlayerCollidesWithPowerUp() {
-        PowerUp powerUpToRemove = null;
+        IPowerUp powerUpToRemove = null;
 
         if (player.getCurrentPowerUp() == GameObjectType.NOTHING___) {
-            for (PowerUp powerUp : powerUps) {
+            for (IPowerUp powerUp : powerUps) {
                 if (player.collidesWith(powerUp)) {
-                    if (!powerUp.getMovable()) {
+                    if (!powerUp.isMoving()) {
                         powerUpToRemove = powerUp;
                         player.setCurrentPowerUp(powerUp.getType());
 
@@ -179,7 +174,7 @@ public class LevelHandler {
     }
 
     private void checkIfPowerUpsCollidesWithEnemies() {
-        for (PowerUp powerUp : powerUps) {
+        for (IPowerUp powerUp : powerUps) {
             for (IEnemy enemy : enemies) {
                 if (powerUp.collidesWith(enemy)) {
                     enemy.triggerPowerUp(powerUp.getType());
@@ -190,7 +185,7 @@ public class LevelHandler {
     }
 
     private void checkIfPowerUpsCollidesWithTraps() {
-        for (PowerUp powerUp : powerUps) {
+        for (IPowerUp powerUp : powerUps) {
             for (ITrap trap : traps) {
                 if (powerUp.collidesWith(trap)) {
                     trap.triggerPowerUp(powerUp.getType());
@@ -201,7 +196,7 @@ public class LevelHandler {
     }
 
     private void checkIfPowerUpsCollidesWithBlocks() {
-        for (PowerUp powerUp : powerUps) {
+        for (IPowerUp powerUp : powerUps) {
             for (IBlock block : blocks) {
                 if (powerUp.collidesWith(block)) {
                     powerUp.use();
@@ -226,7 +221,7 @@ public class LevelHandler {
     }
 
     public void startGame() {
-        setLevel(1);
+        setLevel(-1);
 
         totalPauseTime = 0;
         pauseStartTime = 0;
@@ -318,7 +313,7 @@ public class LevelHandler {
     }
 
     private void createPowerUp(int i, int j, GameObjectType currentLevelTile) {
-        PowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevelTile, j * 16, i * 16);
+        IPowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevelTile, j * 16, i * 16);
         powerUps.add(newPowerUp);
     }
 
@@ -364,7 +359,7 @@ public class LevelHandler {
         checkIfPowerUpsCollidesWithTraps();
         checkIfPowerUpsCollidesWithBlocks();
 
-        updateProjectilePositions();
+        updatePowerUps();
         removeDeadEntities();
         removeFrozenTrap();
         updateEnemies();
@@ -376,8 +371,8 @@ public class LevelHandler {
         checkIfPlayerIsDead();
     }
 
-    private void updateProjectilePositions() {
-        for (PowerUp powerUp : powerUps) {
+    private void updatePowerUps() {
+        for (IPowerUp powerUp : powerUps) {
             powerUp.update();
         }
     }
@@ -401,8 +396,8 @@ public class LevelHandler {
     }
 
     private void removeUsedPowerUps() {
-        PowerUp powerUpToRemove = null;
-        for (PowerUp powerUp : powerUps) {
+        IPowerUp powerUpToRemove = null;
+        for (IPowerUp powerUp : powerUps) {
             if (powerUp.isDead()) {
                 powerUpToRemove = powerUp;
             }
@@ -467,7 +462,7 @@ public class LevelHandler {
         return blocks;
     }
 
-    public Collection<PowerUp> getPowerUps() {
+    public Collection<IPowerUp> getPowerUps() {
         return powerUps;
     }
 
@@ -516,7 +511,7 @@ public class LevelHandler {
     // is here because levelHandler has the power ups list that I need to change for
     // things to be drawn
     public void usePowerUp() {
-        PowerUp powerUp;
+        IPowerUp powerUp;
         switch (player.getCurrentPowerUp()) {
             case SPEAR_____:
                 powerUp = PowerUpFactory.createPowerUpUsableAt(SPEAR_____, player.getX(), player.getY(), true,

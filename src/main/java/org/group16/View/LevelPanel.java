@@ -26,7 +26,7 @@ import org.group16.Model.GameObjects.Enemy.IEnemy;
 import org.group16.Model.GameObjects.Enemy.ITrap;
 import org.group16.Model.GameObjects.Goal.IGoal;
 import org.group16.Model.GameObjects.Player.IPlayer;
-import org.group16.Model.GameObjects.PowerUp.PowerUp;
+import org.group16.Model.GameObjects.PowerUp.IPowerUp;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
 
@@ -284,8 +284,8 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private void paintBlocks(Graphics g) {
         Collection<IBlock> currentBlocks = levelHandler.getBlocks();
         for (IBlock block : currentBlocks) {
-            int blockX = (int) block.getX();
-            int blockY = (int) block.getY();
+            int blockX = block.getX();
+            int blockY = block.getY();
             g.setColor(Color.ORANGE);
             g.fillRect(blockX, blockY, block.getWidth(), block.getHeight());
         }
@@ -300,10 +300,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
     private void paintPowerups(Graphics g) {
-        Collection<PowerUp> currentPowerUps = levelHandler.getPowerUps();
-        for (PowerUp powerUp : currentPowerUps) {
-            int powerUpX = (int) powerUp.getX();
-            int powerUpY = (int) powerUp.getY();
+        Collection<IPowerUp> currentPowerUps = levelHandler.getPowerUps();
+        for (IPowerUp powerUp : currentPowerUps) {
+            int powerUpX = powerUp.getX();
+            int powerUpY = powerUp.getY();
 
             if (powerUp.getType() == SPEAR_____) {
                 g.setColor(Color.yellow);
