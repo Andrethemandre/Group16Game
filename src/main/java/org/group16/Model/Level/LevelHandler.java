@@ -6,6 +6,7 @@ import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.group16.Model.GameObjects.Enemy.IEnemy;
 import org.group16.Model.GameObjects.Enemy.IMovableEnemy;
@@ -19,6 +20,7 @@ import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
 import org.group16.Model.GameObjects.Blocks.IBlock;
 import org.group16.Model.GameObjects.Blocks.MovableBlock;
+import org.group16.Model.GameObjects.Blocks.TeleportBlock;
 import org.group16.Model.GameObjects.Enemy.EnemyFactory;
 import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.GameObjects.Player.PlayerFactory;
@@ -34,15 +36,15 @@ public class LevelHandler {
     private Collection<IBlock> blocks;
     private Collection<IPowerUp> powerUps;
     private Collection<ITrap> traps;
-
+    private List<Integer> destinationIntegers;
     private boolean playerIsAtGoal;
-    
+    private List<IBlock> teleportBlocks;
     private Collection<GameObserver> observers;
     private int lastLevelNumber = 1;
     private Level currentLevel;
     private GameState gameState;
 
-    private GameStateManager gameStateManager;    
+    private GameStateManager gameStateManager;
     private StatsManager statsManager;
     private LevelSelectPageManager levelSelectPageManager;
 
@@ -55,15 +57,15 @@ public class LevelHandler {
 
         levelSelectPageManager = new LevelSelectPageManager(TOTAL_LEVELS);
         gameStateManager = new GameStateManager();
-
         enemies = new ArrayList<>();
         blocks = new ArrayList<>();
         powerUps = new ArrayList<>();
         traps = new ArrayList<>();
         movableEnemies = new ArrayList<>();
+        teleportBlocks = new ArrayList<>();
 
         statsManager = new StatsManager();
-        
+
         for (int i = 1; i <= TOTAL_LEVELS; i++) {
             statsManager.recordStats(i, new Stats(0));
         }
@@ -71,11 +73,11 @@ public class LevelHandler {
         levelSelectPageManager.setSelectedLevelNumber(1);
     }
 
-    public int getTotalLevels(){
+    public int getTotalLevels() {
         return TOTAL_LEVELS;
     }
 
-    public int getCurrentLevelSelectPage(){
+    public int getCurrentLevelSelectPage() {
         return levelSelectPageManager.getCurrentPage();
     }
 
@@ -87,7 +89,7 @@ public class LevelHandler {
         levelSelectPageManager.previousPage();
     }
 
-    public int getLevelHighScore(int levelNumber){
+    public int getLevelHighScore(int levelNumber) {
         return statsManager.getStats(levelNumber).getScore();
     }
 
@@ -108,7 +110,7 @@ public class LevelHandler {
     }
 
     public void setCurrentLevelNumber(int levelNumber) {
-        if(levelNumber > 0 && levelNumber < TOTAL_LEVELS + 1){
+        if (levelNumber > 0 && levelNumber < TOTAL_LEVELS + 1) {
             lastLevelNumber = levelNumber;
         }
     }
@@ -124,14 +126,13 @@ public class LevelHandler {
     // collision checkers
     private void checkIfPlayerAtGoal() {
         if (player.collidesWith(goal)) {
-            if(getLevelHighScore(currentLevel.getLevelNumber()) < getCurrentScore()){
+            if (getLevelHighScore(currentLevel.getLevelNumber()) < getCurrentScore()) {
                 statsManager.recordStats(currentLevel.getLevelNumber(), new Stats(getCurrentScore()));
             }
 
             if (currentLevel.getLevelNumber() > TOTAL_LEVELS) {
                 goToMainMenu();
-            }
-            else{
+            } else {
                 startGame();
                 setLevel(currentLevel.getLevelNumber() + 1);
             }
@@ -296,10 +297,12 @@ public class LevelHandler {
         powerUps.clear();
         traps.clear();
         movableEnemies.clear();
+        teleportBlocks.clear();
 
         currentLevel = LevelFactory.createLevel(levelNumber);
-        
+
         setCurrentLevelNumber(levelNumber);
+        destinationIntegers = currentLevel.getTeleporterDestinations();
 
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
@@ -331,14 +334,19 @@ public class LevelHandler {
 
                     case PLAYER____:
                         // The grid uses /16 of the actual size
-                        player = PlayerFactory.createPlayerAt(currentLevelTile, j * 16, i * 16, getHeight() * 16, getWidth() * 16);
+
+                        player = PlayerFactory.createPlayerAt(currentLevelTile, j * 16, i * 16, getHeight() * 16,
+                                getWidth() * 16);
                         break;
 
                     case GOAL______:
                         // will only reset if there is a new goal on next level.
                         goal = GoalFactory.createGoalAt(currentLevelTile, j * 16, i * 16);
                         break;
+                    case TELEPORTER__:
+                        createTeleportBlock(i, j, metadata, currentLevelTile);
 
+                        break;
                     default:
                         break;
                 }
@@ -378,6 +386,13 @@ public class LevelHandler {
         movableEnemies.add(newEnemy);
     }
 
+    private void createTeleportBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
+        IBlock newBlock = BlockFactory.createBlockAt(currentLevelTile, j * 16, i * 16, metadata);
+        blocks.add(newBlock);
+        teleportBlocks.add(newBlock);
+
+    }
+
     public long getElapsedTime() {
         return statsManager.getElapsedTime();
     }
@@ -385,13 +400,15 @@ public class LevelHandler {
     public void update() {
         updateBlocks();
         player.update();
-
+        checkIfPlayerCollidesWithTeleportBlocks();
         checkIfPlayerAtGoal();
         checkIfPlayerCollidesWithBlocks();
         checkIfPlayerCollidesWithEnemies();
         checkIfPlayerCollidesWithTraps();
         checkIfPlayerCollidesWithPowerUp();
         checkIfPlayerIsDead();
+        updatePowerUps();
+        removeDeadEntities();
 
         checkIfMovableEnemiesCollidesWithBlocks();
 
@@ -399,11 +416,8 @@ public class LevelHandler {
         checkIfPowerUpsCollidesWithTraps();
         checkIfPowerUpsCollidesWithBlocks();
 
-        updatePowerUps();
-        removeDeadEntities();
         removeFrozenTrap();
         updateEnemies();
-
 
         notifyObservers();
     }
@@ -522,10 +536,9 @@ public class LevelHandler {
 
     public void togglePause() {
         gameStateManager.togglePause();
-
         if (gameStateManager.getGameState() == GameState.PAUSED) {
             statsManager.setPauseStartTime();
-            
+
         } else if (gameStateManager.getGameState() == GameState.PLAYING) {
             statsManager.setTotalPauseTime();
         }
@@ -559,6 +572,20 @@ public class LevelHandler {
     public void updateBlocks() {
         for (IBlock block : blocks) {
             block.update();
+
+        }
+    }
+
+    public void checkIfPlayerCollidesWithTeleportBlocks() {
+        if (teleportBlocks != null) {
+            for (int i = 0; i < teleportBlocks.size(); i++) {
+                if (player.collidesWith(teleportBlocks.get(i))
+                        && destinationIntegers.size() == teleportBlocks.size()) {
+
+                    player.teleport((TeleportBlock) teleportBlocks.get(destinationIntegers.get(i)));
+                }
+            }
+
         }
     }
 }

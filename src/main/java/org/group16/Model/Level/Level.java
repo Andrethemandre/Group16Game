@@ -1,6 +1,8 @@
 package org.group16.Model.Level;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
@@ -19,6 +21,7 @@ import static org.group16.Model.GameObjects.GameObjectType.POWERUP___;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
 import static org.group16.Model.GameObjects.GameObjectType.FLYING____;
+import static org.group16.Model.GameObjects.GameObjectType.TELEPORTER__;
 
 public abstract class Level {
     private final int WIDTH = 45;
@@ -27,6 +30,15 @@ public abstract class Level {
 
     private final GameObjectType[][] levelLayout;
     private Map<Tuple, Metadata> metadataMap;
+    private List<Integer> teleporterDestinations = new ArrayList<Integer>();
+
+    public List<Integer> getTeleporterDestinations() {
+        return teleporterDestinations;
+    }
+
+    public void setTeleporterDestinations(List<Integer> teleporterLocations) {
+        this.teleporterDestinations = teleporterLocations;
+    }
 
     public Level(GameObjectType[][] level, int levelNumber) {
         this.levelLayout = level;
@@ -77,5 +89,5 @@ public abstract class Level {
 
     public int getLevelNumber() {
         return levelNumber;
-    }   
+    }
 }

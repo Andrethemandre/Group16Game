@@ -189,7 +189,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
         drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX - 55, statsY, lineSpacing);
 
-        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding -55, padding + 3, this);
+        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding - 55, padding + 3, this);
     }
 
     private void paintPlayer(Graphics g, IPlayer currentPlayer) {
@@ -266,6 +266,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
             int blockY = block.getY();
             g.setColor(Color.ORANGE);
             g.fillRect(blockX, blockY, block.getWidth(), block.getHeight());
+            if (block.getType() == GameObjectType.TELEPORTER__) {
+                g.setColor(Color.black);
+                g.fillOval(blockX, blockY, block.getWidth(), block.getHeight());
+            }
         }
     }
 
