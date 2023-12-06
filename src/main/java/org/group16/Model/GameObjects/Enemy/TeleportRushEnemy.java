@@ -9,7 +9,7 @@ import org.group16.Model.GameObjects.Player.IPlayer;
 
 class TeleportRushEnemy extends MovableEnemy implements IMovableEnemy, AffectedByGravity {
     private MovableEnemy innerMovableEnemy;
-    private IPlayer player;
+
     private  EnemyBehavior<TeleportRushEnemy> behavior;
 
 

@@ -1,9 +1,9 @@
 package org.group16.Model.GameObjects.Enemy;
 
-import org.group16.Model.GameObjects.Player.Player;
+//import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Level.LevelHandler;
 
-class EnemyBehavior <T extends MovableEnemy> {
+class EnemyBehavior <T extends MovableEnemy> implements TargetCoordinates {
     private static final int STATE_IDLE = 0;
     private static final int STATE_DISAPPEAR = 1;
     private static final int STATE_REAPPEAR = 2;
@@ -16,7 +16,7 @@ class EnemyBehavior <T extends MovableEnemy> {
 
     private int currentState;
     private T enemy; // generic type can be any type of enemy
-    private Player player;
+    //private Player player;
 
     public EnemyBehavior(T enemy) {
         this.enemy = enemy;
