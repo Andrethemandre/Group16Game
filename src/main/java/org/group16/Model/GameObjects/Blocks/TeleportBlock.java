@@ -6,6 +6,7 @@ import org.group16.Model.GameObjects.IGameObject;
 import java.util.List;
 
 import org.group16.Model.GameObjects.GameObject;
+import org.group16.Model.GameObjects.Player;
 
 public class TeleportBlock implements IBlock {
     Block innerBlock;
@@ -26,7 +27,6 @@ public class TeleportBlock implements IBlock {
 
     @Override
     public void update() {
-        // Stationary blocks don't need to update
     }
 
     @Override

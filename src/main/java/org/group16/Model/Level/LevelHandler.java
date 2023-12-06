@@ -6,6 +6,7 @@ import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.group16.Model.GameObjects.Enemy.IEnemy;
 import org.group16.Model.GameObjects.Enemy.IMovableEnemy;
@@ -34,9 +35,9 @@ public class LevelHandler {
     private Collection<IBlock> blocks;
     private Collection<IPowerUp> powerUps;
     private Collection<ITrap> traps;
-
+    private List<Integer> destinationIntegers;
     private boolean playerIsAtGoal;
-
+    private List<IBlock> teleporterBlocks;
     private Collection<GameObserver> observers;
     private int lastLevelNumber = 1;
     private Level currentLevel;
@@ -55,7 +56,6 @@ public class LevelHandler {
 
         levelSelectPageManager = new LevelSelectPageManager(TOTAL_LEVELS);
         gameStateManager = new GameStateManager();
-
         enemies = new ArrayList<>();
         blocks = new ArrayList<>();
         powerUps = new ArrayList<>();
@@ -63,7 +63,7 @@ public class LevelHandler {
         movableEnemies = new ArrayList<>();
 
         statsManager = new StatsManager();
-        
+
         for (int i = 1; i <= TOTAL_LEVELS; i++) {
             statsManager.recordStats(i, new Stats(0));
         }
@@ -295,10 +295,12 @@ public class LevelHandler {
         powerUps.clear();
         traps.clear();
         movableEnemies.clear();
+        teleporterBlocks.clear();
 
         currentLevel = LevelFactory.createLevel(levelNumber);
 
         setCurrentLevelNumber(levelNumber);
+        destinationIntegers = currentLevel.getTeleporterDestinations();
 
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
@@ -339,7 +341,10 @@ public class LevelHandler {
                         // will only reset if there is a new goal on next level.
                         goal = GoalFactory.createGoalAt(currentLevelTile, j * 16, i * 16);
                         break;
+                    case TELEPORTER__:
+                        createTeleportBlock(i, j, metadata, currentLevelTile);
 
+                        break;
                     default:
                         break;
                 }
@@ -377,6 +382,13 @@ public class LevelHandler {
         IMovableEnemy newEnemy = EnemyFactory.createMovableEnemyAt(currentLevelTile, j * 16, i * 16, metadata);
         enemies.add(newEnemy);
         movableEnemies.add(newEnemy);
+    }
+
+    private void createTeleportBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
+        IBlock newBlock = BlockFactory.createBlockAt(currentLevelTile, j * 16, i * 16, metadata);
+        blocks.add(newBlock);
+        teleporterBlocks.add(newBlock);
+
     }
 
     public long getElapsedTime() {
@@ -556,6 +568,18 @@ public class LevelHandler {
     public void updateBlocks() {
         for (IBlock block : blocks) {
             block.update();
+
         }
+    }
+
+    public void teleportifcolidedwithteleporter() {
+        for (int i = 0; i < teleporterBlocks.size(); i++) {
+            if (player.collidesWith(teleporterBlocks.get(i))) {
+
+                player.teleport(teleporterBlocks.get(destinationIntegers.get(i)));
+
+            }
+        }
+
     }
 }

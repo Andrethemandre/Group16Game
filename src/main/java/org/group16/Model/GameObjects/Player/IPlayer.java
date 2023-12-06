@@ -9,11 +9,20 @@ import org.group16.Model.Observers.HasHealth;
 
 public interface IPlayer extends Movable, IGameObject, HasHealth, AffectedByGravity {
     void startMovingInDirection(Direction direction);
+
     void stopMovingInDirection(Direction direction);
+
     Direction getDirection();
+
     boolean isFalling();
+
     void startJumping();
+
     void collision(IGameObject otherGameObject);
+
     void setCurrentPowerUp(GameObjectType hasPowerUp);
+
     GameObjectType getCurrentPowerUp();
+
+    void teleport(IGameObject teleportBlock);
 }

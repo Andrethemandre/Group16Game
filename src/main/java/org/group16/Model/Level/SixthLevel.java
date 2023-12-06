@@ -5,6 +5,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 
 import static org.group16.Model.GameObjects.GameObjectType.MOVABLE___;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
+import static org.group16.Model.GameObjects.GameObjectType.TELEPORTER__;
 import static org.group16.Model.GameObjects.GameObjectType.TELEPORT__;
 import static org.group16.Model.GameObjects.GameObjectType.AIR_______;
 import static org.group16.Model.GameObjects.GameObjectType.BASIC_____;
@@ -89,7 +90,7 @@ public class SixthLevel extends Level {
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, },
-            { SPIKE_____, STATIONARY, STATIONARY, AIR_______, AIR_______, AIR_______, AIR_______, STATIONARY,
+            { TELEPORTER__, STATIONARY, STATIONARY, AIR_______, AIR_______, AIR_______, AIR_______, STATIONARY,
                     STATIONARY, STATIONARY, STATIONARY, STATIONARY, STATIONARY, STATIONARY, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, SPEAR_____, AIR_______, AIR_______, AIR_______,
@@ -183,7 +184,7 @@ public class SixthLevel extends Level {
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, MOVABLE___,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
-                    AIR_______, AIR_______, AIR_______, AIR_______, SPIKE_____, AIR_______, AIR_______, SPIKE_____,
+                    AIR_______, AIR_______, AIR_______, AIR_______, SPIKE_____, AIR_______, AIR_______, TELEPORTER__,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, },
             { AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
@@ -209,6 +210,8 @@ public class SixthLevel extends Level {
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, STATIONARY,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, },
+    };
+
     };
 
     // Construct the level by positioning game objects in the grid
@@ -238,9 +241,9 @@ public class SixthLevel extends Level {
     }
 
     @Override
-    public void setTeleporterDestinations(List<int[]> teleporterLocations) {
-        teleporterLocations.add(new int[] { 0, 1 });
-        teleporterLocations.add(new int[] { 0, 2 });
+    public void setTeleporterDestinations(List<Integer> teleporterLocations) {
+        teleporterLocations.add(0);
+        teleporterLocations.add(1);
 
         super.setTeleporterDestinations(teleporterLocations);
     }

@@ -36,7 +36,7 @@ public abstract class Level {
         return teleporterDestinations;
     }
 
-    public void setTeleporterDestinations(List<int[]> teleporterLocations) {
+    public void setTeleporterDestinations(List<Integer> teleporterLocations) {
         this.teleporterDestinations = teleporterDestinations;
     }
 

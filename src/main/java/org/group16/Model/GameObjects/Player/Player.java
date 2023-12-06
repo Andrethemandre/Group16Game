@@ -6,6 +6,7 @@ import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Blocks.MovableBlock;
+import org.group16.Model.GameObjects.Blocks.TeleportBlock;
 
 class Player implements IPlayer {
     private boolean moveLeft = false;
@@ -30,6 +31,11 @@ class Player implements IPlayer {
         innerGameObject = new GameObject(GameObjectType.PLAYER____, x, y, 16, 16);
         this.maxX = maxX;
         this.maxY = maxY;
+    }
+
+    public void teleport(TeleportBlock teleportBlock) {
+        setX(teleportBlock.getX());
+        setY(teleportBlock.getY());
     }
 
     private void jump() {
