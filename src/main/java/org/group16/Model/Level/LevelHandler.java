@@ -20,6 +20,7 @@ import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
 import org.group16.Model.GameObjects.Blocks.IBlock;
 import org.group16.Model.GameObjects.Blocks.MovableBlock;
+import org.group16.Model.GameObjects.Blocks.TeleportBlock;
 import org.group16.Model.GameObjects.Enemy.EnemyFactory;
 import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.GameObjects.Player.PlayerFactory;
@@ -61,6 +62,7 @@ public class LevelHandler {
         powerUps = new ArrayList<>();
         traps = new ArrayList<>();
         movableEnemies = new ArrayList<>();
+        teleporterBlocks = new ArrayList<>();
 
         statsManager = new StatsManager();
 
@@ -578,8 +580,7 @@ public class LevelHandler {
             for (int i = 0; i < teleporterBlocks.size(); i++) {
                 if (player.collidesWith(teleporterBlocks.get(i))) {
 
-                    player.teleport(teleporterBlocks.get(destinationIntegers.get(i)));
-
+                    player.teleport((TeleportBlock) teleporterBlocks.get(destinationIntegers.get(i)));
                 }
             }
 
