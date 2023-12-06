@@ -33,11 +33,6 @@ class Player implements IPlayer {
         this.maxY = maxY;
     }
 
-    public void teleport(TeleportBlock teleportBlock) {
-        setX(teleportBlock.getX());
-        setY(teleportBlock.getY());
-    }
-
     private void jump() {
         if (!isFalling()) {
             yAcceleration = -10;
@@ -315,5 +310,11 @@ class Player implements IPlayer {
         int playerBottom = getY();
         int blockTop = movableBlock.getY() + movableBlock.getHeight();
         return playerBottom == blockTop;
+    }
+
+    @Override
+    public void teleport(TeleportBlock teleportBlock) {
+        setX(teleportBlock.getX());
+        setY(teleportBlock.getY());
     }
 }

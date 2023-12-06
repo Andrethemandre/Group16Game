@@ -212,8 +212,6 @@ public class SixthLevel extends Level {
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, },
     };
 
-    };
-
     // Construct the level by positioning game objects in the grid
     public SixthLevel() {
         super(levelLayout, 6);
