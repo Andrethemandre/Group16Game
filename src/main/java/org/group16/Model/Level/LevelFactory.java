@@ -1,6 +1,8 @@
 package org.group16.Model.Level;
 
 public class LevelFactory {
+    private static final int TOTAL_LEVELS = 10;
+
     public static Level createLevel(int levelNumber) {
         switch (levelNumber) {
             // Not used.
@@ -22,9 +24,17 @@ public class LevelFactory {
                 return new SeventhLevel();
             case 8:
                 return new EighthLevel();
+            case 9:
+                return new NinthLevel();
+            case 10:
+                return new TenthLevel();
             default:
                 throw new IllegalArgumentException("Level is not supported");
 
         }
+    }
+
+    public static int getTotalLevels() {
+        return TOTAL_LEVELS;
     }
 }

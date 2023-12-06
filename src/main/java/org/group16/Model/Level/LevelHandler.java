@@ -6,348 +6,444 @@ import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.Arrays;
 
-import org.group16.Model.GameObjects.Enemy.FlyingEnemy;
-import org.group16.Model.GameObjects.Enemy.TeleportRushEnemy;
-import org.group16.Model.GameObjects.IGameObject;
+
+import org.group16.Model.GameObjects.Enemy.*;
+import org.group16.Model.GameObjects.Goal.IGoal;
+import org.group16.Model.GameObjects.Goal.GoalFactory;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
-import org.group16.Model.GameObjects.Blocks.Block;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
+import org.group16.Model.GameObjects.Blocks.IBlock;
 import org.group16.Model.GameObjects.Blocks.MovableBlock;
-import org.group16.Model.GameObjects.Enemy.Enemy;
-import org.group16.Model.GameObjects.Enemy.EnemyFactory;
-import org.group16.Model.GameObjects.Flag.Flag;
-import org.group16.Model.GameObjects.Player.Player;
-import org.group16.Model.GameObjects.PowerUp.PowerUp;
+import org.group16.Model.GameObjects.Player.IPlayer;
+import org.group16.Model.GameObjects.Player.PlayerFactory;
+import org.group16.Model.GameObjects.PowerUp.IPowerUp;
 import org.group16.Model.GameObjects.PowerUp.PowerUpFactory;
 import org.group16.Model.Observers.GameObserver;
 
-public class LevelHandler {
-    private List<MovableBlock> movableBlocks; // Add this member variable
 
-    private Player player;
-    private Flag goalFlag;
-    private Collection<Enemy> enemies;
-    private Collection<Block> blocks;
-    private Collection<TeleportRushEnemy> teleportRushEnemies;
-    // private MovableBlock movableBlock;
-    private Collection<PowerUp> powerUps;
-    private boolean playerIsAtFlag;
-    private IGameObject[][] grid;
-    private Collection<GameObjectType> acceptedEnemyTypes = Arrays
-            .asList(GameObjectType.BASIC_____, GameObjectType.SPIKE_____,
-                    GameObjectType.FLYING____, GameObjectType.TELEPORT__);
-    private Collection<GameObjectType> acceptedBlockTypes = Arrays
-            .asList(GameObjectType.STATIONARY, GameObjectType.MOVABLE___);
-    private Collection<GameObjectType> acceptedPowerUpTypes = Arrays
-            .asList(GameObjectType.SPEAR_____, GameObjectType.FREEZE____);
+
+public class LevelHandler {
+    private IPlayer player;
+    private IGoal goal;
+    private Collection<IEnemy> enemies;
+    private Collection<IMovableEnemy> movableEnemies;
+    private Collection<IBlock> blocks;
+    private Collection<IPowerUp> powerUps;
+    private Collection<ITrap> traps;
+
+    private boolean playerIsAtGoal;
+
     private Collection<GameObserver> observers;
-    private int currentLevelNumber;
-    private int score = 0;
+    private int lastLevelNumber = 1;
     private Level currentLevel;
-    private long levelStartTime;
-    private int levelAttempts = 0;
-    private static int SCORE_LIMIT = 9999;
     private GameState gameState;
 
-    FirstLevel firstLevel = new FirstLevel();
-    SecondLevel secondLevel = new SecondLevel();
+    private GameStateManager gameStateManager;
+    private StatsManager statsManager;
+    private LevelSelectPageManager levelSelectPageManager;
 
-    FifthLevel fifthLevel = new FifthLevel();
-
-    SixthLevel sixthLevel = new SixthLevel();
+    private final static int TOTAL_LEVELS = LevelFactory.getTotalLevels();
 
     // width and height depending on how big the level is
 
-    private long pauseStartTime = 0;
-    private long totalPauseTime = 0;
-
     public LevelHandler() {
-        movableBlocks = new ArrayList<>();
         observers = new ArrayList<>();
         gameState = GameState.START;
-        teleportRushEnemies = new ArrayList<>();
+        //teleportRushEnemies = new ArrayList<>();
 
-         //setLevel(4);
-        // setxandydirectionofmovableblocks(firstLevel.getMovableBlocks());
+        levelSelectPageManager = new LevelSelectPageManager(TOTAL_LEVELS);
+        gameStateManager = new GameStateManager();
 
-        // Schedule the movable blocks movement at fixed intervals
+        enemies = new ArrayList<>();
+        blocks = new ArrayList<>();
+        powerUps = new ArrayList<>();
+        traps = new ArrayList<>();
+        movableEnemies = new ArrayList<>();
+
+        statsManager = new StatsManager();
+
+        for (int i = 1; i <= TOTAL_LEVELS; i++) {
+            statsManager.recordStats(i, new Stats(0));
+        }
+
+        levelSelectPageManager.setSelectedLevelNumber(1);
+    }
+
+    public int getTotalLevels(){
+        return TOTAL_LEVELS;
+    }
+
+    public int getCurrentLevelSelectPage(){
+        return levelSelectPageManager.getCurrentPage();
+    }
+
+    public void nextLevelSelectPage() {
+        levelSelectPageManager.nextPage();
+    }
+
+    public void previousLevelSelectPage() {
+        levelSelectPageManager.previousPage();
+    }
+
+    public int getLevelHighScore(int levelNumber){
+        return statsManager.getStats(levelNumber).getScore();
     }
 
     public GameState getGameState() {
-        return gameState;
+        return gameStateManager.getGameState();
     }
 
-    private void setGameState(GameState gameState) {
-        this.gameState = gameState;
+    public int getCurrentSelectedLevelNumber() {
+        return levelSelectPageManager.getSelectedLevelNumber();
     }
 
     public int getCurrentLevelNumber() {
-        return this.currentLevelNumber;
+        return currentLevel.getLevelNumber();
     }
 
-    private void addScore(int points) {
-        this.score += points;
+    public void setSelectLevelNumber(int levelNumber) {
+        levelSelectPageManager.setSelectedLevelNumber(levelNumber);
     }
 
-    private void calculateScore() {
-        // int baseScore = 9999;
-        int pointsPerSecond = 100; // Number of points per second
-
-        // Calculate the number of seconds that have passed
-        int secondsPassed = (int) ((System.currentTimeMillis() - levelStartTime - totalPauseTime) / 1000);
-
-        // Add points for each second that has passed
-        int timeBonus = secondsPassed * pointsPerSecond;
-
-        // Some points deducted for each attempt
-        int attemptsPenalty = levelAttempts * 500;
-
-        int totalScore = SCORE_LIMIT - timeBonus - attemptsPenalty;
-        addScore(totalScore - score);
-
-        if (score < -SCORE_LIMIT) {
-            score = -SCORE_LIMIT;
-        } else if (score > SCORE_LIMIT) {
-            score = SCORE_LIMIT;
+    public void setCurrentLevelNumber(int levelNumber) {
+        if(levelNumber > 0 && levelNumber < TOTAL_LEVELS + 1){
+            lastLevelNumber = levelNumber;
         }
     }
 
-    public int getScore() {
-        calculateScore();
-        return this.score;
+    public int getCurrentScore() {
+        return statsManager.getScore();
     }
 
     public int getCurrentAttempts() {
-        return this.levelAttempts;
+        return statsManager.getLevelAttempts();
     }
 
     // collision checkers
-    private void checkIfPlayerAtFlag() {
-        if (player.collidesWith(goalFlag)) {
-            setLevel(1);
+    private void checkIfPlayerAtGoal() {
+        if (player.collidesWith(goal)) {
+            if(getLevelHighScore(currentLevel.getLevelNumber()) < getCurrentScore()){
+                statsManager.recordStats(currentLevel.getLevelNumber(), new Stats(getCurrentScore()));
+            }
+
+            if (currentLevel.getLevelNumber() > TOTAL_LEVELS) {
+                goToMainMenu();
+            }
+            else{
+                startGame();
+                setLevel(currentLevel.getLevelNumber() + 1);
+            }
+
         }
     }
 
     private void checkIfPlayerCollidesWithBlocks() {
-        for (Block block : blocks) {
+        for (IBlock block : blocks) {
             player.collision(block);
         }
     }
 
     private void checkIfPlayerCollidesWithEnemies() {
-        for (Enemy enemy : enemies) {
+        for (IEnemy enemy : enemies) {
             if (player.collidesWith(enemy)) {
                 enemy.dealDamage(player);
             }
         }
     }
 
-    private void checkIfFlyingEnemyCollidesWithBlocks() {
-        for (Enemy enemy : enemies) {
-            if (enemy.getType() == GameObjectType.FLYING____) {
-                for (Block block : blocks) {
-                    if (enemy.collidesWith(block)) {
-                        ((FlyingEnemy) enemy).toggleDirection();
+    private void checkIfPlayerCollidesWithTraps() {
+        for (ITrap trap : traps) {
+            if (player.collidesWith(trap)) {
+                trap.dealDamage(player);
+            }
+        }
+    }
+
+    private void checkIfMovableEnemiesCollidesWithBlocks() {
+        for (IMovableEnemy enemy : movableEnemies) {
+            switch (enemy.getType()) {
+                case FLYING____:
+                case BASIC_____:
+                    for (IBlock block : blocks) {
+                        if (enemy.collidesWith(block)) {
+                            enemy.toggleDirection();
+                        }
                     }
-                }
+                    break;
+                default:
+                    break;
             }
         }
     }
 
     private void checkIfPlayerCollidesWithPowerUp() {
-        PowerUp powerUpToRemove = null;
-        if (powerUps != null) {
-            if (player.getHasPowerUp() == GameObjectType.NOTHING___) {
-                for (PowerUp powerUp : powerUps) {
-                    if (player.collidesWith(powerUp)) {
-                        if (!powerUp.getMovable()) {
-                            powerUpToRemove = powerUp;
-                            player.setHasPowerUp(powerUp.getType());
+        IPowerUp powerUpToRemove = null;
 
-                        }
+        if (player.getCurrentPowerUp() == GameObjectType.NOTHING___) {
+            for (IPowerUp powerUp : powerUps) {
+                if (player.collidesWith(powerUp)) {
+                    if (!powerUp.isMoving()) {
+                        powerUpToRemove = powerUp;
+                        player.setCurrentPowerUp(powerUp.getType());
+
                     }
                 }
-                powerUps.remove(powerUpToRemove);
-
             }
+            powerUps.remove(powerUpToRemove);
         }
     }
 
     private void checkIfPowerUpsCollidesWithEnemies() {
-        for (PowerUp powerUp : powerUps) {
-            for (Enemy enemy : enemies) {
+        for (IPowerUp powerUp : powerUps) {
+            for (IEnemy enemy : enemies) {
                 if (powerUp.collidesWith(enemy)) {
-                    powerUp.triggerPowerUp(enemy);
+                    enemy.triggerPowerUp(powerUp.getType());
+                    powerUp.use();
+                }
+            }
+        }
+    }
+
+    private void checkIfPowerUpsCollidesWithTraps() {
+        for (IPowerUp powerUp : powerUps) {
+            for (ITrap trap : traps) {
+                if (powerUp.collidesWith(trap)) {
+                    trap.triggerPowerUp(powerUp.getType());
+                    powerUp.use();
                 }
             }
         }
     }
 
     private void checkIfPowerUpsCollidesWithBlocks() {
-        for (PowerUp powerUp : powerUps) {
-            for (Block block : blocks) {
+        for (IPowerUp powerUp : powerUps) {
+            for (IBlock block : blocks) {
                 if (powerUp.collidesWith(block)) {
-                    powerUp.setIsDead(true);
+                    powerUp.use();
                 }
             }
         }
-
     }
 
     private void checkIfPlayerIsDead() {
         if (player.isDead()) {
-            setLevel(currentLevelNumber);
-
-            this.levelAttempts++;
+            setLevel(currentLevel.getLevelNumber());
+            statsManager.incrementLevelAttempts();
         }
     }
 
     public void updateEnemies() {
-        for (Enemy enemy : enemies) {
+        for (IEnemy enemy : enemies) {
             enemy.update();
         }
     }
 
-    public void startGame() {
-
-        setLevel(1);
-
-
-        totalPauseTime = 0;
-        pauseStartTime = 0;
-        levelAttempts = 0;
-        score = 0;
-        levelStartTime = System.currentTimeMillis();
-    }
-
-    public void restartGame() {
-        setLevel(currentLevelNumber);
-
-        totalPauseTime = 0;
-        pauseStartTime = 0;
-        levelAttempts = 0;
-        score = 0;
-        levelStartTime = System.currentTimeMillis();
-
+    public void notifyObservers() {
         for (GameObserver o : observers) {
             o.updateObserver();
         }
     }
 
+    public void newGame() {
+
+        gameStateManager.newGame();
+    }
+
+    public void continueGame() {
+        gameStateManager.continueGame();
+    }
+
+    public void goToLevelSelect() {
+        gameStateManager.goToLevelSelect();
+    }
+
+    public void startGame() {
+        gameStateManager.startGame();
+        setLevel(lastLevelNumber);
+
+        statsManager.resetScore();
+
+        notifyObservers();
+    }
+
+    public void goToMainMenu() {
+        gameStateManager.goToMainMenu();
+
+        notifyObservers();
+    }
+
+    public void loadGame() {
+
+        gameStateManager.loadGame();
+
+        notifyObservers();
+    }
+
+    public void restartGame() {
+        setLevel(currentLevel.getLevelNumber());
+
+        statsManager.resetScore();
+        gameStateManager.togglePause();
+
+        notifyObservers();
+    }
+
+
+//} else if (currentLevel.getLevelTile(i, j) == GameObjectType.TELEPORT__) {
+//        TeleportRushEnemy newEnemy = (TeleportRushEnemy) EnemyFactory.createEnemyAt(
+//        currentLevel.getLevelTile(i, j), j * 16, i * 16, metadata);
+//        teleportRushEnemies.add(newEnemy);
+//        addEnemy(newEnemy);
+//        grid[j][i] = newEnemy;
+//
+//        } else if (acceptedBlockTypes.contains(currentLevel.getLevelTile(i, j))) {
+//        Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
+//        metadata);
+//        addBlock(newBlock);
+//        grid[j][i] = newBlock;
+//        if (newBlock instanceof MovableBlock) {
+//        movableBlocks.add((MovableBlock) newBlock);
+//        }
+
+
     private void setLevel(int levelNumber) {
-        gameState = GameState.PLAYING;
-
-        if (levelNumber != currentLevelNumber) {
-            levelAttempts = 0;
-            score = 0;
-            levelStartTime = System.currentTimeMillis();
-        }
-
-        enemies = new ArrayList<>();
-        blocks = new ArrayList<>();
-        powerUps = new ArrayList<>();
         enemies.clear();
         blocks.clear();
         powerUps.clear();
-        movableBlocks.clear();
-        teleportRushEnemies.clear();
+        traps.clear();
+        movableEnemies.clear();
+//        movableBlocks.clear();
+//        teleportRushEnemies.clear();
+
+
         currentLevel = LevelFactory.createLevel(levelNumber);
 
-        // GameStats
-        currentLevelNumber = levelNumber;
-        grid = new IGameObject[currentLevel.getWidth()][currentLevel.getHeight()];
+        setCurrentLevelNumber(levelNumber);
+
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
                 Metadata metadata = currentLevel.getMetadata(new Tuple(j, i));
-                if (acceptedEnemyTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    Enemy newEnemy = EnemyFactory.createEnemyAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
-                            metadata);
-                    addEnemy(newEnemy);
-                    grid[j][i] = newEnemy;
+                GameObjectType currentLevelTile = currentLevel.getLevelTile(i, j);
+                switch (currentLevelTile) {
+                    case BASIC_____:
+                    case FLYING____:
+                    case TELEPORT__:
+                        createMovableEnemy(i, j, metadata, currentLevelTile);
+                        break;
 
-                } else if (currentLevel.getLevelTile(i, j) == GameObjectType.TELEPORT__) {
-                    TeleportRushEnemy newEnemy = (TeleportRushEnemy) EnemyFactory.createEnemyAt(
-                            currentLevel.getLevelTile(i, j), j * 16, i * 16, metadata);
-                    teleportRushEnemies.add(newEnemy);
-                    addEnemy(newEnemy);
-                    grid[j][i] = newEnemy;
-                
-                } else if (acceptedBlockTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
-                            metadata);
-                    addBlock(newBlock);
-                    grid[j][i] = newBlock;
-                    if (newBlock instanceof MovableBlock) {
-                        movableBlocks.add((MovableBlock) newBlock);
-                    }
+                    case STATIONARY:
+                        createBlock(i, j, metadata, currentLevelTile);
+                        break;
 
-                } else if (acceptedPowerUpTypes.contains(currentLevel.getLevelTile(i, j))) {
-                    PowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevel.getLevelTile(i, j), j * 16,
-                            i * 16);
-                    powerUps.add(newPowerUp);
-                    grid[j][i] = newPowerUp;
+                    case MOVABLE___:
+                        createMovableBlock(i, j, metadata, currentLevelTile);
+                        break;
 
-                } else if (currentLevel.getLevelTile(i, j) == GameObjectType.PLAYER____) {
-                    // The grid uses /16 of the actual size
-                    player = new Player(j * 16, i * 16, getHeight() * 16, getWidth() * 16);
-                    grid[j][i] = player;
+                    case SPEAR_____:
+                    case FREEZE____:
+                        createPowerUp(i, j, currentLevelTile);
+                        break;
 
-                } else if (currentLevel.getLevelTile(i, j) == GameObjectType.GOAL______) {
-                    // will only reset if there is a new flag on next level.
-                    goalFlag = new Flag(j * 16, i * 16);
-                    grid[j][i] = goalFlag;
+                    case SPIKE_____:
+                        createTrap(i, j, currentLevelTile);
+                        break;
 
+                    case PLAYER____:
+                        // The grid uses /16 of the actual size
+                        player = PlayerFactory.createPlayerAt(currentLevelTile, j * 16, i * 16, getHeight() * 16, getWidth() * 16);
+                        break;
+
+                    case GOAL______:
+                        // will only reset if there is a new goal on next level.
+                        goal = GoalFactory.createGoalAt(currentLevelTile, j * 16, i * 16);
+                        break;
+
+                    default:
+                        break;
                 }
             }
         }
     }
 
+    private void createTrap(int i, int j, GameObjectType currentLevelTile) {
+        ITrap newTrap = TrapFactory.createTrapAt(currentLevelTile, j * 16, i * 16);
+        traps.add(newTrap);
+    }
+
+    private void createPowerUp(int i, int j, GameObjectType currentLevelTile) {
+        IPowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevelTile, j * 16, i * 16);
+        powerUps.add(newPowerUp);
+    }
+
+    private void createBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
+        IBlock newBlock = BlockFactory.createBlockAt(currentLevelTile, j * 16, i * 16, metadata);
+        blocks.add(newBlock);
+    }
+
+    private void createMovableBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
+        MovableBlock newBlock = BlockFactory.createMovableBlockAt(currentLevelTile, j * 16, i * 16, metadata);
+        blocks.add(newBlock);
+    }
+
+    // exists for when we want non movable enemies
+    private void createEnemy(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
+        IEnemy newEnemy = EnemyFactory.createEnemyAt(currentLevelTile, j * 16, i * 16, metadata);
+        enemies.add(newEnemy);
+    }
+
+    private void createMovableEnemy(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
+        IMovableEnemy newEnemy = EnemyFactory.createMovableEnemyAt(currentLevelTile, j * 16, i * 16, metadata);
+        enemies.add(newEnemy);
+        movableEnemies.add(newEnemy);
+    }
+
     public long getElapsedTime() {
-        return System.currentTimeMillis() - levelStartTime - totalPauseTime;
+        return statsManager.getElapsedTime();
     }
 
     public void update() {
-        moveMovableBlocks();
+        updateBlocks();
         player.update();
 
-        checkIfPlayerAtFlag();
+        checkIfPlayerAtGoal();
         checkIfPlayerCollidesWithBlocks();
         checkIfPlayerCollidesWithEnemies();
+        checkIfPlayerCollidesWithTraps();
         checkIfPlayerCollidesWithPowerUp();
+        checkIfPlayerIsDead();
 
-        checkIfFlyingEnemyCollidesWithBlocks();
+        checkIfMovableEnemiesCollidesWithBlocks();
 
         checkIfPowerUpsCollidesWithEnemies();
+        checkIfPowerUpsCollidesWithTraps();
         checkIfPowerUpsCollidesWithBlocks();
 
-        updateProjectilePositions();
+        updatePowerUps();
         removeDeadEntities();
+        removeFrozenTrap();
         updateEnemies();
 
-        for (GameObserver o : observers) {
-            o.updateObserver();
-        }
 
-        checkIfPlayerIsDead();
+        notifyObservers();
     }
 
-    private void updateProjectilePositions() {
-        for (PowerUp powerUp : powerUps) {
+    private void updatePowerUps() {
+        for (IPowerUp powerUp : powerUps) {
             powerUp.update();
         }
     }
 
-    private void updateTeleportRushEnemy() {
-        for (TeleportRushEnemy enemy : teleportRushEnemies) {
-            enemy.setTargetCoordinates(player.getX(), player.getY());
-            enemy.update();
-        }
-    }
+
+
+//    private void updateTeleportRushEnemy() {
+//        for (TeleportRushEnemy enemy : teleportRushEnemies) {
+//            enemy.setTargetCoordinates(player.getX(), player.getY());
+//            enemy.update();
+//        }
+//    }
 
     private void removeDeadEntities() {
         removeDeadEnemy();
@@ -356,8 +452,8 @@ public class LevelHandler {
     }
 
     private void removeDeadEnemy() {
-        Enemy enemyToRemove = null;
-        for (Enemy enemy : enemies) {
+        IEnemy enemyToRemove = null;
+        for (IEnemy enemy : enemies) {
             if (enemy.isDead()) {
                 enemyToRemove = enemy;
             }
@@ -368,8 +464,8 @@ public class LevelHandler {
     }
 
     private void removeUsedPowerUps() {
-        PowerUp powerUpToRemove = null;
-        for (PowerUp powerUp : powerUps) {
+        IPowerUp powerUpToRemove = null;
+        for (IPowerUp powerUp : powerUps) {
             if (powerUp.isDead()) {
                 powerUpToRemove = powerUp;
             }
@@ -380,13 +476,33 @@ public class LevelHandler {
     }
 
     private void freezeFrozenEnemy() {
-        for (Enemy enemy : enemies) {
-            if (enemy.getFrozen()) {
-                Block frozenEnemy = BlockFactory.createBlockAt(STATIONARY, enemy.getX(), enemy.getY(),
+        for (IEnemy enemy : enemies) {
+            if (enemy.isFrozen()) {
+                IBlock frozenEnemy = BlockFactory.createBlockAt(STATIONARY, enemy.getX(), enemy.getY(),
                         new Metadata(0, Direction.NONE, Direction.NONE));
-                addBlock(frozenEnemy);
-                enemy.setIsDead(true);
+                blocks.add(frozenEnemy);
+                enemy.updateHealth(enemy.getHealth());
             }
+        }
+
+        for (ITrap trap : traps) {
+            if (trap.isFrozen()) {
+                IBlock frozenTrap = BlockFactory.createBlockAt(STATIONARY, trap.getX(), trap.getY(),
+                        new Metadata(0, Direction.NONE, Direction.NONE));
+                blocks.add(frozenTrap);
+            }
+        }
+    }
+
+    private void removeFrozenTrap() {
+        ITrap trapToRemove = null;
+        for (ITrap trap : traps) {
+            if (trap.isFrozen()) {
+                trapToRemove = trap;
+            }
+        }
+        if (trapToRemove != null) {
+            traps.remove(trapToRemove);
         }
     }
 
@@ -394,94 +510,76 @@ public class LevelHandler {
         observers.add(observer);
     }
 
-    public void addEnemy(Enemy enemy) {
-        this.enemies.add(enemy);
+    public void removeEnemy(IEnemy enemy) {
+        enemies.remove(enemy);
     }
 
-    public void removeEnemy(Enemy enemy) {
-        this.enemies.remove(enemy);
+    public IPlayer getPlayer() {
+        return player;
     }
 
-    public void addBlock(Block block) {
-        this.blocks.add(block);
+    public IGoal getGoal() {
+        return goal;
     }
 
-    public Player getPlayer() {
-        return this.player;
+    public Collection<IEnemy> getEnemies() {
+        return enemies;
     }
 
-    public Flag getGoalFlag() {
-        return goalFlag;
+    public Collection<IBlock> getBlocks() {
+        return blocks;
     }
 
-    public Collection<Enemy> getEnemies() {
-        return this.enemies;
+    public Collection<IPowerUp> getPowerUps() {
+        return powerUps;
     }
 
-    public Collection<Block> getBlocks() {
-        return this.blocks;
+    public Collection<ITrap> getTraps() {
+        return traps;
     }
 
-    public Collection<PowerUp> getPowerUps() {
-        return this.powerUps;
-    }
-
-    public IGameObject[][] getGrid() {
-        return this.grid;
-    }
-
+    // Somehow this is the right way to do it
     public int getWidth() {
-        return grid[0].length;
+        return currentLevel.getHeight();
     }
 
     public int getHeight() {
-        return grid.length;
+        return currentLevel.getWidth();
     }
 
     public GameState getPauseState() {
-        return this.gameState;
+        return gameState;
     }
 
     public void togglePause() {
-        GameState currentGameState = getGameState();
+        gameStateManager.togglePause();
 
-        if (currentGameState == GameState.PLAYING) {
-            pauseStartTime = System.currentTimeMillis();
-            setGameState(GameState.PAUSED);
-        } else if (currentGameState == GameState.PAUSED) {
-            totalPauseTime += System.currentTimeMillis() - pauseStartTime;
-            setGameState(GameState.PLAYING);
+        if (gameStateManager.getGameState() == GameState.PAUSED) {
+            statsManager.setPauseStartTime();
+
+        } else if (gameStateManager.getGameState() == GameState.PLAYING) {
+            statsManager.setTotalPauseTime();
         }
 
-        for (GameObserver o : observers) {
-            o.updateObserver();
-        }
-    }
-
-    public void goToMainMenu() {
-        setGameState(GameState.START);
-
-        for (GameObserver o : observers) {
-            o.updateObserver();
-        }
+        notifyObservers();
     }
 
     // is here because levelHandler has the power ups list that I need to change for
     // things to be drawn
     public void usePowerUp() {
-        PowerUp powerUp;
-        switch (player.getHasPowerUp()) {
+        IPowerUp powerUp;
+        switch (player.getCurrentPowerUp()) {
             case SPEAR_____:
                 powerUp = PowerUpFactory.createPowerUpUsableAt(SPEAR_____, player.getX(), player.getY(), true,
                         player.getDirection());
                 powerUps.add(powerUp);
-                player.setHasPowerUp(GameObjectType.NOTHING___);
+                player.setCurrentPowerUp(GameObjectType.NOTHING___);
                 break;
             case FREEZE____:
                 powerUp = PowerUpFactory.createPowerUpUsableAt(FREEZE____, player.getX(), player.getY(), true,
                         player.getDirection());
                 powerUps.add(powerUp);
-                player.setHasPowerUp(GameObjectType.NOTHING___);
+                player.setCurrentPowerUp(GameObjectType.NOTHING___);
                 break;
             default:
                 break;
@@ -489,12 +587,9 @@ public class LevelHandler {
         }
     }
 
-    public void moveMovableBlocks() {
-        for (Block block : blocks) {
-            if (block instanceof MovableBlock) {
-                ((MovableBlock) block).move();
-            }
+    public void updateBlocks() {
+        for (IBlock block : blocks) {
+            block.update();
         }
     }
-
 }

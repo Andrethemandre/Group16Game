@@ -2,26 +2,37 @@ package org.group16.Model.GameObjects.Enemy;
 
 import org.group16.Model.GameObjects.IGameObject;
 
-import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
-import org.group16.Model.GameObjects.Player.Player;
-import org.group16.Model.Observers.Health;
+import org.group16.Model.Observers.HasHealth;
 
-public abstract class Enemy implements IGameObject, Health /* implements Health */ {
-    GameObject innerGameObject;
-    private int width;
-    private int height;
+class Enemy implements IEnemy {
+    private Obstacle innerObstacle;
 
-    private int damage = 1;
-    private boolean isDead;
-    private boolean frozen = false;
+    private int health;
 
-    Enemy(GameObjectType enemyType, int x, int y) {
-        innerGameObject = new GameObject(enemyType, x, y, 16, 16);
+    Enemy(GameObjectType enemyType, int x, int y, int health) {
+        this(enemyType, x, y, 16, 16, health);
     }
 
-    Enemy(GameObjectType enemyType,int x,  int y, int width, int height){
-        innerGameObject = new GameObject(enemyType, x, y, width, height);
+    Enemy(GameObjectType enemyType, int x, int y, int width, int height, int health) {
+        innerObstacle = new Obstacle(enemyType, x, y, width, height);
+        this.health = health;
+    }
+
+    // Enemy methods
+    @Override
+    public void dealDamage(HasHealth otherGameObject) {
+        innerObstacle.dealDamage(otherGameObject);
+    }
+
+    // Game Object methods
+    public void update() {
+        innerObstacle.update();
+    }
+
+    @Override
+    public void updateHealth(int damage) {
+        health -= damage;
     }
 
     public EnemyBehavior<? extends MovableEnemy> getBehavior() {
@@ -30,64 +41,65 @@ public abstract class Enemy implements IGameObject, Health /* implements Health 
 
     @Override
     public GameObjectType getType() {
-        return innerGameObject.getType();
-    }
-
-    public void dealDamage(Player player) {
-        player.updateHealth(damage);
+        return innerObstacle.getType();
     }
 
     @Override
     public boolean collidesWith(IGameObject otherGameObject) {
-        return innerGameObject.collidesWith(otherGameObject);
+        return innerObstacle.collidesWith(otherGameObject);
     }
 
     @Override
     public int getX() {
-        return innerGameObject.getX();
+        return innerObstacle.getX();
+    }
+    
+    void setX(int x) {
+        innerObstacle.setX(x);
     }
 
     @Override
     public int getY() {
-        return innerGameObject.getY();
-    }
-
-    void setX(int x) {
-        innerGameObject.setX(x);
+        return innerObstacle.getY();
     }
 
     void setY(int y) {
-        innerGameObject.setY(y);
+        innerObstacle.setY(y);
     }
 
     @Override
     public int getWidth() {
-        return innerGameObject.getWidth();
+        return innerObstacle.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return innerGameObject.getHeight();
+        return innerObstacle.getHeight();
     }
 
-    public void setIsDead(boolean isDead){
-        this.isDead = isDead;
+    // HasHealth methods
+    @Override
+    public int getHealth() {
+        return health;
     }
 
-    public boolean isDead(){
-        return isDead;
+    @Override
+    public boolean isDead() {
+        return health == 0;
     }
 
-    public void setFrozen(boolean frozen){
-        this.frozen = frozen;
+    @Override
+    public void freeze() {
+        innerObstacle.freeze();
     }
 
-    public boolean getFrozen(){
-        return this.frozen;
+    @Override
+    public boolean isFrozen() {
+        return innerObstacle.isFrozen();
     }
 
-    public abstract void setHealth(int newHealth);
-
-    public abstract void update();
-
+    @Override
+    public void triggerPowerUp(GameObjectType powerUp) {
+        throw new UnsupportedOperationException("Unimplemented method 'triggerPowerUp'");
+    }
 }

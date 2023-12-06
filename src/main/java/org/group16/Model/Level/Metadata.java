@@ -1,13 +1,11 @@
 package org.group16.Model.Level;
 
 import org.group16.Model.GameObjects.Direction;
-import org.group16.Model.GameObjects.Player.Player;
 
 public class Metadata {
-    private int distance;
-    private Direction verticalDirection;
-    private Direction horizontalDirection;
-    private Player player;
+    private final int distance;
+    private final Direction verticalDirection;
+    private final Direction horizontalDirection;
 
     public Metadata(int distance, Direction horizontalDirection, Direction verticalDirection) {
         this.distance = distance;
@@ -25,9 +23,5 @@ public class Metadata {
 
     public Direction getHorizontalDirection() {
         return horizontalDirection;
-    }
-
-    public Player getPlayer() {
-        return player;
     }
 }

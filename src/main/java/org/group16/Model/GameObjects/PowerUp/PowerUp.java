@@ -4,29 +4,27 @@ import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
-import org.group16.Model.GameObjects.Movable;
-import org.group16.Model.GameObjects.Enemy.Enemy;
-import org.group16.Model.Observers.CanDie;
 
-public abstract class PowerUp implements IGameObject, Movable, CanDie {
+class PowerUp implements IPowerUp {
     private GameObject innerGameObject;
-    private Boolean movable;
+    private Boolean isMoving;
     private int speed = 5;
     private Direction direction;
     private boolean isDead = false;
 
     public PowerUp(GameObjectType type, int x, int y, boolean moveable, Direction direction) {
         innerGameObject = new GameObject(type, x, y, 16, 16);
-        this.movable = moveable;
+        this.isMoving = moveable;
         this.direction = direction;
     }
 
     public PowerUp(GameObjectType type, int x, int y) {
         innerGameObject = new GameObject(type, x, y, 16, 16);
-        this.movable = false;
+        this.isMoving = false;
         this.direction = Direction.NONE;
     }
 
+    @Override
     public void update() {
         move();
     }
@@ -56,16 +54,19 @@ public abstract class PowerUp implements IGameObject, Movable, CanDie {
         return innerGameObject.getHeight();
     }
 
-    public boolean getMovable() {
-        return movable;
+    @Override
+    public boolean isMoving() {
+        return isMoving;
     }
 
+    @Override
     public boolean isDead() {
         return isDead;
     }
 
-    public void setIsDead(boolean isDead) {
-        this.isDead = isDead;
+    @Override
+    public void use() {
+        isDead = true;
     }
 
     @Override
@@ -75,7 +76,7 @@ public abstract class PowerUp implements IGameObject, Movable, CanDie {
 
     @Override
     public void move() {
-        if (movable){
+        if (isMoving){
             switch (direction) {
                 case LEFT:
                     innerGameObject.setX(getX() - speed);
@@ -88,7 +89,5 @@ public abstract class PowerUp implements IGameObject, Movable, CanDie {
             }
         }
     }
-
-    public abstract void triggerPowerUp(Enemy enemy);
 }
 

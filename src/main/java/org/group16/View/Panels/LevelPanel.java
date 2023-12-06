@@ -1,4 +1,4 @@
-package org.group16.View;
+package org.group16.View.Panels;
 
 import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
@@ -14,22 +14,21 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.management.timer.TimerMBean;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 
-import org.group16.Model.GameObjects.Enemy.MovableEnemy;
-import org.group16.Model.GameObjects.Enemy.TeleportRushEnemy;
+//import org.group16.Model.GameObjects.Enemy.MovableEnemy;
+//import org.group16.Model.GameObjects.Enemy.TeleportRushEnemy;
+
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
-import org.group16.Model.GameObjects.Blocks.Block;
-import org.group16.Model.GameObjects.Enemy.Enemy;
-import org.group16.Model.GameObjects.Flag.Flag;
-import org.group16.Model.GameObjects.Player.Player;
-import org.group16.Model.GameObjects.PowerUp.PowerUp;
+import org.group16.Model.GameObjects.Blocks.IBlock;
+import org.group16.Model.GameObjects.Enemy.IEnemy;
+import org.group16.Model.GameObjects.Enemy.ITrap;
+import org.group16.Model.GameObjects.Goal.IGoal;
+import org.group16.Model.GameObjects.Player.IPlayer;
+import org.group16.Model.GameObjects.PowerUp.IPowerUp;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
+import org.group16.View.ViewUtility;
 
 public class LevelPanel extends GamePanel implements GameObserver {
     private LevelHandler levelHandler;
@@ -45,7 +44,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     public LevelPanel(int x, int y, LevelHandler levelHandler) {
         super(x, y);
         this.levelHandler = levelHandler;
-        pauseButton = ViewUtility.createMenuButton("", new Dimension(40, 40));
+        pauseButton = ViewUtility.createButton("", new Dimension(40, 40));
 
         try {
             redHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/red_heart.png"));
@@ -56,6 +55,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         pauseButton.setIcon(new ImageIcon(pauseImage));
         pauseButton.setBorderPainted(false);
         pauseButton.setContentAreaFilled(false);
@@ -94,10 +94,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
         colorChangeThread.start();
     }
 
-    public Player getPlayer() {
-        return levelHandler.getPlayer();
-    }
-
     public JButton getPauseButton() {
         return pauseButton;
     }
@@ -111,29 +107,19 @@ public class LevelPanel extends GamePanel implements GameObserver {
         int cellSize = 16; // hard coded
         // paintGridWithSize(g, cellSize);
 
-        Player currentPlayer = levelHandler.getPlayer();
+        IPlayer currentPlayer = levelHandler.getPlayer();
 
         // GameObjects are painted
         paintPlayer(g, currentPlayer);
         paintEnemies(g);
+        paintTraps(g);
         paintBlocks(g);
-        paintFlag(g);
+        paintGoal(g);
         paintPowerups(g);
 
         // Gameplay hud
         paintHealthBar(g, cellSize, currentPlayer);
         paintStats(g, currentPlayer);
-
-        // Temporay Pause screen
-        // if (levelHandler.getPauseState() == GameState.PAUSED) {
-        // paintPaused(g);
-        // }
-    }
-
-    private void paintPaused(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.PLAIN, 50));
-        g.drawString("PAUSED", 250, 250);
     }
 
     private void drawTwoStringSCentered(Graphics g, String text, String formattedText, int x, int y, int lineSpacing) {
@@ -146,7 +132,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.drawString(formattedText, formattedTextX, y + lineSpacing);
     }
 
-    private void paintHealthBar(Graphics g, int cellSize, Player currentPlayer) {
+    private void paintHealthBar(Graphics g, int cellSize, IPlayer currentPlayer) {
         int health = currentPlayer.getHealth();
         int startX = 0;
         int spacing = 50;
@@ -167,7 +153,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         return String.format("%02d:%02d", minutes, seconds);
     }
 
-    private void paintStats(Graphics g, Player currentPlayer) {
+    private void paintStats(Graphics g, IPlayer currentPlayer) {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 12));
         FontMetrics fm = g.getFontMetrics();
@@ -190,10 +176,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
         String formattedScore = "";
 
         // The amount of decimals reduce if score is negative
-        if (levelHandler.getScore() < 0) {
-            formattedScore = String.format("%05d", levelHandler.getScore());
+        if (levelHandler.getCurrentScore() < 0) {
+            formattedScore = String.format("%05d", levelHandler.getCurrentScore());
         } else {
-            formattedScore = String.format("%04d", levelHandler.getScore());
+            formattedScore = String.format("%04d", levelHandler.getCurrentScore());
         }
 
         drawTwoStringSCentered(g, scoreText, formattedScore, scoreX, statsY, lineSpacing);
@@ -209,16 +195,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding -55, padding + 3, this);
     }
 
-    private void paintGridWithSize(Graphics g, int cellSize) {
-        g.setColor(Color.red);
-        for (int i = 0; i <= levelHandler.getWidth(); i++) {
-            g.drawLine(i * cellSize, 0, i * cellSize, levelHandler.getHeight() * cellSize);
-            if (i <= levelHandler.getWidth())
-                g.drawLine(0, i * cellSize, levelHandler.getWidth() * cellSize, i * cellSize);
-        }
-    }
-
-    private void paintPlayer(Graphics g, Player currentPlayer) {
+    private void paintPlayer(Graphics g, IPlayer currentPlayer) {
         g.setColor(Color.blue);
         int playerX = currentPlayer.getX();
         int playerY = currentPlayer.getY();
@@ -234,8 +211,8 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
     private void paintEnemies(Graphics g) {
-        Collection<Enemy> currentEnemies = levelHandler.getEnemies();
-        for (Enemy enemy : currentEnemies) {
+        Collection<IEnemy> currentEnemies = levelHandler.getEnemies();
+        for (IEnemy enemy : currentEnemies) {
             int enemyX = enemy.getX();
             int enemyY = enemy.getY();
             int enemyWidth = enemy.getWidth();
@@ -259,14 +236,14 @@ public class LevelPanel extends GamePanel implements GameObserver {
                 g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
                 // For teleporting enemies
             } else if (enemy.getType() == GameObjectType.TELEPORT__) {
-                int enemyState = ((TeleportRushEnemy) enemy).getCurrentState();
-                if (enemyState == 0) {
-                    System.out.println("TeleportRushEnemy is idle"); // Print statement 3
-                    g.setColor(getPulsingColor());
-                    System.out.println("Color set to: " + getPulsingColor()); // Print statement 4
-                } else {
-                    g.setColor(Color.red);
-                }
+////                int enemyState = ((TeleportRushEnemy) enemy).getCurrentState();
+//                if (enemyState == 0) {
+//                    System.out.println("TeleportRushEnemy is idle"); // Print statement 3
+//                    g.setColor(getPulsingColor());
+//                    System.out.println("Color set to: " + getPulsingColor()); // Print statement 4
+//                } else {
+//                    g.setColor(Color.red);
+//                }
                 g.fillRect(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight());
             }
 
@@ -278,29 +255,52 @@ public class LevelPanel extends GamePanel implements GameObserver {
         }
     }
 
+    private void paintTraps(Graphics g) {
+        Collection<ITrap> currentTraps = levelHandler.getTraps();
+
+        for (ITrap trap : currentTraps) {
+            int trapX = trap.getX();
+            int trapY = trap.getY();
+            int trapWidth = trap.getWidth();
+            int trapHeight = trap.getHeight();
+
+            if (trap.getType() == GameObjectType.SPIKE_____) {
+                int[] xPoints = { trapX, trapX + (trapWidth / 2), trapX + trapWidth };
+                int[] yPoints = { trapY + trapHeight, trapY, trapY + trapHeight };
+                int nPoints = 3;
+                g.setColor(Color.darkGray);
+                g.fillPolygon(xPoints, yPoints, nPoints);
+
+            } else {
+                g.setColor(Color.black);
+                g.fillRect(trapX, trapY, trap.getWidth(), trap.getHeight());
+            }
+        }
+    }
+
     private void paintBlocks(Graphics g) {
-        Collection<Block> currentBlocks = levelHandler.getBlocks();
-        for (Block block : currentBlocks) {
-            int blockX = (int) block.getX();
-            int blockY = (int) block.getY();
+        Collection<IBlock> currentBlocks = levelHandler.getBlocks();
+        for (IBlock block : currentBlocks) {
+            int blockX = block.getX();
+            int blockY = block.getY();
             g.setColor(Color.ORANGE);
             g.fillRect(blockX, blockY, block.getWidth(), block.getHeight());
         }
     }
 
-    private void paintFlag(Graphics g) {
-        Flag flag = levelHandler.getGoalFlag();
-        int flagX = flag.getX();
-        int flagY = flag.getY();
+    private void paintGoal(Graphics g) {
+        IGoal Goal = levelHandler.getGoal();
+        int GoalX = Goal.getX();
+        int GoalY = Goal.getY();
         g.setColor(Color.green);
-        g.fillRect(flagX, flagY, flag.getWidth(), flag.getHeight());
+        g.fillRect(GoalX, GoalY, Goal.getWidth(), Goal.getHeight());
     }
 
     private void paintPowerups(Graphics g) {
-        Collection<PowerUp> currentPowerUps = levelHandler.getPowerUps();
-        for (PowerUp powerUp : currentPowerUps) {
-            int powerUpX = (int) powerUp.getX();
-            int powerUpY = (int) powerUp.getY();
+        Collection<IPowerUp> currentPowerUps = levelHandler.getPowerUps();
+        for (IPowerUp powerUp : currentPowerUps) {
+            int powerUpX = powerUp.getX();
+            int powerUpY = powerUp.getY();
 
             if (powerUp.getType() == SPEAR_____) {
                 g.setColor(Color.yellow);
@@ -319,5 +319,4 @@ public class LevelPanel extends GamePanel implements GameObserver {
             pauseButton.setCursor(Cursor.getDefaultCursor());
         }
     }
-
 }

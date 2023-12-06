@@ -1,14 +1,14 @@
-package org.group16.Model.GameObjects.Flag;
+package org.group16.Model.GameObjects.Goal;
 
 import org.group16.Model.GameObjects.IGameObject;
 
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 
-public class Flag implements IGameObject{
+class Goal implements IGoal {
     private GameObject innerGameObject;
 
-    public Flag(int x, int y) {
+    public Goal(int x, int y) {
         innerGameObject = new GameObject(GameObjectType.GOAL______, x, y, 16, 16);
     }
     
@@ -40,5 +40,10 @@ public class Flag implements IGameObject{
     @Override
     public boolean collidesWith(IGameObject otherGameObject) {
         return innerGameObject.collidesWith(otherGameObject);
+    }
+
+    @Override
+    public void update() {
+        // Goal doesn't need to update right now
     }
 }

@@ -1,15 +1,22 @@
 package org.group16.Controller;
 
 import org.group16.Model.Level.LevelHandler;
-import org.group16.View.StartPanel;
+import org.group16.View.Panels.StartPanel;
 
-public class StartController extends GameController {
+class StartController extends GameController {
 
-    public StartController(LevelHandler levelHandler, StartPanel startPanel) {
+    StartController(LevelHandler levelHandler, StartPanel startPanel) {
         super(levelHandler, startPanel);
+        startPanel.getContinueButton().addActionListener(e -> {
+            levelHandler.continueGame();
+        });
+        
+        startPanel.getNewGameButton().addActionListener(e -> {
+            levelHandler.newGame();
+        });
 
-        startPanel.getPlayButton().addActionListener(e -> {
-            levelHandler.startGame();
+        startPanel.getLoadGameButton().addActionListener(e -> {
+            levelHandler.loadGame();
         });
 
         startPanel.getQuitButton().addActionListener(e -> {
@@ -20,7 +27,6 @@ public class StartController extends GameController {
     @Override
     protected void update() {
         // TODO Auto-generated method stub
-
     }
     
 }

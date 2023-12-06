@@ -9,7 +9,7 @@ public class FlyingEnemyTest {
     private FlyingEnemy flyingEnemy;
 
     @Test
-    void testInitializeEnemyLeft() {
+    void testInitializeFlyingEnemyLeft() {
         flyingEnemy = new FlyingEnemy(10, 10, 128800, Direction.LEFT, Direction.NONE);
         int startX = flyingEnemy.getX();
         flyingEnemy.update();
@@ -17,7 +17,7 @@ public class FlyingEnemyTest {
     }
 
     @Test
-    void testInitializeEnemyRight() {
+    void testInitializeFlyingEnemyRight() {
         flyingEnemy = new FlyingEnemy(10, 10, 128800, Direction.RIGHT, Direction.NONE);
         int startX = flyingEnemy.getX();
         flyingEnemy.update();
@@ -25,7 +25,7 @@ public class FlyingEnemyTest {
     }
 
     @Test
-    void testInitializeEnemyUp() {
+    void testInitializeFlyingEnemyUp() {
         flyingEnemy = new FlyingEnemy(10, 10, 128800, Direction.NONE, Direction.UP);
         int startY = flyingEnemy.getY();
         flyingEnemy.update();
@@ -33,7 +33,7 @@ public class FlyingEnemyTest {
     }
 
     @Test
-    void testInitializeEnemyDown() {
+    void testInitializeFlyingEnemyDown() {
         flyingEnemy = new FlyingEnemy(10, 10, 128800, Direction.NONE, Direction.DOWN);
         int startY = flyingEnemy.getY();
         flyingEnemy.update();
@@ -41,7 +41,7 @@ public class FlyingEnemyTest {
     }
 
     @Test
-    void testInitializeEnemyLeftUp() {
+    void testInitializeFlyingEnemyLeftUp() {
         flyingEnemy = new FlyingEnemy(10, 10, 128800, Direction.LEFT, Direction.UP);
         int startX = flyingEnemy.getX();
         int startY = flyingEnemy.getY();
@@ -50,7 +50,7 @@ public class FlyingEnemyTest {
     }
 
     @Test
-    void testInitializeEnemyLeftDown() {
+    void testInitializeFlyingEnemyLeftDown() {
         flyingEnemy = new FlyingEnemy(10, 10, 128800, Direction.LEFT, Direction.DOWN);
         int startX = flyingEnemy.getX();
         int startY = flyingEnemy.getY();
@@ -59,7 +59,7 @@ public class FlyingEnemyTest {
     }
 
     @Test
-    void testInitializeEnemyRightUp() {
+    void testInitializeFlyingEnemyRightUp() {
         flyingEnemy = new FlyingEnemy(10, 10, 128800, Direction.RIGHT, Direction.UP);
         int startX = flyingEnemy.getX();
         int startY = flyingEnemy.getY();
@@ -68,7 +68,7 @@ public class FlyingEnemyTest {
     }
 
     @Test
-    void testInitializeEnemyRightDown() {
+    void testInitializeFlyingEnemyRightDown() {
         flyingEnemy = new FlyingEnemy(10, 10, 128800, Direction.RIGHT, Direction.DOWN);
         int startX = flyingEnemy.getX();
         int startY = flyingEnemy.getY();
@@ -77,7 +77,7 @@ public class FlyingEnemyTest {
     }
 
     @Test
-    void testInitializeEnemyLeftUpPatrolDistance() {
+    void testInitializeFlyingEnemyLeftUpPatrolDistance() {
         final int patrolDistance = 10;
         flyingEnemy = new FlyingEnemy(10, 10, patrolDistance, Direction.LEFT, Direction.UP);
         final int movementSpeed = flyingEnemy.getMovementSpeed();
@@ -89,7 +89,7 @@ public class FlyingEnemyTest {
     }
 
     @Test
-    void testInitializeEnemyLeftPatrolDistance() {
+    void testInitializeFlyingEnemyLeftPatrolDistance() {
         final int patrolDistance = 10;
         flyingEnemy = new FlyingEnemy(10, 10, patrolDistance, Direction.LEFT, Direction.NONE);
         final int movementSpeed = flyingEnemy.getMovementSpeed();
@@ -101,7 +101,7 @@ public class FlyingEnemyTest {
     }
 
     @Test
-    void testInitializeEnemyUpPatrolDistance() {
+    void testInitializeFlyingEnemyUpPatrolDistance() {
         final int patrolDistance = 10;
         flyingEnemy = new FlyingEnemy(10, 10, patrolDistance, Direction.NONE, Direction.UP);
         final int movementSpeed = flyingEnemy.getMovementSpeed();
@@ -111,6 +111,4 @@ public class FlyingEnemyTest {
         }
         assertTrue(flyingEnemy.getX() == 10 && flyingEnemy.getY() == 0);
     }
-
-
 }

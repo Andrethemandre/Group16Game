@@ -1,6 +1,5 @@
 package org.group16.Model.Level;
 
-import org.group16.Model.GameObjects.Blocks.MovableBlock;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 
@@ -11,10 +10,9 @@ import java.util.Queue;
 import static org.group16.Model.GameObjects.GameObjectType.*;
 
 public class FourthLevel extends Level  {
-    // matrix 45X30 to represent level 1
-    private List<MovableBlock> movableBlocks;
+    // matrix 45X30 to represent level 4
 
-    private static GameObjectType[][] level4 = {
+    private static final GameObjectType[][] levelLayout = {
 
                                                 {AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,},
                                                 {PLAYER____,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,},
@@ -50,7 +48,7 @@ public class FourthLevel extends Level  {
 
     // Construct the level by positioning game objects in the grid
     public FourthLevel() {
-        super(level4);
+        super(levelLayout, 4);
     }
 
     protected Queue<Metadata> createMetadata() {
