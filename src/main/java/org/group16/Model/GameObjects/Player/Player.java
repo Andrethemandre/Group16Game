@@ -19,6 +19,9 @@ class Player implements IPlayer {
     private int xAcceleration;
     private double previousTime = 0;
     private double currentTime = 6;
+    private double previousteleportTime = 0;
+    private double currentteleportTime = 6;
+    private final double teleportDelay = 1;
     private GameObjectType currentPowerUp = GameObjectType.NOTHING___;
     private Direction lastDirection = Direction.RIGHT;
     private final int damageDelay = 1;
@@ -314,7 +317,13 @@ class Player implements IPlayer {
 
     @Override
     public void teleport(TeleportBlock teleportBlock) {
-        setX(teleportBlock.getX());
-        setY(teleportBlock.getY() - 16);
+        currentteleportTime = System.currentTimeMillis() / 1000.0;
+        if (currentteleportTime - previousteleportTime > teleportDelay) {
+            previousteleportTime = currentteleportTime;
+
+            setX(teleportBlock.getX());
+            setY(teleportBlock.getY() - 16);
+        }
+
     }
 }
