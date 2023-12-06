@@ -398,7 +398,7 @@ public class LevelHandler {
     public void update() {
         updateBlocks();
         player.update();
-
+        teleportifcolidedwithteleporter();
         checkIfPlayerAtGoal();
         checkIfPlayerCollidesWithBlocks();
         checkIfPlayerCollidesWithEnemies();
@@ -573,13 +573,16 @@ public class LevelHandler {
     }
 
     public void teleportifcolidedwithteleporter() {
-        for (int i = 0; i < teleporterBlocks.size(); i++) {
-            if (player.collidesWith(teleporterBlocks.get(i))) {
+        if (teleporterBlocks != null) {
 
-                player.teleport(teleporterBlocks.get(destinationIntegers.get(i)));
+            for (int i = 0; i < teleporterBlocks.size(); i++) {
+                if (player.collidesWith(teleporterBlocks.get(i))) {
 
+                    player.teleport(teleporterBlocks.get(destinationIntegers.get(i)));
+
+                }
             }
-        }
 
+        }
     }
 }
