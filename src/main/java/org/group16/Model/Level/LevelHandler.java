@@ -407,6 +407,8 @@ public class LevelHandler {
         checkIfPlayerCollidesWithTraps();
         checkIfPlayerCollidesWithPowerUp();
         checkIfPlayerIsDead();
+        updatePowerUps();
+        removeDeadEntities();
 
         checkIfMovableEnemiesCollidesWithBlocks();
 
@@ -533,7 +535,7 @@ public class LevelHandler {
     }
 
     public void togglePause() {
-
+        gameStateManager.togglePause();
         if (gameStateManager.getGameState() == GameState.PAUSED) {
             statsManager.setPauseStartTime();
 
