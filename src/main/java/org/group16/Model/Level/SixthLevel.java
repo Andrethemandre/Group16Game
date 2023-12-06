@@ -27,6 +27,7 @@ import java.util.Queue;
 
 public class SixthLevel extends Level {
     // matrix 45X30 to represent level 1
+    List<Integer> teleporterDestinations = new ArrayList<Integer>();
 
     private final static GameObjectType[][] levelLayout = {
 
@@ -215,6 +216,7 @@ public class SixthLevel extends Level {
     // Construct the level by positioning game objects in the grid
     public SixthLevel() {
         super(levelLayout, 6);
+        setTeleporterDestinations(teleporterDestinations);
     }
 
     protected Queue<Metadata> createMetadata() {
@@ -239,12 +241,11 @@ public class SixthLevel extends Level {
     }
 
     @Override
-    public void setTeleporterDestinations(List<Integer> teleporterLocations) {
-        teleporterLocations.add(0);
-        teleporterLocations.add(1);
+    public void setTeleporterDestinations(List<Integer> teleporterDestinations) {
+        teleporterDestinations.add(1);
+        teleporterDestinations.add(0);
 
-        super.setTeleporterDestinations(teleporterLocations);
+        super.setTeleporterDestinations(teleporterDestinations);
     }
-    // Initialize the movableBlocks list based on the level matrix
 
 }

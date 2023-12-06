@@ -37,7 +37,7 @@ public abstract class Level {
     }
 
     public void setTeleporterDestinations(List<Integer> teleporterLocations) {
-        this.teleporterDestinations = teleporterDestinations;
+        this.teleporterDestinations = teleporterLocations;
     }
 
     public Level(GameObjectType[][] level, int levelNumber) {

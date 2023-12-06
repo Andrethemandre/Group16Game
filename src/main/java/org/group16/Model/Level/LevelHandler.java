@@ -576,9 +576,12 @@ public class LevelHandler {
 
     public void teleportifcolidedwithteleporter() {
         if (teleporterBlocks != null) {
-
+            System.out.println(teleporterBlocks.size() + " " + destinationIntegers.size());
+            System.out.println(teleporterBlocks.size() == destinationIntegers.size());
             for (int i = 0; i < teleporterBlocks.size(); i++) {
-                if (player.collidesWith(teleporterBlocks.get(i))) {
+                if (player.collidesWith(teleporterBlocks.get(i))
+                        && destinationIntegers.size() == teleporterBlocks.size()) {
+                    System.out.println("teleporting");
 
                     player.teleport((TeleportBlock) teleporterBlocks.get(destinationIntegers.get(i)));
                 }

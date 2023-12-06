@@ -315,6 +315,6 @@ class Player implements IPlayer {
     @Override
     public void teleport(TeleportBlock teleportBlock) {
         setX(teleportBlock.getX());
-        setY(teleportBlock.getY());
+        setY(teleportBlock.getY() - 16);
     }
 }
