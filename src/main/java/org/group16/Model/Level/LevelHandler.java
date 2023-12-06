@@ -33,6 +33,7 @@ public class LevelHandler {
     private Collection<IBlock> blocks;
     private Collection<IPowerUp> powerUps;
     private Collection<ITrap> traps;
+    private Collection<EnemyWithTarget> enemiesWithTargets;
 
     private boolean playerIsAtGoal;
 
@@ -62,6 +63,7 @@ public class LevelHandler {
         powerUps = new ArrayList<>();
         traps = new ArrayList<>();
         movableEnemies = new ArrayList<>();
+        enemiesWithTargets = new ArrayList<>();
 
         statsManager = new StatsManager();
 
@@ -262,7 +264,7 @@ public class LevelHandler {
 
     public void startGame() {
         gameStateManager.startGame();
-        setLevel(lastLevelNumber);
+        setLevel(13);
 
         statsManager.resetScore();
 
@@ -291,32 +293,13 @@ public class LevelHandler {
         notifyObservers();
     }
 
-
-//} else if (currentLevel.getLevelTile(i, j) == GameObjectType.TELEPORT__) {
-//        TeleportRushEnemy newEnemy = (TeleportRushEnemy) EnemyFactory.createEnemyAt(
-//        currentLevel.getLevelTile(i, j), j * 16, i * 16, metadata);
-//        teleportRushEnemies.add(newEnemy);
-//        addEnemy(newEnemy);
-//        grid[j][i] = newEnemy;
-//
-//        } else if (acceptedBlockTypes.contains(currentLevel.getLevelTile(i, j))) {
-//        Block newBlock = BlockFactory.createBlockAt(currentLevel.getLevelTile(i, j), j * 16, i * 16,
-//        metadata);
-//        addBlock(newBlock);
-//        grid[j][i] = newBlock;
-//        if (newBlock instanceof MovableBlock) {
-//        movableBlocks.add((MovableBlock) newBlock);
-//        }
-
-
     private void setLevel(int levelNumber) {
         enemies.clear();
         blocks.clear();
         powerUps.clear();
         traps.clear();
         movableEnemies.clear();
-//        movableBlocks.clear();
-//        teleportRushEnemies.clear();
+        enemiesWithTargets.clear();
 
 
         currentLevel = LevelFactory.createLevel(levelNumber);
@@ -330,8 +313,11 @@ public class LevelHandler {
                 switch (currentLevelTile) {
                     case BASIC_____:
                     case FLYING____:
-                    case TELEPORT__:
                         createMovableEnemy(i, j, metadata, currentLevelTile);
+                        break;
+
+                    case TELEPORT__:
+                        createEnemyWithTarget(i, j, metadata, currentLevelTile);
                         break;
 
                     case STATIONARY:
@@ -394,6 +380,13 @@ public class LevelHandler {
         enemies.add(newEnemy);
     }
 
+    private void createEnemyWithTarget(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
+        EnemyWithTarget newEnemy = EnemyFactory.createEnemyWithTargetAt(currentLevelTile, j * 16, i * 16, metadata);
+        enemies.add(newEnemy);
+        movableEnemies.add(newEnemy);
+        enemiesWithTargets.add(newEnemy);
+    }
+
     private void createMovableEnemy(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
         IMovableEnemy newEnemy = EnemyFactory.createMovableEnemyAt(currentLevelTile, j * 16, i * 16, metadata);
         enemies.add(newEnemy);
@@ -425,6 +418,7 @@ public class LevelHandler {
         removeDeadEntities();
         removeFrozenTrap();
         updateEnemies();
+        updateEnemiesWithTarget();
 
 
         notifyObservers();
@@ -436,14 +430,13 @@ public class LevelHandler {
         }
     }
 
+    private void updateEnemiesWithTarget(){
+        for (EnemyWithTarget enemyWithTarget : enemiesWithTargets) {
+            enemyWithTarget.setTargetCoordinates(player.getX(), player.getY());
+        }
+    }
 
 
-//    private void updateTeleportRushEnemy() {
-//        for (TeleportRushEnemy enemy : teleportRushEnemies) {
-//            enemy.setTargetCoordinates(player.getX(), player.getY());
-//            enemy.update();
-//        }
-//    }
 
     private void removeDeadEntities() {
         removeDeadEnemy();

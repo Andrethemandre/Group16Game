@@ -3,13 +3,13 @@ package org.group16.Model.GameObjects.Enemy;
 //import org.group16.Model.GameObjects.Player.Player;
 import org.group16.Model.Level.LevelHandler;
 
-class EnemyBehavior <T extends MovableEnemy> implements TargetCoordinates {
+class EnemyBehavior <T extends MovableEnemy> {
     private static final int STATE_IDLE = 0;
     private static final int STATE_DISAPPEAR = 1;
     private static final int STATE_REAPPEAR = 2;
     private static final int STATE_CHASE = 3;
 
-    private static final int NEAR_DISTANCE_X = 100; // threshold distance for player to be considered near
+    private static final int NEAR_DISTANCE_X = 10; // threshold distance for player to be considered near
 
     private int targetX;
     private int targetY;
@@ -33,14 +33,15 @@ class EnemyBehavior <T extends MovableEnemy> implements TargetCoordinates {
 //    }
 
     public boolean isPlayerNear() {
-       // Check if player is near
+        // Check if player is near
 
-       int enemyX = enemy.getX();
-       // int enemyY = enemy.getY();
+        int enemyX = enemy.getX();
+        // int enemyY = enemy.getY();
 
-       int distanceX = Math.abs(targetX - enemyX);
+        int distanceX = Math.abs(targetX - enemyX);
+        System.out.println(targetX);
 
-       return distanceX < NEAR_DISTANCE_X;
+        return distanceX < NEAR_DISTANCE_X;
     }
 
     public void teleportBehindPlayer() {
@@ -73,11 +74,7 @@ class EnemyBehavior <T extends MovableEnemy> implements TargetCoordinates {
         // After disappearing, the enemy will reappear after a certain amount of time
 
             //enemy.toggleVisibility();
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            
             currentState = STATE_REAPPEAR;
 
     }
@@ -93,11 +90,11 @@ class EnemyBehavior <T extends MovableEnemy> implements TargetCoordinates {
     public void chase() {
         // Chase behavior
         // Move the enemy towards the players position
-//        if(player.getX() > enemy.getX()) {
-//            enemy.setX(enemy.getX() + 1);
-//        } else if(player.getX() < enemy.getX()){
-//            enemy.setX(enemy.getX() - 1);
-//        }
+        if (targetX > enemy.getX()) {
+            enemy.setX(enemy.getX() + 1);
+        } else if(targetX < enemy.getX()){
+            enemy.setX(enemy.getX() - 1);
+       }
     }
 
     public void setTargetCoordinates(int x, int y) {

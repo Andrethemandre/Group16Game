@@ -4,10 +4,9 @@ import org.group16.Model.GameObjects.AffectedByGravity;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.Observers.HasHealth;
-import org.group16.Model.GameObjects.Player.IPlayer;
 
 
-class TeleportRushEnemy extends MovableEnemy implements IMovableEnemy, AffectedByGravity {
+class TeleportRushEnemy extends MovableEnemy implements IMovableEnemy, AffectedByGravity, EnemyWithTarget {
     private MovableEnemy innerMovableEnemy;
 
     private  EnemyBehavior<TeleportRushEnemy> behavior;
@@ -108,6 +107,7 @@ class TeleportRushEnemy extends MovableEnemy implements IMovableEnemy, AffectedB
         // shouldn't be affected by power-ups
     }
 
+    @Override
     public void setTargetCoordinates(int x, int y) {
         behavior.setTargetCoordinates(x, y);
     }

@@ -28,6 +28,8 @@ public class LevelFactory {
                 return new NinthLevel();
             case 10:
                 return new TenthLevel();
+            case 13:
+                return new TeleportTestLevel();
             default:
                 throw new IllegalArgumentException("Level is not supported");
 

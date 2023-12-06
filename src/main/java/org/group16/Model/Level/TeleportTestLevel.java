@@ -46,7 +46,7 @@ public class TeleportTestLevel extends Level {
 
     // Construct the level by positioning game objects in the grid
     public TeleportTestLevel() {
-        super(level13);
+        super(level13, 13);
     }
 
     @Override
