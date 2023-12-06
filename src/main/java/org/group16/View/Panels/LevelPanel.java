@@ -3,6 +3,8 @@ package org.group16.View.Panels;
 import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 
+
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -18,11 +20,10 @@ import javax.swing.JLayeredPane;
 //import org.group16.Model.GameObjects.Enemy.MovableEnemy;
 //import org.group16.Model.GameObjects.Enemy.TeleportRushEnemy;
 
+import org.group16.Model.GameObjects.Enemy.*;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.IBlock;
-import org.group16.Model.GameObjects.Enemy.IEnemy;
-import org.group16.Model.GameObjects.Enemy.ITrap;
 import org.group16.Model.GameObjects.Goal.IGoal;
 import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.GameObjects.PowerUp.IPowerUp;
@@ -232,26 +233,44 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
                 // For flying enemies
             } else if (enemy.getType() == GameObjectType.FLYING____) {
+
                 g.setColor(flyingEnemyColor);
                 g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
                 // For teleporting enemies
-            } else if (enemy.getType() == GameObjectType.TELEPORT__) {
-////                int enemyState = ((TeleportRushEnemy) enemy).getCurrentState();
-//                if (enemyState == 0) {
-//                    System.out.println("TeleportRushEnemy is idle"); // Print statement 3
-//                    g.setColor(getPulsingColor());
-//                    System.out.println("Color set to: " + getPulsingColor()); // Print statement 4
-//                } else {
-//                    g.setColor(Color.red);
-//                }
-                g.fillRect(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight());
             }
+//            else if (enemy.getType() == GameObjectType.TELEPORT__) {
+//
+//
+//                g.setColor(getPulsingColor());
+//
+//
+//
+//                g.fillRect(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight());
+//            }
 
                 // Default colour and shape
             else {
                 g.setColor(Color.black);
                 g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
             }
+
+
+            Collection<EnemyWithTarget> currentEnemiesWithTarget = levelHandler.getEnemiesWithTargets();
+            for(EnemyWithTarget enemyWithTarget : currentEnemiesWithTarget){
+                int enemyWithTargetX = enemyWithTarget.getX();
+                int enemyWithTargetY = enemyWithTarget.getY();
+                if(enemyWithTarget.getType() == GameObjectType.TELEPORT__){
+                    if(enemyWithTarget.getCurrentState() == 0){
+                        g.setColor(getPulsingColor());
+                    }
+
+                }
+                else{
+                    g.setColor(Color.black);
+                }
+                g.fillRect(enemyWithTargetX, enemyWithTargetY, enemyWithTarget.getWidth(), enemyWithTarget.getHeight());
+            }
+
         }
     }
 

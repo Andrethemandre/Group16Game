@@ -112,9 +112,11 @@ class TeleportRushEnemy extends MovableEnemy implements IMovableEnemy, AffectedB
         behavior.setTargetCoordinates(x, y);
     }
 
+    @Override
     public int getCurrentState() {
         return behavior.getCurrentState();
     }
+
 }
 
 

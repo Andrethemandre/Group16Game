@@ -531,6 +531,10 @@ public class LevelHandler {
         return traps;
     }
 
+    public Collection<EnemyWithTarget> getEnemiesWithTargets() {
+        return enemiesWithTargets;
+    }
+
     // Somehow this is the right way to do it
     public int getWidth() {
         return currentLevel.getHeight();
