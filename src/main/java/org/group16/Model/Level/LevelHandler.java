@@ -38,7 +38,7 @@ public class LevelHandler {
     private Collection<ITrap> traps;
     private List<Integer> destinationIntegers;
     private boolean playerIsAtGoal;
-    private List<IBlock> teleporterBlocks;
+    private List<IBlock> teleportBlocks;
     private Collection<GameObserver> observers;
     private int lastLevelNumber = 1;
     private Level currentLevel;
@@ -62,7 +62,7 @@ public class LevelHandler {
         powerUps = new ArrayList<>();
         traps = new ArrayList<>();
         movableEnemies = new ArrayList<>();
-        teleporterBlocks = new ArrayList<>();
+        teleportBlocks = new ArrayList<>();
 
         statsManager = new StatsManager();
 
@@ -297,7 +297,7 @@ public class LevelHandler {
         powerUps.clear();
         traps.clear();
         movableEnemies.clear();
-        teleporterBlocks.clear();
+        teleportBlocks.clear();
 
         currentLevel = LevelFactory.createLevel(levelNumber);
 
@@ -389,7 +389,7 @@ public class LevelHandler {
     private void createTeleportBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
         IBlock newBlock = BlockFactory.createBlockAt(currentLevelTile, j * 16, i * 16, metadata);
         blocks.add(newBlock);
-        teleporterBlocks.add(newBlock);
+        teleportBlocks.add(newBlock);
 
     }
 
@@ -400,7 +400,7 @@ public class LevelHandler {
     public void update() {
         updateBlocks();
         player.update();
-        teleportifcolidedwithteleporter();
+        checkIfPlayerCollidesWithTeleportBlocks();
         checkIfPlayerAtGoal();
         checkIfPlayerCollidesWithBlocks();
         checkIfPlayerCollidesWithEnemies();
@@ -576,16 +576,13 @@ public class LevelHandler {
         }
     }
 
-    public void teleportifcolidedwithteleporter() {
-        if (teleporterBlocks != null) {
-            System.out.println(teleporterBlocks.size() + " " + destinationIntegers.size());
-            System.out.println(teleporterBlocks.size() == destinationIntegers.size());
-            for (int i = 0; i < teleporterBlocks.size(); i++) {
-                if (player.collidesWith(teleporterBlocks.get(i))
-                        && destinationIntegers.size() == teleporterBlocks.size()) {
-                    System.out.println("teleporting");
+    public void checkIfPlayerCollidesWithTeleportBlocks() {
+        if (teleportBlocks != null) {
+            for (int i = 0; i < teleportBlocks.size(); i++) {
+                if (player.collidesWith(teleportBlocks.get(i))
+                        && destinationIntegers.size() == teleportBlocks.size()) {
 
-                    player.teleport((TeleportBlock) teleporterBlocks.get(destinationIntegers.get(i)));
+                    player.teleport((TeleportBlock) teleportBlocks.get(destinationIntegers.get(i)));
                 }
             }
 
