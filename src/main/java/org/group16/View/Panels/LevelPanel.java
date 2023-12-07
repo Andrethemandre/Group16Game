@@ -53,6 +53,14 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private BufferedImage basicEnemyImage;
     private BufferedImage basicEnemyRightImage;
 
+    private BufferedImage flyingEnemy1Image;
+    private BufferedImage flyingEnemy2Image;
+    private BufferedImage flyingEnemy3Image;
+    private BufferedImage flyingEnemyRight1Image;
+    private BufferedImage flyingEnemyRight2Image;
+    private BufferedImage flyingEnemyRight3Image;
+    private int flying_enemy_frame;
+
     private BufferedImage goalImage;
 
 
@@ -84,7 +92,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         pauseButton.setBounds(getWidth() - buttonWidth - 20, 13, buttonWidth, buttonHeight);
 
         random = new Random();
-        flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+        flying_enemy_frame = 1;
         // Thread not good for view in mvc, maybe causing problem with the framerate
         Thread colorChangeThread = new Thread(new Runnable() {
             @Override
@@ -94,6 +102,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                    }
+                    flying_enemy_frame +=1;
+                    if (flying_enemy_frame >3){
+                        flying_enemy_frame = 1;
                     }
                     flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
                     // Calling repaint here is bad
@@ -123,6 +135,15 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
             basicEnemyImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/basic_enemy.png"));
             basicEnemyRightImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/basic_enemy_right.png"));
+
+            flyingEnemy1Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy (1).png"));
+            flyingEnemy2Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy (2).png"));
+            flyingEnemy3Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy (3).png"));
+
+            flyingEnemyRight1Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_right(1).png"));
+            flyingEnemyRight2Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_right(2).png"));
+            flyingEnemyRight3Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_right(3).png"));
+
 
             blockImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/Block.png"));
             movingBlockImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/Moving_Block.png"));
@@ -288,10 +309,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
             // For basic enemies
             if (enemy.getType() == GameObjectType.BASIC_____) {
                 if (enemy.getDirection() == Direction.RIGHT){
-                    g.drawImage(basicEnemyRightImage, enemyX, enemyY-8, this);
+                    g.drawImage(basicEnemyRightImage, enemyX, enemyY, enemyWidth, enemyHeight, this);
                 }
                 else{
-                g.drawImage(basicEnemyImage, enemyX, enemyY-8, this);
+                g.drawImage(basicEnemyImage, enemyX, enemyY, enemyWidth, enemyHeight, this);
                 }
                 // For spike
             } else if (enemy.getType() == GameObjectType.SPIKE_____) {
@@ -303,8 +324,34 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
                 // For flying enemies
             } else if (enemy.getType() == GameObjectType.FLYING____) {
-                g.setColor(flyingEnemyColor);
-                g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
+                switch (flying_enemy_frame) {
+                    case 1:
+                        if (enemy.getDirection() == Direction.RIGHT){
+                            g.drawImage(flyingEnemyRight1Image,enemyX,enemyY,enemyWidth,enemyHeight,this);
+                        }
+                        else {
+                            g.drawImage(flyingEnemy1Image,enemyX,enemyY,enemyWidth,enemyHeight,this);
+                        }
+                        break;
+                    case 2:
+                        if (enemy.getDirection() == Direction.RIGHT){
+                            g.drawImage(flyingEnemyRight2Image,enemyX,enemyY,enemyWidth,enemyHeight,this);
+                        }
+                        else {
+                            g.drawImage(flyingEnemy2Image,enemyX,enemyY,enemyWidth,enemyHeight,this);
+                        }
+                        break;
+                    case 3 :
+                        if (enemy.getDirection() == Direction.RIGHT){
+                            g.drawImage(flyingEnemyRight3Image,enemyX,enemyY,enemyWidth,enemyHeight,this);
+                        }
+                        else {
+                            g.drawImage(flyingEnemy3Image,enemyX,enemyY,enemyWidth,enemyHeight,this);
+                        }
+                
+                    default:
+                        break;
+                }
 
             } else if (enemy.getType() == GameObjectType.TELEPORT__) {
                 g.setColor(Color.black);
@@ -347,10 +394,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
             int blockX = block.getX();
             int blockY = block.getY();
             if (block.getType() == GameObjectType.STATIONARY){
-                g.drawImage(blockImage, blockX, blockY, this);
+                g.drawImage(blockImage, blockX, blockY,block.getWidth(),block.getHeight(), this);
             }
             else if (block.getType() == GameObjectType.MOVABLE___){
-                g.drawImage(movingBlockImage, blockX, blockY, this);
+                g.drawImage(movingBlockImage, blockX, blockY, block.getWidth(), block.getHeight(), this);
             }
             else if (block.getType() == GameObjectType.TELEPORTER__) {
                 g.setColor(Color.black);
