@@ -48,7 +48,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
             grayHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/gray_heart.png"));
             levelClockImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/level_clock.png"));
             pauseImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/pause_menu_icon.png"));
-
         } catch (IOException e) {
             e.printStackTrace();
         }

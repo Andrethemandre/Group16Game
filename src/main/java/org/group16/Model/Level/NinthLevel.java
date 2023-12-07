@@ -66,17 +66,18 @@ public class NinthLevel extends Level {
     @Override
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
-        // 16
-        metadataQueue.add(new Metadata(10*16, Direction.RIGHT, Direction.NONE));
+        // Metadata that is added to movable objects in the level matrix, 
+        // by going left to right through each row 
+        metadataQueue.add(new Metadata(9*16, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(6*16, Direction.LEFT, Direction.NONE));
         metadataQueue.add(new Metadata(5*16, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(5*16, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(5*16, Direction.RIGHT, Direction.DOWN));
         metadataQueue.add(new Metadata(5*16, Direction.LEFT, Direction.DOWN));
-        metadataQueue.add(new Metadata(7*16, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(7*16, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(5*16, Direction.NONE, Direction.DOWN));
         metadataQueue.add(new Metadata(5*16, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(7*16, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(8*16, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(8*16, Direction.NONE, Direction.DOWN));
         metadataQueue.add(new Metadata(8*16, Direction.NONE, Direction.DOWN));
         metadataQueue.add(new Metadata(8*16, Direction.NONE, Direction.DOWN));
@@ -94,7 +95,7 @@ public class NinthLevel extends Level {
         metadataQueue.add(new Metadata(4*16, Direction.NONE, Direction.DOWN));
         metadataQueue.add(new Metadata(4*16, Direction.NONE, Direction.DOWN));
         metadataQueue.add(new Metadata(4*16, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(6*16, Direction.LEFT, Direction.NONE));
+        metadataQueue.add(new Metadata(4*16, Direction.LEFT, Direction.NONE));
         metadataQueue.add(new Metadata(15*16, Direction.LEFT, Direction.NONE));
         metadataQueue.add(new Metadata(15*16, Direction.LEFT, Direction.NONE));
 

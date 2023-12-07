@@ -198,7 +198,7 @@ public class LevelHandler {
     private void checkIfPowerUpsCollidesWithEnemies() {
         for (IPowerUp powerUp : powerUps) {
             for (IEnemy enemy : enemies) {
-                if (powerUp.collidesWith(enemy)) {
+                if (powerUp.collidesWith(enemy) && powerUp.isMoving()) {
                     enemy.triggerPowerUp(powerUp.getType());
                     powerUp.use();
                 }
