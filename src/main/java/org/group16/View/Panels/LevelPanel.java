@@ -50,6 +50,9 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private BufferedImage blockImage;
     private BufferedImage movingBlockImage;
 
+    private BufferedImage teleportInactiveImage;
+    private BufferedImage teleportActiveImage;
+
     private BufferedImage basicEnemyImage;
     private BufferedImage basicEnemyRightImage;
 
@@ -61,7 +64,11 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private BufferedImage flyingEnemyRight3Image;
     private int flying_enemy_frame;
 
+    private BufferedImage spikeImage;
+
     private BufferedImage goalImage;
+
+    private BufferedImage backroundImage;
 
 
     private Color flyingEnemyColor;
@@ -144,11 +151,18 @@ public class LevelPanel extends GamePanel implements GameObserver {
             flyingEnemyRight2Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_right(2).png"));
             flyingEnemyRight3Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_right(3).png"));
 
+            spikeImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/spike.png"));
+
 
             blockImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/Block.png"));
             movingBlockImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/Moving_Block.png"));
 
+            teleportActiveImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/teleport_active.png"));
+            teleportInactiveImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/teleport_inactive.png"));
+
             goalImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/goal.png"));
+
+            backroundImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/backround.png"));
 
 
 
@@ -173,6 +187,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         IPlayer currentPlayer = levelHandler.getPlayer();
 
         // GameObjects are painted
+        g.drawImage(backroundImage, 0, 0, this);
         paintPlayer(g, currentPlayer);
         paintEnemies(g);
         paintTraps(g);
@@ -314,14 +329,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
                 else{
                 g.drawImage(basicEnemyImage, enemyX, enemyY, enemyWidth, enemyHeight, this);
                 }
-                // For spike
-            } else if (enemy.getType() == GameObjectType.SPIKE_____) {
-                int[] xPoints = { enemyX, enemyX + (enemyWidth / 2), enemyX + enemyWidth };
-                int[] yPoints = { enemyY + enemyHeight, enemyY, enemyY + enemyHeight };
-                int nPoints = 3;
-                g.setColor(Color.darkGray);
-                g.fillPolygon(xPoints, yPoints, nPoints);
-
+               
                 // For flying enemies
             } else if (enemy.getType() == GameObjectType.FLYING____) {
                 switch (flying_enemy_frame) {
@@ -375,11 +383,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
             int trapHeight = trap.getHeight();
 
             if (trap.getType() == GameObjectType.SPIKE_____) {
-                int[] xPoints = { trapX, trapX + (trapWidth / 2), trapX + trapWidth };
-                int[] yPoints = { trapY + trapHeight, trapY, trapY + trapHeight };
-                int nPoints = 3;
-                g.setColor(Color.darkGray);
-                g.fillPolygon(xPoints, yPoints, nPoints);
+                g.drawImage(spikeImage,trapX,trapY,trapWidth,trapHeight,this);
 
             } else {
                 g.setColor(Color.black);
@@ -400,8 +404,8 @@ public class LevelPanel extends GamePanel implements GameObserver {
                 g.drawImage(movingBlockImage, blockX, blockY, block.getWidth(), block.getHeight(), this);
             }
             else if (block.getType() == GameObjectType.TELEPORTER__) {
-                g.setColor(Color.black);
-                g.fillOval(blockX, blockY, block.getWidth(), block.getHeight());
+                g.drawImage(teleportActiveImage, blockX, blockY, block.getWidth(), block.getHeight(), this);
+                
             }
         }
     }
