@@ -70,5 +70,11 @@ public class FreezePowerUp implements IPowerUp {
     @Override
     public boolean isMoving() {
         return innerPowerUp.isMoving();
-    }    
+    }   
+    
+    @Override
+    public Direction getDirection(){
+        return innerPowerUp.getDirection();
+    }
+    
 }

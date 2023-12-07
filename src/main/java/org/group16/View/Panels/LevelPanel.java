@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 
 import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.IBlock;
 import org.group16.Model.GameObjects.Enemy.IEnemy;
@@ -38,7 +39,12 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
     //sprites
     private BufferedImage spearPowerUpImage;
+    private BufferedImage spearPowerUpThrowRightImage;
+    private BufferedImage spearPowerUpThrowLeftImage;
+
     private BufferedImage freezePowerUpImage;
+    private BufferedImage playerImage;
+    private BufferedImage playerImageLeft;
 
 
     private Color flyingEnemyColor;
@@ -98,7 +104,12 @@ public class LevelPanel extends GamePanel implements GameObserver {
             pauseImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/pause_menu_icon.png"));
             //sprites
             spearPowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/spear_powerUp.png"));
+            spearPowerUpThrowRightImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/spearThrow.png"));
+            spearPowerUpThrowLeftImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/spearThrow_left.png"));
+
             freezePowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/freeze_powerUp.png"));
+            playerImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/king_blob.png"));
+            playerImageLeft = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/king_blob_left.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -234,7 +245,16 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.setColor(Color.blue);
         int playerX = currentPlayer.getX();
         int playerY = currentPlayer.getY();
-        g.fillRect(playerX, playerY, currentPlayer.getWidth(), currentPlayer.getHeight());
+        //g.fillRect(playerX, playerY, currentPlayer.getWidth(), currentPlayer.getHeight());
+        if (currentPlayer.getDirection() == Direction.RIGHT){
+            g.drawImage(playerImage, playerX, playerY, this);
+
+        }
+        else {
+            g.drawImage(playerImageLeft, playerX, playerY, this);
+
+        }
+
     }
 
     private void paintEnemies(Graphics g) {
@@ -325,12 +345,23 @@ public class LevelPanel extends GamePanel implements GameObserver {
             int powerUpX = powerUp.getX();
             int powerUpY = powerUp.getY();
 
-            if (powerUp.getType() == SPEAR_____) {
-                g.setColor(Color.yellow);
-            } else if (powerUp.getType() == FREEZE____) {
-                g.setColor(Color.CYAN);
+            if (powerUp.getType() == SPEAR_____){
+                if (powerUp.isMoving()){
+                    if (powerUp.getDirection() == Direction.RIGHT){
+                    g.drawImage(spearPowerUpThrowRightImage, powerUpX, powerUpY, this);
+                    }
+                    else{
+                        g.drawImage(spearPowerUpThrowLeftImage, powerUpX, powerUpY, this);
+                    }
+                }
+                else{
+                g.drawImage(spearPowerUpImage,powerUpX,powerUpY,this);
+                }
             }
-            g.fillRect(powerUpX, powerUpY, powerUp.getWidth(), powerUp.getHeight());
+            else if (powerUp.getType() == FREEZE____){
+                g.drawImage(freezePowerUpImage,powerUpX,powerUpY,this); 
+                
+            }
         }
     }
 
