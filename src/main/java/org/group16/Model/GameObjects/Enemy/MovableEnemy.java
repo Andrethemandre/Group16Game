@@ -1,5 +1,6 @@
 package org.group16.Model.GameObjects.Enemy;
 
+import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.Observers.HasHealth;
@@ -111,6 +112,11 @@ class MovableEnemy implements IMovableEnemy {
     @Override
     public void triggerPowerUp(GameObjectType powerUp) {
         throw new UnsupportedOperationException("Unimplemented method 'triggerPowerUp'");
+    }
+
+    @Override
+    public Direction getDirection() {
+        throw new UnsupportedOperationException("Unimplemented method 'getDirection'");
     }
 
 }

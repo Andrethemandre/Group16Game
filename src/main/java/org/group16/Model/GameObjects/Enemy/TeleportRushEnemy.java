@@ -1,6 +1,7 @@
 package org.group16.Model.GameObjects.Enemy;
 
 import org.group16.Model.GameObjects.AffectedByGravity;
+import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.Observers.HasHealth;
@@ -96,5 +97,11 @@ class TeleportRushEnemy implements IMovableEnemy, AffectedByGravity {
     @Override
     public void triggerPowerUp(GameObjectType powerUp) {
         // shouldn't be affected by power-ups
+    }
+
+    @Override
+    public Direction getDirection() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getDirection'");
     }
 }
