@@ -404,13 +404,16 @@ public class LevelPanel extends GamePanel implements GameObserver {
             int trapY = trap.getY();
             int trapWidth = trap.getWidth();
             int trapHeight = trap.getHeight();
+            BufferedImage trapImage;
 
-            if (trap.getType() == GameObjectType.SPIKE_____) {
-                g.drawImage(spikeImage,trapX,trapY,trapWidth,trapHeight,this);
-
-            } else {
-                g.setColor(Color.black);
-                g.fillRect(trapX, trapY, trap.getWidth(), trap.getHeight());
+            switch (trap.getType()) {
+                case SPIKE_____:
+                    trapImage = spikeImage;
+                    g.drawImage(trapImage, trapX, trapY, trapWidth, trapHeight, this);
+                    break;
+                default:
+                    g.setColor(Color.black);
+                    g.fillRect(trapX, trapY, trapWidth, trapHeight);
             }
         }
     }
