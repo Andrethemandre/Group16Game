@@ -101,7 +101,7 @@ public class StatsManager {
     }
 
     private double calculateTimeBonusMultiplier() {
-        double decayRate = 0.1; // Adjust this value to change how quickly the multiplier decreases
+        double decayRate = 0.05; // Adjust this value to change how quickly the multiplier decreases
     
         // Calculate the number of seconds that have passed
         int secondsPassed = (int) ((System.currentTimeMillis() - levelStartTime - totalPauseTime) / 1000);
@@ -137,7 +137,7 @@ public class StatsManager {
         // Calculate the end score for when getting to goal
         int baseScore = GOAL_SCORE + getCurrentScore();
 
-        int timeBonus = baseScore * (int) calculateTimeBonusMultiplier(); 
+        int timeBonus = (int) (baseScore *  calculateTimeBonusMultiplier()); 
         int attemptsPenalty = ATTEMPTS_SCORE * (int) calculateAttemptsMultiplier();
 
         int totalScore = baseScore - attemptsPenalty + timeBonus;
