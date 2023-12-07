@@ -130,7 +130,7 @@ public class LevelHandler {
                 statsManager.recordStats(currentLevel.getLevelNumber(), new Stats(getCurrentScore()));
             }
 
-            if (currentLevel.getLevelNumber() > TOTAL_LEVELS) {
+            if (currentLevel.getLevelNumber() >= TOTAL_LEVELS) {
                 goToMainMenu();
             } else {
                 startGame();

@@ -9,6 +9,7 @@ import org.group16.Model.GameObjects.IGameObject;
 public class SpearPowerUp implements IPowerUp {
     private PowerUp innerPowerUp;
 
+
     public SpearPowerUp(int x, int y, boolean moveable, Direction direction) {
         innerPowerUp = new PowerUp(SPEAR_____, x, y, moveable, direction);
     }
@@ -71,4 +72,10 @@ public class SpearPowerUp implements IPowerUp {
     public boolean isMoving() {
         return innerPowerUp.isMoving();
     }
+    
+    @Override
+    public Direction getDirection(){
+        return innerPowerUp.getDirection();
+    }
+
 }
