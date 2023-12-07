@@ -191,7 +191,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         paintTraps(g);
         paintBlocks(g);
         paintGoal(g);
-        paintPowerups(g);
+        paintPowerUps(g);
 
         // Gameplay hud
         paintHealthBar(g, cellSize, currentPlayer);
@@ -465,29 +465,39 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.drawImage(goalImage, GoalX, GoalY, GoalWidth, GoalHeight, this);
     }
 
-    private void paintPowerups(Graphics g) {
+    private void paintPowerUps(Graphics g) {
         Collection<IPowerUp> currentPowerUps = levelHandler.getPowerUps();
         for (IPowerUp powerUp : currentPowerUps) {
             int powerUpX = powerUp.getX();
             int powerUpY = powerUp.getY();
+            int powerUpWidth = powerUp.getWidth();
+            int powerUpHeight = powerUp.getHeight();
+            BufferedImage powerUpImage;
 
-            if (powerUp.getType() == SPEAR_____){
-                if (powerUp.isMoving()){
-                    if (powerUp.getDirection() == Direction.RIGHT){
-                    g.drawImage(spearPowerUpThrowRightImage, powerUpX, powerUpY, this);
-                    }
-                    else{
-                        g.drawImage(spearPowerUpThrowLeftImage, powerUpX, powerUpY, this);
-                    }
-                }
-                else{
-                g.drawImage(spearPowerUpImage,powerUpX,powerUpY,this);
-                }
+            switch (powerUp.getType()) {
+                case SPEAR_____:
+                    powerUpImage = getSpearPowerUpImage(powerUp);
+                    g.drawImage(powerUpImage, powerUpX, powerUpY, powerUpWidth, powerUpHeight, this);
+                    break;
+                case FREEZE____:
+                    powerUpImage = freezePowerUpImage;
+                    g.drawImage(powerUpImage, powerUpX, powerUpY, powerUpWidth, powerUpHeight, this);
+                    break;
+                default:
+                    g.setColor(Color.CYAN);
+                    g.fillRect(powerUpX, powerUpY, powerUpWidth, powerUpHeight);
             }
-            else if (powerUp.getType() == FREEZE____){
-                g.drawImage(freezePowerUpImage,powerUpX,powerUpY,this); 
-                
-            }
+        }
+    }
+
+    private BufferedImage getSpearPowerUpImage(IPowerUp powerUp) {
+        switch (powerUp.getDirection()) {
+            case RIGHT:
+                return spearPowerUpThrowRightImage;
+            case LEFT:
+                return spearPowerUpThrowLeftImage;
+            default:
+                return spearPowerUpImage;
         }
     }
 
