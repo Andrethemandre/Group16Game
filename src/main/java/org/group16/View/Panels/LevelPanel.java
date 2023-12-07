@@ -44,7 +44,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
     private BufferedImage freezePowerUpImage;
 
-    private BufferedImage playerImage;
+    private BufferedImage playerImageRight;
     private BufferedImage playerImageLeft;
 
     private BufferedImage stationaryBlockImage;
@@ -135,7 +135,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
             freezePowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/freeze_powerUp.png"));
 
-            playerImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/king_blob.png"));
+            playerImageRight = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/king_blob.png"));
             playerImageLeft = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/king_blob_left.png"));
 
             basicEnemyImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/basic_enemy.png"));
@@ -300,16 +300,25 @@ public class LevelPanel extends GamePanel implements GameObserver {
         g.setColor(Color.blue);
         int playerX = currentPlayer.getX();
         int playerY = currentPlayer.getY();
-        //g.fillRect(playerX, playerY, currentPlayer.getWidth(), currentPlayer.getHeight());
-        if (currentPlayer.getDirection() == Direction.RIGHT){
-            g.drawImage(playerImage, playerX, playerY, this);
+        int playerWidth = currentPlayer.getWidth();
+        int playerHeight = currentPlayer.getHeight();
+        BufferedImage playerImage;
 
+        switch (currentPlayer.getDirection()) {
+            case RIGHT:
+                playerImage = playerImageRight;
+                g.drawImage(playerImage, playerX, playerY, playerWidth, playerHeight, this);
+                break;
+            case LEFT:
+                playerImage = playerImageLeft;
+                g.drawImage(playerImage, playerX, playerY, playerWidth, playerHeight, this);                
+                break;
+            default:
+                g.setColor(Color.blue);
+                g.fillRect(playerX, playerY, playerWidth, playerHeight);
+                break;
         }
-        else {
-            g.drawImage(playerImageLeft, playerX, playerY, this);
-
-        }
-
+        
     }
 
     private void paintEnemies(Graphics g) {
@@ -451,7 +460,9 @@ public class LevelPanel extends GamePanel implements GameObserver {
         IGoal Goal = levelHandler.getGoal();
         int GoalX = Goal.getX();
         int GoalY = Goal.getY();
-        g.drawImage(goalImage, GoalX, GoalY, this);
+        int GoalWidth = Goal.getWidth();
+        int GoalHeight = Goal.getHeight();
+        g.drawImage(goalImage, GoalX, GoalY, GoalWidth, GoalHeight, this);
     }
 
     private void paintPowerups(Graphics g) {
