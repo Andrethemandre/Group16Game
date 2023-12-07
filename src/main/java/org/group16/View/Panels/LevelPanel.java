@@ -68,7 +68,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
     private BufferedImage goalImage;
 
-    private BufferedImage backroundImage;
+    private BufferedImage backgroundImage;
 
 
     private Color flyingEnemyColor;
@@ -79,8 +79,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
         this.levelHandler = levelHandler;
         pauseButton = ViewUtility.createButton("", new Dimension(40, 40));
         initImages();
-
-       
 
         pauseButton.setIcon(new ImageIcon(pauseImage));
         pauseButton.setBorderPainted(false);
@@ -162,7 +160,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
             goalImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/goal.png"));
 
-            backroundImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/backround.png"));
+            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/backround.png"));
 
 
 
@@ -187,7 +185,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         IPlayer currentPlayer = levelHandler.getPlayer();
 
         // GameObjects are painted
-        g.drawImage(backroundImage, 0, 0, this);
+        drawBackground(g);
         paintPlayer(g, currentPlayer);
         paintEnemies(g);
         paintTraps(g);
@@ -199,6 +197,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
         paintHealthBar(g, cellSize, currentPlayer);
         paintStats(g, currentPlayer);
         paintPowerUpIcon(g);
+    }
+
+    private void drawBackground(Graphics g) {
+        g.drawImage(backgroundImage, 0, 0, this);
     }
 
     private void drawTwoStringSCentered(Graphics g, String text, String formattedText, int x, int y, int lineSpacing) {
@@ -245,9 +247,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
         }
             
     }
-
-
-
 
     private String formatTime(long millis) {
         long seconds = (millis / 1000) % 60;
@@ -320,56 +319,80 @@ public class LevelPanel extends GamePanel implements GameObserver {
             int enemyY = enemy.getY();
             int enemyWidth = enemy.getWidth();
             int enemyHeight = enemy.getHeight();
+            BufferedImage enemyImage;
 
-            // For basic enemies
-            if (enemy.getType() == GameObjectType.BASIC_____) {
-                if (enemy.getDirection() == Direction.RIGHT){
-                    g.drawImage(basicEnemyRightImage, enemyX, enemyY, enemyWidth, enemyHeight, this);
-                }
-                else{
-                g.drawImage(basicEnemyImage, enemyX, enemyY, enemyWidth, enemyHeight, this);
-                }
-               
-                // For flying enemies
-            } else if (enemy.getType() == GameObjectType.FLYING____) {
-                switch (flying_enemy_frame) {
-                    case 1:
-                        if (enemy.getDirection() == Direction.RIGHT){
-                            g.drawImage(flyingEnemyRight1Image,enemyX,enemyY,enemyWidth,enemyHeight,this);
-                        }
-                        else {
-                            g.drawImage(flyingEnemy1Image,enemyX,enemyY,enemyWidth,enemyHeight,this);
-                        }
-                        break;
-                    case 2:
-                        if (enemy.getDirection() == Direction.RIGHT){
-                            g.drawImage(flyingEnemyRight2Image,enemyX,enemyY,enemyWidth,enemyHeight,this);
-                        }
-                        else {
-                            g.drawImage(flyingEnemy2Image,enemyX,enemyY,enemyWidth,enemyHeight,this);
-                        }
-                        break;
-                    case 3 :
-                        if (enemy.getDirection() == Direction.RIGHT){
-                            g.drawImage(flyingEnemyRight3Image,enemyX,enemyY,enemyWidth,enemyHeight,this);
-                        }
-                        else {
-                            g.drawImage(flyingEnemy3Image,enemyX,enemyY,enemyWidth,enemyHeight,this);
-                        }
+            switch (enemy.getType()) {
+                case BASIC_____:
+                    enemyImage = getBasicEnemyImage(enemy);
+                    g.drawImage(enemyImage, enemyX, enemyY, enemyWidth, enemyHeight, this);
+                    break;
+
+                case FLYING____:
+                    enemyImage = getFlyingEnemyImage(enemy);
+                    g.drawImage(enemyImage, enemyX, enemyY, enemyWidth, enemyHeight, this);
+                    break;
+
+                case TELEPORT__:
+                    g.setColor(Color.black);
+                    g.fillOval(enemyX, enemyY, enemyWidth, enemyHeight);
+                    break;
                 
-                    default:
-                        break;
-                }
-
-            } else if (enemy.getType() == GameObjectType.TELEPORT__) {
-                g.setColor(Color.black);
-                g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
-
-                // Default colour and shape
-            } else {
-                g.setColor(Color.black);
-                g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
+                default:
+                    g.setColor(Color.black);
+                    g.fillRect(enemyX, enemyY, enemyWidth, enemyHeight);
+                    break;
             }
+        }
+    }
+
+    private BufferedImage getBasicEnemyImage(IEnemy enemy) {
+        BufferedImage enemyImage;
+        switch (enemy.getDirection()) {
+            case RIGHT:
+                enemyImage = basicEnemyRightImage;
+                break;
+            case LEFT:
+                enemyImage = basicEnemyImage;
+                break;
+            default:
+                enemyImage = basicEnemyImage;
+                break;
+            
+        }
+        return enemyImage;
+    }
+
+    private BufferedImage getFlyingEnemyImage(IEnemy enemy) {
+        switch (flying_enemy_frame) {
+            case 1:
+                switch (enemy.getDirection()) {
+                    case RIGHT:
+                        return flyingEnemyRight1Image;
+                    case LEFT:
+                        return flyingEnemy1Image;
+                    default:
+                        return flyingEnemy1Image;
+                }
+            case 2:
+                switch (enemy.getDirection()) {
+                    case RIGHT:
+                        return flyingEnemyRight2Image;
+                    case LEFT:
+                        return flyingEnemy2Image;
+                    default:
+                        return flyingEnemy2Image;
+                }
+            case 3:
+                switch (enemy.getDirection()) {
+                    case RIGHT:
+                        return flyingEnemyRight3Image;
+                    case LEFT:
+                        return flyingEnemy3Image;
+                    default:
+                        return flyingEnemy3Image;
+                }
+            default:
+                return flyingEnemy1Image;
         }
     }
 
