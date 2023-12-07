@@ -33,7 +33,13 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private BufferedImage grayHeartImage;
     private BufferedImage levelClockImage;
     private BufferedImage pauseImage;
+    
     private JButton pauseButton;
+
+    //sprites
+    private BufferedImage spearPowerUpImage;
+    private BufferedImage freezePowerUpImage;
+
 
     private Color flyingEnemyColor;
     private Random random;
@@ -42,16 +48,9 @@ public class LevelPanel extends GamePanel implements GameObserver {
         super(x, y);
         this.levelHandler = levelHandler;
         pauseButton = ViewUtility.createButton("", new Dimension(40, 40));
+        initImages();
 
-        try {
-            redHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/red_heart.png"));
-            grayHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/gray_heart.png"));
-            levelClockImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/level_clock.png"));
-            pauseImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/pause_menu_icon.png"));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+       
 
         pauseButton.setIcon(new ImageIcon(pauseImage));
         pauseButton.setBorderPainted(false);
@@ -90,6 +89,21 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
         colorChangeThread.start();
     }
+    private void initImages(){
+         try {
+            //hud
+            redHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/red_heart.png"));
+            grayHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/gray_heart.png"));
+            levelClockImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/level_clock.png"));
+            pauseImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/pause_menu_icon.png"));
+            //sprites
+            spearPowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/spear_powerUp.png"));
+            freezePowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/freeze_powerUp.png"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    } 
 
     public JButton getPauseButton() {
         return pauseButton;
@@ -117,6 +131,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         // Gameplay hud
         paintHealthBar(g, cellSize, currentPlayer);
         paintStats(g, currentPlayer);
+        paintPowerUpIcon(g);
     }
 
     private void drawTwoStringSCentered(Graphics g, String text, String formattedText, int x, int y, int lineSpacing) {
@@ -143,6 +158,29 @@ public class LevelPanel extends GamePanel implements GameObserver {
             }
         }
     }
+
+    private void paintPowerUpIcon(Graphics g){
+        GameObjectType currentPowerUp = levelHandler.getPlayersPowerUp();
+        g.drawString("Power Up", 344,16);
+        g.drawRect(352, 24, 32, 32);
+        switch (currentPowerUp) {
+            case SPEAR_____:
+                g.drawImage(spearPowerUpImage, 360,32,this);
+                break;
+            
+            case FREEZE____:
+                g.drawImage(freezePowerUpImage, 360,32,this);
+ 
+            case NOTHING___:
+                break;
+            default:
+                break;
+        }
+            
+    }
+
+
+
 
     private String formatTime(long millis) {
         long seconds = (millis / 1000) % 60;

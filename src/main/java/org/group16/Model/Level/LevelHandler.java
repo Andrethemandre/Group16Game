@@ -501,6 +501,10 @@ public class LevelHandler {
         return player;
     }
 
+    public GameObjectType getPlayersPowerUp (){
+        return player.getCurrentPowerUp();
+    }
+
     public IGoal getGoal() {
         return goal;
     }
