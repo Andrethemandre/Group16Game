@@ -43,8 +43,17 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private BufferedImage spearPowerUpThrowLeftImage;
 
     private BufferedImage freezePowerUpImage;
+
     private BufferedImage playerImage;
     private BufferedImage playerImageLeft;
+
+    private BufferedImage blockImage;
+    private BufferedImage movingBlockImage;
+
+    private BufferedImage basicEnemyImage;
+    private BufferedImage basicEnemyRightImage;
+
+    private BufferedImage goalImage;
 
 
     private Color flyingEnemyColor;
@@ -108,8 +117,19 @@ public class LevelPanel extends GamePanel implements GameObserver {
             spearPowerUpThrowLeftImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/spearThrow_left.png"));
 
             freezePowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/freeze_powerUp.png"));
+
             playerImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/king_blob.png"));
             playerImageLeft = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/king_blob_left.png"));
+
+            basicEnemyImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/basic_enemy.png"));
+            basicEnemyRightImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/basic_enemy_right.png"));
+
+            blockImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/Block.png"));
+            movingBlockImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/Moving_Block.png"));
+
+            goalImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/goal.png"));
+
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -267,8 +287,12 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
             // For basic enemies
             if (enemy.getType() == GameObjectType.BASIC_____) {
-                g.setColor(Color.red);
-                g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
+                if (enemy.getDirection() == Direction.RIGHT){
+                    g.drawImage(basicEnemyRightImage, enemyX, enemyY-8, this);
+                }
+                else{
+                g.drawImage(basicEnemyImage, enemyX, enemyY-8, this);
+                }
                 // For spike
             } else if (enemy.getType() == GameObjectType.SPIKE_____) {
                 int[] xPoints = { enemyX, enemyX + (enemyWidth / 2), enemyX + enemyWidth };
@@ -322,9 +346,13 @@ public class LevelPanel extends GamePanel implements GameObserver {
         for (IBlock block : currentBlocks) {
             int blockX = block.getX();
             int blockY = block.getY();
-            g.setColor(Color.ORANGE);
-            g.fillRect(blockX, blockY, block.getWidth(), block.getHeight());
-            if (block.getType() == GameObjectType.TELEPORTER__) {
+            if (block.getType() == GameObjectType.STATIONARY){
+                g.drawImage(blockImage, blockX, blockY, this);
+            }
+            else if (block.getType() == GameObjectType.MOVABLE___){
+                g.drawImage(movingBlockImage, blockX, blockY, this);
+            }
+            else if (block.getType() == GameObjectType.TELEPORTER__) {
                 g.setColor(Color.black);
                 g.fillOval(blockX, blockY, block.getWidth(), block.getHeight());
             }
@@ -335,8 +363,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         IGoal Goal = levelHandler.getGoal();
         int GoalX = Goal.getX();
         int GoalY = Goal.getY();
-        g.setColor(Color.green);
-        g.fillRect(GoalX, GoalY, Goal.getWidth(), Goal.getHeight());
+        g.drawImage(goalImage, GoalX, GoalY, this);
     }
 
     private void paintPowerups(Graphics g) {

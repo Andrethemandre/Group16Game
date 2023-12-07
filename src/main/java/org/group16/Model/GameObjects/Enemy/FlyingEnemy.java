@@ -124,6 +124,11 @@ class FlyingEnemy implements IMovableEnemy, AffectedByGravity {
     }
 
     @Override
+    public Direction getDirection(){
+        return horizontalDirection;
+    }
+
+    @Override
     public boolean collidesWith(IGameObject otherGameObject) {
         return innerMovableEnemy.collidesWith(otherGameObject);
     }
