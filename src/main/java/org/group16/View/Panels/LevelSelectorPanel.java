@@ -45,7 +45,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     private BufferedImage fifthLevelImage;
     private BufferedImage sixthLevelImage;
     private BufferedImage seventhLevelImage;
-    private BufferedImage eigthLevelImage;
+    private BufferedImage eighthLevelImage;
     private BufferedImage ninthLevelImage;
     private BufferedImage tenthLevelImage;
     private BufferedImage placeHolderImage;
@@ -74,7 +74,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
             fifthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_5_image.png"));
             sixthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_6_image.png"));
             seventhLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_7_image.png"));
-            eigthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_8_image.png"));
+            eighthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_8_image.png"));
             ninthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_9_image.png"));
             tenthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_10_image.png"));
 
@@ -86,49 +86,41 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     }
 
     private void setLevelImage(int levelNumber) {
-        if (levelNumber == 1) {
-            picLabel.setIcon(new ImageIcon(firstLevelImage));
-        } else if (levelNumber == 2) {
-            picLabel.setIcon(new ImageIcon(secondLevelImage));
-        } else if (levelNumber == 3) {
-            picLabel.setIcon(new ImageIcon(thirdLevelImage));
+        switch (levelNumber) {
+            case 1:
+                picLabel.setIcon(new ImageIcon(firstLevelImage));
+                break;
+            case 2:
+                picLabel.setIcon(new ImageIcon(secondLevelImage));
+                break;
+            case 3:
+                picLabel.setIcon(new ImageIcon(thirdLevelImage));
+                break;
+            case 4:
+                picLabel.setIcon(new ImageIcon(fourthLevelImage));
+                break;
+            case 5:
+                picLabel.setIcon(new ImageIcon(fifthLevelImage));
+                break;
+            case 6:
+                picLabel.setIcon(new ImageIcon(sixthLevelImage));
+                break;
+            case 7:
+                picLabel.setIcon(new ImageIcon(seventhLevelImage));
+                break;
+            case 8:
+                picLabel.setIcon(new ImageIcon(eighthLevelImage));
+                break;
+            case 9:
+                picLabel.setIcon(new ImageIcon(ninthLevelImage));
+                break;
+            case 10:
+                picLabel.setIcon(new ImageIcon(tenthLevelImage));
+                break;
+            default:
+                picLabel.setIcon(new ImageIcon(placeHolderImage));
+                break;
         }
-    
-
-    else if(levelNumber==4)
-
-    {
-        picLabel.setIcon(new ImageIcon(fourthLevelImage));
-
-    }else if(levelNumber==5)
-    {
-        picLabel.setIcon(new ImageIcon(fifthLevelImage));
-
-    }else if(levelNumber==6)
-    {
-        picLabel.setIcon(new ImageIcon(sixthLevelImage));
-
-    }else if(levelNumber==7)
-    {
-        picLabel.setIcon(new ImageIcon(seventhLevelImage));
-
-    }else if(levelNumber==8)
-    {
-        picLabel.setIcon(new ImageIcon(eigthLevelImage));
-
-    }else if(levelNumber==9)
-    {
-        picLabel.setIcon(new ImageIcon(ninthLevelImage));
-
-    }else if(levelNumber==10)
-    {
-        picLabel.setIcon(new ImageIcon(tenthLevelImage));
-
-    }else
-    {
-        picLabel.setIcon(new ImageIcon(placeHolderImage));
-
-    }
     }
 
     private void initComponents() {
