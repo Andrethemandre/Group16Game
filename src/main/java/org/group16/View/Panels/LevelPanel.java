@@ -161,7 +161,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
     private void paintPowerUpIcon(Graphics g){
         GameObjectType currentPowerUp = levelHandler.getPlayersPowerUp();
-        g.drawString("Power Up", 344,16);
+        g.drawString("Powerup", 346,16);
         g.drawRect(352, 24, 32, 32);
         switch (currentPowerUp) {
             case SPEAR_____:
