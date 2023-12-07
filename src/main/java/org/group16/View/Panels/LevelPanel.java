@@ -49,9 +49,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         this.levelHandler = levelHandler;
         pauseButton = ViewUtility.createButton("", new Dimension(40, 40));
         initImages();
-
-       
-
+      
         pauseButton.setIcon(new ImageIcon(pauseImage));
         pauseButton.setBorderPainted(false);
         pauseButton.setContentAreaFilled(false);
