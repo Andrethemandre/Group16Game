@@ -47,7 +47,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private BufferedImage playerImage;
     private BufferedImage playerImageLeft;
 
-    private BufferedImage blockImage;
+    private BufferedImage stationaryBlockImage;
     private BufferedImage movingBlockImage;
 
     private BufferedImage teleportInactiveImage;
@@ -152,7 +152,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
             spikeImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/spike.png"));
 
 
-            blockImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/Block.png"));
+            stationaryBlockImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/Block.png"));
             movingBlockImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/Moving_Block.png"));
 
             teleportActiveImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/teleport_active.png"));
@@ -423,15 +423,26 @@ public class LevelPanel extends GamePanel implements GameObserver {
         for (IBlock block : currentBlocks) {
             int blockX = block.getX();
             int blockY = block.getY();
-            if (block.getType() == GameObjectType.STATIONARY){
-                g.drawImage(blockImage, blockX, blockY,block.getWidth(),block.getHeight(), this);
-            }
-            else if (block.getType() == GameObjectType.MOVABLE___){
-                g.drawImage(movingBlockImage, blockX, blockY, block.getWidth(), block.getHeight(), this);
-            }
-            else if (block.getType() == GameObjectType.TELEPORTER__) {
-                g.drawImage(teleportActiveImage, blockX, blockY, block.getWidth(), block.getHeight(), this);
-                
+            int blockWidth = block.getWidth();
+            int blockHeight = block.getHeight();
+            BufferedImage blockImage;
+
+            switch (block.getType()) {
+                case STATIONARY:
+                    blockImage = stationaryBlockImage;
+                    g.drawImage(blockImage, blockX, blockY, blockWidth, blockHeight, this);
+                    break;
+                case MOVABLE___:
+                    blockImage = movingBlockImage;
+                    g.drawImage(blockImage, blockX, blockY, blockWidth, blockHeight, this);
+                    break;
+                case TELEPORTER__:
+                    blockImage = teleportActiveImage;
+                    g.drawImage(blockImage, blockX, blockY, blockWidth, blockHeight, this);
+                    break;
+                default:
+                    g.setColor(Color.ORANGE);
+                    g.fillRect(blockX, blockY, blockWidth, blockHeight);
             }
         }
     }
