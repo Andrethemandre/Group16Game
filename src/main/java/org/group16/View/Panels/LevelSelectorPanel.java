@@ -40,6 +40,14 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     private BufferedImage levelImage;
     private BufferedImage firstLevelImage;
     private BufferedImage secondLevelImage;
+    private BufferedImage thirdLevelImage;
+    private BufferedImage fourthLevelImage;
+    private BufferedImage fifthLevelImage;
+    private BufferedImage sixthLevelImage;
+    private BufferedImage seventhLevelImage;
+    private BufferedImage eigthLevelImage;
+    private BufferedImage ninthLevelImage;
+    private BufferedImage tenthLevelImage;
     private BufferedImage placeHolderImage;
 
     private JLabel highScoreLabel;
@@ -57,28 +65,70 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         this.levelHandler = levelHandler;
 
         try {
-            placeHolderImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/placeholder_level_image.png"));
+            placeHolderImage = ImageIO
+                    .read(getClass().getResourceAsStream("/images/level_select/placeholder_level_image.png"));
             firstLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_1_image.png"));
             secondLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_2_image.png"));
+            thirdLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_3_image.png"));
+            fourthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_4_image.png"));
+            fifthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_5_image.png"));
+            sixthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_6_image.png"));
+            seventhLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_7_image.png"));
+            eigthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_8_image.png"));
+            ninthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_9_image.png"));
+            tenthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_10_image.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         initComponents();
     }
 
-    private void setLevelImage(int levelNumber){
-        if(levelNumber == 1){
+    private void setLevelImage(int levelNumber) {
+        if (levelNumber == 1) {
             picLabel.setIcon(new ImageIcon(firstLevelImage));
-        }
-        else if(levelNumber == 2){
+        } else if (levelNumber == 2) {
             picLabel.setIcon(new ImageIcon(secondLevelImage));
+        } else if (levelNumber == 3) {
+            picLabel.setIcon(new ImageIcon(thirdLevelImage));
         }
-        else{
-            picLabel.setIcon(new ImageIcon(placeHolderImage));
-        }
+    
 
+    else if(levelNumber==4)
+
+    {
+        picLabel.setIcon(new ImageIcon(fourthLevelImage));
+
+    }else if(levelNumber==5)
+    {
+        picLabel.setIcon(new ImageIcon(fifthLevelImage));
+
+    }else if(levelNumber==6)
+    {
+        picLabel.setIcon(new ImageIcon(sixthLevelImage));
+
+    }else if(levelNumber==7)
+    {
+        picLabel.setIcon(new ImageIcon(seventhLevelImage));
+
+    }else if(levelNumber==8)
+    {
+        picLabel.setIcon(new ImageIcon(eigthLevelImage));
+
+    }else if(levelNumber==9)
+    {
+        picLabel.setIcon(new ImageIcon(ninthLevelImage));
+
+    }else if(levelNumber==10)
+    {
+        picLabel.setIcon(new ImageIcon(tenthLevelImage));
+
+    }else
+    {
+        picLabel.setIcon(new ImageIcon(placeHolderImage));
+
+    }
     }
 
     private void initComponents() {
@@ -95,7 +145,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         return levelButtons;
     }
 
-    private JPanel createLevelInfoPanel(){
+    private JPanel createLevelInfoPanel() {
         JPanel levelInfoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         levelInfoPanel.setBackground(Color.LIGHT_GRAY);
         levelSelectLabel = createCurrentSelectedLevelLabel();
@@ -113,54 +163,54 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         String labelText = "Level x";
         return ViewUtility.createLabel(labelText, LABEL_FONT, 14, 20, 0, 0, JLabel.CENTER);
     }
-    
+
     private JLabel createLevelImageLabel() {
-        //setLevelImage(levelHandler.getCurrentLevelNumber());
+        // setLevelImage(levelHandler.getCurrentLevelNumber());
         picLabel = new JLabel(new ImageIcon(placeHolderImage));
         picLabel.setBorder(BorderFactory.createEmptyBorder(27, 20, 0, 0)); // Add padding
         return picLabel;
     }
-    
+
     private JLabel createHighScoreLabel() {
         String labelText = "High Score: x";
         return ViewUtility.createLabel(labelText, LABEL_FONT, 15, 20, 0, 0, JLabel.LEFT);
     }
-    
+
     private JPanel createLevelInfoNavigationPanel() {
         JPanel horizontalButtonPanel = ViewUtility.createHorizontalPanel();
         horizontalButtonPanel.setAlignmentX(JButton.CENTER_ALIGNMENT);
         horizontalButtonPanel.setBorder(BorderFactory.createEmptyBorder(100, 20, 0, 0)); // Add padding
         horizontalButtonPanel.setBackground(Color.LIGHT_GRAY);
-    
+
         backToMainMenuButton = ViewUtility.createButton("Back to Main Menu", LARGE_BUTTON_SIZE);
         backToMainMenuButton.setFont(BUTTON_FONT);
         horizontalButtonPanel.add(backToMainMenuButton);
-    
+
         horizontalButtonPanel.add(Box.createRigidArea(new Dimension(175, 0))); // Add space after button
-    
+
         playButton = ViewUtility.createButton("Play", SMALL_BUTTON_SIZE);
         playButton.setFont(BUTTON_FONT);
 
         horizontalButtonPanel.add(playButton);
-    
+
         return horizontalButtonPanel;
     }
 
-    private void initLevelButtons(){
+    private void initLevelButtons() {
         levelButtons = new JButton[levelHandler.getTotalLevels()];
 
         for (int i = 0; i < levelButtons.length; i++) {
-            levelButtons[i] = ViewUtility.createButton("Level " + (i+1), new Dimension(200, 55));
+            levelButtons[i] = ViewUtility.createButton("Level " + (i + 1), new Dimension(200, 55));
         }
     }
-    
-    private JPanel createLevelBrowseMenu(){
+
+    private JPanel createLevelBrowseMenu() {
         JPanel levelBrowseMenu = new JPanel();
         levelBrowseMenu.setLayout(new BorderLayout());
 
         levelSelectLabel = createTitle();
         levelBrowseMenu.add(levelSelectLabel, BorderLayout.NORTH);
-        
+
         initLevelSelectPanel(1);
 
         JPanel navigationPanel = createLevelBrowseNavigationPanel();
@@ -170,38 +220,40 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         levelBrowseMenu.setBackground(Color.GRAY);
         levelBrowseMenu.add(levelVerticalSelectPanel, BorderLayout.CENTER);
         navigationPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0)); // Add padding
-        levelBrowseMenu.add(navigationPanel,BorderLayout.SOUTH);
+        levelBrowseMenu.add(navigationPanel, BorderLayout.SOUTH);
         return levelBrowseMenu;
     }
 
-    private void initLevelSelectPanel(int currentPage){
+    private void initLevelSelectPanel(int currentPage) {
         levelVerticalSelectPanel = ViewUtility.createVerticalPanel();
-        levelVerticalSelectPanel.add(Box.createVerticalStrut(27));   
-    
+        levelVerticalSelectPanel.add(Box.createVerticalStrut(27));
+
         int start = (currentPage - 1) * 4; // Calculate the starting index for the current page
         int end = Math.min(start + 4, levelButtons.length); // Calculate the ending index for the current page
-    
+
         for (int i = start; i < end; i++) {
             levelVerticalSelectPanel.add(levelButtons[i]);
-    
+
             if (i < end - 1) { // Don't add strut after the last button
                 levelVerticalSelectPanel.add(Box.createVerticalStrut(15)); // Add 10px vertical gap
             }
         }
     }
-    private void updateCurrentPageLabel(){
+
+    private void updateCurrentPageLabel() {
         int totalLevels = levelHandler.getTotalLevels();
-        levelCurrentPageLabel.setText(levelHandler.getCurrentLevelSelectPage() + "/" +  (int) (totalLevels/4 + 1));
+        levelCurrentPageLabel.setText(levelHandler.getCurrentLevelSelectPage() + "/" + (int) (totalLevels / 4 + 1));
     }
-    private JLabel createLevelCurrentPageLabel(){
+
+    private JLabel createLevelCurrentPageLabel() {
         int totalLevels = levelHandler.getTotalLevels();
-        String labelText = levelHandler.getCurrentLevelSelectPage() + "/" +  (int) (totalLevels/4 + 1);
+        String labelText = levelHandler.getCurrentLevelSelectPage() + "/" + (int) (totalLevels / 4 + 1);
         Font labelFont = new Font("Arial", Font.PLAIN, 14);
 
-        return ViewUtility.createLabel(labelText, labelFont,0,0,0,0, JLabel.CENTER);
+        return ViewUtility.createLabel(labelText, labelFont, 0, 0, 0, 0, JLabel.CENTER);
     }
 
-    private JPanel createLevelBrowseNavigationPanel(){
+    private JPanel createLevelBrowseNavigationPanel() {
         JPanel navigationPanel = ViewUtility.createHorizontalPanel();
 
         levelPageNextButton = ViewUtility.createButton("Next", new Dimension(60, 50));
@@ -223,11 +275,11 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         return navigationPanel;
     }
 
-    private JLabel createTitle(){
+    private JLabel createTitle() {
         String labelText = "Level Select";
         Font labelFont = new Font("Arial", Font.BOLD, 30);
 
-        return ViewUtility.createLabel(labelText, labelFont,14,0,0,0, JLabel.CENTER);
+        return ViewUtility.createLabel(labelText, labelFont, 14, 0, 0, 0, JLabel.CENTER);
     }
 
     public JButton getPlayButton() {
@@ -249,14 +301,14 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     private void updateVisibleLevelButtons(int currentPage) {
         levelVerticalSelectPanel.removeAll(); // Remove all existing components
 
-        levelVerticalSelectPanel.add(Box.createVerticalStrut(27));   
-    
+        levelVerticalSelectPanel.add(Box.createVerticalStrut(27));
+
         int start = (currentPage - 1) * 4; // Calculate the starting index for the current page
         int end = Math.min(start + 4, levelButtons.length); // Calculate the ending index for the current page
-    
+
         for (int i = start; i < end; i++) {
             levelVerticalSelectPanel.add(levelButtons[i]);
-    
+
             if (i < end - 1) { // Don't add strut after the last button
                 levelVerticalSelectPanel.add(Box.createVerticalStrut(15)); // Add 10px vertical gap
             }
@@ -267,13 +319,13 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     }
 
     private void updateHighScoreLabel(int levelNumber) {
-        if(levelNumber < levelHandler.getTotalLevels() + 1 && levelNumber > 0){
+        if (levelNumber < levelHandler.getTotalLevels() + 1 && levelNumber > 0) {
             int highScore = levelHandler.getLevelHighScore(levelNumber);
             highScoreLabel.setText("High Score: " + highScore);
         }
     }
 
-    private void updateDisplay(){
+    private void updateDisplay() {
         updateHighScoreLabel(levelHandler.getCurrentSelectedLevelNumber());
         setLevelImage(levelHandler.getCurrentSelectedLevelNumber());
         updateCurrentPageLabel();
@@ -283,7 +335,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
 
     @Override
     public void updateObserver() {
-        if(levelHandler.getGameState() == GameState.LEVEL_SELECT){
+        if (levelHandler.getGameState() == GameState.LEVEL_SELECT) {
             updateDisplay();
             repaint();
         }
