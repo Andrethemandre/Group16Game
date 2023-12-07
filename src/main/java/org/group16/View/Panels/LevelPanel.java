@@ -141,13 +141,13 @@ public class LevelPanel extends GamePanel implements GameObserver {
             basicEnemyImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/basic_enemy.png"));
             basicEnemyRightImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/basic_enemy_right.png"));
 
-            flyingEnemy1Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy (1).png"));
-            flyingEnemy2Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy (2).png"));
-            flyingEnemy3Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy (3).png"));
+            flyingEnemy1Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_wing_up.png"));
+            flyingEnemy2Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_wing_middle.png"));
+            flyingEnemy3Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_wing_down.png"));
 
-            flyingEnemyRight1Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_right(1).png"));
-            flyingEnemyRight2Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_right(2).png"));
-            flyingEnemyRight3Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_right(3).png"));
+            flyingEnemyRight1Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_right_wing_up.png"));
+            flyingEnemyRight2Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_right_wing_middle.png"));
+            flyingEnemyRight3Image = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_right_wing_down.png"));
 
             spikeImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/spike.png"));
 
