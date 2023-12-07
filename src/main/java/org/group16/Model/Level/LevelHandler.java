@@ -37,7 +37,6 @@ public class LevelHandler {
     private Collection<IPowerUp> powerUps;
     private Collection<ITrap> traps;
     private List<Integer> destinationIntegers;
-    private boolean playerIsAtGoal;
     private List<IBlock> teleportBlocks;
     private Collection<GameObserver> observers;
     private int lastLevelNumber = 1;
@@ -49,8 +48,6 @@ public class LevelHandler {
     private LevelSelectPageManager levelSelectPageManager;
 
     private final static int TOTAL_LEVELS = LevelFactory.getTotalLevels();
-
-    // width and height depending on how big the level is
 
     public LevelHandler() {
         observers = new ArrayList<>();
@@ -67,7 +64,7 @@ public class LevelHandler {
         statsManager = new StatsManager();
 
         for (int i = 1; i <= TOTAL_LEVELS; i++) {
-            statsManager.recordStats(i, new Stats(0));
+            statsManager.recordStats(i, new LevelStats(0, 0, 0,0));
         }
 
         levelSelectPageManager.setSelectedLevelNumber(1);
@@ -116,18 +113,30 @@ public class LevelHandler {
     }
 
     public int getCurrentScore() {
-        return statsManager.getScore();
+        return statsManager.getCurrentScore();
+    }
+
+    public int getEndScore(){
+        return statsManager.getEndScore();
     }
 
     public int getCurrentAttempts() {
         return statsManager.getLevelAttempts();
     }
 
+    public int getEnemiesDefeated() {
+        return statsManager.getEnemiesDefeated();
+    }
+
+    public int getPowerUpsPicked() {
+        return statsManager.getPowerUpsPicked();
+    }
+
     // collision checkers
     private void checkIfPlayerAtGoal() {
         if (player.collidesWith(goal)) {
-            if (getLevelHighScore(currentLevel.getLevelNumber()) < getCurrentScore()) {
-                statsManager.recordStats(currentLevel.getLevelNumber(), new Stats(getCurrentScore()));
+            if (getLevelHighScore(currentLevel.getLevelNumber()) < getEndScore()) {
+                statsManager.recordStats(currentLevel.getLevelNumber(), new LevelStats(getEndScore(),getEnemiesDefeated(),getPowerUpsPicked(),getElapsedTime()));
             }
 
             if (currentLevel.getLevelNumber() > TOTAL_LEVELS) {
@@ -201,9 +210,41 @@ public class LevelHandler {
             for (IEnemy enemy : enemies) {
                 if (powerUp.collidesWith(enemy)) {
                     enemy.triggerPowerUp(powerUp.getType());
+
+                    if(enemy.isDead()){
+                        incrementEnemiesDefeatedStats(enemy);
+                        incrementPowerUpHitStats(powerUp);
+                    }
+
                     powerUp.use();
                 }
             }
+        }
+    }
+
+    private void incrementPowerUpHitStats(IPowerUp powerUp) {
+        switch (powerUp.getType()) {
+            case SPEAR_____:
+                statsManager.incrementSpearPowerUpsKills();
+                break;
+            case FREEZE____:
+                statsManager.incrementFreezePowerUpsFroze();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void incrementEnemiesDefeatedStats(IEnemy enemy) {
+        switch (enemy.getType()) {
+            case BASIC_____:
+                statsManager.incrementBasicEnemiesDefeated();
+                break;
+            case FLYING____:
+                statsManager.incrementFlyingEnemiesDefeated();
+                break;
+            default:
+                break;
         }
     }
 
@@ -441,6 +482,7 @@ public class LevelHandler {
                 enemyToRemove = enemy;
             }
         }
+        
         if (enemyToRemove != null) {
             enemies.remove(enemyToRemove);
         }
@@ -481,6 +523,7 @@ public class LevelHandler {
         ITrap trapToRemove = null;
         for (ITrap trap : traps) {
             if (trap.isFrozen()) {
+                statsManager.incrementFreezePowerUpsFroze();
                 trapToRemove = trap;
             }
         }
