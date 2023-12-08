@@ -8,10 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.group16.Model.GameObjects.Enemy.IEnemy;
-import org.group16.Model.GameObjects.Enemy.IMovableEnemy;
-import org.group16.Model.GameObjects.Enemy.ITrap;
-import org.group16.Model.GameObjects.Enemy.TrapFactory;
+import org.group16.Model.GameObjects.Enemy.*;
 import org.group16.Model.GameObjects.Goal.IGoal;
 import org.group16.Model.GameObjects.Goal.GoalFactory;
 import org.group16.Model.GameObjects.Direction;
@@ -21,8 +18,6 @@ import org.group16.Model.GameObjects.Blocks.BlockFactory;
 import org.group16.Model.GameObjects.Blocks.IBlock;
 import org.group16.Model.GameObjects.Blocks.MovableBlock;
 import org.group16.Model.GameObjects.Blocks.TeleportBlock;
-import org.group16.Model.GameObjects.Enemy.EnemyFactory;
-import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.GameObjects.Player.PlayerFactory;
 import org.group16.Model.GameObjects.PowerUp.IPowerUp;
@@ -31,7 +26,6 @@ import org.group16.Model.Observers.GameObserver;
 
 public class LevelHandler {
     private IPlayer player;
-    private IGameObject iGameObject;
     private IGoal goal;
     private Collection<IEnemy> enemies;
     private Collection<IMovableEnemy> movableEnemies;
@@ -39,7 +33,6 @@ public class LevelHandler {
     private Collection<IPowerUp> powerUps;
     private Collection<ITrap> traps;
     private Collection<EnemyWithTarget> enemiesWithTargets;
-
     private boolean playerIsAtGoal;
 
     private List<Integer> destinationIntegers;
