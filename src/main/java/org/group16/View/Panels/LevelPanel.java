@@ -338,7 +338,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
             switch (enemy.getType()) {
                 case BASIC_____:
-                    //enemyImage = getBasicEnemyImage(enemy);
+                    enemyImage = getBasicEnemyImage(enemy);
                     g.drawImage(enemyImage, enemyX, enemyY, enemyWidth, enemyHeight, this);
                     break;
 
@@ -351,6 +351,57 @@ public class LevelPanel extends GamePanel implements GameObserver {
                     g.fillRect(enemyX, enemyY, enemyWidth, enemyHeight);
                     break;
             }
+        }
+    }
+
+    private BufferedImage getBasicEnemyImage(IEnemy enemy) {
+        BufferedImage enemyImage;
+        switch (enemy.getDirection()) {
+            case RIGHT:
+                enemyImage = basicEnemyRightImage;
+                break;
+            case LEFT:
+                enemyImage = basicEnemyImage;
+                break;
+            default:
+                enemyImage = basicEnemyImage;
+                break;
+            
+        }
+        return enemyImage;
+    }
+
+    private BufferedImage getFlyingEnemyImage(IEnemy enemy) {
+        switch (flying_enemy_frame) {
+            case 1:
+                switch (enemy.getDirection()) {
+                    case RIGHT:
+                        return flyingEnemyRightWingUpImage;
+                    case LEFT:
+                        return flyingEnemyWingUpImage;
+                    default:
+                        return flyingEnemyWingUpImage;
+                }
+            case 2:
+                switch (enemy.getDirection()) {
+                    case RIGHT:
+                        return flyingEnemyRightWingMiddleImage;
+                    case LEFT:
+                        return flyingEnemyWingMiddleImage;
+                    default:
+                        return flyingEnemyWingMiddleImage;
+                }
+            case 3:
+                switch (enemy.getDirection()) {
+                    case RIGHT:
+                        return flyingEnemyRightWingDownImage;
+                    case LEFT:
+                        return flyingEnemyWingDownImage;
+                    default:
+                        return flyingEnemyWingDownImage;
+                }
+            default:
+                return flyingEnemyWingUpImage;
         }
     }
 
