@@ -1,26 +1,20 @@
 package org.group16.Model.GameObjects.Enemy;
 
 import org.group16.Model.GameObjects.AffectedByGravity;
+import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.Observers.HasHealth;
 
-
 class TeleportRushEnemy extends MovableEnemy implements IMovableEnemy, AffectedByGravity, EnemyWithTarget {
     private MovableEnemy innerMovableEnemy;
-
     private  EnemyBehavior<TeleportRushEnemy> behavior;
-
 
     public TeleportRushEnemy(int x, int y,int width, int height) {
         super(GameObjectType.TELEPORT__, x, y, width, height, 1);
-
         innerMovableEnemy = new MovableEnemy(GameObjectType.TELEPORT__, x, y, width, height, 1);
-
         behavior = new EnemyBehavior<>(this);
     }
-
-
 
     @Override
     public boolean isDead() {
@@ -120,6 +114,13 @@ class TeleportRushEnemy extends MovableEnemy implements IMovableEnemy, AffectedB
         return behavior.getCurrentState();
     }
 
+    @Override
+    public Direction getDirection() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getDirection'");
+    }
 }
+
+
 
 

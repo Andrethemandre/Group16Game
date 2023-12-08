@@ -55,6 +55,11 @@ class PowerUp implements IPowerUp {
     }
 
     @Override
+    public Direction getDirection(){
+        return direction;
+    }
+
+    @Override
     public boolean isMoving() {
         return isMoving;
     }

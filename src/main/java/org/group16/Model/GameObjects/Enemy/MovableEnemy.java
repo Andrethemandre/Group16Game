@@ -1,5 +1,6 @@
 package org.group16.Model.GameObjects.Enemy;
 
+import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.Observers.HasHealth;
@@ -7,11 +8,10 @@ import org.group16.Model.Observers.HasHealth;
 class MovableEnemy implements IMovableEnemy {
     private int movementSpeed;
     private final Enemy innerEnemy;
-    private boolean isVisible;
+
 
     MovableEnemy(GameObjectType enemyType, int x, int y, int health) {
         innerEnemy = new Enemy(enemyType, x, y, health);
-
     }
 
     MovableEnemy(GameObjectType enemyType,int x,  int y, int width, int height, int health) {
@@ -115,16 +115,10 @@ class MovableEnemy implements IMovableEnemy {
         throw new UnsupportedOperationException("Unimplemented method 'triggerPowerUp'");
     }
 
-    public void setVisibility(boolean isVisible) {
-        this.isVisible = isVisible;
+
+    @Override
+    public Direction getDirection() {
+        throw new UnsupportedOperationException("Unimplemented method 'getDirection'");
     }
-
-    public boolean isVisible() {
-        return isVisible;
-    }
-
-
-
-
 
 }

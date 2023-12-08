@@ -1,5 +1,7 @@
 package org.group16.Model.GameObjects.Blocks;
 
+import static org.group16.Model.GameObjects.GameObjectType.TELEPORTER__;
+
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.Level.Metadata;
 
@@ -11,6 +13,8 @@ public class BlockFactory {
             case MOVABLE___:
                 return new MovableBlock(x, y, metadata.getDistance(), metadata.getHorizontalDirection(),
                         metadata.getVerticalDirection());
+            case TELEPORTER__:
+                return new TeleportBlock(x, y);
             default:
                 throw new IllegalArgumentException("Block type is not supported");
         }

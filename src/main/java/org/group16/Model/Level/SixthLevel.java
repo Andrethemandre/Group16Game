@@ -5,6 +5,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 
 import static org.group16.Model.GameObjects.GameObjectType.MOVABLE___;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
+import static org.group16.Model.GameObjects.GameObjectType.TELEPORTER__;
 import static org.group16.Model.GameObjects.GameObjectType.TELEPORT__;
 import static org.group16.Model.GameObjects.GameObjectType.AIR_______;
 import static org.group16.Model.GameObjects.GameObjectType.BASIC_____;
@@ -26,7 +27,7 @@ import java.util.Queue;
 
 public class SixthLevel extends Level {
     // matrix 45X30 to represent level 1
-    
+    List<Integer> teleporterDestinations = new ArrayList<Integer>();
 
     private final static GameObjectType[][] levelLayout = {
 
@@ -90,7 +91,7 @@ public class SixthLevel extends Level {
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, },
-            { SPIKE_____, STATIONARY, STATIONARY, AIR_______, AIR_______, AIR_______, AIR_______, STATIONARY,
+            { TELEPORTER__, STATIONARY, STATIONARY, AIR_______, AIR_______, AIR_______, AIR_______, STATIONARY,
                     STATIONARY, STATIONARY, STATIONARY, STATIONARY, STATIONARY, STATIONARY, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, SPEAR_____, AIR_______, AIR_______, AIR_______,
@@ -130,7 +131,7 @@ public class SixthLevel extends Level {
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
-                    AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, STATIONARY,
+                    AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, SPIKE_____, STATIONARY,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, },
             { AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
@@ -184,7 +185,7 @@ public class SixthLevel extends Level {
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, MOVABLE___,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
-                    AIR_______, AIR_______, AIR_______, AIR_______, SPIKE_____, AIR_______, AIR_______, SPIKE_____,
+                    AIR_______, AIR_______, AIR_______, AIR_______, SPIKE_____, AIR_______, TELEPORTER__, STATIONARY,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, },
             { AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
@@ -215,6 +216,7 @@ public class SixthLevel extends Level {
     // Construct the level by positioning game objects in the grid
     public SixthLevel() {
         super(levelLayout, 6);
+        setTeleporterDestinations(teleporterDestinations);
     }
 
     protected Queue<Metadata> createMetadata() {
@@ -238,6 +240,12 @@ public class SixthLevel extends Level {
         return metadataQueue;
     }
 
-    // Initialize the movableBlocks list based on the level matrix
+    @Override
+    public void setTeleporterDestinations(List<Integer> teleporterDestinations) {
+        teleporterDestinations.add(1);
+        teleporterDestinations.add(0);
+
+        super.setTeleporterDestinations(teleporterDestinations);
+    }
 
 }
