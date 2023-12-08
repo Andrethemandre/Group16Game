@@ -338,7 +338,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
             switch (enemy.getType()) {
                 case BASIC_____:
-                    enemyImage = getBasicEnemyImage(enemy);
+                    //enemyImage = getBasicEnemyImage(enemy);
                     g.drawImage(enemyImage, enemyX, enemyY, enemyWidth, enemyHeight, this);
                     break;
 
@@ -362,6 +362,28 @@ public class LevelPanel extends GamePanel implements GameObserver {
             Color color = getColorBasedOnState(enemyWithTarget);
             g.setColor(color);
             g.fillOval(enemyWithTargetX, enemyWithTargetY, enemyWithTarget.getWidth(), enemyWithTarget.getHeight());
+        }
+    }
+
+    private Color getColorBasedOnState(EnemyWithTarget enemyWithTarget) {
+        switch (enemyWithTarget.getCurrentState()) {
+            case IDLE:
+                // For idle state, return a color that blinks faster
+                float pulse = (float) ((Math.sin(System.currentTimeMillis() / 1000.0 * 2) + 1) / 2); // Oscillates between 0 and 1
+                return new Color(pulse, 0, pulse); // Purple color that blinks faster
+            case DISAPPEAR:
+                // For disappear state, return a transparent color
+                return new Color(0, 0, 0, 0);
+            case REAPPEAR:
+                reappearCounter = Math.min(255, reappearCounter + 5); // Increase counter by 5 each time, up to 255
+                return new Color(0, 0, 0, reappearCounter);
+            case CHASE:
+                // For chase state, return a color that blinks faster
+                float fastPulse = (float) ((Math.sin(System.currentTimeMillis() / 300.0 * 2) + 1) / 2); // Oscillates between 0 and 1
+                return new Color(fastPulse, 0, 0); // Red color that blinks faster
+            default:
+                // For other states, return a default color
+                return Color.BLACK;
         }
     }
 
