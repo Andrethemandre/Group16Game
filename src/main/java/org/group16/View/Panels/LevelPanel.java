@@ -4,7 +4,6 @@ import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 
 
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -113,6 +112,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         // GameObjects are painted
         paintPlayer(g, currentPlayer);
         paintEnemies(g);
+        paintEnemiesWithTarget(g);
         paintTraps(g);
         paintBlocks(g);
         paintGoal(g);
@@ -193,7 +193,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
         drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX - 55, statsY, lineSpacing);
 
-        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding -55, padding + 3, this);
+        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding - 55, padding + 3, this);
     }
 
     private void paintPlayer(Graphics g, IPlayer currentPlayer) {
@@ -212,7 +212,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
 
-
     private void paintEnemies(Graphics g) {
         Collection<IEnemy> currentEnemies = levelHandler.getEnemies();
         for (IEnemy enemy : currentEnemies) {
@@ -227,61 +226,46 @@ public class LevelPanel extends GamePanel implements GameObserver {
                 g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
                 // For spike
             } else if (enemy.getType() == GameObjectType.SPIKE_____) {
-                int[] xPoints = { enemyX, enemyX + (enemyWidth / 2), enemyX + enemyWidth };
-                int[] yPoints = { enemyY + enemyHeight, enemyY, enemyY + enemyHeight };
+                int[] xPoints = {enemyX, enemyX + (enemyWidth / 2), enemyX + enemyWidth};
+                int[] yPoints = {enemyY + enemyHeight, enemyY, enemyY + enemyHeight};
                 int nPoints = 3;
                 g.setColor(Color.darkGray);
                 g.fillPolygon(xPoints, yPoints, nPoints);
-
                 // For flying enemies
-            } else if (enemy.getType() == GameObjectType.FLYING____) {
-
+            } else if (enemy.getType() == GameObjectType.FLYING____){
                 g.setColor(flyingEnemyColor);
                 g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
-                // For teleporting enemies
-            }
-//
-
-                // Default colour and shape
-            else {
-                //g.setColor(Color.black);
-                //g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
             }
         }
-
-            Collection<EnemyWithTarget> currentEnemiesWithTarget = levelHandler.getEnemiesWithTargets();
-            for(EnemyWithTarget enemyWithTarget : currentEnemiesWithTarget){
-                int enemyWithTargetX = enemyWithTarget.getX();
-                int enemyWithTargetY = enemyWithTarget.getY();
-                if(enemyWithTarget.getType() == GameObjectType.TELEPORT__){
-                    if(enemyWithTarget.getCurrentState() == EnemyState.IDLE){
-                        g.setColor(getColorBasedOnState(enemyWithTarget));
-                    }
-
-                }
-                else{
-                    g.setColor(Color.black);
-                }
-                g.fillOval(enemyWithTargetX, enemyWithTargetY, enemyWithTarget.getWidth(), enemyWithTarget.getHeight());
-            }
-
-
     }
 
-    private Color getColorBasedOnState(EnemyWithTarget enemy) {
-        switch (enemy.getCurrentState()) {
+    private void paintEnemiesWithTarget(Graphics g) {
+        Collection<EnemyWithTarget> currentEnemiesWithTarget = levelHandler.getEnemiesWithTargets();
+        for (EnemyWithTarget enemyWithTarget : currentEnemiesWithTarget) {
+            int enemyWithTargetX = enemyWithTarget.getX();
+            int enemyWithTargetY = enemyWithTarget.getY();
+            Color color = getColorBasedOnState(enemyWithTarget);
+            g.setColor(color);
+            g.fillOval(enemyWithTargetX, enemyWithTargetY, enemyWithTarget.getWidth(), enemyWithTarget.getHeight());
+        }
+    }
+
+    private Color getColorBasedOnState(EnemyWithTarget enemyWithTarget) {
+        switch (enemyWithTarget.getCurrentState()) {
             case IDLE:
                 // For idle state, return a color that blinks faster
                 float pulse = (float) ((Math.sin(System.currentTimeMillis() / 1000.0 * 2) + 1) / 2); // Oscillates between 0 and 1
                 return new Color(pulse, 0, pulse); // Purple color that blinks faster
             case DISAPPEAR:
                 // For disappear state, return a transparent color
-                return new Color(0, 0, 0, 0); // Transparent color
+                return new Color(0, 0, 0, 0);
+
             default:
                 // For other states, return a default color
                 return Color.BLACK;
         }
     }
+
 
     private void paintTraps(Graphics g) {
         Collection<ITrap> currentTraps = levelHandler.getTraps();
@@ -293,8 +277,8 @@ public class LevelPanel extends GamePanel implements GameObserver {
             int trapHeight = trap.getHeight();
 
             if (trap.getType() == GameObjectType.SPIKE_____) {
-                int[] xPoints = { trapX, trapX + (trapWidth / 2), trapX + trapWidth };
-                int[] yPoints = { trapY + trapHeight, trapY, trapY + trapHeight };
+                int[] xPoints = {trapX, trapX + (trapWidth / 2), trapX + trapWidth};
+                int[] yPoints = {trapY + trapHeight, trapY, trapY + trapHeight};
                 int nPoints = 3;
                 g.setColor(Color.darkGray);
                 g.fillPolygon(xPoints, yPoints, nPoints);
