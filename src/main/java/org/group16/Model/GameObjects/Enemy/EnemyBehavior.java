@@ -8,11 +8,7 @@ class EnemyBehavior <T extends MovableEnemy>  {
     private int targetX;
     private int targetY;
 
-
-
     private final T enemy; // generic type can be any type of enemy
-
-
 
     private double disappearStartTime = 0; // time when enemy disappears
     private final int disappearDelaySeconds = 5;
@@ -22,20 +18,16 @@ class EnemyBehavior <T extends MovableEnemy>  {
         currentState = EnemyState.IDLE;
     }
 
-
-
-    public boolean isPlayerNear() {
+    private boolean isPlayerNear() {
         // Check if player is near
         int enemyX = enemy.getX();
         int distanceX = Math.abs(targetX - enemyX);
-
-
 
         return distanceX <= NEAR_DISTANCE_X;
 
     }
 
-    public void teleportBehindPlayer() {
+    private void teleportBehindPlayer() {
         // Teleport behind player
         int playerX = targetX;
         int enemyX = playerX - 50;
@@ -43,12 +35,7 @@ class EnemyBehavior <T extends MovableEnemy>  {
 
     }
 
-
-
-
-
-
-    public void idle() {
+    private void idle() {
         // Idle behavior
         if(isPlayerNear()) {
             currentState = EnemyState.DISAPPEAR;
@@ -56,7 +43,7 @@ class EnemyBehavior <T extends MovableEnemy>  {
         }
     }
 
-    public void disappear() {
+    private void disappear() {
         // Disappear behavior
         // After disappearing, the enemy will reappear after a certain amount of time
         if (System.currentTimeMillis()/1000.0 - disappearStartTime > disappearDelaySeconds) { // if 7 seconds have passed
@@ -64,9 +51,7 @@ class EnemyBehavior <T extends MovableEnemy>  {
         }
     }
 
-
-
-    public void reappear() {
+    private void reappear() {
         // Reappear behavior
         // After reappearing, the enemy will chase the player
         double currentTime = System.currentTimeMillis()/1000.0;
@@ -77,7 +62,7 @@ class EnemyBehavior <T extends MovableEnemy>  {
 
     }
 
-    public void chase() {
+    private void chase() {
         // Chase behavior
         // Move the enemy towards the players position
         if (targetX > enemy.getX()) {
@@ -86,8 +71,6 @@ class EnemyBehavior <T extends MovableEnemy>  {
             enemy.setX(enemy.getX() - 2);
        }
     }
-
-
 
     public void setTargetCoordinates(int x, int y) {
         // Set target coordinates for the enemy to move to
