@@ -28,7 +28,6 @@ class EnemyBehavior <T extends MovableEnemy>  {
         // Check if player is near
         int enemyX = enemy.getX();
         int distanceX = Math.abs(targetX - enemyX);
-        System.out.println(distanceX);
 
 
 
@@ -40,8 +39,6 @@ class EnemyBehavior <T extends MovableEnemy>  {
         // Teleport behind player
         int playerX = targetX;
         int enemyX = playerX - 50;
-        System.out.println("EnemyX: " + enemyX);
-        System.out.println("PlayerX: " + playerX);
         enemy.setX(enemyX);
 
     }
@@ -74,7 +71,6 @@ class EnemyBehavior <T extends MovableEnemy>  {
         // After reappearing, the enemy will chase the player
         double currentTime = System.currentTimeMillis()/1000.0;
         if(currentTime - disappearStartTime > disappearDelaySeconds){
-            System.out.println("Enemy reappeared");
             teleportBehindPlayer();
             currentState = EnemyState.CHASE;
         }
