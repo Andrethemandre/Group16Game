@@ -38,6 +38,8 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private BufferedImage pauseImage;
     private final JButton pauseButton;
 
+    private int reappearCounter = 0;
+
     private Color flyingEnemyColor;
     private Random random;
 
@@ -259,7 +261,13 @@ public class LevelPanel extends GamePanel implements GameObserver {
             case DISAPPEAR:
                 // For disappear state, return a transparent color
                 return new Color(0, 0, 0, 0);
-
+            case REAPPEAR:
+                reappearCounter = Math.min(255, reappearCounter + 5); // Increase counter by 5 each time, up to 255
+                return new Color(0, 0, 0, reappearCounter);
+            case CHASE:
+                // For chase state, return a color that blinks faster
+                float fastPulse = (float) ((Math.sin(System.currentTimeMillis() / 300.0 * 2) + 1) / 2); // Oscillates between 0 and 1
+                return new Color(fastPulse, 0, 0); // Red color that blinks faster
             default:
                 // For other states, return a default color
                 return Color.BLACK;

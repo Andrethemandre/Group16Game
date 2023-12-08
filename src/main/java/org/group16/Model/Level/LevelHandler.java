@@ -17,6 +17,7 @@ import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
 import org.group16.Model.GameObjects.Blocks.IBlock;
 import org.group16.Model.GameObjects.Blocks.MovableBlock;
+import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.GameObjects.Player.PlayerFactory;
 import org.group16.Model.GameObjects.PowerUp.IPowerUp;
@@ -27,6 +28,8 @@ import org.group16.Model.Observers.GameObserver;
 
 public class LevelHandler {
     private IPlayer player;
+
+    private IGameObject iGameObject;
     private IGoal goal;
     private Collection<IEnemy> enemies;
     private Collection<IMovableEnemy> movableEnemies;
@@ -151,6 +154,12 @@ public class LevelHandler {
     private void checkIfPlayerCollidesWithEnemies() {
         for (IEnemy enemy : enemies) {
             if (player.collidesWith(enemy)) {
+                enemy.dealDamage(player);
+            }
+        }
+        for(EnemyWithTarget enemy : enemiesWithTargets){
+            // currently not working, need to separate from other enemies
+            if(player.collidesWith(enemy) && enemy.getCurrentState() != EnemyState.DISAPPEAR){
                 enemy.dealDamage(player);
             }
         }
@@ -400,6 +409,7 @@ public class LevelHandler {
     public void update() {
         updateBlocks();
         player.update();
+
 
         checkIfPlayerAtGoal();
         checkIfPlayerCollidesWithBlocks();

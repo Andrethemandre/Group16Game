@@ -14,10 +14,13 @@ class TeleportRushEnemy extends MovableEnemy implements IMovableEnemy, AffectedB
 
     public TeleportRushEnemy(int x, int y,int width, int height) {
         super(GameObjectType.TELEPORT__, x, y, width, height, 1);
+
         innerMovableEnemy = new MovableEnemy(GameObjectType.TELEPORT__, x, y, width, height, 1);
-        setMovementSpeed(1);
+
         behavior = new EnemyBehavior<>(this);
     }
+
+
 
     @Override
     public boolean isDead() {

@@ -11,12 +11,8 @@ class MovableEnemy implements IMovableEnemy {
 
     MovableEnemy(GameObjectType enemyType, int x, int y, int health) {
         innerEnemy = new Enemy(enemyType, x, y, health);
-        //super(enemyType, x, y);
-    }
 
-//    MovableEnemy(GameObjectType enemyType, int x, int y) {
-//        super(enemyType, x, y);
-//    }
+    }
 
     MovableEnemy(GameObjectType enemyType,int x,  int y, int width, int height, int health) {
         innerEnemy = new Enemy(enemyType, x, y, width, height, health);
