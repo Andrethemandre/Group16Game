@@ -6,8 +6,8 @@ import org.group16.Model.Observers.HasHealth;
 
 class MovableEnemy implements IMovableEnemy {
     private int movementSpeed;
-    private Enemy innerEnemy;
-    private boolean visibility;
+    private final Enemy innerEnemy;
+    private boolean isVisible;
 
     MovableEnemy(GameObjectType enemyType, int x, int y, int health) {
         innerEnemy = new Enemy(enemyType, x, y, health);
@@ -119,14 +119,13 @@ class MovableEnemy implements IMovableEnemy {
         throw new UnsupportedOperationException("Unimplemented method 'triggerPowerUp'");
     }
 
-    public void setVisibility(boolean visibility) {
-        this.visibility = visibility;
+    public void setVisibility(boolean isVisible) {
+        this.isVisible = isVisible;
     }
 
-//    public void toggleVisibility() {
-//        this.visibility = !this.visibility;
-//        // TODO Auto-generated method stub
-//        throw new UnsupportedOperationException("Unimplemented method 'toggleVisibility'");
-//    }
+    public boolean isVisible() {
+        return isVisible;
+    }
+
 
 }

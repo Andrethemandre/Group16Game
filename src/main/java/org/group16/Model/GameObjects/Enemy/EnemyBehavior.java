@@ -4,23 +4,23 @@ package org.group16.Model.GameObjects.Enemy;
 import org.group16.Model.Level.LevelHandler;
 
 class EnemyBehavior <T extends MovableEnemy> {
-    private static final int STATE_IDLE = 0;
-    private static final int STATE_DISAPPEAR = 1;
-    private static final int STATE_REAPPEAR = 2;
-    private static final int STATE_CHASE = 3;
-
-    private static final int NEAR_DISTANCE_X = 10; // threshold distance for player to be considered near
+    private EnemyState currentState;
+    private static final int NEAR_DISTANCE_X = 80; // threshold distance for player to be considered near
 
     private int targetX;
     private int targetY;
 
-    private int currentState;
-    private T enemy; // generic type can be any type of enemy
-    //private Player player;
+    //private int currentState;
+    private final T enemy; // generic type can be any type of enemy
+
+
+
+    private double disappearStartTime = 0; // time when enemy disappears
+    private final int disappearDelaySeconds = 7;
 
     public EnemyBehavior(T enemy) {
         this.enemy = enemy;
-        currentState = STATE_IDLE;
+        currentState = EnemyState.IDLE;
     }
 
 //    public int getPlayerX() {
@@ -39,9 +39,12 @@ class EnemyBehavior <T extends MovableEnemy> {
         // int enemyY = enemy.getY();
 
         int distanceX = Math.abs(targetX - enemyX);
-        System.out.println(targetX);
+        System.out.println(distanceX);
 
-        return distanceX < NEAR_DISTANCE_X;
+
+
+        return distanceX <= NEAR_DISTANCE_X;
+
     }
 
     public void teleportBehindPlayer() {
@@ -65,7 +68,9 @@ class EnemyBehavior <T extends MovableEnemy> {
     public void idle() {
         // Idle behavior
         if(isPlayerNear()) {
-            currentState = STATE_DISAPPEAR;
+            currentState = EnemyState.DISAPPEAR;
+            enemy.setVisibility(false);
+            disappearStartTime = System.currentTimeMillis()/1000.0;
         }
     }
 
@@ -74,9 +79,12 @@ class EnemyBehavior <T extends MovableEnemy> {
         // After disappearing, the enemy will reappear after a certain amount of time
 
             //enemy.toggleVisibility();
+        double currentTime = System.currentTimeMillis()/1000.0;
+        if (System.currentTimeMillis()/1000.0 - disappearStartTime > disappearDelaySeconds) { // if 7 seconds have passed
             
-            currentState = STATE_REAPPEAR;
+            currentState = EnemyState.REAPPEAR;
 
+        }
     }
 
     public void reappear() {
@@ -84,17 +92,17 @@ class EnemyBehavior <T extends MovableEnemy> {
         // After reappearing, the enemy will chase the player
        //enemy.toggleVisibility();
         teleportBehindPlayer();
-        currentState = STATE_CHASE;
+        currentState = EnemyState.CHASE;
     }
 
     public void chase() {
         // Chase behavior
         // Move the enemy towards the players position
-        if (targetX > enemy.getX()) {
-            enemy.setX(enemy.getX() + 1);
-        } else if(targetX < enemy.getX()){
-            enemy.setX(enemy.getX() - 1);
-       }
+//        if (targetX > enemy.getX()) {
+//            enemy.setX(enemy.getX() + 1);
+//        } else if(targetX < enemy.getX()){
+//            enemy.setX(enemy.getX() - 1);
+//       }
     }
 
     public void setTargetCoordinates(int x, int y) {
@@ -105,15 +113,15 @@ class EnemyBehavior <T extends MovableEnemy> {
 
     public void update() {
         switch(currentState) {
-            case STATE_IDLE -> idle();
-            case STATE_DISAPPEAR -> disappear();
-            case STATE_REAPPEAR -> reappear();
-            case STATE_CHASE -> chase();
+            case IDLE -> idle();
+            case DISAPPEAR -> disappear();
+            case REAPPEAR -> reappear();
+            case CHASE -> chase();
             default -> throw new IllegalStateException("Unexpected value: " + currentState);
         }
     }
 
-    public int getCurrentState() {
+    public EnemyState getCurrentState() {
         return currentState;
     }
 }

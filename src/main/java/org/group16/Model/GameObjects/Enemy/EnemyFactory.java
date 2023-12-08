@@ -17,8 +17,7 @@ public class EnemyFactory {
                 return new BasicEnemy(x, y, metadata.getDistance(), metadata.getHorizontalDirection());
             case FLYING____:
                 return new FlyingEnemy(x, y, metadata.getDistance(), metadata.getHorizontalDirection(), metadata.getVerticalDirection());
-            case TELEPORT__:
-                return new TeleportRushEnemy(x, y, 100, 100);  
+
             default:
                 throw new IllegalArgumentException("Enemy type is not supported");
         }

@@ -113,7 +113,7 @@ class TeleportRushEnemy extends MovableEnemy implements IMovableEnemy, AffectedB
     }
 
     @Override
-    public int getCurrentState() {
+    public EnemyState getCurrentState() {
         return behavior.getCurrentState();
     }
 

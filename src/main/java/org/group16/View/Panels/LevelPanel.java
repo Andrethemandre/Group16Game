@@ -32,12 +32,12 @@ import org.group16.Model.Observers.GameObserver;
 import org.group16.View.ViewUtility;
 
 public class LevelPanel extends GamePanel implements GameObserver {
-    private LevelHandler levelHandler;
+    private final LevelHandler levelHandler;
     private BufferedImage redHeartImage;
     private BufferedImage grayHeartImage;
     private BufferedImage levelClockImage;
     private BufferedImage pauseImage;
-    private JButton pauseButton;
+    private final JButton pauseButton;
 
     private Color flyingEnemyColor;
     private Random random;
@@ -211,6 +211,8 @@ public class LevelPanel extends GamePanel implements GameObserver {
         return new Color(red, green, blue);
     }
 
+
+
     private void paintEnemies(Graphics g) {
         Collection<IEnemy> currentEnemies = levelHandler.getEnemies();
         for (IEnemy enemy : currentEnemies) {
@@ -238,39 +240,46 @@ public class LevelPanel extends GamePanel implements GameObserver {
                 g.fillOval(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
                 // For teleporting enemies
             }
-//            else if (enemy.getType() == GameObjectType.TELEPORT__) {
 //
-//
-//                g.setColor(getPulsingColor());
-//
-//
-//
-//                g.fillRect(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight());
-//            }
 
                 // Default colour and shape
             else {
-                g.setColor(Color.black);
-                g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
+                //g.setColor(Color.black);
+                //g.fillRect(enemyX, enemyY, enemy.getWidth(), enemy.getHeight());
             }
-
+        }
 
             Collection<EnemyWithTarget> currentEnemiesWithTarget = levelHandler.getEnemiesWithTargets();
             for(EnemyWithTarget enemyWithTarget : currentEnemiesWithTarget){
                 int enemyWithTargetX = enemyWithTarget.getX();
                 int enemyWithTargetY = enemyWithTarget.getY();
                 if(enemyWithTarget.getType() == GameObjectType.TELEPORT__){
-                    if(enemyWithTarget.getCurrentState() == 0){
-                        g.setColor(getPulsingColor());
+                    if(enemyWithTarget.getCurrentState() == EnemyState.IDLE){
+                        g.setColor(getColorBasedOnState(enemyWithTarget));
                     }
 
                 }
                 else{
                     g.setColor(Color.black);
                 }
-                g.fillRect(enemyWithTargetX, enemyWithTargetY, enemyWithTarget.getWidth(), enemyWithTarget.getHeight());
+                g.fillOval(enemyWithTargetX, enemyWithTargetY, enemyWithTarget.getWidth(), enemyWithTarget.getHeight());
             }
 
+
+    }
+
+    private Color getColorBasedOnState(EnemyWithTarget enemy) {
+        switch (enemy.getCurrentState()) {
+            case IDLE:
+                // For idle state, return a color that blinks faster
+                float pulse = (float) ((Math.sin(System.currentTimeMillis() / 1000.0 * 2) + 1) / 2); // Oscillates between 0 and 1
+                return new Color(pulse, 0, pulse); // Purple color that blinks faster
+            case DISAPPEAR:
+                // For disappear state, return a transparent color
+                return new Color(0, 0, 0, 0); // Transparent color
+            default:
+                // For other states, return a default color
+                return Color.BLACK;
         }
     }
 
