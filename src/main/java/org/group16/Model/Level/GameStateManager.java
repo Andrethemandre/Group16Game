@@ -1,13 +1,8 @@
 package org.group16.Model.Level;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.group16.Model.GameObjects.GameState;
-import org.group16.Model.Observers.GameObserver;
 
 public class GameStateManager {
-    private List<GameObserver> observers = new ArrayList<>();
     private GameState gameState;
 
     GameStateManager() {
@@ -21,8 +16,6 @@ public class GameStateManager {
         else if (gameState == GameState.PAUSED) {
             gameState = GameState.PLAYING;
         }
-
-        notifyObservers();
     }
 
     private void setGameState(GameState gameState) {
@@ -45,23 +38,14 @@ public class GameStateManager {
 
     public void goToMainMenu() {
         setGameState(GameState.START);
-        notifyObservers();
     }
 
     public void goToLevelSelect() {
         setGameState(GameState.LEVEL_SELECT);
-        notifyObservers();
     }
 
     public void startGame() {
         setGameState(GameState.PLAYING);
-        notifyObservers();
-    }
-
-    private void notifyObservers() {
-        for (GameObserver o : observers) {
-            o.updateObserver();
-        }
     }
 
     public GameState getGameState() {
