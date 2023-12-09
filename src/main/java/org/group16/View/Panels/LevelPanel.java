@@ -409,7 +409,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
     private void paintEnemiesWithTarget(Graphics g) {
-        Collection<EnemyWithTarget> currentEnemiesWithTarget = levelHandler.getEnemiesWithTargets();
+        Collection<EnemyWithTarget> currentEnemiesWithTarget = levelHandler.getEnemiesWithTarget();
         for (EnemyWithTarget enemyWithTarget : currentEnemiesWithTarget) {
             int enemyWithTargetX = enemyWithTarget.getX();
             int enemyWithTargetY = enemyWithTarget.getY();

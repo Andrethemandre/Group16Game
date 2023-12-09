@@ -19,7 +19,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     private final int disappearDelaySeconds = 5;
 
     public TeleportRushEnemy(int x, int y,int width, int height) {
-        innerMovableEnemy = new MovableEnemy(GameObjectType.TELEPORT__, x, y, width, height, 1);
+        innerMovableEnemy = new MovableEnemy(GameObjectType.TELEPORT__, x, y, width, height, 99);
     }
 
     @Override
@@ -214,7 +214,13 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
 
     @Override
     public void triggerPowerUp(GameObjectType powerUp) {
-        // shouldn't be affected by power-ups
+        switch (powerUp) {
+            case SPEAR_____:
+                updateHealth(1);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

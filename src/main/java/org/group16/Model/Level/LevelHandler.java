@@ -32,7 +32,7 @@ public class LevelHandler {
     private Collection<IBlock> blocks;
     private Collection<IPowerUp> powerUps;
     private Collection<ITrap> traps;
-    private Collection<EnemyWithTarget> enemiesWithTargets;
+    private Collection<EnemyWithTarget> enemiesWithTarget;
     private boolean playerIsAtGoal;
 
     private List<Integer> destinationIntegers;
@@ -58,7 +58,7 @@ public class LevelHandler {
         powerUps = new ArrayList<>();
         traps = new ArrayList<>();
         movableEnemies = new ArrayList<>();
-        enemiesWithTargets = new ArrayList<>();
+        enemiesWithTarget = new ArrayList<>();
         teleportBlocks = new ArrayList<>();
 
         statsManager = new StatsManager();
@@ -161,7 +161,7 @@ public class LevelHandler {
                 enemy.dealDamage(player);
             }
         }
-        for(EnemyWithTarget enemy : enemiesWithTargets){
+        for(EnemyWithTarget enemy : enemiesWithTarget){
             // currently not working, need to separate from other enemies
             if(player.collidesWith(enemy) && enemy.getCurrentState() != EnemyState.DISAPPEAR){
                 enemy.dealDamage(player);
@@ -229,7 +229,7 @@ public class LevelHandler {
     }
 
     private void checkEnemiesWithTargetCollision() {
-        for (EnemyWithTarget enemy : enemiesWithTargets) {
+        for (EnemyWithTarget enemy : enemiesWithTarget) {
             for (IBlock block : blocks) {
                 if (enemy.collidesWith(block)) {
                     enemy.checkCollision(block);
@@ -354,7 +354,7 @@ public class LevelHandler {
         powerUps.clear();
         traps.clear();
         movableEnemies.clear();
-        enemiesWithTargets.clear();
+        enemiesWithTarget.clear();
 
 
         currentLevel = LevelFactory.createLevel(levelNumber);
@@ -445,7 +445,7 @@ public class LevelHandler {
         EnemyWithTarget newEnemy = EnemyFactory.createEnemyWithTargetAt(currentLevelTile, j * 16, i * 16, metadata);
         enemies.add(newEnemy);
         movableEnemies.add(newEnemy);
-        enemiesWithTargets.add(newEnemy);
+        enemiesWithTarget.add(newEnemy);
     }
 
     private void createMovableEnemy(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
@@ -500,7 +500,7 @@ public class LevelHandler {
     }
 
     private void updateEnemiesWithTarget(){
-        for (EnemyWithTarget enemyWithTarget : enemiesWithTargets) {
+        for (EnemyWithTarget enemyWithTarget : enemiesWithTarget) {
             enemyWithTarget.setTargetCoordinates(player.getX(), player.getY());
         }
     }
@@ -508,12 +508,15 @@ public class LevelHandler {
 
 
     private void removeDeadEntities() {
-        removeDeadEnemy();
+        removeDeadEnemy(enemies);
+        removeDeadEnemy(movableEnemies);
+        removeDeadEnemy(enemiesWithTarget);
+
         removeUsedPowerUps();
         freezeFrozenEnemy();
     }
 
-    private void removeDeadEnemy() {
+    private void removeDeadEnemy(Collection<? extends IEnemy> enemies) {
         IEnemy enemyToRemove = null;
         for (IEnemy enemy : enemies) {
             if (enemy.isDead()) {
@@ -606,8 +609,8 @@ public class LevelHandler {
         return traps;
     }
 
-    public Collection<EnemyWithTarget> getEnemiesWithTargets() {
-        return enemiesWithTargets;
+    public Collection<EnemyWithTarget> getEnemiesWithTarget() {
+        return enemiesWithTarget;
     }
 
     // Somehow this is the right way to do it
