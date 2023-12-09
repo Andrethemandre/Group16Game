@@ -21,7 +21,7 @@ import static org.group16.Model.GameObjects.GameObjectType.POWERUP___;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
 import static org.group16.Model.GameObjects.GameObjectType.FLYING____;
-import static org.group16.Model.GameObjects.GameObjectType.TELEPORTER__;
+import static org.group16.Model.GameObjects.GameObjectType.TELEPORTER;
 
 public abstract class Level {
     private final int WIDTH = 45;

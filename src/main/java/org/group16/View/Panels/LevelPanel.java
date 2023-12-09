@@ -482,7 +482,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
                     blockImage = movingBlockImage;
                     g.drawImage(blockImage, blockX, blockY, blockWidth, blockHeight, this);
                     break;
-                case TELEPORTER__:
+                case TELEPORTER:
                     blockImage = teleportActiveImage;
                     g.drawImage(blockImage, blockX, blockY, blockWidth, blockHeight, this);
                     break;

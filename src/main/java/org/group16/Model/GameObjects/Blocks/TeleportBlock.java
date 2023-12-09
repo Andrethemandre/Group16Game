@@ -11,7 +11,7 @@ public class TeleportBlock implements IBlock {
     Block innerBlock;
 
     TeleportBlock(int x, int y) {
-        innerBlock = new Block(GameObjectType.TELEPORTER__, x, y);
+        innerBlock = new Block(GameObjectType.TELEPORTER, x, y);
     }
 
     @Override

@@ -404,7 +404,7 @@ public class LevelHandler {
                         // will only reset if there is a new goal on next level.
                         goal = GoalFactory.createGoalAt(currentLevelTile, j * 16, i * 16);
                         break;
-                    case TELEPORTER__:
+                    case TELEPORTER:
                         createTeleportBlock(i, j, metadata, currentLevelTile);
 
                         break;
