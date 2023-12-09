@@ -7,14 +7,12 @@ import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.Observers.HasHealth;
 
 class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
-    /**
-     *
-     */
     private static final int TELEPORT_DISTANCE = 80;
     private MovableEnemy innerMovableEnemy;
     private EnemyState currentState = EnemyState.IDLE;
     private static final int NEAR_DISTANCE_X = 80; // threshold distance for player to be considered near
     private Direction direction = Direction.NONE;
+    private int movementSpeed = 2;
 
     private int targetX;
     private int targetY;
@@ -213,7 +211,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
 
     @Override
     public int getMovementSpeed() {
-        return 2;
+        return movementSpeed;
     }
 
     @Override
