@@ -5,7 +5,8 @@ public class LevelFactory {
 
     public static Level createLevel(int levelNumber) {
         switch (levelNumber) {
-            // Not used.
+            case -2:
+                return new TeleportTestLevel();
             case -1:
                 return new TestLevel();
             case 1:
@@ -28,8 +29,6 @@ public class LevelFactory {
                 return new NinthLevel();
             case 10:
                 return new TenthLevel();
-            case 13:
-                return new TeleportTestLevel();
             default:
                 throw new IllegalArgumentException("Level is not supported");
 
