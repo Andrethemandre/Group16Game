@@ -33,7 +33,6 @@ public class LevelHandler {
     private Collection<IPowerUp> powerUps;
     private Collection<ITrap> traps;
     private Collection<EnemyWithTarget> enemiesWithTarget;
-    private boolean playerIsAtGoal;
 
     private List<Integer> destinationIntegers;
     private List<IBlock> teleportBlocks;
@@ -158,12 +157,6 @@ public class LevelHandler {
     private void checkIfPlayerCollidesWithEnemies() {
         for (IEnemy enemy : enemies) {
             if (player.collidesWith(enemy)) {
-                enemy.dealDamage(player);
-            }
-        }
-        for(EnemyWithTarget enemy : enemiesWithTarget){
-            // currently not working, need to separate from other enemies
-            if(player.collidesWith(enemy) && enemy.getCurrentState() != EnemyState.DISAPPEAR){
                 enemy.dealDamage(player);
             }
         }
@@ -305,7 +298,7 @@ public class LevelHandler {
     }
 
     public void newGame() {
-
+        // TODO: SAVE SYSTEM
         gameStateManager.newGame();
     }
 
@@ -354,6 +347,7 @@ public class LevelHandler {
         powerUps.clear();
         traps.clear();
         movableEnemies.clear();
+        teleportBlocks.clear();
         enemiesWithTarget.clear();
 
 

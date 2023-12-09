@@ -26,14 +26,14 @@ public class GameStateManager {
         setGameState(GameState.LEVEL_SELECT);
     }
     public void newGame() {
-
+        // TODO: SAVE SYSTEM
         // Temporary due to lack of save system
 
         // setGameState(GameState.LEVEL_SELECT);
     }
 
     public void loadGame() {
-
+        // TODO: SAVE SYSTEM
     }
 
     public void goToMainMenu() {

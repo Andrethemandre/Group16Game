@@ -61,17 +61,8 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
         // Disappear behavior
         // After disappearing, the enemy will reappear after a certain amount of time
         if (System.currentTimeMillis()/1000.0 - disappearStartTime > disappearDelaySeconds) { // if 7 seconds have passed
-            currentState = EnemyState.REAPPEAR;
-        }
-    }
-
-    private void reappear() {
-        // Reappear behavior
-        // After reappearing, the enemy will chase the player
-        double currentTime = System.currentTimeMillis()/1000.0;
-        if (currentTime - disappearStartTime > disappearDelaySeconds) {
             teleportBehindPlayer();
-            currentState = EnemyState.CHASE;
+            currentState = EnemyState.REAPPEAR;
         }
     }
 
@@ -79,6 +70,15 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
         // Teleport behind player
         int newX = targetX - TELEPORT_DISTANCE;
         setX(newX);
+    }
+
+    private void reappear() {
+        // Reappear behavior
+        // After reappearing, the enemy will chase the player
+        double currentTime = System.currentTimeMillis()/1000.0;
+        if (currentTime - disappearStartTime > disappearDelaySeconds) {
+            currentState = EnemyState.CHASE;
+        }
     }
 
     private void chase() {
