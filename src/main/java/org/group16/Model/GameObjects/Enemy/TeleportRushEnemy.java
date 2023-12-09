@@ -7,6 +7,10 @@ import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.Observers.HasHealth;
 
 class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
+    /**
+     *
+     */
+    private static final int TELEPORT_DISTANCE = 80;
     private MovableEnemy innerMovableEnemy;
     private EnemyState currentState = EnemyState.IDLE;
     private static final int NEAR_DISTANCE_X = 80; // threshold distance for player to be considered near
@@ -75,7 +79,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
 
     private void teleportBehindPlayer() {
         // Teleport behind player
-        int newX = targetX - 80;
+        int newX = targetX - TELEPORT_DISTANCE;
         setX(newX);
     }
 
@@ -106,7 +110,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
 
     private void applyGravity() {
         // Apply gravity
-        setY(getY() + 1);
+        setY(getY() + AffectedByGravity.GRAVITY_LIMIT);
     }
 
     @Override
@@ -116,7 +120,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
             case MOVABLE___:
             case SPIKE_____:
                 if (collidesWith(otherGameObject)) {
-                    setY(getY() - 1);
+                    setY(getY() - AffectedByGravity.GRAVITY_LIMIT);
                 }
                 break; 
             default:
