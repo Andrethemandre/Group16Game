@@ -145,9 +145,15 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
 
     @Override
     public void dealDamage(HasHealth otherGameObject) {
-        innerMovableEnemy.dealDamage(otherGameObject);
+        switch (currentState) {
+            case DISAPPEAR:
+                break;
+            default:
+                innerMovableEnemy.dealDamage(otherGameObject);
+                break;
+        }
     }
-
+        
     @Override
     public int getWidth() {
         return innerMovableEnemy.getWidth();
