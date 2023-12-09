@@ -35,10 +35,6 @@ class Enemy implements IEnemy {
         health -= damage;
     }
 
-    public EnemyBehavior<? extends MovableEnemy> getBehavior() {
-        return null;
-    }
-
     @Override
     public GameObjectType getType() {
         return innerObstacle.getType();

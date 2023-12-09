@@ -8,12 +8,18 @@ import org.group16.Model.Observers.HasHealth;
 
 class TeleportRushEnemy extends MovableEnemy implements IMovableEnemy, AffectedByGravity, EnemyWithTarget {
     private MovableEnemy innerMovableEnemy;
-    private  EnemyBehavior<TeleportRushEnemy> behavior;
+    private EnemyState currentState = EnemyState.IDLE;
+    private static final int NEAR_DISTANCE_X = 80; // threshold distance for player to be considered near
+
+    private int targetX;
+    private int targetY;
+
+    private double disappearStartTime = 0; // time when enemy disappears
+    private final int disappearDelaySeconds = 5;
 
     public TeleportRushEnemy(int x, int y,int width, int height) {
         super(GameObjectType.TELEPORT__, x, y, width, height, 1);
         innerMovableEnemy = new MovableEnemy(GameObjectType.TELEPORT__, x, y, width, height, 1);
-        behavior = new EnemyBehavior<>(this);
     }
 
     @Override
@@ -23,7 +29,63 @@ class TeleportRushEnemy extends MovableEnemy implements IMovableEnemy, AffectedB
 
     @Override
     public void update() {
-        behavior.update();
+        switch(currentState) {
+            case IDLE -> idle();
+            case DISAPPEAR -> disappear();
+            case REAPPEAR -> reappear();
+            case CHASE -> chase();
+            default -> throw new IllegalStateException("Unexpected value: " + currentState);
+        }
+    }
+
+    private void idle() {
+        // Idle behavior
+        if(isPlayerNear()) {
+            currentState = EnemyState.DISAPPEAR;
+            disappearStartTime = System.currentTimeMillis()/1000.0;
+        }
+    }
+
+    private boolean isPlayerNear() {
+        // Check if player is near
+        int horizontalDistance = Math.abs(targetX - getX());
+
+        return horizontalDistance <= NEAR_DISTANCE_X;
+
+    }
+
+    private void disappear() {
+        // Disappear behavior
+        // After disappearing, the enemy will reappear after a certain amount of time
+        if (System.currentTimeMillis()/1000.0 - disappearStartTime > disappearDelaySeconds) { // if 7 seconds have passed
+            currentState = EnemyState.REAPPEAR;
+        }
+    }
+
+    private void reappear() {
+        // Reappear behavior
+        // After reappearing, the enemy will chase the player
+        double currentTime = System.currentTimeMillis()/1000.0;
+        if(currentTime - disappearStartTime > disappearDelaySeconds){
+            teleportBehindPlayer();
+            currentState = EnemyState.CHASE;
+        }
+    }
+
+    private void teleportBehindPlayer() {
+        // Teleport behind player
+        int newX = targetX - 50;
+        setX(newX);
+    }
+
+    private void chase() {
+        // Chase behavior
+        // Move the enemy towards the players position
+        if (targetX > getX()) {
+            setX(getX() + 2);
+        } else if(targetX < getX()){
+            setX(getX() - 2);
+       }
     }
 
     @Override
@@ -106,12 +168,13 @@ class TeleportRushEnemy extends MovableEnemy implements IMovableEnemy, AffectedB
 
     @Override
     public void setTargetCoordinates(int x, int y) {
-        behavior.setTargetCoordinates(x, y);
+        this.targetX = x;
+        this.targetY = y;
     }
 
     @Override
     public EnemyState getCurrentState() {
-        return behavior.getCurrentState();
+        return currentState;
     }
 
     @Override

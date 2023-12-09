@@ -309,7 +309,7 @@ public class LevelHandler {
 
     public void startGame() {
         gameStateManager.startGame();
-        setLevel(lastLevelNumber);
+        setLevel(-1);
 
         statsManager.resetScore();
 
