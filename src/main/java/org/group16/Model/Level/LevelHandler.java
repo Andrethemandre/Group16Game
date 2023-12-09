@@ -319,7 +319,7 @@ public class LevelHandler {
 
     public void startGame() {
         gameStateManager.startGame();
-        setLevel(-1);
+        setLevel(lastLevelNumber);
 
         statsManager.resetScore();
 
@@ -504,8 +504,6 @@ public class LevelHandler {
             enemyWithTarget.setTargetCoordinates(player.getX(), player.getY());
         }
     }
-
-
 
     private void removeDeadEntities() {
         removeDeadEnemy(enemies);
