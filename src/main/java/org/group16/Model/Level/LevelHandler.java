@@ -228,6 +228,16 @@ public class LevelHandler {
         }
     }
 
+    private void checkEnemiesWithTargetCollision() {
+        for (EnemyWithTarget enemy : enemiesWithTargets) {
+            for (IBlock block : blocks) {
+                if (enemy.collidesWith(block)) {
+                    enemy.checkCollision(block);
+                }
+            }
+        }
+    }
+
     private void incrementPowerUpHitStats(IPowerUp powerUp) {
         switch (powerUp.getType()) {
             case SPEAR_____:
@@ -478,6 +488,7 @@ public class LevelHandler {
         removeFrozenTrap();
         updateEnemies();
         updateEnemiesWithTarget();
+        checkEnemiesWithTargetCollision();
 
         notifyObservers();
     }

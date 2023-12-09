@@ -346,6 +346,9 @@ public class LevelPanel extends GamePanel implements GameObserver {
                     enemyImage = getFlyingEnemyImage(enemy);
                     g.drawImage(enemyImage, enemyX, enemyY, enemyWidth, enemyHeight, this);
                     break;
+                case TELEPORT__:
+                    // empty to now draw the teleport rush enemy twice.
+                    break;
                 default:
                     g.setColor(Color.black);
                     g.fillRect(enemyX, enemyY, enemyWidth, enemyHeight);
