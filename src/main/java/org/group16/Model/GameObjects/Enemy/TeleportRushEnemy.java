@@ -6,11 +6,22 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.Observers.HasHealth;
 
-class TeleportRushEnemy implements IMovableEnemy, AffectedByGravity {
+class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
+    private static final int TELEPORT_DISTANCE = 80;
     private MovableEnemy innerMovableEnemy;
-    
+    private EnemyState currentState = EnemyState.IDLE;
+    private static final int NEAR_DISTANCE_X = 80; // threshold distance for player to be considered near
+    private Direction direction = Direction.NONE;
+    private int movementSpeed = 2;
+
+    private int targetX;
+    private int targetY;
+
+    private double disappearStartTime = 0; // time when enemy disappears
+    private final int disappearDelaySeconds = 5;
+
     public TeleportRushEnemy(int x, int y,int width, int height) {
-        innerMovableEnemy = new MovableEnemy(GameObjectType.TELEPORT__, x, y, width, height, 1);
+        innerMovableEnemy = new MovableEnemy(GameObjectType.TELEPORT__, x, y, width, height, 99);
     }
 
     @Override
@@ -19,12 +30,102 @@ class TeleportRushEnemy implements IMovableEnemy, AffectedByGravity {
     }
 
     @Override
-    public void update() {}
+    public void update() {
+        switch(currentState) {
+            case IDLE -> idle();
+            case DISAPPEAR -> disappear();
+            case REAPPEAR -> reappear();
+            case CHASE -> chase();
+            default -> throw new IllegalStateException("Unexpected value: " + currentState);
+        }
+        applyGravity();
+    }
+
+    private void idle() {
+        // Idle behavior
+        if(isPlayerNear()) {
+            currentState = EnemyState.DISAPPEAR;
+            disappearStartTime = System.currentTimeMillis()/1000.0;
+        }
+    }
+
+    private boolean isPlayerNear() {
+        // Check if player is near
+        int horizontalDistance = Math.abs(targetX - getX());
+
+        return horizontalDistance <= NEAR_DISTANCE_X;
+
+    }
+
+    private void disappear() {
+        // Disappear behavior
+        // After disappearing, the enemy will reappear after a certain amount of time
+        if (System.currentTimeMillis()/1000.0 - disappearStartTime > disappearDelaySeconds) { // if 7 seconds have passed
+            teleportBehindPlayer();
+            currentState = EnemyState.REAPPEAR;
+        }
+    }
+
+    private void teleportBehindPlayer() {
+        // Teleport behind player
+        int newX = targetX - TELEPORT_DISTANCE;
+        setX(newX);
+    }
+
+    private void reappear() {
+        // Reappear behavior
+        // After reappearing, the enemy will chase the player
+        double currentTime = System.currentTimeMillis()/1000.0;
+        if (currentTime - disappearStartTime > disappearDelaySeconds) {
+            currentState = EnemyState.CHASE;
+        }
+    }
+
+    private void chase() {
+        // Chase behavior
+        // Move the enemy towards the players position
+        if (targetX > getX()) {
+            direction = Direction.RIGHT; 
+        } else if (targetX < getX()) {
+            direction = Direction.LEFT;
+        }
+        move();
+    }
 
     @Override
-    public void move() {}
-    
+    public void move() {
+        switch (direction) {
+            case LEFT:
+                setX(getX() - getMovementSpeed());
+                break;
+            case RIGHT:
+                setX(getX() + getMovementSpeed());
+                break;
+            default:
+                break;
+        }
+    }
 
+    private void applyGravity() {
+        // Apply gravity
+        setY(getY() + AffectedByGravity.GRAVITY_LIMIT);
+    }
+
+    @Override
+    public void checkCollision(IGameObject otherGameObject) {
+        switch (otherGameObject.getType()) {
+            case STATIONARY:
+            case MOVABLE___:
+            case SPIKE_____:
+                if (collidesWith(otherGameObject)) {
+                    setY(getY() - AffectedByGravity.GRAVITY_LIMIT);
+                }
+                break; 
+            default:
+                break;
+            }
+    }
+    
     @Override
     public void updateHealth(int damage) {
         innerMovableEnemy.updateHealth(damage);
@@ -32,14 +133,29 @@ class TeleportRushEnemy implements IMovableEnemy, AffectedByGravity {
 
     @Override
     public void toggleDirection() {
-        throw new UnsupportedOperationException("Unimplemented method 'toggleDirection'");
+        switch (direction) {
+            case LEFT:
+                direction = Direction.RIGHT;
+                break;
+            case RIGHT:
+                direction = Direction.LEFT;
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
     public void dealDamage(HasHealth otherGameObject) {
-        innerMovableEnemy.dealDamage(otherGameObject);
+        switch (currentState) {
+            case CHASE:
+                innerMovableEnemy.dealDamage(otherGameObject);
+                break;
+            default:
+                break;
+        }
     }
-
+        
     @Override
     public int getWidth() {
         return innerMovableEnemy.getWidth();
@@ -69,6 +185,10 @@ class TeleportRushEnemy implements IMovableEnemy, AffectedByGravity {
         return innerMovableEnemy.getY();
     }
 
+    void setY(int y) {
+        innerMovableEnemy.setY(y);
+    }
+
     @Override
     public boolean collidesWith(IGameObject otherGameObject) {
         return innerMovableEnemy.collidesWith(otherGameObject);
@@ -91,17 +211,37 @@ class TeleportRushEnemy implements IMovableEnemy, AffectedByGravity {
 
     @Override
     public int getMovementSpeed() {
-        return innerMovableEnemy.getMovementSpeed();
+        return movementSpeed;
     }
 
     @Override
     public void triggerPowerUp(GameObjectType powerUp) {
-        // shouldn't be affected by power-ups
+        switch (powerUp) {
+            case SPEAR_____:
+                updateHealth(1);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void setTargetCoordinates(int x, int y) {
+        this.targetX = x;
+        this.targetY = y;
+    }
+
+    @Override
+    public EnemyState getCurrentState() {
+        return currentState;
     }
 
     @Override
     public Direction getDirection() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDirection'");
+        return direction;
     }
 }
+
+
+
+

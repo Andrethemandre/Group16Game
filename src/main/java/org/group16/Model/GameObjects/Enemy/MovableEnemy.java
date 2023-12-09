@@ -7,7 +7,8 @@ import org.group16.Model.Observers.HasHealth;
 
 class MovableEnemy implements IMovableEnemy {
     private int movementSpeed;
-    private Enemy innerEnemy;
+    private final Enemy innerEnemy;
+
 
     MovableEnemy(GameObjectType enemyType, int x, int y, int health) {
         innerEnemy = new Enemy(enemyType, x, y, health);
@@ -21,7 +22,7 @@ class MovableEnemy implements IMovableEnemy {
     public int getMovementSpeed(){
         return movementSpeed;
     }
-    
+
     void setMovementSpeed(int movementSpeed) {
         this.movementSpeed = movementSpeed;
     }
@@ -48,7 +49,7 @@ class MovableEnemy implements IMovableEnemy {
 
     @Override
     public int getHeight() {
-        return innerEnemy.getHeight();	
+        return innerEnemy.getHeight();
     }
 
     @Override
@@ -113,6 +114,7 @@ class MovableEnemy implements IMovableEnemy {
     public void triggerPowerUp(GameObjectType powerUp) {
         throw new UnsupportedOperationException("Unimplemented method 'triggerPowerUp'");
     }
+
 
     @Override
     public Direction getDirection() {

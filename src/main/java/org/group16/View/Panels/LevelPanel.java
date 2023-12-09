@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 
+import org.group16.Model.GameObjects.Enemy.EnemyWithTarget;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameState;
@@ -34,8 +35,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private BufferedImage grayHeartImage;
     private BufferedImage levelClockImage;
     private BufferedImage pauseImage;
-    
+
     private JButton pauseButton;
+
+    private Random random;
 
     //sprites
     private BufferedImage spearPowerUpImage;
@@ -71,8 +74,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private BufferedImage backgroundImage;
 
 
-    private Color flyingEnemyColor;
-    private Random random;
+
 
     public LevelPanel(int x, int y, LevelHandler levelHandler) {
         super(x, y);
@@ -111,7 +113,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
                     if (flying_enemy_frame >3){
                         flying_enemy_frame = 1;
                     }
-                    flyingEnemyColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
                     // Calling repaint here is bad
                     // repaint();
                 }
@@ -166,7 +167,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    } 
+    }
 
     public JButton getPauseButton() {
         return pauseButton;
@@ -187,6 +188,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         drawBackground(g);
         paintPlayer(g, currentPlayer);
         paintEnemies(g);
+        paintEnemiesWithTarget(g);
         paintTraps(g);
         paintBlocks(g);
         paintGoal(g);
@@ -235,16 +237,16 @@ public class LevelPanel extends GamePanel implements GameObserver {
             case SPEAR_____:
                 g.drawImage(spearPowerUpImage, 360,32,this);
                 break;
-            
+
             case FREEZE____:
                 g.drawImage(freezePowerUpImage, 360,32,this);
- 
+
             case NOTHING___:
                 break;
             default:
                 break;
         }
-            
+
     }
 
     private String formatTime(long millis) {
@@ -310,14 +312,14 @@ public class LevelPanel extends GamePanel implements GameObserver {
                 break;
             case LEFT:
                 playerImage = playerImageLeft;
-                g.drawImage(playerImage, playerX, playerY, playerWidth, playerHeight, this);                
+                g.drawImage(playerImage, playerX, playerY, playerWidth, playerHeight, this);
                 break;
             default:
                 g.setColor(Color.blue);
                 g.fillRect(playerX, playerY, playerWidth, playerHeight);
                 break;
         }
-        
+
     }
 
     private void paintEnemies(Graphics g) {
@@ -339,12 +341,9 @@ public class LevelPanel extends GamePanel implements GameObserver {
                     enemyImage = getFlyingEnemyImage(enemy);
                     g.drawImage(enemyImage, enemyX, enemyY, enemyWidth, enemyHeight, this);
                     break;
-
                 case TELEPORT__:
-                    g.setColor(Color.black);
-                    g.fillOval(enemyX, enemyY, enemyWidth, enemyHeight);
+                    // empty to now draw the teleport rush enemy twice.
                     break;
-                
                 default:
                     g.setColor(Color.black);
                     g.fillRect(enemyX, enemyY, enemyWidth, enemyHeight);
@@ -404,6 +403,39 @@ public class LevelPanel extends GamePanel implements GameObserver {
         }
     }
 
+    private void paintEnemiesWithTarget(Graphics g) {
+        Collection<EnemyWithTarget> currentEnemiesWithTarget = levelHandler.getEnemiesWithTarget();
+        for (EnemyWithTarget enemyWithTarget : currentEnemiesWithTarget) {
+            int enemyWithTargetX = enemyWithTarget.getX();
+            int enemyWithTargetY = enemyWithTarget.getY();
+            Color color = getColorBasedOnState(enemyWithTarget);
+            g.setColor(color);
+            g.fillOval(enemyWithTargetX, enemyWithTargetY, enemyWithTarget.getWidth(), enemyWithTarget.getHeight());
+        }
+    }
+
+    private Color getColorBasedOnState(EnemyWithTarget enemyWithTarget) {
+        switch (enemyWithTarget.getCurrentState()) {
+            case IDLE:
+                // For idle state, return a color that blinks faster
+                float pulse = (float) ((Math.sin(System.currentTimeMillis() / 1000.0 * 2) + 1) / 2); // Oscillates between 0 and 1
+                return new Color(pulse, 0, pulse); // Purple color that blinks faster
+            case DISAPPEAR:
+                // For disappear state, return a transparent color
+                return new Color(0, 0, 0, 0);
+            case REAPPEAR:
+                return new Color(0, 0, 255);
+            case CHASE:
+                // For chase state, return a color that blinks faster
+                float fastPulse = (float) ((Math.sin(System.currentTimeMillis() / 300.0 * 2) + 1) / 2); // Oscillates between 0 and 1
+                return new Color(fastPulse, 0, 0); // Red color that blinks faster
+            default:
+                // For other states, return a default color
+                return Color.BLACK;
+        }
+    }
+
+
     private void paintTraps(Graphics g) {
         Collection<ITrap> currentTraps = levelHandler.getTraps();
 
@@ -444,7 +476,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
                     blockImage = movingBlockImage;
                     g.drawImage(blockImage, blockX, blockY, blockWidth, blockHeight, this);
                     break;
-                case TELEPORTER__:
+                case TELEPORTER:
                     blockImage = teleportActiveImage;
                     g.drawImage(blockImage, blockX, blockY, blockWidth, blockHeight, this);
                     break;

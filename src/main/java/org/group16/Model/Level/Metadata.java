@@ -13,6 +13,10 @@ public class Metadata {
         this.horizontalDirection = horizontalDirection;
     }
 
+    public Metadata(int distance, Direction horizontalDirection) {
+        this(distance, horizontalDirection, Direction.NONE);
+    }
+
     public int getDistance() {
         return distance;
     }

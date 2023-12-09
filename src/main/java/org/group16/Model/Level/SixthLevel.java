@@ -5,7 +5,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 
 import static org.group16.Model.GameObjects.GameObjectType.MOVABLE___;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
-import static org.group16.Model.GameObjects.GameObjectType.TELEPORTER__;
+import static org.group16.Model.GameObjects.GameObjectType.TELEPORTER;
 import static org.group16.Model.GameObjects.GameObjectType.TELEPORT__;
 import static org.group16.Model.GameObjects.GameObjectType.AIR_______;
 import static org.group16.Model.GameObjects.GameObjectType.BASIC_____;
@@ -91,7 +91,7 @@ public class SixthLevel extends Level {
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, },
-            { TELEPORTER__, STATIONARY, STATIONARY, AIR_______, AIR_______, AIR_______, AIR_______, STATIONARY,
+            { TELEPORTER, STATIONARY, STATIONARY, AIR_______, AIR_______, AIR_______, AIR_______, STATIONARY,
                     STATIONARY, STATIONARY, STATIONARY, STATIONARY, STATIONARY, STATIONARY, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, SPEAR_____, AIR_______, AIR_______, AIR_______,
@@ -185,7 +185,7 @@ public class SixthLevel extends Level {
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, MOVABLE___,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
-                    AIR_______, AIR_______, AIR_______, AIR_______, SPIKE_____, AIR_______, TELEPORTER__, STATIONARY,
+                    AIR_______, AIR_______, AIR_______, AIR_______, SPIKE_____, AIR_______, TELEPORTER, STATIONARY,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, },
             { AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
