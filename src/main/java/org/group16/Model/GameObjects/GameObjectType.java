@@ -15,6 +15,6 @@ public enum GameObjectType {
     SPEAR_____,
     FREEZE____,
     NOTHING___,
-    TELEPORTER__,
+    TELEPORTER,
 
 }

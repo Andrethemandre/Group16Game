@@ -4,5 +4,5 @@ import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.Observers.HasHealth;
 
 public interface IEnemy extends IObstacle, HasHealth {
-Direction getDirection();
+    Direction getDirection();
 }

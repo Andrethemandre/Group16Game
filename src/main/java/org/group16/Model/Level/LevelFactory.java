@@ -5,7 +5,8 @@ public class LevelFactory {
 
     public static Level createLevel(int levelNumber) {
         switch (levelNumber) {
-            // Not used.
+            case -2:
+                return new TeleportTestLevel();
             case -1:
                 return new TestLevel();
             case 1:
