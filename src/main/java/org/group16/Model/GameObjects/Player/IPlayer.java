@@ -5,11 +5,12 @@ import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Movable;
+import org.group16.Model.GameObjects.Teleportable;
 import org.group16.Model.GameObjects.Blocks.ITeleportBlock;
 
 import org.group16.Model.Observers.HasHealth;
 
-public interface IPlayer extends Movable, IGameObject, HasHealth, AffectedByGravity {
+public interface IPlayer extends Movable, IGameObject, HasHealth, AffectedByGravity, Teleportable {
     void startMovingInDirection(Direction direction);
 
     void stopMovingInDirection(Direction direction);
@@ -25,6 +26,4 @@ public interface IPlayer extends Movable, IGameObject, HasHealth, AffectedByGrav
     void setCurrentPowerUp(GameObjectType hasPowerUp);
 
     GameObjectType getCurrentPowerUp();
-
-    void teleport(ITeleportBlock teleportBlock);
 }

@@ -658,7 +658,7 @@ public class LevelHandler {
     public void checkIfPlayerCollidesWithTeleportBlocks() {
         for (ITeleportBlock teleportBlock : teleportBlocks) {
             if (player.collidesWith(teleportBlock)) {
-                player.teleport(teleportBlock);
+                teleportBlock.teleport(player);
             }
         }
     }

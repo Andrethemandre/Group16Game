@@ -5,6 +5,7 @@ import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
+import org.group16.Model.GameObjects.Teleporter;
 import org.group16.Model.GameObjects.Blocks.IMovableBlock;
 import org.group16.Model.GameObjects.Blocks.ITeleportBlock;
 
@@ -19,9 +20,6 @@ class Player implements IPlayer {
     private int xAcceleration;
     private double previousTime = 0;
     private double currentTime = 6;
-    private double previousTeleportTime = 0;
-    private double currentTeleportTime = 6;
-    private final double teleportDelay = 1;
     private GameObjectType currentPowerUp = GameObjectType.NOTHING___;
     private Direction lastDirection = Direction.RIGHT;
     private final int damageDelay = 1;
@@ -324,15 +322,9 @@ class Player implements IPlayer {
     }
 
     @Override
-    public void teleport(ITeleportBlock teleportBlock) {
-        currentTeleportTime = System.currentTimeMillis() / 1000.0;
-        if (currentTeleportTime - previousTeleportTime > teleportDelay) {
-            previousTeleportTime = currentTeleportTime;
-
-            setX(teleportBlock.getDestinationX());
-            setY(teleportBlock.getDestinationY() - 16);
-        }
-
+    public void teleport(Teleporter teleporter) {
+        setX(teleporter.getDestinationX());
+        setY(teleporter.getDestinationY());
     }
 
     @Override

@@ -2,11 +2,15 @@ package org.group16.Model.GameObjects.Blocks;
 
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
+import org.group16.Model.GameObjects.Teleportable;
 
 class TeleportBlock implements ITeleportBlock {
     private Block innerBlock;
     private int destinationX;
     private int destinationY;
+    private double previousTeleportTime = 0;
+    private double currentTeleportTime = 6;
+    private final double teleportDelay = 1;
 
     TeleportBlock(int x, int y, int destinationX, int destinationY) {
         innerBlock = new Block(GameObjectType.TELEPORTER, x, y);
@@ -56,6 +60,16 @@ class TeleportBlock implements ITeleportBlock {
     @Override
     public int getDestinationY() {
         return destinationY;
+    }
+
+    @Override
+    public void teleport(Teleportable teleportable) {
+        currentTeleportTime = System.currentTimeMillis() / 1000.0;
+        if (currentTeleportTime - previousTeleportTime > teleportDelay) {
+            previousTeleportTime = currentTeleportTime;
+
+            teleportable.teleport(this);
+        }
     }
 
     // Add other necessary methods or overrides if needed
