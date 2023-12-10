@@ -3,10 +3,6 @@ package org.group16.Model.GameObjects.Blocks;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 
-import java.util.List;
-
-import org.group16.Model.GameObjects.GameObject;
-
 public class TeleportBlock implements ITeleportBlock {
     private Block innerBlock;
 

@@ -7,7 +7,6 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Blocks.IMovableBlock;
 import org.group16.Model.GameObjects.Blocks.ITeleportBlock;
-import org.group16.Model.GameObjects.Blocks.TeleportBlock;
 
 class Player implements IPlayer {
     private boolean moveLeft = false;
