@@ -6,6 +6,7 @@ import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Blocks.IMovableBlock;
+import org.group16.Model.GameObjects.Blocks.ITeleportBlock;
 import org.group16.Model.GameObjects.Blocks.TeleportBlock;
 
 class Player implements IPlayer {
@@ -324,7 +325,7 @@ class Player implements IPlayer {
     }
 
     @Override
-    public void teleport(TeleportBlock teleportBlock) {
+    public void teleport(ITeleportBlock teleportBlock) {
         currentTeleportTime = System.currentTimeMillis() / 1000.0;
         if (currentTeleportTime - previousTeleportTime > teleportDelay) {
             previousTeleportTime = currentTeleportTime;

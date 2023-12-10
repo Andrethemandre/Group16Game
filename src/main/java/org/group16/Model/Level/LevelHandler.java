@@ -17,7 +17,7 @@ import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
 import org.group16.Model.GameObjects.Blocks.IBlock;
 import org.group16.Model.GameObjects.Blocks.IMovableBlock;
-import org.group16.Model.GameObjects.Blocks.TeleportBlock;
+import org.group16.Model.GameObjects.Blocks.ITeleportBlock;
 import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.GameObjects.Player.PlayerFactory;
 import org.group16.Model.GameObjects.PowerUp.IPowerUp;
@@ -35,7 +35,7 @@ public class LevelHandler {
     private Collection<EnemyWithTarget> enemiesWithTarget;
 
     private List<Integer> destinationIntegers;
-    private List<IBlock> teleportBlocks;
+    private List<ITeleportBlock> teleportBlocks;
     private Collection<GameObserver> observers;
     private int lastLevelNumber = 1;
     private Level currentLevel;
@@ -371,11 +371,15 @@ public class LevelHandler {
                         break;
 
                     case STATIONARY:
-                        createBlock(i, j, metadata, currentLevelTile);
+                        createBlock(i, j, currentLevelTile);
                         break;
 
                     case MOVABLE___:
                         createMovableBlock(i, j, metadata, currentLevelTile);
+                        break;
+
+                    case TELEPORTER:
+                        createTeleportBlock(i, j, metadata, currentLevelTile);
                         break;
 
                     case SPEAR_____:
@@ -389,7 +393,6 @@ public class LevelHandler {
 
                     case PLAYER____:
                         // The grid uses /16 of the actual size
-
                         player = PlayerFactory.createPlayerAt(currentLevelTile, j * 16, i * 16, getHeight() * 16,
                                 getWidth() * 16);
                         break;
@@ -398,10 +401,7 @@ public class LevelHandler {
                         // will only reset if there is a new goal on next level.
                         goal = GoalFactory.createGoalAt(currentLevelTile, j * 16, i * 16);
                         break;
-                    case TELEPORTER:
-                        createTeleportBlock(i, j, metadata, currentLevelTile);
 
-                        break;
                     default:
                         break;
                 }
@@ -419,8 +419,8 @@ public class LevelHandler {
         powerUps.add(newPowerUp);
     }
 
-    private void createBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
-        IBlock newBlock = BlockFactory.createBlockAt(currentLevelTile, j * 16, i * 16, metadata);
+    private void createBlock(int i, int j, GameObjectType currentLevelTile) {
+        IBlock newBlock = BlockFactory.createBlockAt(currentLevelTile, j * 16, i * 16);
         blocks.add(newBlock);
     }
 
@@ -449,10 +449,9 @@ public class LevelHandler {
     }
 
     private void createTeleportBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
-        IBlock newBlock = BlockFactory.createBlockAt(currentLevelTile, j * 16, i * 16, metadata);
+        ITeleportBlock newBlock = BlockFactory.createTeleportBlockAt(currentLevelTile, j * 16, i * 16, metadata);
         blocks.add(newBlock);
         teleportBlocks.add(newBlock);
-
     }
 
     public long getElapsedTime() {
@@ -536,8 +535,7 @@ public class LevelHandler {
     private void freezeFrozenEnemy() {
         for (IEnemy enemy : enemies) {
             if (enemy.isFrozen()) {
-                IBlock frozenEnemy = BlockFactory.createBlockAt(STATIONARY, enemy.getX(), enemy.getY(),
-                        new Metadata(0, Direction.NONE, Direction.NONE));
+                IBlock frozenEnemy = BlockFactory.createBlockAt(STATIONARY, enemy.getX(), enemy.getY());
                 blocks.add(frozenEnemy);
                 enemy.updateHealth(enemy.getHealth());
             }
@@ -545,8 +543,7 @@ public class LevelHandler {
 
         for (ITrap trap : traps) {
             if (trap.isFrozen()) {
-                IBlock frozenTrap = BlockFactory.createBlockAt(STATIONARY, trap.getX(), trap.getY(),
-                        new Metadata(0, Direction.NONE, Direction.NONE));
+                IBlock frozenTrap = BlockFactory.createBlockAt(STATIONARY, trap.getX(), trap.getY());
                 blocks.add(frozenTrap);
             }
         }
@@ -666,7 +663,7 @@ public class LevelHandler {
                 if (player.collidesWith(teleportBlocks.get(i))
                         && destinationIntegers.size() == teleportBlocks.size()) {
 
-                    player.teleport((TeleportBlock) teleportBlocks.get(destinationIntegers.get(i)));
+                    player.teleport(teleportBlocks.get(destinationIntegers.get(i)));
                 }
             }
 

@@ -6,15 +6,10 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.Level.Metadata;
 
 public class BlockFactory {
-    public static IBlock createBlockAt(GameObjectType blockType, int x, int y, Metadata metadata) {
+    public static IBlock createBlockAt(GameObjectType blockType, int x, int y) {
         switch (blockType) {
             case STATIONARY:
                 return new StationaryBlock(x, y);
-            case MOVABLE___:
-                return new MovableBlock(x, y, metadata.getDistance(), metadata.getHorizontalDirection(),
-                        metadata.getVerticalDirection());
-            case TELEPORTER:
-                return new TeleportBlock(x, y);
             default:
                 throw new IllegalArgumentException("Block type is not supported");
         }
@@ -25,6 +20,15 @@ public class BlockFactory {
             case MOVABLE___:
                 return new MovableBlock(x, y, metadata.getDistance(), metadata.getHorizontalDirection(),
                         metadata.getVerticalDirection());
+            default:
+                throw new IllegalArgumentException("Block type is not supported");
+        }
+    }
+
+    public static ITeleportBlock createTeleportBlockAt(GameObjectType blockType, int x, int y, Metadata metadata) {
+        switch (blockType) {
+            case TELEPORTER:
+                return new TeleportBlock(x, y);
             default:
                 throw new IllegalArgumentException("Block type is not supported");
         }
