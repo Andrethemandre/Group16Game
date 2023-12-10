@@ -5,6 +5,7 @@ public enum EnemyState {
     IDLE,
     DISAPPEAR,
     REAPPEAR,
-    CHASE
+    CHASE,
+
 }
 

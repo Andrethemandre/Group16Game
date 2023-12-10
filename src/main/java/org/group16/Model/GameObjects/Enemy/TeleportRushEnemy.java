@@ -12,13 +12,13 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     private EnemyState currentState = EnemyState.IDLE;
     private static final int NEAR_DISTANCE_X = 80; // threshold distance for player to be considered near
     private Direction direction = Direction.NONE;
-    private int movementSpeed = 2;
+    private int movementSpeed = 3;
 
     private int targetX;
     private int targetY;
 
     private double disappearStartTime = 0; // time when enemy disappears
-    private final int disappearDelaySeconds = 5;
+    private final int disappearDelaySeconds = 3;
 
     public TeleportRushEnemy(int x, int y,int width, int height) {
         innerMovableEnemy = new MovableEnemy(GameObjectType.TELEPORT__, x, y, width, height, 99);
@@ -35,7 +35,12 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
             case IDLE -> idle();
             case DISAPPEAR -> disappear();
             case REAPPEAR -> reappear();
-            case CHASE -> chase();
+            case CHASE -> {
+                chase();
+                if(isPlayerFar()){
+                    teleportBehindPlayer();
+                }
+            }
             default -> throw new IllegalStateException("Unexpected value: " + currentState);
         }
         applyGravity();
@@ -52,6 +57,11 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     private boolean isPlayerNear() {
         // Check if player is near
         int horizontalDistance = Math.abs(targetX - getX());
+        int verticalDistance = Math.abs(targetY - getY());
+
+        if (verticalDistance > 70) {
+            return false;
+        }
 
         return horizontalDistance <= NEAR_DISTANCE_X;
 
@@ -70,6 +80,8 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
         // Teleport behind player
         int newX = targetX - TELEPORT_DISTANCE;
         setX(newX);
+        int newY = targetY;
+        setY(newY);
     }
 
     private void reappear() {
@@ -90,6 +102,18 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
             direction = Direction.LEFT;
         }
         move();
+
+
+
+    }
+
+    private boolean isPlayerFar() {
+        //int horizontalDistance = Math.abs(targetX - getX());
+        int verticalDistance = Math.abs(targetY - getY());
+
+        int tooFarDistanceY = 120;
+
+        return verticalDistance > tooFarDistanceY;
     }
 
     @Override
