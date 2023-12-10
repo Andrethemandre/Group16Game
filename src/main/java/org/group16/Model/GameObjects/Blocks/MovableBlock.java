@@ -4,7 +4,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Direction;
 
-public class MovableBlock implements IMovableBlock {
+class MovableBlock implements IMovableBlock {
     private int movementSpeed = 1;
     private Direction horizontalDirection;
     private Direction verticalDirection;
@@ -121,5 +121,15 @@ public class MovableBlock implements IMovableBlock {
     @Override
     public Direction getDirection() {
         return horizontalDirection;
+    }
+
+    @Override
+    public Direction getVerticalDirection() {
+        return verticalDirection;
+    }
+
+    @Override
+    public int getMovementSpeed() {
+        return movementSpeed;
     }
 }

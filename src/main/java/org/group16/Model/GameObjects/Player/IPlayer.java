@@ -20,7 +20,7 @@ public interface IPlayer extends Movable, IGameObject, HasHealth, AffectedByGrav
 
     void startJumping();
 
-    void collision(IGameObject otherGameObject);
+    void checkCollision(IGameObject otherGameObject);
 
     void setCurrentPowerUp(GameObjectType hasPowerUp);
 

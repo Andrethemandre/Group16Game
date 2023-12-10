@@ -150,7 +150,7 @@ public class LevelHandler {
 
     private void checkIfPlayerCollidesWithBlocks() {
         for (IBlock block : blocks) {
-            player.collision(block);
+            player.checkCollision(block);
         }
     }
 
