@@ -450,7 +450,6 @@ public class LevelHandler {
         ITeleportBlock newBlock = BlockFactory.createTeleportBlockAt(currentLevelTile, j * 16, i * 16, metadata);
         blocks.add(newBlock);
         teleportBlocks.add(newBlock);
-        System.out.println(i + " " + j);
     }
 
     public long getElapsedTime() {

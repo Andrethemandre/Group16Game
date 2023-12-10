@@ -1,8 +1,6 @@
 package org.group16.Model.Level;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
@@ -37,10 +35,6 @@ public abstract class Level {
         initializeMetadata();
     }
 
-    public GameObjectType[][] getLevelLayout() {
-        return levelLayout;
-    }
-
     public GameObjectType getLevelTile(int x, int y) {
         return levelLayout[x][y];
     }
@@ -62,7 +56,7 @@ public abstract class Level {
 
     protected abstract Queue<Metadata> createMetadata();
 
-    void initializeMetadata() {
+    private void initializeMetadata() {
         metadataMap = new HashMap<>();
         Queue<Metadata> metadataQueue = createMetadata();
 
