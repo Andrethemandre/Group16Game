@@ -129,38 +129,38 @@ public class LevelPanel extends GamePanel implements GameObserver {
             levelClockImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/level_clock.png"));
             pauseImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/pause_menu_icon.png"));
             //sprites
-            spearPowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/spear_powerUp.png"));
-            spearPowerUpThrowRightImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/spearThrow.png"));
-            spearPowerUpThrowLeftImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/spearThrow_left.png"));
+            spearPowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/spear_power_up.png"));
+            spearPowerUpThrowRightImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/spear_throw.png"));
+            spearPowerUpThrowLeftImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/spear_throw_left.png"));
 
-            freezePowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/freeze_powerUp.png"));
+            freezePowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/freeze_power_up.png"));
 
-            playerImageRight = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/king_blob.png"));
-            playerImageLeft = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/king_blob_left.png"));
+            playerImageRight = ImageIO.read(getClass().getResourceAsStream("/images/sprites/king_blob.png"));
+            playerImageLeft = ImageIO.read(getClass().getResourceAsStream("/images/sprites/king_blob_left.png"));
 
-            basicEnemyImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/basic_enemy.png"));
-            basicEnemyRightImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/basic_enemy_right.png"));
+            basicEnemyImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/basic_enemy.png"));
+            basicEnemyRightImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/basic_enemy_right.png"));
 
-            flyingEnemyWingUpImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_wing_up.png"));
-            flyingEnemyWingMiddleImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_wing_middle.png"));
-            flyingEnemyWingDownImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_wing_down.png"));
+            flyingEnemyWingUpImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/flying_enemy_wing_up.png"));
+            flyingEnemyWingMiddleImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/flying_enemy_wing_middle.png"));
+            flyingEnemyWingDownImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/flying_enemy_wing_down.png"));
 
-            flyingEnemyRightWingUpImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_right_wing_up.png"));
-            flyingEnemyRightWingMiddleImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_right_wing_middle.png"));
-            flyingEnemyRightWingDownImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_right_wing_down.png"));
+            flyingEnemyRightWingUpImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/flying_enemy_right_wing_up.png"));
+            flyingEnemyRightWingMiddleImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/flying_enemy_right_wing_middle.png"));
+            flyingEnemyRightWingDownImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/flying_enemy_right_wing_down.png"));
 
-            spikeImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/spike.png"));
+            spikeImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/spike.png"));
 
 
-            stationaryBlockImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/Block.png"));
-            movingBlockImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/Moving_Block.png"));
+            stationaryBlockImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/block.png"));
+            movingBlockImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/moving_block.png"));
 
-            teleportActiveImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/teleport_active.png"));
-            teleportInactiveImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/teleport_inactive.png"));
+            teleportActiveImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/teleport_active.png"));
+            teleportInactiveImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/teleport_inactive.png"));
 
-            goalImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/goal.png"));
+            goalImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/goal.png"));
 
-            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/backround.png"));
+            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/background.png"));
 
 
 
