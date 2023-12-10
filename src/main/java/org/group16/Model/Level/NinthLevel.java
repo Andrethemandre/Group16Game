@@ -2,7 +2,6 @@ package org.group16.Model.Level;
 
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
-import org.group16.Model.GameObjects.Blocks.MovableBlock;
 
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 

@@ -20,7 +20,7 @@ public class BlockFactory {
         }
     }
 
-    public static MovableBlock createMovableBlockAt(GameObjectType blockType, int x, int y, Metadata metadata) {
+    public static IMovableBlock createMovableBlockAt(GameObjectType blockType, int x, int y, Metadata metadata) {
         switch (blockType) {
             case MOVABLE___:
                 return new MovableBlock(x, y, metadata.getDistance(), metadata.getHorizontalDirection(),

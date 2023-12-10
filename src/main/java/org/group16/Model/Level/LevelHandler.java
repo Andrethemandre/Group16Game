@@ -16,7 +16,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
 import org.group16.Model.GameObjects.Blocks.IBlock;
-import org.group16.Model.GameObjects.Blocks.MovableBlock;
+import org.group16.Model.GameObjects.Blocks.IMovableBlock;
 import org.group16.Model.GameObjects.Blocks.TeleportBlock;
 import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.GameObjects.Player.PlayerFactory;
@@ -425,7 +425,7 @@ public class LevelHandler {
     }
 
     private void createMovableBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
-        MovableBlock newBlock = BlockFactory.createMovableBlockAt(currentLevelTile, j * 16, i * 16, metadata);
+        IMovableBlock newBlock = BlockFactory.createMovableBlockAt(currentLevelTile, j * 16, i * 16, metadata);
         blocks.add(newBlock);
     }
 

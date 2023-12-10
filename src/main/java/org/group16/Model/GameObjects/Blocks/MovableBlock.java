@@ -4,9 +4,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Direction;
 
-import org.group16.Model.GameObjects.Movable;
-
-public class MovableBlock implements IBlock, Movable {
+public class MovableBlock implements IMovableBlock {
     private int movementSpeed = 1;
     private Direction horizontalDirection;
     private Direction verticalDirection;
@@ -118,5 +116,10 @@ public class MovableBlock implements IBlock, Movable {
     @Override
     public boolean collidesWith(IGameObject otherGameObject) {
         return innerBlock.collidesWith(otherGameObject);
+    }
+
+    @Override
+    public Direction getDirection() {
+        return horizontalDirection;
     }
 }
