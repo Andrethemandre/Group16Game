@@ -34,7 +34,6 @@ public class LevelHandler {
     private Collection<ITrap> traps;
     private Collection<EnemyWithTarget> enemiesWithTarget;
 
-    private List<Integer> destinationIntegers;
     private List<ITeleportBlock> teleportBlocks;
     private Collection<GameObserver> observers;
     private int lastLevelNumber = 1;
@@ -354,7 +353,6 @@ public class LevelHandler {
         currentLevel = LevelFactory.createLevel(levelNumber);
 
         setCurrentLevelNumber(levelNumber);
-        destinationIntegers = currentLevel.getTeleporterDestinations();
 
         for (int i = 0; i < currentLevel.getHeight(); i++) {
             for (int j = 0; j < currentLevel.getWidth(); j++) {
@@ -452,6 +450,7 @@ public class LevelHandler {
         ITeleportBlock newBlock = BlockFactory.createTeleportBlockAt(currentLevelTile, j * 16, i * 16, metadata);
         blocks.add(newBlock);
         teleportBlocks.add(newBlock);
+        System.out.println(i + " " + j);
     }
 
     public long getElapsedTime() {
@@ -658,15 +657,10 @@ public class LevelHandler {
     }
 
     public void checkIfPlayerCollidesWithTeleportBlocks() {
-        if (teleportBlocks != null) {
-            for (int i = 0; i < teleportBlocks.size(); i++) {
-                if (player.collidesWith(teleportBlocks.get(i))
-                        && destinationIntegers.size() == teleportBlocks.size()) {
-
-                    player.teleport(teleportBlocks.get(destinationIntegers.get(i)));
-                }
+        for (ITeleportBlock teleportBlock : teleportBlocks) {
+            if (player.collidesWith(teleportBlock)) {
+                player.teleport(teleportBlock);
             }
-
         }
     }
 }

@@ -215,36 +215,24 @@ public class SixthLevel extends Level {
     // Construct the level by positioning game objects in the grid
     public SixthLevel() {
         super(levelLayout, 6);
-        setTeleporterDestinations(teleporterDestinations);
     }
 
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
-        metadataQueue.add(new Metadata(50, Direction.RIGHT, Direction.DOWN));
-        metadataQueue.add(new Metadata(45, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(40, Direction.LEFT, Direction.DOWN));
-        metadataQueue.add(new Metadata(70, Direction.LEFT, Direction.DOWN));
-        metadataQueue.add(new Metadata(80, Direction.LEFT, Direction.NONE));
-        metadataQueue.add(new Metadata(80, Direction.RIGHT, Direction.DOWN));
-        metadataQueue.add(new Metadata(70, Direction.LEFT, Direction.DOWN));
-        metadataQueue.add(new Metadata(40, Direction.LEFT, Direction.DOWN));
-        metadataQueue.add(new Metadata(50, Direction.LEFT, Direction.DOWN));
-        metadataQueue.add(new Metadata(50, Direction.LEFT, Direction.NONE));
-        metadataQueue.add(new Metadata(30, Direction.RIGHT, Direction.DOWN));
-        metadataQueue.add(new Metadata(40, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(40, Direction.LEFT, Direction.DOWN));
-        metadataQueue.add(new Metadata(80, Direction.LEFT, Direction.DOWN));
-        metadataQueue.add(new Metadata(60, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(50, Direction.RIGHT, Direction.DOWN)); // flying
+        metadataQueue.add(new Metadata(45, Direction.RIGHT, Direction.NONE)); // basic
+        metadataQueue.add(new Metadata(38*16, 25*16)); // first teleport
+        metadataQueue.add(new Metadata(40, Direction.LEFT, Direction.DOWN)); // flying
+        metadataQueue.add(new Metadata(70, Direction.RIGHT, Direction.NONE)); // basic
+        metadataQueue.add(new Metadata(80, Direction.RIGHT, Direction.NONE)); // basic
+        metadataQueue.add(new Metadata(80, Direction.RIGHT, Direction.DOWN)); // flying
+        metadataQueue.add(new Metadata(70, Direction.LEFT, Direction.DOWN)); // flying
+        metadataQueue.add(new Metadata(40, Direction.LEFT, Direction.DOWN)); // movable block
+        metadataQueue.add(new Metadata(50, Direction.LEFT, Direction.DOWN)); // movable block
+        metadataQueue.add(new Metadata(0, 10*16));// second teleport
+        metadataQueue.add(new Metadata(50, Direction.LEFT, Direction.NONE)); // movable block
+        metadataQueue.add(new Metadata(30, Direction.RIGHT, Direction.NONE)); // basic
 
         return metadataQueue;
     }
-
-    @Override
-    public void setTeleporterDestinations(List<Integer> teleporterDestinations) {
-        teleporterDestinations.add(1);
-        teleporterDestinations.add(0);
-
-        super.setTeleporterDestinations(teleporterDestinations);
-    }
-
 }

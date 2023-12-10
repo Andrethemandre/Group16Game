@@ -3,11 +3,15 @@ package org.group16.Model.GameObjects.Blocks;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 
-public class TeleportBlock implements ITeleportBlock {
+class TeleportBlock implements ITeleportBlock {
     private Block innerBlock;
+    private int destinationX;
+    private int destinationY;
 
-    TeleportBlock(int x, int y) {
+    TeleportBlock(int x, int y, int destinationX, int destinationY) {
         innerBlock = new Block(GameObjectType.TELEPORTER, x, y);
+        this.destinationX = destinationX;
+        this.destinationY = destinationY;
     }
 
     @Override
@@ -42,6 +46,16 @@ public class TeleportBlock implements ITeleportBlock {
     @Override
     public boolean collidesWith(IGameObject otherGameObject) {
         return innerBlock.collidesWith(otherGameObject);
+    }
+
+    @Override
+    public int getDestinationX() {
+        return destinationX;
+    }
+
+    @Override
+    public int getDestinationY() {
+        return destinationY;
     }
 
     // Add other necessary methods or overrides if needed

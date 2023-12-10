@@ -30,15 +30,6 @@ public abstract class Level {
 
     private final GameObjectType[][] levelLayout;
     private Map<Tuple, Metadata> metadataMap;
-    private List<Integer> teleporterDestinations = new ArrayList<Integer>();
-
-    public List<Integer> getTeleporterDestinations() {
-        return teleporterDestinations;
-    }
-
-    public void setTeleporterDestinations(List<Integer> teleporterLocations) {
-        this.teleporterDestinations = teleporterLocations;
-    }
 
     public Level(GameObjectType[][] level, int levelNumber) {
         this.levelLayout = level;
@@ -62,10 +53,11 @@ public abstract class Level {
         return HEIGHT;
     }
 
-    private boolean isValidGameObjectType(int j, int i) {
+    private boolean isGameObjectTypeWithMetadata(int j, int i) {
         return levelLayout[j][i] == BASIC_____ ||
                 levelLayout[j][i] == MOVABLE___ ||
-                levelLayout[j][i] == FLYING____;
+                levelLayout[j][i] == FLYING____ ||
+                levelLayout[j][i] == TELEPORTER;
     }
 
     protected abstract Queue<Metadata> createMetadata();
@@ -76,7 +68,7 @@ public abstract class Level {
 
         for (int i = 0; i < levelLayout.length; i++) {
             for (int j = 0; j < levelLayout[i].length; j++) {
-                if (isValidGameObjectType(i, j)) {
+                if (isGameObjectTypeWithMetadata(i, j)) {
                     metadataMap.put(new Tuple(j, i), metadataQueue.poll());
                 }
             }

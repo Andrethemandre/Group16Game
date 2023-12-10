@@ -28,7 +28,7 @@ public class BlockFactory {
     public static ITeleportBlock createTeleportBlockAt(GameObjectType blockType, int x, int y, Metadata metadata) {
         switch (blockType) {
             case TELEPORTER:
-                return new TeleportBlock(x, y);
+                return new TeleportBlock(x, y, metadata.getDestinationX(), metadata.getDestinationY());
             default:
                 throw new IllegalArgumentException("Block type is not supported");
         }

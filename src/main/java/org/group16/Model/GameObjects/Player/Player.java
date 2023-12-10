@@ -329,8 +329,8 @@ class Player implements IPlayer {
         if (currentTeleportTime - previousTeleportTime > teleportDelay) {
             previousTeleportTime = currentTeleportTime;
 
-            setX(teleportBlock.getX());
-            setY(teleportBlock.getY() - 16);
+            setX(teleportBlock.getDestinationX());
+            setY(teleportBlock.getDestinationY() - 16);
         }
 
     }
