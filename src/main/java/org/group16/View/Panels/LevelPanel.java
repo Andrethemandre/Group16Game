@@ -20,6 +20,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.IBlock;
+import org.group16.Model.GameObjects.Blocks.ITeleportBlock;
 import org.group16.Model.GameObjects.Enemy.IEnemy;
 import org.group16.Model.GameObjects.Enemy.ITrap;
 import org.group16.Model.GameObjects.Goal.IGoal;
@@ -191,6 +192,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         paintEnemiesWithTarget(g);
         paintTraps(g);
         paintBlocks(g);
+        paintTeleportBlocks(g);
         paintGoal(g);
         paintPowerUps(g);
 
@@ -477,13 +479,43 @@ public class LevelPanel extends GamePanel implements GameObserver {
                     g.drawImage(blockImage, blockX, blockY, blockWidth, blockHeight, this);
                     break;
                 case TELEPORTER:
-                    blockImage = teleportActiveImage;
-                    g.drawImage(blockImage, blockX, blockY, blockWidth, blockHeight, this);
+                    // Empty to not draw the teleport block twice.
                     break;
                 default:
                     g.setColor(Color.ORANGE);
                     g.fillRect(blockX, blockY, blockWidth, blockHeight);
             }
+        }
+    }
+
+    private void paintTeleportBlocks(Graphics g) {
+        Collection<ITeleportBlock> teleportBlocks = levelHandler.getTeleportBlocks();
+
+        for (ITeleportBlock teleportBlock : teleportBlocks) {
+            int blockX = teleportBlock.getX();
+            int blockY = teleportBlock.getY();
+            int blockWidth = teleportBlock.getWidth();
+            int blockHeight = teleportBlock.getHeight();
+            BufferedImage teleportBlockImage;
+
+            switch (teleportBlock.getType()) {
+                case TELEPORTER:
+                    teleportBlockImage = getTeleportBlockImage(teleportBlock);
+                    g.drawImage(teleportBlockImage, blockX, blockY, blockWidth, blockHeight, this);
+                    break;
+                default:
+                    g.setColor(Color.GRAY);
+                    g.fillRect(blockX, blockY, blockWidth, blockHeight);
+                    break;
+            }
+        }
+    }
+
+    private BufferedImage getTeleportBlockImage(ITeleportBlock teleportBlock) {
+        if (teleportBlock.isActive()) {
+            return teleportActiveImage;
+        } else {
+            return teleportInactiveImage;
         }
     }
 

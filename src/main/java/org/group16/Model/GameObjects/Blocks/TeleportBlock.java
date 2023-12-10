@@ -11,6 +11,7 @@ class TeleportBlock implements ITeleportBlock {
     private double previousTeleportTime = 0;
     private double currentTeleportTime = 6;
     private final double teleportDelay = 1;
+    private boolean isActive = true;
 
     TeleportBlock(int x, int y, int destinationX, int destinationY) {
         innerBlock = new Block(GameObjectType.TELEPORTER, x, y);
@@ -30,6 +31,11 @@ class TeleportBlock implements ITeleportBlock {
 
     @Override
     public void update() {
+        currentTeleportTime = System.currentTimeMillis() / 1000.0;
+        if (currentTeleportTime - previousTeleportTime > teleportDelay) {
+            previousTeleportTime = currentTeleportTime;
+            isActive = true;
+        }
     }
 
     @Override
@@ -64,13 +70,12 @@ class TeleportBlock implements ITeleportBlock {
 
     @Override
     public void teleport(Teleportable teleportable) {
-        currentTeleportTime = System.currentTimeMillis() / 1000.0;
-        if (currentTeleportTime - previousTeleportTime > teleportDelay) {
-            previousTeleportTime = currentTeleportTime;
-
-            teleportable.teleport(this);
-        }
+        teleportable.teleport(this);
+        isActive = false;
     }
 
-    // Add other necessary methods or overrides if needed
+    @Override
+    public boolean isActive() {
+        return isActive;
+    }
 }

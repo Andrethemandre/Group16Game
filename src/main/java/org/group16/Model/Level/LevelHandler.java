@@ -6,7 +6,6 @@ import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.group16.Model.GameObjects.Enemy.*;
 import org.group16.Model.GameObjects.Goal.IGoal;
@@ -34,7 +33,7 @@ public class LevelHandler {
     private Collection<ITrap> traps;
     private Collection<EnemyWithTarget> enemiesWithTarget;
 
-    private List<ITeleportBlock> teleportBlocks;
+    private Collection<ITeleportBlock> teleportBlocks;
     private Collection<GameObserver> observers;
     private int lastLevelNumber = 1;
     private Level currentLevel;
@@ -586,6 +585,10 @@ public class LevelHandler {
 
     public Collection<IBlock> getBlocks() {
         return blocks;
+    }
+
+    public Collection<ITeleportBlock> getTeleportBlocks() {
+        return teleportBlocks;
     }
 
     public Collection<IPowerUp> getPowerUps() {
