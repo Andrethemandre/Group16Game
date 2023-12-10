@@ -131,11 +131,6 @@ class Player implements IPlayer {
                 default:
                     break;
             }
-            
-            // if (blockHorizontalDirection != 0) {
-            //     // Adjust X position based on the block's horizontal movement
-            //     setX(getX() + blockHorizontalDirection);
-            // }
 
             switch (blockVerticalDirection) {
                 case UP:
@@ -151,13 +146,6 @@ class Player implements IPlayer {
                 default:
                     break;
             }
-
-            // if (blockVerticalDirection != 0) {
-            //     // Adjust Y position based on the block's vertical movement
-            //     setY(getY() + blockVerticalDirection);
-            //     isFalling = false;
-            //     yAcceleration = 0;
-            // }
         }
     }
 
@@ -345,5 +333,10 @@ class Player implements IPlayer {
             setY(teleportBlock.getY() - 16);
         }
 
+    }
+
+    @Override
+    public int getMovementSpeed() {
+        return movementSpeed;
     }
 }

@@ -5,11 +5,10 @@ import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Movable;
-import org.group16.Model.GameObjects.Blocks.IBlock;
 import org.group16.Model.GameObjects.Blocks.TeleportBlock;
 import org.group16.Model.Observers.HasHealth;
 
-public interface IPlayer extends Movable, IGameObject, HasHealth, AffectedByGravity, IBlock {
+public interface IPlayer extends Movable, IGameObject, HasHealth, AffectedByGravity {
     void startMovingInDirection(Direction direction);
 
     void stopMovingInDirection(Direction direction);

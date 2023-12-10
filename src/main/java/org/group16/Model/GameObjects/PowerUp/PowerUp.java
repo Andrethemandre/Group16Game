@@ -94,5 +94,10 @@ class PowerUp implements IPowerUp {
             }
         }
     }
+
+    @Override
+    public int getMovementSpeed() {
+        return speed;
+    }
 }
 
