@@ -8,7 +8,7 @@ import java.util.List;
 import org.group16.Model.GameObjects.GameObject;
 
 public class TeleportBlock implements IBlock {
-    Block innerBlock;
+    private Block innerBlock;
 
     TeleportBlock(int x, int y) {
         innerBlock = new Block(GameObjectType.TELEPORTER, x, y);
