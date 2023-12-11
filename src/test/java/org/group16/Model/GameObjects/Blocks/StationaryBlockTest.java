@@ -35,7 +35,7 @@ public class StationaryBlockTest {
     @Test
     void testPlayerCollisionCorrectionAfterUpdate() {
         player.update();
-        player.collision(stationaryBlock);
+        player.checkCollision(stationaryBlock);
         assertEquals(0, player.getY());
     }
 

@@ -12,10 +12,12 @@ import org.junit.jupiter.api.Test;
 public class TeleportBlockTest {
     private TeleportBlock teleportBlock;
     private IPlayer player;
+    private final int teleportDestinationX = 32;
+    private final int teleportDestinationY = 32;
 
     @BeforeEach
     void setUp() {
-        teleportBlock = new TeleportBlock(16, 0);
+        teleportBlock = new TeleportBlock(16, 0, teleportDestinationX, teleportDestinationY);
         player = PlayerFactory.createPlayerAt(PLAYER____, 0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
@@ -24,6 +26,12 @@ public class TeleportBlockTest {
         player.startMovingInDirection(Direction.RIGHT);
         player.update();
         assertTrue(player.collidesWith(teleportBlock));
+    }
+
+    @Test
+    void testTeleportPlayer() {
+        teleportBlock.teleport(player);
+        assertTrue(player.getX() == teleportDestinationX && player.getY() == teleportDestinationY);
     }
 
 }
