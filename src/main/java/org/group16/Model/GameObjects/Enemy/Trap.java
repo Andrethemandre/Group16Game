@@ -1,8 +1,8 @@
 package org.group16.Model.GameObjects.Enemy;
 
 import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.GameObjects.HasHealth;
 import org.group16.Model.GameObjects.IGameObject;
-import org.group16.Model.Observers.HasHealth;
 
 class Trap implements ITrap {
     private Obstacle innerObstacle;
