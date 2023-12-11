@@ -1,15 +1,20 @@
 package org.group16.Model.Level;
 
-import org.group16.Model.GameObjects.Direction;
-import org.group16.Model.GameObjects.GameObjectType;
+import static org.group16.Model.GameObjects.GameObjectType.AIR_______;
+import static org.group16.Model.GameObjects.GameObjectType.FLYING____;
+import static org.group16.Model.GameObjects.GameObjectType.GOAL______;
+import static org.group16.Model.GameObjects.GameObjectType.PLAYER____;
+import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
+import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
+import static org.group16.Model.GameObjects.GameObjectType.TELEPORT__;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-import static org.group16.Model.GameObjects.GameObjectType.*;
+import org.group16.Model.GameObjects.Direction;
+import org.group16.Model.GameObjects.GameObjectType;
 
-
-public class TeleportTestLevel extends Level {
+class TeleportTestLevel extends Level {
 
     //matrix 45X30 to represent level   13
     private static GameObjectType[][] level13 = {{AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,},

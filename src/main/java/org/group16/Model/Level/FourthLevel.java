@@ -1,15 +1,20 @@
 package org.group16.Model.Level;
 
+import static org.group16.Model.GameObjects.GameObjectType.AIR_______;
+import static org.group16.Model.GameObjects.GameObjectType.BASIC_____;
+import static org.group16.Model.GameObjects.GameObjectType.FLYING____;
+import static org.group16.Model.GameObjects.GameObjectType.GOAL______;
+import static org.group16.Model.GameObjects.GameObjectType.PLAYER____;
+import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
+import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
-import static org.group16.Model.GameObjects.GameObjectType.*;
-
-public class FourthLevel extends Level  {
+class FourthLevel extends Level  {
     // matrix 45X30 to represent level 4
 
     private static final GameObjectType[][] levelLayout = {
