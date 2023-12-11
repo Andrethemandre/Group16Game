@@ -182,7 +182,7 @@ public class FifthLevel extends Level {
                     AIR_______, MOVABLE___, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
                     AIR_______, AIR_______, STATIONARY, AIR_______, AIR_______, AIR_______, MOVABLE___, AIR_______,
                     AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, STATIONARY, STATIONARY, STATIONARY,
-                    STATIONARY, STATIONARY, MOVABLE___, AIR_______, AIR_______, },
+                    STATIONARY, STATIONARY, AIR_______, MOVABLE___, AIR_______, },
             { STATIONARY, STATIONARY, STATIONARY, STATIONARY, STATIONARY, STATIONARY, STATIONARY, STATIONARY,
                     STATIONARY, STATIONARY, STATIONARY, STATIONARY, STATIONARY, STATIONARY, STATIONARY, STATIONARY,
                     STATIONARY, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
