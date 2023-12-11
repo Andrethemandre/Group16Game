@@ -1,6 +1,7 @@
 package org.group16.View.Panels;
 
 import javax.imageio.ImageIO;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -384,7 +385,6 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     public void updateObserver() {
         if (levelHandler.getGameState() == GameState.LEVEL_SELECT) {
             updateDisplay();
-            repaint();
         }
     }
 }

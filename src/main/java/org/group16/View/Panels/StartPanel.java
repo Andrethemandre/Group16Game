@@ -1,9 +1,11 @@
 package org.group16.View.Panels;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -41,6 +43,7 @@ public class StartPanel extends GamePanel {
 
         Dimension buttonSize = new Dimension(200, 28); // Set the preferred width to 200 and the preferred height to 50
         Font font = new Font(null, Font.PLAIN, 12);
+
         // Buttons in order of how they will appear in the menu
         JButton[] buttons = {
             continueButton = ViewUtility.createButton("Continue", buttonSize, font),
@@ -58,13 +61,17 @@ public class StartPanel extends GamePanel {
         add(verticalButtonPanel, BorderLayout.CENTER);
     }
 
-        /**
-     * This method is called each time the panel updates/refreshes/repaints itself
-     */
+    /**
+    * This method is called each time the panel updates/refreshes/repaints itself
+    */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawBackground(g);
+    }
+
+    private void drawBackground(Graphics g) {
+        g.drawImage(backgroundImage, 0, 0, this);
     }
 
     private void initFont(){
@@ -83,10 +90,6 @@ public class StartPanel extends GamePanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void drawBackground(Graphics g) {
-        g.drawImage(backgroundImage, 0, 0, this);
     }
 
     public JButton getContinueButton() {
@@ -108,6 +111,4 @@ public class StartPanel extends GamePanel {
     public JButton getQuitButton() {
         return quitButton;
     }
-
 }
-

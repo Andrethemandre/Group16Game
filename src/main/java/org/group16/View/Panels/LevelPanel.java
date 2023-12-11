@@ -1,10 +1,13 @@
 package org.group16.View.Panels;
 
-import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
-import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
 import java.io.IOException;
 import java.util.Collection;
 
@@ -31,11 +34,13 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private LevelHandler levelHandler;
     private JButton pauseButton;
 
+    // Hud
     private BufferedImage redHeartImage;
     private BufferedImage grayHeartImage;
     private BufferedImage pauseImage;
+    private BufferedImage backgroundImage;
 
-    // sprites
+    // Sprites
     private BufferedImage spearPowerUpImage;
     private BufferedImage spearPowerUpThrowRightImage;
     private BufferedImage spearPowerUpThrowLeftImage;
@@ -62,8 +67,8 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private BufferedImage flyingEnemyRightWingDownImage;
 
     private BufferedImage spikeImage;
+
     private BufferedImage goalImage;
-    private BufferedImage backgroundImage;
 
     private int flyingEnemyFrame;
     private long currentTime;
@@ -72,7 +77,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     public LevelPanel(int x, int y, LevelHandler levelHandler) {
         super(x, y);
         this.levelHandler = levelHandler;
-        
+
         flyingEnemyFrame = 1;
         pauseButton = ViewUtility.createButton("", new Dimension(40, 40));
         initImages();
@@ -100,17 +105,18 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
         if (flyingEnemyFrame >3){
             flyingEnemyFrame = 1;
-        }
-        
+        }    
     }
+
     private void initImages(){
          try {
-            // hud
+            // Hud
             redHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/red_heart.png"));
             grayHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/gray_heart.png"));
             pauseImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/pause_menu_icon.png"));
+            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/background.png"));
 
-            // sprites
+            // Sprites
             spearPowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/spear_power_up.png"));
             spearPowerUpThrowRightImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/spear_throw.png"));
             spearPowerUpThrowLeftImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/spear_throw_left.png"));
@@ -140,8 +146,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
             teleportInactiveImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/teleport_inactive.png"));
 
             goalImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/goal.png"));
-
-            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/background.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -157,13 +161,13 @@ public class LevelPanel extends GamePanel implements GameObserver {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int cellSize = 16; // hard coded
-        // paintGridWithSize(g, cellSize);
+        drawBackground(g);
+
+        int cellSize = 16; // Hard coded
 
         IPlayer currentPlayer = levelHandler.getPlayer();
 
         // GameObjects are painted
-        drawBackground(g);
         paintPlayer(g, currentPlayer);
         paintEnemies(g);
         paintEnemiesWithTarget(g);
@@ -304,7 +308,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
                 g.fillRect(playerX, playerY, playerWidth, playerHeight);
                 break;
         }
-
     }
 
     private void paintEnemies(Graphics g) {
@@ -348,8 +351,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
                 break;
             default:
                 enemyImage = basicEnemyImage;
-                break;
-            
+                break;      
         }
         return enemyImage;
     }
@@ -419,7 +421,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
                 return Color.BLACK;
         }
     }
-
 
     private void paintTraps(Graphics g) {
         Collection<ITrap> currentTraps = levelHandler.getTraps();
@@ -521,14 +522,15 @@ public class LevelPanel extends GamePanel implements GameObserver {
     public void updateObserver() {
         if (levelHandler.getGameState() == GameState.PLAYING) {
             currentTime = levelHandler.getElapsedTime();
-
             if (currentTime - lastUpdateTime >= 1000) {
                 lastUpdateTime = currentTime;
                 updateFlyingEnemySprite();
+                repaint();
             }
             
             pauseButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        } else {
+        } 
+        else {
             pauseButton.setCursor(Cursor.getDefaultCursor());
         }
     }

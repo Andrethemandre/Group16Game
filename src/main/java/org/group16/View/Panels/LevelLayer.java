@@ -8,23 +8,22 @@ import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.Level.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
 
-public class LevelAndPauseLayer extends JLayeredPane implements GameObserver{
+public class LevelLayer extends JLayeredPane implements GameObserver{
     private LevelPanel levelPanel;
     private PausePanel pausePanel;
     private LevelHandler levelHandler;
 
-    
-    public LevelAndPauseLayer(int x, int y, LevelPanel levelPanel, PausePanel pausePanel, LevelHandler levelHandler) {
+    public LevelLayer(int x, int y, LevelPanel levelPanel, PausePanel pausePanel, LevelHandler levelHandler) {
         super();
         this.levelHandler = levelHandler;
         this.levelPanel = levelPanel;
-        this.pausePanel = pausePanel;
 
+        this.pausePanel = pausePanel;
         this.pausePanel.setBackground(Color.gray);
+
         this.setBounds(0, 0, x, y);
 
         levelPanel.setBounds(0, 0, x, y);
-
 
         // PausePanel positioning
         int pausePanelWidth = 400;
@@ -47,5 +46,6 @@ public class LevelAndPauseLayer extends JLayeredPane implements GameObserver{
         }
 
         levelPanel.updateObserver();
+
     }
 }

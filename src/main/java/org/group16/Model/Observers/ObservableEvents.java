@@ -5,5 +5,5 @@ public interface ObservableEvents {
 
     void removeObserver(GameObserver o);
 
-    void notifyObserver();
+    void notifyObservers();
 }

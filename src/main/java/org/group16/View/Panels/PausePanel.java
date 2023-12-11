@@ -27,7 +27,6 @@ public class PausePanel extends GamePanel {
         super(x, y); 
         initFont();
         initComponents();
-
     }
 
     private void initFont(){

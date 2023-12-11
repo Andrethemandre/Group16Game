@@ -23,8 +23,9 @@ import org.group16.Model.GameObjects.Player.PlayerFactory;
 import org.group16.Model.GameObjects.PowerUp.IPowerUp;
 import org.group16.Model.GameObjects.PowerUp.PowerUpFactory;
 import org.group16.Model.Observers.GameObserver;
+import org.group16.Model.Observers.ObservableEvents;
 
-public class LevelHandler {
+public class LevelHandler implements ObservableEvents{
     private IPlayer player;
     private IGoal goal;
     private Collection<IEnemy> enemies;
@@ -67,6 +68,23 @@ public class LevelHandler {
         }
 
         levelSelectPageManager.setSelectedLevelNumber(1);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (GameObserver o : observers) {
+            o.updateObserver();
+        }
+    }
+    
+    @Override
+    public void addObserver(GameObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(GameObserver observer) {
+        observers.remove(observer);
     }
 
     public int getTotalLevels() {
@@ -291,12 +309,6 @@ public class LevelHandler {
         }
     }
 
-    public void notifyObservers() {
-        for (GameObserver o : observers) {
-            o.updateObserver();
-        }
-    }
-
     public void newGame() {
         // TODO: SAVE SYSTEM
         gameStateManager.newGame();
@@ -349,7 +361,6 @@ public class LevelHandler {
         movableEnemies.clear();
         teleportBlocks.clear();
         enemiesWithTarget.clear();
-
 
         currentLevel = LevelFactory.createLevel(levelNumber);
 
@@ -563,10 +574,6 @@ public class LevelHandler {
         if (trapToRemove != null) {
             traps.remove(trapToRemove);
         }
-    }
-
-    public void addObserver(GameObserver observer) {
-        observers.add(observer);
     }
 
     public void removeEnemy(IEnemy enemy) {

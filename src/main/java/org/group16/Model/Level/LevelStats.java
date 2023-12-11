@@ -27,6 +27,5 @@ public class LevelStats {
 
     public long getTimePlayed() {
         return timePlayed;
-    }
-    
+    } 
 }

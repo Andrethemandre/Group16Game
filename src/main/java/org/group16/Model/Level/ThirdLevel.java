@@ -16,8 +16,6 @@ import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
 import static org.group16.Model.GameObjects.GameObjectType.FLYING____;
 
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
