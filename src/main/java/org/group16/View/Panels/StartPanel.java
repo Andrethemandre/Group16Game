@@ -2,7 +2,11 @@ package org.group16.View.Panels;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -18,21 +22,23 @@ public class StartPanel extends GamePanel {
     private JButton settingsButton;
     private JButton quitButton;
     private JPanel verticalButtonPanel;
+    
+    private BufferedImage backgroundImage;
 
     public StartPanel(int x, int y) {
         super(x, y);
+        initImages();
         initComponents();
     }
 
     private void initComponents(){
         this.setLayout(new BorderLayout()); 
-
-        String labelText = "Game Title";
+        String labelText = "<html><p align='left'>King Blob's</p><p align = 'center'>Adventure</p></html>";
         Font labelFont = new Font("Arial", Font.BOLD, 30);
         gameTitleLabel = ViewUtility.createLabel(labelText, labelFont,25,0,0,0, JLabel.CENTER);
         add(gameTitleLabel, BorderLayout.NORTH);
 
-        Dimension buttonSize = new Dimension(200, 50); // Set the preferred width to 200 and the preferred height to 50
+        Dimension buttonSize = new Dimension(200, 28); // Set the preferred width to 200 and the preferred height to 50
 
         // Buttons in order of how they will appear in the menu
         JButton[] buttons = {
@@ -45,11 +51,34 @@ public class StartPanel extends GamePanel {
 
         verticalButtonPanel = ViewUtility.createVerticalPanel();
         verticalButtonPanel.add(Box.createVerticalGlue());
-        ViewUtility.addCenteredButtonsToPanel(buttons, verticalButtonPanel);
+        ViewUtility.addCenteredButtonsToPanel(buttons, verticalButtonPanel,0,30);
         verticalButtonPanel.add(Box.createVerticalGlue());
-        
+        verticalButtonPanel.setOpaque(false);
         add(verticalButtonPanel, BorderLayout.CENTER);
     }
+
+        /**
+     * This method is called each time the panel updates/refreshes/repaints itself
+     */
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        drawBackground(g);
+    }
+
+    private void initImages(){
+         try {
+            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/background.png"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void drawBackground(Graphics g) {
+        g.drawImage(backgroundImage, 0, 0, this);
+    }
+
     public JButton getContinueButton() {
         return continueButton;
     }

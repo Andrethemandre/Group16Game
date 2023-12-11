@@ -39,10 +39,10 @@ public class PausePanel extends GamePanel {
         String labelText = "Paused";
         Font labelFont = new Font("Arial", Font.BOLD, 30);
 
-        pauseLabel = ViewUtility.createLabel(labelText, labelFont,25,0,0,0, JLabel.CENTER);
+        pauseLabel = ViewUtility.createLabel(labelText, labelFont,10,0,25,0, JLabel.CENTER);
         add(pauseLabel, BorderLayout.NORTH);
 
-        Dimension buttonSize = new Dimension(200, 50); // Set the preferred width to 200 and the preferred height to 50
+        Dimension buttonSize = new Dimension(200, 28); // Set the preferred width to 200 and the preferred height to 50
 
         // Buttons in order of how they will appear in the menu
         JButton[] buttons = {
@@ -56,7 +56,7 @@ public class PausePanel extends GamePanel {
 
         verticalButtonPanel = ViewUtility.createVerticalPanel();
         verticalButtonPanel.add(Box.createVerticalGlue());
-        ViewUtility.addCenteredButtonsToPanel(buttons, verticalButtonPanel);
+        ViewUtility.addCenteredButtonsToPanel(buttons, verticalButtonPanel, 0, 30);
         verticalButtonPanel.add(Box.createVerticalGlue());
         verticalButtonPanel.setBackground(Color.GRAY);
         add(verticalButtonPanel, BorderLayout.CENTER);

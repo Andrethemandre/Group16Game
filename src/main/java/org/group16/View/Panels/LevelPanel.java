@@ -66,15 +66,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private BufferedImage flyingEnemyRightWingMiddleImage;
     private BufferedImage flyingEnemyRightWingDownImage;
     private int flying_enemy_frame;
-
+    
     private BufferedImage spikeImage;
-
     private BufferedImage goalImage;
-
     private BufferedImage backgroundImage;
-
-
-
 
     public LevelPanel(int x, int y, LevelHandler levelHandler) {
         super(x, y);
@@ -95,7 +90,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         int buttonWidth = 40;
         int buttonHeight = 40;
 
-        pauseButton.setBounds(getWidth() - buttonWidth - 20, 13, buttonWidth, buttonHeight);
+        //pauseButton.setBounds(getWidth() - buttonWidth - 20, 13, buttonWidth, buttonHeight);
 
         random = new Random();
         flying_enemy_frame = 1;
@@ -195,9 +190,9 @@ public class LevelPanel extends GamePanel implements GameObserver {
         paintPowerUps(g);
 
         // Gameplay hud
-        paintHealthBar(g, cellSize, currentPlayer);
-        paintStats(g, currentPlayer);
-        paintPowerUpIcon(g);
+        //paintHealthBar(g, cellSize, currentPlayer);
+        //paintStats(g, currentPlayer);
+        //paintPowerUpIcon(g);
     }
 
     private void drawBackground(Graphics g) {

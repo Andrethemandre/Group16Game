@@ -49,7 +49,13 @@ public class ViewUtility {
             ViewUtility.addCenteredToButtonPanel(buttonPanel, button,0,10);
         }
     }
-    
+
+    public static void addCenteredButtonsToPanel(JButton[] buttons, JPanel buttonPanel, int widthSpacing, int heightSpacing) {
+        for (JButton button : buttons) {
+            ViewUtility.addCenteredToButtonPanel(buttonPanel, button, widthSpacing, heightSpacing);
+        }
+    }
+
     public static JLabel createLabel(String text, Font font, int top, int left, int bottom, int right, float alignment){
         JLabel label = new JLabel(text,JLabel.CENTER);
         label.setFont(font);

@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -37,7 +38,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     private JButton levelPageNextButton;
     private JButton levelPageBackButton;
     private JLabel levelCurrentPageLabel;
-    private BufferedImage levelImage;
+
     private BufferedImage firstLevelImage;
     private BufferedImage secondLevelImage;
     private BufferedImage thirdLevelImage;
@@ -86,39 +87,54 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     }
 
     private void setLevelImage(int levelNumber) {
+        int imageWidth = 474;
+        int imageHeight = 195;
+        Image resizedImage = null;
+
         switch (levelNumber) {
             case 1:
-                picLabel.setIcon(new ImageIcon(firstLevelImage));
+                resizedImage = firstLevelImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+                picLabel.setIcon(new ImageIcon(resizedImage));
                 break;
             case 2:
-                picLabel.setIcon(new ImageIcon(secondLevelImage));
+                resizedImage = secondLevelImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+                picLabel.setIcon(new ImageIcon(resizedImage));
                 break;
             case 3:
-                picLabel.setIcon(new ImageIcon(thirdLevelImage));
+                resizedImage = thirdLevelImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+                picLabel.setIcon(new ImageIcon(resizedImage));
                 break;
             case 4:
-                picLabel.setIcon(new ImageIcon(fourthLevelImage));
+                resizedImage = fourthLevelImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+                picLabel.setIcon(new ImageIcon(resizedImage));
                 break;
             case 5:
-                picLabel.setIcon(new ImageIcon(fifthLevelImage));
+                resizedImage = fifthLevelImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+                picLabel.setIcon(new ImageIcon(resizedImage));
                 break;
             case 6:
-                picLabel.setIcon(new ImageIcon(sixthLevelImage));
+                resizedImage = sixthLevelImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+                picLabel.setIcon(new ImageIcon(resizedImage));
                 break;
             case 7:
-                picLabel.setIcon(new ImageIcon(seventhLevelImage));
+                resizedImage = seventhLevelImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+                picLabel.setIcon(new ImageIcon(resizedImage));
                 break;
             case 8:
-                picLabel.setIcon(new ImageIcon(eighthLevelImage));
+                resizedImage = eighthLevelImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+                picLabel.setIcon(new ImageIcon(resizedImage));
                 break;
             case 9:
-                picLabel.setIcon(new ImageIcon(ninthLevelImage));
+                resizedImage = ninthLevelImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+                picLabel.setIcon(new ImageIcon(resizedImage));
                 break;
             case 10:
-                picLabel.setIcon(new ImageIcon(tenthLevelImage));
+                resizedImage = tenthLevelImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+                picLabel.setIcon(new ImageIcon(resizedImage));
                 break;
             default:
-                picLabel.setIcon(new ImageIcon(placeHolderImage));
+                resizedImage = placeHolderImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+                picLabel.setIcon(new ImageIcon(resizedImage));
                 break;
         }
     }
@@ -192,7 +208,13 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         levelButtons = new JButton[levelHandler.getTotalLevels()];
 
         for (int i = 0; i < levelButtons.length; i++) {
-            levelButtons[i] = ViewUtility.createButton("Level " + (i + 1), new Dimension(200, 55));
+           
+            levelButtons[i] = ViewUtility.createButton("Level " + (i + 1), new Dimension(175, 55));
+            System.out.println("Level button " + (i + 1));
+            System.out.println("X: " + levelButtons[i].getX());
+            System.out.println("Y: " + levelButtons[i].getY());
+            System.out.println("Width: " + levelButtons[i].getWidth());
+            System.out.println("Height: " + levelButtons[i].getHeight());
         }
     }
 
@@ -218,8 +240,10 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
 
     private void initLevelSelectPanel(int currentPage) {
         levelVerticalSelectPanel = ViewUtility.createVerticalPanel();
-        levelVerticalSelectPanel.add(Box.createVerticalStrut(27));
+        
+        levelVerticalSelectPanel.add(Box.createRigidArea(new Dimension(0, 27)));
 
+        levelVerticalSelectPanel.setPreferredSize(new Dimension(200, levelVerticalSelectPanel.getPreferredSize().height));
         int start = (currentPage - 1) * 4; // Calculate the starting index for the current page
         int end = Math.min(start + 4, levelButtons.length); // Calculate the ending index for the current page
 
@@ -227,7 +251,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
             levelVerticalSelectPanel.add(levelButtons[i]);
 
             if (i < end - 1) { // Don't add strut after the last button
-                levelVerticalSelectPanel.add(Box.createVerticalStrut(15)); // Add 10px vertical gap
+                levelVerticalSelectPanel.add(Box.createRigidArea(new Dimension(0, 15)));
             }
         }
     }
@@ -252,6 +276,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         levelPageBackButton = ViewUtility.createButton("Back", new Dimension(60, 50));
 
         navigationPanel.setLayout(new BoxLayout(navigationPanel, BoxLayout.LINE_AXIS));
+        navigationPanel.add(Box.createRigidArea(new Dimension(12, 0)));
         navigationPanel.add(levelPageBackButton);
         navigationPanel.add(Box.createHorizontalGlue());
 
@@ -260,7 +285,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         navigationPanel.add(Box.createHorizontalGlue());
 
         navigationPanel.add(levelPageNextButton);
-
+        navigationPanel.add(Box.createRigidArea(new Dimension(12, 0)));
         navigationPanel.setBackground(Color.GRAY);
         navigationPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0)); // Add padding
 
@@ -293,7 +318,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     private void updateVisibleLevelButtons(int currentPage) {
         levelVerticalSelectPanel.removeAll(); // Remove all existing components
 
-        levelVerticalSelectPanel.add(Box.createVerticalStrut(27));
+        levelVerticalSelectPanel.add(Box.createRigidArea(new Dimension(0, 27)));
 
         int start = (currentPage - 1) * 4; // Calculate the starting index for the current page
         int end = Math.min(start + 4, levelButtons.length); // Calculate the ending index for the current page
@@ -301,8 +326,8 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         for (int i = start; i < end; i++) {
             levelVerticalSelectPanel.add(levelButtons[i]);
 
-            if (i < end - 1) { // Don't add strut after the last button
-                levelVerticalSelectPanel.add(Box.createVerticalStrut(15)); // Add 10px vertical gap
+            if (i < levelButtons.length - 1) { // Don't add strut after the last button in the array
+                levelVerticalSelectPanel.add(Box.createRigidArea(new Dimension(0, 15)));
             }
         }
 
