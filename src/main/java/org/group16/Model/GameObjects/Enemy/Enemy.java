@@ -10,12 +10,12 @@ class Enemy implements IEnemy {
 
     private int health;
 
-    Enemy(GameObjectType enemyType, int x, int y, int health) {
-        this(enemyType, x, y, 16, 16, health);
+    Enemy(GameObjectType enemyType, int x, int y, int health, int damage) {
+        this(enemyType, x, y, 16, 16, health, damage);
     }
 
-    Enemy(GameObjectType enemyType, int x, int y, int width, int height, int health) {
-        innerObstacle = new Obstacle(enemyType, x, y, width, height);
+    Enemy(GameObjectType enemyType, int x, int y, int width, int height, int health, int damage) {
+        innerObstacle = new Obstacle(enemyType, x, y, width, height, damage);
         this.health = health;
     }
 

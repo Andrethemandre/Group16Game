@@ -9,13 +9,12 @@ class MovableEnemy implements IMovableEnemy {
     private int movementSpeed;
     private final Enemy innerEnemy;
 
-
-    MovableEnemy(GameObjectType enemyType, int x, int y, int health) {
-        innerEnemy = new Enemy(enemyType, x, y, health);
+    MovableEnemy(GameObjectType enemyType, int x, int y, int health, int damage) {
+        this(enemyType, x, y, 16, 16, health, damage);
     }
 
-    MovableEnemy(GameObjectType enemyType,int x,  int y, int width, int height, int health) {
-        innerEnemy = new Enemy(enemyType, x, y, width, height, health);
+    MovableEnemy(GameObjectType enemyType, int x, int y, int width, int height, int health, int damage) {
+        innerEnemy = new Enemy(enemyType, x, y, width, height, health, damage);
     }
 
     @Override

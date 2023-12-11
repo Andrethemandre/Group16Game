@@ -8,15 +8,16 @@ import org.group16.Model.GameObjects.IGameObject;
 public class Obstacle implements IObstacle {
     private GameObject innerGameObject;
 
-    private int damage = 1;
+    private int damage;
     private boolean isFrozen = false;
 
-    public Obstacle(GameObjectType objectType, int x, int y) {
-        innerGameObject = new GameObject(objectType, x, y, 16, 16);
+    public Obstacle(GameObjectType objectType, int x, int y, int damage) {
+        this(objectType, x, y, 16, 16, damage);
     }
 
-    public Obstacle(GameObjectType objectType, int x, int y, int width, int height) {
+    public Obstacle(GameObjectType objectType, int x, int y, int width, int height, int damage) {
         innerGameObject = new GameObject(objectType, x, y, width, height);
+        this.damage = damage;
     }
 
     @Override

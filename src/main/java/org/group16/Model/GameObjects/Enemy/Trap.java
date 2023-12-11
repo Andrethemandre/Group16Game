@@ -8,7 +8,7 @@ class Trap implements ITrap {
     private Obstacle innerObstacle;
 
     public Trap(GameObjectType objectType, int x, int y) {
-        innerObstacle = new Obstacle(objectType, x, y);
+        innerObstacle = new Obstacle(objectType, x, y, 1);
     }
 
     @Override

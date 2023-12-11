@@ -13,7 +13,7 @@ class BasicEnemy implements IMovableEnemy, AffectedByGravity {
     private MovableEnemy innerMovableEnemy;
 
     BasicEnemy(int x, int y, int patrolDistance, Direction horizontalDirection) {
-        innerMovableEnemy = new MovableEnemy(GameObjectType.BASIC_____, x, y, 1);
+        innerMovableEnemy = new MovableEnemy(GameObjectType.BASIC_____, x, y, 1, 1);
         this.patrolDistance = patrolDistance;
         this.currentDistance = 0;
         this.horizontalDirection = horizontalDirection;

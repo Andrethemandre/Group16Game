@@ -21,7 +21,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     private final int disappearDelaySeconds = 5;
 
     public TeleportRushEnemy(int x, int y,int width, int height) {
-        innerMovableEnemy = new MovableEnemy(GameObjectType.TELEPORT__, x, y, width, height, 99);
+        innerMovableEnemy = new MovableEnemy(GameObjectType.TELEPORT__, x, y, width, height, 99, 1);
     }
 
     @Override

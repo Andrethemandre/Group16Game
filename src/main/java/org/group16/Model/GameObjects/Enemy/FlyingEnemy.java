@@ -14,7 +14,7 @@ class FlyingEnemy implements IMovableEnemy, AffectedByGravity {
     private MovableEnemy innerMovableEnemy;
 
     public FlyingEnemy(int x, int y,int patrolDistance, Direction horizontalDirection, Direction verticalDirection) {
-        innerMovableEnemy = new MovableEnemy(GameObjectType.FLYING____, x, y, 1);
+        innerMovableEnemy = new MovableEnemy(GameObjectType.FLYING____, x, y, 1, 1);
         this.patrolDistance = patrolDistance;
         this.horizontalDirection = horizontalDirection;
         this.verticalDirection = verticalDirection;
