@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -17,7 +16,6 @@ import javax.swing.JLayeredPane;
 
 import org.group16.Model.GameObjects.Enemy.EnemyWithTarget;
 import org.group16.Model.GameObjects.GameObjectType;
-import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.IBlock;
 import org.group16.Model.GameObjects.Enemy.IEnemy;
@@ -33,13 +31,9 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private LevelHandler levelHandler;
     private BufferedImage redHeartImage;
     private BufferedImage grayHeartImage;
-    private BufferedImage levelClockImage;
     private BufferedImage pauseImage;
 
     private JButton pauseButton;
-
-    private Random random;
-
     //sprites
     private BufferedImage spearPowerUpImage;
     private BufferedImage spearPowerUpThrowRightImage;
@@ -65,15 +59,20 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private BufferedImage flyingEnemyRightWingUpImage;
     private BufferedImage flyingEnemyRightWingMiddleImage;
     private BufferedImage flyingEnemyRightWingDownImage;
-    private int flying_enemy_frame;
+
     
     private BufferedImage spikeImage;
     private BufferedImage goalImage;
     private BufferedImage backgroundImage;
 
+    private int flyingEnemyFrame;
+    private long currentTime;
+    private long lastUpdateTime = 0;
+
     public LevelPanel(int x, int y, LevelHandler levelHandler) {
         super(x, y);
         this.levelHandler = levelHandler;
+        flyingEnemyFrame = 1;
         pauseButton = ViewUtility.createButton("", new Dimension(40, 40));
         initImages();
         pauseButton.setIcon(new ImageIcon(pauseImage));
@@ -90,40 +89,25 @@ public class LevelPanel extends GamePanel implements GameObserver {
         int buttonWidth = 40;
         int buttonHeight = 40;
 
-        //pauseButton.setBounds(getWidth() - buttonWidth - 20, 13, buttonWidth, buttonHeight);
+        pauseButton.setBounds(getWidth() - buttonWidth - 20, 13, buttonWidth, buttonHeight);
+    }
 
-        random = new Random();
-        flying_enemy_frame = 1;
-        // Thread not good for view in mvc, maybe causing problem with the framerate
-        Thread colorChangeThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    flying_enemy_frame +=1;
-                    if (flying_enemy_frame >3){
-                        flying_enemy_frame = 1;
-                    }
-                    // Calling repaint here is bad
-                    // repaint();
-                }
-            }
-        });
+    private void updateFlyingEnemySprite(){
+        flyingEnemyFrame += 1;
 
-        colorChangeThread.start();
+        if (flyingEnemyFrame >3){
+            flyingEnemyFrame = 1;
+        }
+        
     }
     private void initImages(){
          try {
-            //hud
+            // hud
             redHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/red_heart.png"));
             grayHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/gray_heart.png"));
-            levelClockImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/level_clock.png"));
             pauseImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/pause_menu_icon.png"));
-            //sprites
+
+            // sprites
             spearPowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/spear_power_up.png"));
             spearPowerUpThrowRightImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/spear_throw.png"));
             spearPowerUpThrowLeftImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/spear_throw_left.png"));
@@ -146,7 +130,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
             spikeImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/spike.png"));
 
-
             stationaryBlockImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/block.png"));
             movingBlockImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/moving_block.png"));
 
@@ -156,9 +139,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
             goalImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/goal.png"));
 
             backgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/background.png"));
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -190,9 +170,9 @@ public class LevelPanel extends GamePanel implements GameObserver {
         paintPowerUps(g);
 
         // Gameplay hud
-        //paintHealthBar(g, cellSize, currentPlayer);
-        //paintStats(g, currentPlayer);
-        //paintPowerUpIcon(g);
+        paintHealthBar(g, cellSize, currentPlayer);
+        paintStats(g, currentPlayer);
+        paintPowerUpIcon(g);
     }
 
     private void drawBackground(Graphics g) {
@@ -226,22 +206,31 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
     private void paintPowerUpIcon(Graphics g){
         GameObjectType currentPowerUp = levelHandler.getPlayersPowerUp();
-        g.drawString("Powerup", 346,16);
-        g.drawRect(352, 24, 32, 32);
+        int centerX = this.getWidth() / 2; // Get the center of the panel
+        int rectWidth = 32;
+
+        int rectX = centerX - rectWidth / 2;
+        int stringX = centerX - g.getFontMetrics().stringWidth("Powerup") / 2; 
+        int stringY = 20; 
+    
+        g.drawString("Powerup", stringX, stringY);
+        g.drawRect(rectX, stringY + 8, rectWidth, rectWidth);
+    
+        int imageX = rectX + rectWidth / 2 - 8; // Adjust the x-coordinate of the image
+        int imageY = 24 + rectWidth / 2 - 8; // Adjust the y-coordinate of the image
+    
         switch (currentPowerUp) {
             case SPEAR_____:
-                g.drawImage(spearPowerUpImage, 360,32,this);
+                g.drawImage(spearPowerUpImage, imageX, imageY, this); // Draw the image at the adjusted coordinates
                 break;
-
             case FREEZE____:
-                g.drawImage(freezePowerUpImage, 360,32,this);
-
+                g.drawImage(freezePowerUpImage, imageX, imageY, this); // Draw the image at the adjusted coordinates
+                break;
             case NOTHING___:
                 break;
             default:
                 break;
         }
-
     }
 
     private String formatTime(long millis) {
@@ -252,13 +241,13 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
     private void paintStats(Graphics g, IPlayer currentPlayer) {
         g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.PLAIN, 12));
+        g.setFont(new Font("Arial", Font.PLAIN, 14));
         FontMetrics fm = g.getFontMetrics();
 
         int padding = 10;
         int lineSpacing = 15; // Space between lines of text
 
-        int attemptsX = 175;
+        int attemptsX = 155;
         int statsY = 20 + fm.getAscent(); // fm.getAscent() is needed to align the text properly
 
         String attemptsText = "Attempts";
@@ -287,9 +276,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         String levelText = "Level: " + levelHandler.getCurrentLevelNumber();
         String formattedElapsedTimeText = formatTime(levelHandler.getElapsedTime());
 
-        drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX - 55, statsY, lineSpacing);
-
-        g.drawImage(levelClockImage, levelX + fm.stringWidth(levelText) + padding - 55, padding + 3, this);
+        drawTwoStringSCentered(g, levelText, formattedElapsedTimeText, levelX, statsY, lineSpacing);
     }
 
     private void paintPlayer(Graphics g, IPlayer currentPlayer) {
@@ -365,7 +352,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
     private BufferedImage getFlyingEnemyImage(IEnemy enemy) {
-        switch (flying_enemy_frame) {
+        switch (flyingEnemyFrame) {
             case 1:
                 switch (enemy.getDirection()) {
                     case RIGHT:
@@ -530,6 +517,13 @@ public class LevelPanel extends GamePanel implements GameObserver {
     @Override
     public void updateObserver() {
         if (levelHandler.getGameState() == GameState.PLAYING) {
+            currentTime = levelHandler.getElapsedTime();
+
+            if (currentTime - lastUpdateTime >= 1000) {
+                lastUpdateTime = currentTime;
+                updateFlyingEnemySprite();
+            }
+            
             pauseButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         } else {
             pauseButton.setCursor(Cursor.getDefaultCursor());

@@ -22,11 +22,13 @@ public class StartPanel extends GamePanel {
     private JButton settingsButton;
     private JButton quitButton;
     private JPanel verticalButtonPanel;
+    private Font gameTitleFont;
     
     private BufferedImage backgroundImage;
 
     public StartPanel(int x, int y) {
         super(x, y);
+        initFont(); 
         initImages();
         initComponents();
     }
@@ -34,19 +36,18 @@ public class StartPanel extends GamePanel {
     private void initComponents(){
         this.setLayout(new BorderLayout()); 
         String labelText = "<html><p align='left'>King Blob's</p><p align = 'center'>Adventure</p></html>";
-        Font labelFont = new Font("Arial", Font.BOLD, 30);
-        gameTitleLabel = ViewUtility.createLabel(labelText, labelFont,25,0,0,0, JLabel.CENTER);
+        gameTitleLabel = ViewUtility.createLabel(labelText, gameTitleFont,25,0,0,0, JLabel.CENTER);
         add(gameTitleLabel, BorderLayout.NORTH);
 
         Dimension buttonSize = new Dimension(200, 28); // Set the preferred width to 200 and the preferred height to 50
-
+        Font font = new Font(null, Font.PLAIN, 12);
         // Buttons in order of how they will appear in the menu
         JButton[] buttons = {
-            continueButton = ViewUtility.createButton("Continue", buttonSize),
-            newGameButton = ViewUtility.createButton("New Game", buttonSize),
-            loadGameButton = ViewUtility.createButton("Load Game", buttonSize),
-            settingsButton = ViewUtility.createButton("Settings", buttonSize),
-            quitButton= ViewUtility.createButton("Quit", buttonSize)
+            continueButton = ViewUtility.createButton("Continue", buttonSize, font),
+            newGameButton = ViewUtility.createButton("New Game", buttonSize, font),
+            loadGameButton = ViewUtility.createButton("Load Game", buttonSize, font),
+            settingsButton = ViewUtility.createButton("Settings", buttonSize, font),
+            quitButton= ViewUtility.createButton("Quit", buttonSize, font)
         };
 
         verticalButtonPanel = ViewUtility.createVerticalPanel();
@@ -64,6 +65,15 @@ public class StartPanel extends GamePanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawBackground(g);
+    }
+
+    private void initFont(){
+        try {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/ARCADECLASSIC.TTF"));
+            gameTitleFont = font.deriveFont(48f);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initImages(){

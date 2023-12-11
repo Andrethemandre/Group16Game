@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -50,6 +51,11 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     private BufferedImage ninthLevelImage;
     private BufferedImage tenthLevelImage;
     private BufferedImage placeHolderImage;
+    private BufferedImage leftBrowseIconImage;
+    private BufferedImage rightBrowseIconImage;
+
+    private Font currentSelectedLevelFont;
+    private Font levelSelectTitleFont;
 
     private JLabel highScoreLabel;
 
@@ -57,7 +63,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
 
     private static final Dimension LARGE_BUTTON_SIZE = new Dimension(200, 28);
     private static final Dimension SMALL_BUTTON_SIZE = new Dimension(100, 28);
-    private static final Font LABEL_FONT = new Font("Arial", Font.BOLD, 30);
+    private static final Font LABEL_FONT = new Font("Arial", Font.BOLD, 24);
     private static final Font BUTTON_FONT = new Font("Arial", Font.BOLD, 14);
 
     // for defualt set to level 1 display
@@ -65,6 +71,22 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         super(x, y);
         this.levelHandler = levelHandler;
 
+        initFont();
+        initImages();
+        initComponents();
+    }
+
+    private void initFont(){
+        try {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/ARCADECLASSIC.TTF"));
+            currentSelectedLevelFont = font.deriveFont(24f);
+            levelSelectTitleFont = font.deriveFont(24f);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initImages(){
         try {
             placeHolderImage = ImageIO
                     .read(getClass().getResourceAsStream("/images/level_select/placeholder_level_image.png"));
@@ -78,12 +100,11 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
             eighthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_8_image.png"));
             ninthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_9_image.png"));
             tenthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_10_image.png"));
-
+            leftBrowseIconImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/left_browse_icon.png"));
+            rightBrowseIconImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/right_browse_icon.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        initComponents();
     }
 
     private void setLevelImage(int levelNumber) {
@@ -169,34 +190,34 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
 
     private JLabel createCurrentSelectedLevelLabel() {
         String labelText = "Level x";
-        return ViewUtility.createLabel(labelText, LABEL_FONT, 14, 20, 0, 0, JLabel.CENTER);
+        return ViewUtility.createLabel(labelText, currentSelectedLevelFont, 14, 20, 0, 0, JLabel.CENTER);
     }
 
     private JLabel createLevelImageLabel() {
-        // setLevelImage(levelHandler.getCurrentLevelNumber());
         picLabel = new JLabel(new ImageIcon(placeHolderImage));
-        picLabel.setBorder(BorderFactory.createEmptyBorder(27, 20, 0, 0)); // Add padding
+        picLabel.setBorder(BorderFactory.createEmptyBorder(27, 20, 0, 0)); 
         return picLabel;
     }
 
     private JLabel createHighScoreLabel() {
         String labelText = "High Score: x";
-        return ViewUtility.createLabel(labelText, LABEL_FONT, 15, 20, 0, 0, JLabel.LEFT);
+        return ViewUtility.createLabel(labelText, new Font("Arial", Font.BOLD, 20), 15, 20, 0, 0, JLabel.LEFT);
     }
 
     private JPanel createLevelInfoNavigationPanel() {
+        Font font = new Font(null, Font.PLAIN, 12);
         JPanel horizontalButtonPanel = ViewUtility.createHorizontalPanel();
         horizontalButtonPanel.setAlignmentX(JButton.CENTER_ALIGNMENT);
-        horizontalButtonPanel.setBorder(BorderFactory.createEmptyBorder(100, 20, 0, 0)); // Add padding
+        horizontalButtonPanel.setBorder(BorderFactory.createEmptyBorder(125, 20, 0, 0)); 
         horizontalButtonPanel.setBackground(Color.LIGHT_GRAY);
 
-        backToMainMenuButton = ViewUtility.createButton("Back to Main Menu", LARGE_BUTTON_SIZE);
+        backToMainMenuButton = ViewUtility.createButton("Back to Main Menu", LARGE_BUTTON_SIZE, font);
         backToMainMenuButton.setFont(BUTTON_FONT);
         horizontalButtonPanel.add(backToMainMenuButton);
 
-        horizontalButtonPanel.add(Box.createRigidArea(new Dimension(175, 0))); // Add space after button
+        horizontalButtonPanel.add(Box.createRigidArea(new Dimension(175, 0)));
 
-        playButton = ViewUtility.createButton("Play", SMALL_BUTTON_SIZE);
+        playButton = ViewUtility.createButton("Play", SMALL_BUTTON_SIZE, font);
         playButton.setFont(BUTTON_FONT);
 
         horizontalButtonPanel.add(playButton);
@@ -206,15 +227,10 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
 
     private void initLevelButtons() {
         levelButtons = new JButton[levelHandler.getTotalLevels()];
-
+        Font font = new Font(null, Font.PLAIN, 20);
         for (int i = 0; i < levelButtons.length; i++) {
            
-            levelButtons[i] = ViewUtility.createButton("Level " + (i + 1), new Dimension(175, 55));
-            System.out.println("Level button " + (i + 1));
-            System.out.println("X: " + levelButtons[i].getX());
-            System.out.println("Y: " + levelButtons[i].getY());
-            System.out.println("Width: " + levelButtons[i].getWidth());
-            System.out.println("Height: " + levelButtons[i].getHeight());
+            levelButtons[i] = ViewUtility.createButton("Level " + (i + 1), new Dimension(175, 55), font);
         }
     }
 
@@ -230,11 +246,11 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         JPanel navigationPanel = createLevelBrowseNavigationPanel();
 
         levelVerticalSelectPanel.setBackground(Color.GRAY);
-
         levelBrowseMenu.setBackground(Color.GRAY);
         levelBrowseMenu.add(levelVerticalSelectPanel, BorderLayout.CENTER);
         navigationPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0)); // Add padding
         levelBrowseMenu.add(navigationPanel, BorderLayout.SOUTH);
+
         return levelBrowseMenu;
     }
 
@@ -264,7 +280,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     private JLabel createLevelCurrentPageLabel() {
         int totalLevels = levelHandler.getTotalLevels();
         String labelText = levelHandler.getCurrentLevelSelectPage() + "/" + (int) (totalLevels / 4 + 1);
-        Font labelFont = new Font("Arial", Font.PLAIN, 14);
+        Font labelFont = new Font("Arial", Font.PLAIN, 20);
 
         return ViewUtility.createLabel(labelText, labelFont, 0, 0, 0, 0, JLabel.CENTER);
     }
@@ -272,31 +288,45 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     private JPanel createLevelBrowseNavigationPanel() {
         JPanel navigationPanel = ViewUtility.createHorizontalPanel();
 
-        levelPageNextButton = ViewUtility.createButton("Next", new Dimension(60, 50));
-        levelPageBackButton = ViewUtility.createButton("Back", new Dimension(60, 50));
+        levelPageNextButton = ViewUtility.createButton("", new Dimension(40, 40));
+        levelPageNextButton.setIcon(new ImageIcon(rightBrowseIconImage));
+        levelPageNextButton.setBorderPainted(false);
+        levelPageNextButton.setContentAreaFilled(false);
+        levelPageNextButton.setFocusPainted(false);
+        levelPageNextButton.setOpaque(false);
+        levelPageNextButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        levelPageBackButton = ViewUtility.createButton("", new Dimension(40, 40));
+        levelPageBackButton.setIcon(new ImageIcon(leftBrowseIconImage));
+        levelPageBackButton.setBorderPainted(false);
+        levelPageBackButton.setContentAreaFilled(false);
+        levelPageBackButton.setFocusPainted(false);
+        levelPageBackButton.setOpaque(false);
+        levelPageBackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         navigationPanel.setLayout(new BoxLayout(navigationPanel, BoxLayout.LINE_AXIS));
         navigationPanel.add(Box.createRigidArea(new Dimension(12, 0)));
+
         navigationPanel.add(levelPageBackButton);
         navigationPanel.add(Box.createHorizontalGlue());
-
-        Font labelFont3 = new Font("Arial", Font.PLAIN, 14);
+        
         navigationPanel.add(levelCurrentPageLabel = createLevelCurrentPageLabel());
+
         navigationPanel.add(Box.createHorizontalGlue());
 
         navigationPanel.add(levelPageNextButton);
         navigationPanel.add(Box.createRigidArea(new Dimension(12, 0)));
+
         navigationPanel.setBackground(Color.GRAY);
-        navigationPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0)); // Add padding
+        navigationPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0)); 
 
         return navigationPanel;
     }
 
     private JLabel createTitle() {
         String labelText = "Level Select";
-        Font labelFont = new Font("Arial", Font.BOLD, 30);
 
-        return ViewUtility.createLabel(labelText, labelFont, 14, 0, 0, 0, JLabel.CENTER);
+        return ViewUtility.createLabel(labelText, levelSelectTitleFont, 14, 0, 0, 0, JLabel.CENTER);
     }
 
     public JButton getPlayButton() {

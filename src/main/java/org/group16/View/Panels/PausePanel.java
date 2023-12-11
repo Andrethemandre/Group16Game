@@ -21,11 +21,22 @@ public class PausePanel extends GamePanel {
     private JButton settingsButton;
     private JButton quitButton;
     private JPanel verticalButtonPanel;
+    private Font pauseTitleFont;
 
     public PausePanel(int x, int y) {
         super(x, y); 
+        initFont();
         initComponents();
 
+    }
+
+    private void initFont(){
+        try {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/ARCADECLASSIC.TTF"));
+            pauseTitleFont = font.deriveFont(36f);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public JButton getLevelSelectButton(){
@@ -37,21 +48,21 @@ public class PausePanel extends GamePanel {
         setLayout(new BorderLayout()); 
 
         String labelText = "Paused";
-        Font labelFont = new Font("Arial", Font.BOLD, 30);
 
-        pauseLabel = ViewUtility.createLabel(labelText, labelFont,10,0,25,0, JLabel.CENTER);
+        pauseLabel = ViewUtility.createLabel(labelText, pauseTitleFont,10,0,25,0, JLabel.CENTER);
         add(pauseLabel, BorderLayout.NORTH);
 
         Dimension buttonSize = new Dimension(200, 28); // Set the preferred width to 200 and the preferred height to 50
-
+        Font font = new Font(null, Font.PLAIN, 12);
+        
         // Buttons in order of how they will appear in the menu
         JButton[] buttons = {
-            resumeButton = ViewUtility.createButton("Resume", buttonSize),
-            restartButton = ViewUtility.createButton("Restart", buttonSize),
-            levelSelectButton = ViewUtility.createButton("Level Select", buttonSize),
-            mainMenuButton = ViewUtility.createButton("Main Menu", buttonSize),
-            settingsButton = ViewUtility.createButton("Settings", buttonSize),
-            quitButton= ViewUtility.createButton("Quit to desktop", buttonSize)
+            resumeButton = ViewUtility.createButton("Resume", buttonSize, font),
+            restartButton = ViewUtility.createButton("Restart", buttonSize, font),
+            levelSelectButton = ViewUtility.createButton("Level Select", buttonSize, font),
+            mainMenuButton = ViewUtility.createButton("Main Menu", buttonSize, font),
+            settingsButton = ViewUtility.createButton("Settings", buttonSize, font),
+            quitButton= ViewUtility.createButton("Quit to desktop", buttonSize, font)
         };
 
         verticalButtonPanel = ViewUtility.createVerticalPanel();

@@ -24,6 +24,17 @@ public class ViewUtility {
         return button;
     }
 
+        public static JButton createButton(String text, Dimension size, Font font) {
+        JButton button = new JButton();
+        button.setText(text);
+        button.setPreferredSize(size);
+        button.setMaximumSize(size);
+        button.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        button.setFont(font);
+
+        return button;
+    }
+
     public static void addCenteredToButtonPanel(JPanel buttonPanel, JButton button, int widthSpacing, int heightSpacing) {
         button.setAlignmentX(JButton.CENTER_ALIGNMENT);
         buttonPanel.add(button);
