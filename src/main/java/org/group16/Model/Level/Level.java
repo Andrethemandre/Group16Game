@@ -6,6 +6,7 @@ import java.util.Queue;
 
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.Utility.Tuple;
 
 import static org.group16.Model.GameObjects.GameObjectType.MOVABLE___;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;

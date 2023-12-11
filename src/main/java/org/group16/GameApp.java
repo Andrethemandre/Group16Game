@@ -1,7 +1,7 @@
 package org.group16;
 
 import org.group16.Controller.GameEngine;
-import org.group16.Model.Level.LevelHandler;
+import org.group16.Model.LevelHandling.LevelHandler;
 import org.group16.View.GameWindow;
 
 public class GameApp {

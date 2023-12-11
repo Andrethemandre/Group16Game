@@ -1,4 +1,4 @@
-package org.group16.Model.Level;
+package org.group16.Model.LevelHandling;
 
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
@@ -21,7 +21,11 @@ import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.GameObjects.Player.PlayerFactory;
 import org.group16.Model.GameObjects.PowerUp.IPowerUp;
 import org.group16.Model.GameObjects.PowerUp.PowerUpFactory;
+import org.group16.Model.Level.Level;
+import org.group16.Model.Level.LevelFactory;
+import org.group16.Model.Level.Metadata;
 import org.group16.Model.Observers.GameObserver;
+import org.group16.Model.Utility.Tuple;
 
 public class LevelHandler {
     private IPlayer player;

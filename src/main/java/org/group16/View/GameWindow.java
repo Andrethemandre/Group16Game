@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.group16.Model.GameObjects.GameState;
-import org.group16.Model.Level.LevelHandler;
+import org.group16.Model.LevelHandling.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
 import org.group16.View.Panels.LevelAndPauseLayer;
 import org.group16.View.Panels.LevelPanel;

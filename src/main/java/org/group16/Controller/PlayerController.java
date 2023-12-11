@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Player.IPlayer;
-import org.group16.Model.Level.LevelHandler;
+import org.group16.Model.LevelHandling.LevelHandler;
 import org.group16.View.GameWindow;
 import org.group16.View.Panels.LevelPanel;
 
