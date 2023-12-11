@@ -475,7 +475,6 @@ public class LevelHandler {
         checkIfPowerUpsCollidesWithTraps();
         checkIfPowerUpsCollidesWithBlocks();
 
-        removeFrozenTrap();
         updateEnemies();
         updateEnemiesWithTarget();
         checkEnemiesWithTargetCollision();
@@ -499,7 +498,7 @@ public class LevelHandler {
         removeDeadEnemy(enemies);
         removeDeadEnemy(movableEnemies);
         removeDeadEnemy(enemiesWithTarget);
-
+        
         removeUsedPowerUps();
         freezeFrozenEnemy();
     }
@@ -542,8 +541,10 @@ public class LevelHandler {
             if (trap.isFrozen()) {
                 IBlock frozenTrap = BlockFactory.createBlockAt(STATIONARY, trap.getX(), trap.getY());
                 blocks.add(frozenTrap);
+                
             }
         }
+        removeFrozenTrap();
     }
 
     private void removeFrozenTrap() {
