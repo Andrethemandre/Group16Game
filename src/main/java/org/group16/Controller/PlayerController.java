@@ -22,8 +22,13 @@ class PlayerController extends GameController implements KeyListener{
         this.levelHandler = levelHandler;
         this.levelPanel = levelPanel;
         this.currentPlayer = levelHandler.getPlayer();
-        mainWindow.addKeyListener(this);
 
+        mainWindow.addKeyListener(this);
+        initListeners();
+    }
+
+    @Override
+    protected void initListeners(){
         levelPanel.getPauseButton().addActionListener(e -> {
             currentPlayer.startMovingInDirection(Direction.NONE);
             if(levelHandler.getGameState() == GameState.PLAYING){     

@@ -29,12 +29,13 @@ import org.group16.View.ViewUtility;
 
 public class LevelPanel extends GamePanel implements GameObserver {
     private LevelHandler levelHandler;
+    private JButton pauseButton;
+
     private BufferedImage redHeartImage;
     private BufferedImage grayHeartImage;
     private BufferedImage pauseImage;
 
-    private JButton pauseButton;
-    //sprites
+    // sprites
     private BufferedImage spearPowerUpImage;
     private BufferedImage spearPowerUpThrowRightImage;
     private BufferedImage spearPowerUpThrowLeftImage;
@@ -60,7 +61,6 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private BufferedImage flyingEnemyRightWingMiddleImage;
     private BufferedImage flyingEnemyRightWingDownImage;
 
-    
     private BufferedImage spikeImage;
     private BufferedImage goalImage;
     private BufferedImage backgroundImage;
@@ -72,14 +72,17 @@ public class LevelPanel extends GamePanel implements GameObserver {
     public LevelPanel(int x, int y, LevelHandler levelHandler) {
         super(x, y);
         this.levelHandler = levelHandler;
+        
         flyingEnemyFrame = 1;
         pauseButton = ViewUtility.createButton("", new Dimension(40, 40));
         initImages();
+
         pauseButton.setIcon(new ImageIcon(pauseImage));
         pauseButton.setBorderPainted(false);
         pauseButton.setContentAreaFilled(false);
         pauseButton.setFocusPainted(false);
         pauseButton.setOpaque(false);
+
         add(pauseButton, JLayeredPane.DEFAULT_LAYER);
     }
 

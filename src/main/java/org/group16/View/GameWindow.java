@@ -42,12 +42,13 @@ public class GameWindow extends JFrame implements GameObserver{
 
     public GameWindow(String windowName, LevelHandler levelHandler){
         this.levelHandler = levelHandler;
+        
         this.startPanel = new StartPanel(X, Y);
-
         this.levelPanel = new LevelPanel(X, Y, levelHandler);
         this.pausePanel = new PausePanel(X,Y);
         this.levelSelectorPanel = new LevelSelectorPanel(X,Y, levelHandler);
         this.levelAndPauseLayer = new LevelAndPauseLayer(X, Y, levelPanel, pausePanel, levelHandler);
+
         this.levelHandler.addObserver(levelAndPauseLayer);
         this.levelHandler.addObserver(levelSelectorPanel);
 
@@ -57,6 +58,7 @@ public class GameWindow extends JFrame implements GameObserver{
         cards.add(startPanel, "START");
         cards.add(levelAndPauseLayer, "PLAYING");
         cards.add(levelSelectorPanel, "LEVEL_SELECT");
+
         initComponents(windowName);
         levelAndPauseLayer.setBounds(getBounds());
         this.requestFocusInWindow();

@@ -9,10 +9,14 @@ class PauseController extends GameController{
 
     PauseController(LevelHandler levelHandler, PausePanel pausePanel) {
         super(levelHandler, pausePanel);
-
         this.pausePanel = pausePanel;
         this.levelHandler = levelHandler;
+        
+        initListeners();
+    }
 
+    @Override
+    protected void initListeners() {
         pausePanel.getResumeButton().addActionListener(e -> {
             levelHandler.togglePause();
         });
@@ -38,7 +42,5 @@ class PauseController extends GameController{
     }
 
     @Override
-    protected void update() {
-        // TODO Auto-generated method stub
-    }
+    public void update() {}
 }

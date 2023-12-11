@@ -4,17 +4,25 @@ import org.group16.Model.Level.LevelHandler;
 import org.group16.View.Panels.LevelSelectorPanel;
 
 class LevelSelectController extends GameController{
+    private LevelHandler levelHandler;
+    private LevelSelectorPanel levelSelectorPanel;
 
     LevelSelectController(LevelHandler levelHandler, LevelSelectorPanel levelSelectorPanel) {
         super(levelHandler, levelSelectorPanel);
+        this.levelHandler = levelHandler;
+        this.levelSelectorPanel = levelSelectorPanel;
 
+        initListeners();
+    }
+    
+    @Override
+    protected void initListeners() {
         for (int i = 0; i < levelSelectorPanel.getLevelButtons().length; i++) {
             int levelNumber = i;
 
             levelSelectorPanel.getLevelButtons()[i].addActionListener(e -> {
                 levelHandler.setSelectLevelNumber(levelNumber + 1);
                 levelHandler.setCurrentLevelNumber(levelNumber + 1);
-                levelHandler.notifyObservers();
             });
         }
 
@@ -36,7 +44,5 @@ class LevelSelectController extends GameController{
     }
 
     @Override
-    protected void update() {
-
-    }
+    protected void update() {}
 }

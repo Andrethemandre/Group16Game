@@ -13,4 +13,6 @@ abstract class GameController {
     }
 
     protected abstract void update();
+    
+    protected abstract void initListeners();
 }
