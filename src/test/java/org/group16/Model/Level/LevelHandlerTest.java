@@ -15,8 +15,6 @@ public class LevelHandlerTest {
         levelHandler.startGame();
     }
 
-    // these tests fail because the game starts at start screen
-    // now instead of the first level.
     @Test
     void testLevelHandlerStartsWithFirstLevel() {
         assertTrue(levelHandler.getCurrentLevelNumber() == 1);
@@ -40,7 +38,6 @@ public class LevelHandlerTest {
         assertTrue(levelHandler.getCurrentAttempts() == 0);
     }
 
-    // Currently fails because a test value is used in LevelHandler instead of zero.
     @Test
     void testLevelHandlerStartsWithZeroScore() {
         assertTrue(levelHandler.getCurrentScore() == 0);
