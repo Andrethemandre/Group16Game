@@ -11,18 +11,14 @@ import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 import static org.group16.Model.GameObjects.GameObjectType.TELEPORTER;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 
 class SixthLevel extends Level {
-    // matrix 45X30 to represent level 1
-    List<Integer> teleporterDestinations = new ArrayList<Integer>();
-
+    // matrix 45X30 to represent level 6
     private final static GameObjectType[][] levelLayout = {
 
             { AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______, AIR_______,
