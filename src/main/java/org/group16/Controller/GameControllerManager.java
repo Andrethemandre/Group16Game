@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.group16.Model.GameObjects.GameState;
-import org.group16.Model.Level.LevelHandler;
+import org.group16.Model.LevelHandling.LevelHandler;
 import org.group16.View.GameWindow;
 
 class GameControllerManager {

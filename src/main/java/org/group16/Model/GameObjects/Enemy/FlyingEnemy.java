@@ -3,8 +3,8 @@ package org.group16.Model.GameObjects.Enemy;
 import org.group16.Model.GameObjects.AffectedByGravity;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.GameObjects.HasHealth;
 import org.group16.Model.GameObjects.IGameObject;
-import org.group16.Model.Observers.HasHealth;
 
 class FlyingEnemy implements IMovableEnemy, AffectedByGravity {
     private Direction horizontalDirection;
@@ -14,7 +14,7 @@ class FlyingEnemy implements IMovableEnemy, AffectedByGravity {
     private MovableEnemy innerMovableEnemy;
 
     public FlyingEnemy(int x, int y,int patrolDistance, Direction horizontalDirection, Direction verticalDirection) {
-        innerMovableEnemy = new MovableEnemy(GameObjectType.FLYING____, x, y, 1);
+        innerMovableEnemy = new MovableEnemy(GameObjectType.FLYING____, x, y, 1, 1);
         this.patrolDistance = patrolDistance;
         this.horizontalDirection = horizontalDirection;
         this.verticalDirection = verticalDirection;

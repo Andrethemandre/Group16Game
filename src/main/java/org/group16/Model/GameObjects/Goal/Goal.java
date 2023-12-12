@@ -1,7 +1,8 @@
 package org.group16.Model.GameObjects.Goal;
 
-import org.group16.Model.GameObjects.IGameObject;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 
+import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 
@@ -9,7 +10,7 @@ class Goal implements IGoal {
     private GameObject innerGameObject;
 
     public Goal(int x, int y) {
-        innerGameObject = new GameObject(GameObjectType.GOAL______, x, y, 16, 16);
+        innerGameObject = new GameObject(GameObjectType.GOAL______, x, y, TILE_SIZE, TILE_SIZE);
     }
     
     @Override

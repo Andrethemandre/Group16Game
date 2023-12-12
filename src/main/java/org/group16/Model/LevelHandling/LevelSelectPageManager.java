@@ -1,4 +1,4 @@
-package org.group16.Model.Level;
+package org.group16.Model.LevelHandling;
 
 public class LevelSelectPageManager {
     private int currentPage;

@@ -1,7 +1,7 @@
 package org.group16.Model.GameObjects.Blocks;
 
 import org.group16.Model.GameObjects.IGameObject;
-
+import org.group16.Model.Utility.Settings;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 
@@ -9,7 +9,7 @@ class Block implements IBlock {
     private GameObject innerGameObject;
 
     Block(GameObjectType blockType, int x, int y) {
-        innerGameObject = new GameObject(blockType, x, y, 16, 16);
+        innerGameObject = new GameObject(blockType, x, y, Settings.TILE_SIZE, Settings.TILE_SIZE);
     }
 
     @Override

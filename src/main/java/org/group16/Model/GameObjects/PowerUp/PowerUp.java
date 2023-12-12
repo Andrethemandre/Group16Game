@@ -1,5 +1,7 @@
 package org.group16.Model.GameObjects.PowerUp;
 
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
+
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
@@ -13,15 +15,13 @@ class PowerUp implements IPowerUp {
     private boolean isDead = false;
 
     public PowerUp(GameObjectType type, int x, int y, boolean moveable, Direction direction) {
-        innerGameObject = new GameObject(type, x, y, 16, 16);
+        innerGameObject = new GameObject(type, x, y, TILE_SIZE, TILE_SIZE);
         this.isMoving = moveable;
         this.direction = direction;
     }
 
     public PowerUp(GameObjectType type, int x, int y) {
-        innerGameObject = new GameObject(type, x, y, 16, 16);
-        this.isMoving = false;
-        this.direction = Direction.NONE;
+        this(type, x, y, false, Direction.NONE);
     }
 
     @Override
@@ -93,6 +93,11 @@ class PowerUp implements IPowerUp {
                     break;
             }
         }
+    }
+
+    @Override
+    public int getMovementSpeed() {
+        return speed;
     }
 }
 
