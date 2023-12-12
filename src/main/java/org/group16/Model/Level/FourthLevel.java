@@ -60,13 +60,13 @@ class FourthLevel extends Level  {
     @Override
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
-        //Flying enemies in the order of appearance
+        // Flying enemies in the order of appearance
         metadataQueue.add(new Metadata(TILE_SIZE + 14, Direction.NONE, Direction.DOWN));
         metadataQueue.add(new Metadata(3*TILE_SIZE + 2, Direction.RIGHT, Direction.UP));
         metadataQueue.add(new Metadata(TILE_SIZE + 14, Direction.LEFT, Direction.UP));
         metadataQueue.add(new Metadata(TILE_SIZE + 14, Direction.RIGHT, Direction.NONE));
 
-        //Basic enemies
+        // Basic enemies
         metadataQueue.add(new Metadata(TILE_SIZE + 14, Direction.LEFT, Direction.NONE));
         metadataQueue.add(new Metadata(TILE_SIZE, Direction.RIGHT, Direction.NONE));
 
