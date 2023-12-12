@@ -27,8 +27,8 @@ public class GameWindow extends JFrame implements GameObserver{
     private static final int WINDOW_OFFSET_X = 16;
     private static final int WINDOW_OFFSET_Y = 40;
 
-    private static final int X = Settings.WINDOW_WIDTH + WINDOW_OFFSET_X;
-    private static final int Y = Settings.WINDOW_HEIGHT + WINDOW_OFFSET_Y;
+    private static final int X = Settings.GAME_WIDTH + WINDOW_OFFSET_X;
+    private static final int Y = Settings.GAME_HEIGHT + WINDOW_OFFSET_Y;
 
     // mainScreen that changes depending on type of panel 
     private CardLayout mainScreen;
