@@ -53,6 +53,7 @@ class FirstLevel extends Level  {
         super(levelLayout, 1);
     }
 
+    @Override
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
         return metadataQueue;

@@ -57,6 +57,7 @@ class FourthLevel extends Level  {
         super(levelLayout, 4);
     }
 
+    @Override
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
         //Flying enemies in the order of appearance

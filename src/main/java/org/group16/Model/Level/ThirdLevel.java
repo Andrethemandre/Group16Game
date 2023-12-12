@@ -57,6 +57,7 @@ class ThirdLevel extends Level  {
         super(levelLayout, 3);
     }
 
+    @Override
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
         //flying

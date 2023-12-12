@@ -208,6 +208,7 @@ class FifthLevel extends Level {
         super(levelLayout, 5);
     }
 
+    @Override
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
         // flying enemy

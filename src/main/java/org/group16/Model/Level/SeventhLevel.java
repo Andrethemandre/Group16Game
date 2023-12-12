@@ -56,6 +56,7 @@ class SeventhLevel extends Level  {
         super(levelLayout, 7);
     }
 
+    @Override
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
         metadataQueue.add(new Metadata(13*TILE_SIZE, Direction.NONE, Direction.DOWN));

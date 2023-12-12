@@ -209,21 +209,22 @@ class SixthLevel extends Level {
         super(levelLayout, 6);
     }
 
+    @Override
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
-        metadataQueue.add(new Metadata(50, Direction.RIGHT, Direction.DOWN)); // flying
-        metadataQueue.add(new Metadata(45, Direction.RIGHT, Direction.NONE)); // basic
+        metadataQueue.add(new Metadata(3*TILE_SIZE + 2, Direction.RIGHT, Direction.DOWN)); // flying
+        metadataQueue.add(new Metadata(3*TILE_SIZE, Direction.RIGHT, Direction.NONE)); // basic
         metadataQueue.add(new Metadata(37*TILE_SIZE, 25*TILE_SIZE)); // first teleport
-        metadataQueue.add(new Metadata(40, Direction.LEFT, Direction.DOWN)); // flying
-        metadataQueue.add(new Metadata(70, Direction.RIGHT, Direction.NONE)); // basic
-        metadataQueue.add(new Metadata(80, Direction.RIGHT, Direction.NONE)); // basic
-        metadataQueue.add(new Metadata(80, Direction.RIGHT, Direction.DOWN)); // flying
-        metadataQueue.add(new Metadata(70, Direction.LEFT, Direction.DOWN)); // flying
-        metadataQueue.add(new Metadata(40, Direction.LEFT, Direction.DOWN)); // movable block
-        metadataQueue.add(new Metadata(50, Direction.LEFT, Direction.DOWN)); // movable block
+        metadataQueue.add(new Metadata(2*TILE_SIZE + 8, Direction.LEFT, Direction.DOWN)); // flying
+        metadataQueue.add(new Metadata(4*TILE_SIZE + 6, Direction.RIGHT, Direction.NONE)); // basic
+        metadataQueue.add(new Metadata(5*TILE_SIZE, Direction.RIGHT, Direction.NONE)); // basic
+        metadataQueue.add(new Metadata(5*TILE_SIZE, Direction.RIGHT, Direction.DOWN)); // flying
+        metadataQueue.add(new Metadata(4*TILE_SIZE + 6, Direction.LEFT, Direction.DOWN)); // flying
+        metadataQueue.add(new Metadata(2*TILE_SIZE + 8, Direction.LEFT, Direction.DOWN)); // movable block
+        metadataQueue.add(new Metadata(3*TILE_SIZE + 2, Direction.LEFT, Direction.DOWN)); // movable block
         metadataQueue.add(new Metadata(TILE_SIZE, 9*TILE_SIZE));// second teleport
-        metadataQueue.add(new Metadata(50, Direction.LEFT, Direction.NONE)); // movable block
-        metadataQueue.add(new Metadata(30, Direction.RIGHT, Direction.NONE)); // basic
+        metadataQueue.add(new Metadata(3*TILE_SIZE + 2, Direction.LEFT, Direction.NONE)); // movable block
+        metadataQueue.add(new Metadata(TILE_SIZE + 14, Direction.RIGHT, Direction.NONE)); // basic
 
         return metadataQueue;
     }

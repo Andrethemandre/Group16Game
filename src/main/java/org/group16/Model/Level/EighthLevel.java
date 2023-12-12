@@ -59,6 +59,7 @@ class EighthLevel extends Level  {
         super(levelLayout, 8);
     }
 
+    @Override
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
         //upper part
