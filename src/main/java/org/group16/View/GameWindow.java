@@ -23,7 +23,7 @@ public class GameWindow extends JFrame implements GameObserver{
     // top of the window, however I don't know why
     // an X offset would be needed, maybe we
     // did some wrong calculation?
-    private static final int WINDOW_OFFSET_X = 15;
+    private static final int WINDOW_OFFSET_X = 14;
     private static final int WINDOW_OFFSET_Y = 38;
 
     private static final int X = 720 + WINDOW_OFFSET_X;
