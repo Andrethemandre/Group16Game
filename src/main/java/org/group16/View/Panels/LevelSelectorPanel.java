@@ -79,7 +79,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
 
     private void initFont(){
         try {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/ARCADECLASSIC.TTF"));
+            Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/Grand9K Pixel.ttf"));
             currentSelectedLevelFont = font.deriveFont(24f);
             levelSelectTitleFont = font.deriveFont(24f);
         } catch (Exception e) {

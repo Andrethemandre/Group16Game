@@ -62,7 +62,7 @@ public class GameWindow extends JFrame implements GameObserver{
         initComponents(windowName);
         levelLayer.setBounds(getBounds());
         this.requestFocusInWindow();
-        this.setResizable(false);
+        //this.setResizable(false);
     }
 
     // Sets everything in place and fits everything

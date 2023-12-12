@@ -17,7 +17,8 @@ import javax.swing.JPanel;
 import org.group16.View.ViewUtility;
 
 public class StartPanel extends GamePanel {
-    private JLabel gameTitleLabel;
+    private JLabel firstGameTitleLabelRow;
+    private JLabel secondGameTitleLabelRow;
     private JButton continueButton;
     private JButton newGameButton;
     private JButton loadGameButton;
@@ -37,9 +38,17 @@ public class StartPanel extends GamePanel {
 
     private void initComponents(){
         this.setLayout(new BorderLayout()); 
-        String labelText = "<html><p align='left'>King Blob's</p><p align = 'center'>Adventure</p></html>";
-        gameTitleLabel = ViewUtility.createLabel(labelText, gameTitleFont,25,0,0,0, JLabel.CENTER);
-        add(gameTitleLabel, BorderLayout.NORTH);
+        JPanel textPanel = ViewUtility.createVerticalPanel();
+        String firstLabelText = "King Blöb's";
+
+        firstGameTitleLabelRow = ViewUtility.createLabel(firstLabelText, gameTitleFont, 25, 225, 0, 0, JLabel.CENTER);
+        textPanel.add(firstGameTitleLabelRow);
+
+        String secondLabelText = "Adventure";
+        secondGameTitleLabelRow = ViewUtility.createLabel(secondLabelText, gameTitleFont, 0, 225, 0, 0, JLabel.CENTER);
+        textPanel.add(secondGameTitleLabelRow);
+        textPanel.setOpaque(false);
+        add(textPanel, BorderLayout.NORTH);
 
         Dimension buttonSize = new Dimension(200, 28); // Set the preferred width to 200 and the preferred height to 50
         Font font = new Font(null, Font.PLAIN, 12);
@@ -76,7 +85,7 @@ public class StartPanel extends GamePanel {
 
     private void initFont(){
         try {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/ARCADECLASSIC.TTF"));
+            Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/Grand9K Pixel.ttf"));
             gameTitleFont = font.deriveFont(48f);
         } catch (Exception e) {
             e.printStackTrace();

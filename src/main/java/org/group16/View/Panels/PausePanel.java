@@ -31,7 +31,7 @@ public class PausePanel extends GamePanel {
 
     private void initFont(){
         try {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/ARCADECLASSIC.TTF"));
+            Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/Grand9K Pixel.ttf"));
             pauseTitleFont = font.deriveFont(36f);
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,7 +48,7 @@ public class PausePanel extends GamePanel {
 
         String labelText = "Paused";
 
-        pauseLabel = ViewUtility.createLabel(labelText, pauseTitleFont,10,0,25,0, JLabel.CENTER);
+        pauseLabel = ViewUtility.createLabel(labelText, pauseTitleFont,0,0,0,0, JLabel.CENTER);
         add(pauseLabel, BorderLayout.NORTH);
 
         Dimension buttonSize = new Dimension(200, 28); // Set the preferred width to 200 and the preferred height to 50
