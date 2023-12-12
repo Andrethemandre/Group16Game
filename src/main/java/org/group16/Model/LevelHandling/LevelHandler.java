@@ -11,7 +11,6 @@ import java.util.Collection;
 import org.group16.Model.GameObjects.Enemy.*;
 import org.group16.Model.GameObjects.Goal.IGoal;
 import org.group16.Model.GameObjects.Goal.GoalFactory;
-import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
@@ -53,9 +52,7 @@ public class LevelHandler implements ObservableEvents{
 
     public LevelHandler() {
         observers = new ArrayList<>();
-
-        levelSelectPageManager = new LevelSelectPageManager(TOTAL_LEVELS);
-        gameStateManager = new GameStateManager();
+        
         enemies = new ArrayList<>();
         blocks = new ArrayList<>();
         powerUps = new ArrayList<>();
@@ -64,6 +61,8 @@ public class LevelHandler implements ObservableEvents{
         enemiesWithTarget = new ArrayList<>();
         teleportBlocks = new ArrayList<>();
 
+        levelSelectPageManager = new LevelSelectPageManager(TOTAL_LEVELS);
+        gameStateManager = new GameStateManager();
         statsManager = new StatsManager();
 
         for (int i = 1; i <= TOTAL_LEVELS; i++) {

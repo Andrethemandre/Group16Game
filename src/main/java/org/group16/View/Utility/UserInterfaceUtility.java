@@ -1,4 +1,4 @@
-package org.group16.View;
+package org.group16.View.Utility;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -10,27 +10,36 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class ViewUtility {
+public class UserInterfaceUtility {
     // Private constructor to prevent instantiation
-    private ViewUtility() {};
+    private UserInterfaceUtility() {};
 
     public static JButton createButton(String text, Dimension size) {
         JButton button = new JButton();
         button.setText(text);
         button.setPreferredSize(size);
         button.setMaximumSize(size);
-        button.setAlignmentX(JButton.CENTER_ALIGNMENT);
 
         return button;
     }
 
-        public static JButton createButton(String text, Dimension size, Font font) {
+    public static JButton createButton(String text, Dimension size, Font font) {
         JButton button = new JButton();
         button.setText(text);
         button.setPreferredSize(size);
         button.setMaximumSize(size);
-        button.setAlignmentX(JButton.CENTER_ALIGNMENT);
         button.setFont(font);
+
+        return button;
+    }
+
+    public static JButton createButton(String text, Dimension size, Font font, float alignment) {
+        JButton button = new JButton();
+        button.setText(text);
+        button.setPreferredSize(size);
+        button.setMaximumSize(size);
+        button.setFont(font);
+        button.setAlignmentX(JButton.CENTER_ALIGNMENT);
 
         return button;
     }
@@ -38,7 +47,7 @@ public class ViewUtility {
     public static void addCenteredToButtonPanel(JPanel buttonPanel, JButton button, int widthSpacing, int heightSpacing) {
         button.setAlignmentX(JButton.CENTER_ALIGNMENT);
         buttonPanel.add(button);
-        buttonPanel.add(Box.createRigidArea(new Dimension(widthSpacing, heightSpacing))); // Add space after button
+        buttonPanel.add(Box.createRigidArea(new Dimension(widthSpacing, heightSpacing)));
     }
 
     public static JPanel createVerticalPanel(){
@@ -57,13 +66,13 @@ public class ViewUtility {
 
     public static void addCenteredButtonsToPanel(JButton[] buttons, JPanel buttonPanel) {
         for (JButton button : buttons) {
-            ViewUtility.addCenteredToButtonPanel(buttonPanel, button,0,10);
+            UserInterfaceUtility.addCenteredToButtonPanel(buttonPanel, button,0,10);
         }
     }
 
     public static void addCenteredButtonsToPanel(JButton[] buttons, JPanel buttonPanel, int widthSpacing, int heightSpacing) {
         for (JButton button : buttons) {
-            ViewUtility.addCenteredToButtonPanel(buttonPanel, button, widthSpacing, heightSpacing);
+            UserInterfaceUtility.addCenteredToButtonPanel(buttonPanel, button, widthSpacing, heightSpacing);
         }
     }
 

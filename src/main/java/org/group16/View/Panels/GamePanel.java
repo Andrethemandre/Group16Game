@@ -7,6 +7,6 @@ import javax.swing.JPanel;
 public abstract class GamePanel extends JPanel{
     GamePanel(int x, int y){
         this.setDoubleBuffered(true);
-        this.setPreferredSize(new Dimension(720, 480));
+        this.setPreferredSize(new Dimension(720, 448));
     }
 }

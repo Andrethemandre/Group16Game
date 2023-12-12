@@ -17,7 +17,6 @@ public class LevelLayer extends JLayeredPane implements GameObserver{
         super();
         this.levelHandler = levelHandler;
         this.levelPanel = levelPanel;
-
         this.pausePanel = pausePanel;
         this.pausePanel.setBackground(Color.gray);
 
@@ -46,6 +45,5 @@ public class LevelLayer extends JLayeredPane implements GameObserver{
         }
 
         levelPanel.updateObserver();
-
     }
 }

@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.group16.View.ViewUtility;
+import org.group16.View.Utility.UserInterfaceUtility;
 
 public class PausePanel extends GamePanel {
     private JLabel pauseLabel;
@@ -25,11 +25,11 @@ public class PausePanel extends GamePanel {
 
     public PausePanel(int x, int y) {
         super(x, y); 
-        initFont();
+        initCustomFont();
         initComponents();
     }
 
-    private void initFont(){
+    private void initCustomFont(){
         try {
             Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/Grand9K Pixel.ttf"));
             pauseTitleFont = font.deriveFont(36f);
@@ -48,7 +48,7 @@ public class PausePanel extends GamePanel {
 
         String labelText = "Paused";
 
-        pauseLabel = ViewUtility.createLabel(labelText, pauseTitleFont,0,0,0,0, JLabel.CENTER);
+        pauseLabel = UserInterfaceUtility.createLabel(labelText, pauseTitleFont,0,0,0,0, JLabel.CENTER);
         add(pauseLabel, BorderLayout.NORTH);
 
         Dimension buttonSize = new Dimension(200, 28); // Set the preferred width to 200 and the preferred height to 50
@@ -56,17 +56,17 @@ public class PausePanel extends GamePanel {
         
         // Buttons in order of how they will appear in the menu
         JButton[] buttons = {
-            resumeButton = ViewUtility.createButton("Resume", buttonSize, font),
-            restartButton = ViewUtility.createButton("Restart", buttonSize, font),
-            levelSelectButton = ViewUtility.createButton("Level Select", buttonSize, font),
-            mainMenuButton = ViewUtility.createButton("Main Menu", buttonSize, font),
-            settingsButton = ViewUtility.createButton("Settings", buttonSize, font),
-            quitButton= ViewUtility.createButton("Quit to desktop", buttonSize, font)
+            resumeButton = UserInterfaceUtility.createButton("Resume", buttonSize, font, JButton.CENTER_ALIGNMENT),
+            restartButton = UserInterfaceUtility.createButton("Restart", buttonSize, font, JButton.CENTER_ALIGNMENT),
+            levelSelectButton = UserInterfaceUtility.createButton("Level Select", buttonSize, font, JButton.CENTER_ALIGNMENT),
+            mainMenuButton = UserInterfaceUtility.createButton("Main Menu", buttonSize, font, JButton.CENTER_ALIGNMENT),
+            settingsButton = UserInterfaceUtility.createButton("Settings", buttonSize, font, JButton.CENTER_ALIGNMENT),
+            quitButton= UserInterfaceUtility.createButton("Quit to desktop", buttonSize, font, JButton.CENTER_ALIGNMENT)
         };
 
-        verticalButtonPanel = ViewUtility.createVerticalPanel();
+        verticalButtonPanel = UserInterfaceUtility.createVerticalPanel();
         verticalButtonPanel.add(Box.createVerticalGlue());
-        ViewUtility.addCenteredButtonsToPanel(buttons, verticalButtonPanel, 0, 30);
+        UserInterfaceUtility.addCenteredButtonsToPanel(buttons, verticalButtonPanel, 0, 30);
         verticalButtonPanel.add(Box.createVerticalGlue());
         verticalButtonPanel.setBackground(Color.GRAY);
         add(verticalButtonPanel, BorderLayout.CENTER);

@@ -63,7 +63,7 @@ public class GameWindow extends JFrame implements GameObserver{
         initComponents(windowName);
         levelLayer.setBounds(getBounds());
         this.requestFocusInWindow();
-        //this.setResizable(false);
+        this.setResizable(false);
     }
 
     // Sets everything in place and fits everything
@@ -119,7 +119,6 @@ public class GameWindow extends JFrame implements GameObserver{
         else if(levelHandler.getGameState() == GameState.PLAYING){
             mainScreen.show(cards, "PLAYING");
         }
-
         else if(levelHandler.getGameState() == GameState.LEVEL_SELECT){
             mainScreen.show(cards, "LEVEL_SELECT");
         }

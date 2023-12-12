@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.group16.View.ViewUtility;
+import org.group16.View.Utility.UserInterfaceUtility;
 
 public class StartPanel extends GamePanel {
     private JLabel firstGameTitleLabelRow;
@@ -38,14 +38,14 @@ public class StartPanel extends GamePanel {
 
     private void initComponents(){
         this.setLayout(new BorderLayout()); 
-        JPanel textPanel = ViewUtility.createVerticalPanel();
+        JPanel textPanel = UserInterfaceUtility.createVerticalPanel();
         String firstLabelText = "King Blöb's";
 
-        firstGameTitleLabelRow = ViewUtility.createLabel(firstLabelText, gameTitleFont, 25, 225, 0, 0, JLabel.CENTER);
+        firstGameTitleLabelRow = UserInterfaceUtility.createLabel(firstLabelText, gameTitleFont, 25, 230, 0, 0, JLabel.CENTER);
         textPanel.add(firstGameTitleLabelRow);
 
         String secondLabelText = "Adventure";
-        secondGameTitleLabelRow = ViewUtility.createLabel(secondLabelText, gameTitleFont, 0, 225, 0, 0, JLabel.CENTER);
+        secondGameTitleLabelRow = UserInterfaceUtility.createLabel(secondLabelText, gameTitleFont, 0, 225, 0, 0, JLabel.CENTER);
         textPanel.add(secondGameTitleLabelRow);
         textPanel.setOpaque(false);
         add(textPanel, BorderLayout.NORTH);
@@ -55,16 +55,16 @@ public class StartPanel extends GamePanel {
 
         // Buttons in order of how they will appear in the menu
         JButton[] buttons = {
-            continueButton = ViewUtility.createButton("Continue", buttonSize, font),
-            newGameButton = ViewUtility.createButton("New Game", buttonSize, font),
-            loadGameButton = ViewUtility.createButton("Load Game", buttonSize, font),
-            settingsButton = ViewUtility.createButton("Settings", buttonSize, font),
-            quitButton= ViewUtility.createButton("Quit", buttonSize, font)
+            continueButton = UserInterfaceUtility.createButton("Continue", buttonSize, font),
+            newGameButton = UserInterfaceUtility.createButton("New Game", buttonSize, font),
+            loadGameButton = UserInterfaceUtility.createButton("Load Game", buttonSize, font),
+            settingsButton = UserInterfaceUtility.createButton("Settings", buttonSize, font),
+            quitButton= UserInterfaceUtility.createButton("Quit", buttonSize, font)
         };
 
-        verticalButtonPanel = ViewUtility.createVerticalPanel();
+        verticalButtonPanel = UserInterfaceUtility.createVerticalPanel();
         verticalButtonPanel.add(Box.createVerticalGlue());
-        ViewUtility.addCenteredButtonsToPanel(buttons, verticalButtonPanel,0,30);
+        UserInterfaceUtility.addCenteredButtonsToPanel(buttons, verticalButtonPanel,0,30);
         verticalButtonPanel.add(Box.createVerticalGlue());
         verticalButtonPanel.setOpaque(false);
         add(verticalButtonPanel, BorderLayout.CENTER);
@@ -87,7 +87,8 @@ public class StartPanel extends GamePanel {
         try {
             Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/Grand9K Pixel.ttf"));
             gameTitleFont = font.deriveFont(48f);
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -95,8 +96,8 @@ public class StartPanel extends GamePanel {
     private void initImages(){
          try {
             backgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/background.png"));
-
-        } catch (IOException e) {
+        } 
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
