@@ -7,6 +7,7 @@ import static org.group16.Model.GameObjects.GameObjectType.PLAYER____;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 import static org.group16.Model.GameObjects.GameObjectType.TELEPORT__;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -58,7 +59,7 @@ class TeleportTestLevel extends Level {
     @Override
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
-        metadataQueue.add(new Metadata(144, Direction.LEFT,Direction.UP));
+        metadataQueue.add(new Metadata(9*TILE_SIZE, Direction.LEFT,Direction.UP));
 
         return metadataQueue;
     }

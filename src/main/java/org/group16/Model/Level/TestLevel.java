@@ -11,6 +11,7 @@ import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 import static org.group16.Model.GameObjects.GameObjectType.TELEPORT__;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -60,12 +61,12 @@ class TestLevel extends Level {
     @Override
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
-        metadataQueue.add(new Metadata(100, Direction.LEFT));
-        metadataQueue.add(new Metadata(20, Direction.RIGHT, Direction.DOWN));
-        metadataQueue.add(new Metadata(40,Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(40, Direction.LEFT, Direction.DOWN));
-        metadataQueue.add(new Metadata(80, Direction.LEFT, Direction.DOWN));
-        metadataQueue.add(new Metadata(60, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(6*TILE_SIZE, Direction.LEFT));
+        metadataQueue.add(new Metadata(TILE_SIZE, Direction.RIGHT, Direction.DOWN));
+        metadataQueue.add(new Metadata(2*TILE_SIZE,Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(2*TILE_SIZE, Direction.LEFT, Direction.DOWN));
+        metadataQueue.add(new Metadata(5*TILE_SIZE, Direction.LEFT, Direction.DOWN));
+        metadataQueue.add(new Metadata(4*TILE_SIZE, Direction.RIGHT, Direction.NONE));
 
         return metadataQueue;
     }
