@@ -8,6 +8,7 @@ import static org.group16.Model.GameObjects.GameObjectType.PLAYER____;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -61,16 +62,15 @@ class ThirdLevel extends Level  {
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
         //flying
-        metadataQueue.add(new Metadata(96, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(96,Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(96, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(80, Direction.NONE, Direction.DOWN));
-
+        metadataQueue.add(new Metadata(6*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(6*TILE_SIZE,Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(6*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(5*TILE_SIZE, Direction.NONE, Direction.DOWN));
 
         //basic enemy
-        metadataQueue.add(new Metadata(16, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(16,Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(48, Direction.RIGHT, Direction.DOWN));
+        metadataQueue.add(new Metadata(TILE_SIZE, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(TILE_SIZE,Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(3*TILE_SIZE, Direction.RIGHT, Direction.DOWN));
 
 
         return metadataQueue;
