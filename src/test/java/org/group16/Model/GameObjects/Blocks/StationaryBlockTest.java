@@ -1,6 +1,7 @@
 package org.group16.Model.GameObjects.Blocks;
 
 import static org.group16.Model.GameObjects.GameObjectType.PLAYER____;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,7 +17,7 @@ public class StationaryBlockTest {
 
     @BeforeEach
     void setUp() {
-        stationaryBlock = new StationaryBlock(0, 16);
+        stationaryBlock = new StationaryBlock(0, TILE_SIZE);
         player = PlayerFactory.createPlayerAt(PLAYER____, 0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE);
 
     }

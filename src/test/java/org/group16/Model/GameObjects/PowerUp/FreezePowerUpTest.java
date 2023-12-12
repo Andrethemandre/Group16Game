@@ -2,6 +2,7 @@ package org.group16.Model.GameObjects.PowerUp;
 
 import static org.group16.Model.GameObjects.GameObjectType.BASIC_____;
 import static org.group16.Model.GameObjects.GameObjectType.PLAYER____;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -21,8 +22,8 @@ public class FreezePowerUpTest {
 
     @BeforeEach
     void setUp() {
-        freezePowerUpPickUp = new FreezePowerUp(16, 0);
-        enemy = EnemyFactory.createMovableEnemyAt(BASIC_____, 32, 0, new Metadata(0, Direction.RIGHT));
+        freezePowerUpPickUp = new FreezePowerUp(TILE_SIZE, 0);
+        enemy = EnemyFactory.createMovableEnemyAt(BASIC_____, 2*TILE_SIZE, 0, new Metadata(0, Direction.RIGHT));
         player = PlayerFactory.createPlayerAt(PLAYER____, 0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
