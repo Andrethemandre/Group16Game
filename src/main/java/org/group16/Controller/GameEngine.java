@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import org.group16.Model.GameObjects.GameState;
-import org.group16.Model.Level.LevelHandler;
+import org.group16.Model.LevelHandling.LevelHandler;
 import org.group16.View.GameWindow;
 
 public class GameEngine {

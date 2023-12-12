@@ -5,7 +5,7 @@ import java.awt.Color;
 import javax.swing.JLayeredPane;
 
 import org.group16.Model.GameObjects.GameState;
-import org.group16.Model.Level.LevelHandler;
+import org.group16.Model.LevelHandling.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
 
 public class LevelLayer extends JLayeredPane implements GameObserver{

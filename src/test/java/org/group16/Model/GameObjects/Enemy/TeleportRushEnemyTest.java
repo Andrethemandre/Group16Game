@@ -1,6 +1,7 @@
 package org.group16.Model.GameObjects.Enemy;
 
 import static org.group16.Model.GameObjects.GameObjectType.PLAYER____;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,7 +16,7 @@ public class TeleportRushEnemyTest {
 
     @BeforeEach
     void setUp() {
-        teleportRushEnemy = new TeleportRushEnemy(20, 20, 32, 32);
+        teleportRushEnemy = new TeleportRushEnemy(20, 20, 2*TILE_SIZE, 2*TILE_SIZE);
         player = PlayerFactory.createPlayerAt(PLAYER____, 0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 

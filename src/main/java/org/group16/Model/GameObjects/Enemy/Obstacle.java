@@ -1,22 +1,25 @@
 package org.group16.Model.GameObjects.Enemy;
 
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
+
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.GameObjects.HasHealth;
 import org.group16.Model.GameObjects.IGameObject;
-import org.group16.Model.Observers.HasHealth;
 
 public class Obstacle implements IObstacle {
     private GameObject innerGameObject;
 
-    private int damage = 1;
+    private int damage;
     private boolean isFrozen = false;
 
-    public Obstacle(GameObjectType objectType, int x, int y) {
-        innerGameObject = new GameObject(objectType, x, y, 16, 16);
+    public Obstacle(GameObjectType objectType, int x, int y, int damage) {
+        this(objectType, x, y, TILE_SIZE, TILE_SIZE, damage);
     }
 
-    public Obstacle(GameObjectType objectType, int x, int y, int width, int height) {
+    public Obstacle(GameObjectType objectType, int x, int y, int width, int height, int damage) {
         innerGameObject = new GameObject(objectType, x, y, width, height);
+        this.damage = damage;
     }
 
     @Override

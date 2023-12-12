@@ -78,4 +78,9 @@ public class SpearPowerUp implements IPowerUp {
         return innerPowerUp.getDirection();
     }
 
+    @Override
+    public int getMovementSpeed() {
+        return innerPowerUp.getMovementSpeed();
+    }
+
 }

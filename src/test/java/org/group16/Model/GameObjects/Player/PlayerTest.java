@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.group16.Model.GameObjects.Direction;
-import org.group16.Model.Level.LevelHandler;
+import org.group16.Model.LevelHandling.LevelHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

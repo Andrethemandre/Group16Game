@@ -1,12 +1,14 @@
 package org.group16.Model.GameObjects.Player;
 
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
+
 import org.group16.Model.GameObjects.AffectedByGravity;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObject;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
-import org.group16.Model.GameObjects.Blocks.MovableBlock;
-import org.group16.Model.GameObjects.Blocks.TeleportBlock;
+import org.group16.Model.GameObjects.Teleporter;
+import org.group16.Model.GameObjects.Blocks.IMovableBlock;
 
 class Player implements IPlayer {
     private boolean moveLeft = false;
@@ -19,9 +21,6 @@ class Player implements IPlayer {
     private int xAcceleration;
     private double previousTime = 0;
     private double currentTime = 6;
-    private double previousTeleportTime = 0;
-    private double currentTeleportTime = 6;
-    private final double teleportDelay = 1;
     private GameObjectType currentPowerUp = GameObjectType.NOTHING___;
     private Direction lastDirection = Direction.RIGHT;
     private final int damageDelay = 1;
@@ -31,7 +30,7 @@ class Player implements IPlayer {
     private final int maxY;
 
     public Player(int x, int y, int maxX, int maxY) {
-        innerGameObject = new GameObject(GameObjectType.PLAYER____, x, y, 16, 16);
+        innerGameObject = new GameObject(GameObjectType.PLAYER____, x, y, TILE_SIZE, TILE_SIZE);
         this.maxX = maxX;
         this.maxY = maxY;
     }
@@ -67,7 +66,27 @@ class Player implements IPlayer {
     }
 
     @Override
-    public void collision(IGameObject otherGameObject) {
+    public void checkCollision(IGameObject otherGameObject) {
+        checkVerticalCollision(otherGameObject);
+        checkHorizontalCollision(otherGameObject);
+    }
+
+    private void checkHorizontalCollision(IGameObject otherGameObject) {
+        if (this.collidesWith(otherGameObject)) {
+            setX(getX() - xAcceleration);
+
+            while (!this.collidesWith(otherGameObject)) {
+                setX(getX() + Integer.signum(xAcceleration));
+            }
+
+            setX(getX() - Integer.signum(xAcceleration));
+
+            xAcceleration = 0;
+            // Adjust player's X position based on MovableBlock's movement
+        }
+    }
+
+    private void checkVerticalCollision(IGameObject otherGameObject) {
         setY(getY() + yAcceleration);
 
         if (this.collidesWith(otherGameObject)) {
@@ -80,30 +99,7 @@ class Player implements IPlayer {
             setY(getY() - Integer.signum(yAcceleration));
 
             // Adjust player's Y position based on MovableBlock's movement
-            if (otherGameObject instanceof MovableBlock) {
-                MovableBlock movableBlock = (MovableBlock) otherGameObject;
-
-                // Player is getting pushed from the side or is on top of the block
-                int blockHorizontalDirection = movableBlock.getHorisontalDirectionValue();
-                int blockVerticalDirection = movableBlock.getVerticalDirectionValue();
-
-                if (blockHorizontalDirection != 0) {
-                    // Adjust X position based on the block's horizontal movement
-                    setX(getX() + blockHorizontalDirection);
-                }
-
-                if (blockVerticalDirection != 0) {
-                    // Adjust Y position based on the block's vertical movement
-                    setY(getY() + blockVerticalDirection);
-                    isFalling = false;
-                    yAcceleration = 0;
-                } else if (isOnTopOf(movableBlock) && yAcceleration > 0) {
-                    // Adjust Y position if on top of the MovableBlock and is falling
-                    setY(movableBlock.getY() + movableBlock.getHeight());
-                    isFalling = false;
-                    yAcceleration = 0;
-                }
-            }
+            keepPlayerOnMovableBlock(otherGameObject);
 
             // Should only be able to jump if the player is on the ground
             if (yAcceleration > 0) {
@@ -114,23 +110,40 @@ class Player implements IPlayer {
         } else {
             setY(getY() - yAcceleration);
         }
+    }
 
-        setX(keepXInBox(getX())); // Make sure to keep X in bounds
+    private void keepPlayerOnMovableBlock(IGameObject otherGameObject) {
+        if (otherGameObject instanceof IMovableBlock) {
+            IMovableBlock movableBlock = (IMovableBlock) otherGameObject;
 
-        if (this.collidesWith(otherGameObject)) {
-            setX(getX() - xAcceleration);
+            // Player is getting pushed from the side or is on top of the block
+            Direction blockHorizontalDirection = movableBlock.getDirection();
+            Direction blockVerticalDirection = movableBlock.getVerticalDirection();
 
-            while (!this.collidesWith(otherGameObject)) {
-                setX(getX() + Integer.signum(xAcceleration));
+            switch (blockHorizontalDirection) {
+                case LEFT:
+                    setX(getX() - movableBlock.getMovementSpeed());
+                    break;
+                case RIGHT:
+                    setX(getX() + movableBlock.getMovementSpeed());
+                    break;
+                default:
+                    break;
             }
 
-            setX(getX() - Integer.signum(xAcceleration));
-
-            xAcceleration = 0;
-            // Adjust player's X position based on MovableBlock's movement
-            if (otherGameObject instanceof MovableBlock && isOnTopOf((MovableBlock) otherGameObject)) {
-                MovableBlock movableBlock = (MovableBlock) otherGameObject;
-                setX(getX() + movableBlock.getHorisontalDirectionValue());
+            switch (blockVerticalDirection) {
+                case UP:
+                    setY(getY() - movableBlock.getMovementSpeed());
+                    isFalling = false;
+                    yAcceleration = 0;
+                    break;
+                case DOWN:
+                    setY(getY() + movableBlock.getMovementSpeed());
+                    isFalling = false;
+                    yAcceleration = 0;
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -309,21 +322,14 @@ class Player implements IPlayer {
         return lastDirection;
     }
 
-    private boolean isOnTopOf(MovableBlock movableBlock) {
-        int playerBottom = getY();
-        int blockTop = movableBlock.getY() + movableBlock.getHeight();
-        return playerBottom == blockTop;
+    @Override
+    public void teleport(Teleporter teleporter) {
+        setX(teleporter.getDestinationX());
+        setY(teleporter.getDestinationY());
     }
 
     @Override
-    public void teleport(TeleportBlock teleportBlock) {
-        currentTeleportTime = System.currentTimeMillis() / 1000.0;
-        if (currentTeleportTime - previousTeleportTime > teleportDelay) {
-            previousTeleportTime = currentTeleportTime;
-
-            setX(teleportBlock.getX());
-            setY(teleportBlock.getY() - 16);
-        }
-
+    public int getMovementSpeed() {
+        return movementSpeed;
     }
 }

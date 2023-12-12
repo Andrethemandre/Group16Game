@@ -76,5 +76,10 @@ public class FreezePowerUp implements IPowerUp {
     public Direction getDirection(){
         return innerPowerUp.getDirection();
     }
+
+    @Override
+    public int getMovementSpeed() {
+        return innerPowerUp.getMovementSpeed();
+    }
     
 }

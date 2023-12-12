@@ -3,6 +3,7 @@ package org.group16.Model.GameObjects.PowerUp;
 import static org.group16.Model.GameObjects.GameObjectType.BASIC_____;
 import static org.group16.Model.GameObjects.GameObjectType.PLAYER____;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.group16.Model.GameObjects.Direction;
@@ -21,8 +22,8 @@ public class SpearPowerUpTest {
 
     @BeforeEach
     void setUp() {
-        spearPowerUpPickUp = new SpearPowerUp(16, 0);
-        enemy = EnemyFactory.createMovableEnemyAt(BASIC_____, 32, 0, new Metadata(0, Direction.RIGHT));
+        spearPowerUpPickUp = new SpearPowerUp(TILE_SIZE, 0);
+        enemy = EnemyFactory.createMovableEnemyAt(BASIC_____, 2*TILE_SIZE, 0, new Metadata(0, Direction.RIGHT));
         player = PlayerFactory.createPlayerAt(PLAYER____, 0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 

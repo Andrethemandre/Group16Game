@@ -1,16 +1,5 @@
 package org.group16.Model.Level;
 
-import org.group16.Model.GameObjects.Direction;
-import org.group16.Model.GameObjects.GameObjectType;
-import org.group16.Model.GameObjects.Blocks.MovableBlock;
-
-import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
 import static org.group16.Model.GameObjects.GameObjectType.AIR_______;
 import static org.group16.Model.GameObjects.GameObjectType.BASIC_____;
 import static org.group16.Model.GameObjects.GameObjectType.FLYING____;
@@ -18,12 +7,18 @@ import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
 import static org.group16.Model.GameObjects.GameObjectType.GOAL______;
 import static org.group16.Model.GameObjects.GameObjectType.MOVABLE___;
 import static org.group16.Model.GameObjects.GameObjectType.PLAYER____;
-import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
-import static org.group16.Model.GameObjects.GameObjectType.POWERUP___;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
+import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
+import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class NinthLevel extends Level {
+import org.group16.Model.GameObjects.Direction;
+import org.group16.Model.GameObjects.GameObjectType;
+
+class NinthLevel extends Level {
 
     // matrix 45X30 to represent level 9  
     private final static GameObjectType[][] levelLayout = {
@@ -68,36 +63,36 @@ public class NinthLevel extends Level {
         Queue<Metadata> metadataQueue = new LinkedList<>();
         // Metadata that is added to movable objects in the level matrix, 
         // by going left to right through each row 
-        metadataQueue.add(new Metadata(9*16, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(6*16, Direction.LEFT, Direction.NONE));
-        metadataQueue.add(new Metadata(5*16, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(5*16, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(5*16, Direction.RIGHT, Direction.DOWN));
-        metadataQueue.add(new Metadata(5*16, Direction.LEFT, Direction.DOWN));
-        metadataQueue.add(new Metadata(7*16, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(5*16, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(5*16, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(8*16, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(8*16, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(8*16, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(8*16, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(8*16, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(20*16, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(9*16, Direction.LEFT, Direction.NONE));
-        metadataQueue.add(new Metadata(9*16, Direction.LEFT, Direction.NONE));
-        metadataQueue.add(new Metadata(5*16, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(19*16, Direction.LEFT, Direction.NONE));
-        metadataQueue.add(new Metadata(7*16, Direction.LEFT, Direction.NONE));
-        metadataQueue.add(new Metadata(7*16, Direction.LEFT, Direction.NONE));
-        metadataQueue.add(new Metadata(20*16, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(6*16, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(4*16, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(4*16, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(4*16, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(4*16, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(4*16, Direction.LEFT, Direction.NONE));
-        metadataQueue.add(new Metadata(15*16, Direction.LEFT, Direction.NONE));
-        metadataQueue.add(new Metadata(15*16, Direction.LEFT, Direction.NONE));
+        metadataQueue.add(new Metadata(9*TILE_SIZE, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(6*TILE_SIZE, Direction.LEFT, Direction.NONE));
+        metadataQueue.add(new Metadata(5*TILE_SIZE, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(5*TILE_SIZE, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(5*TILE_SIZE, Direction.RIGHT, Direction.DOWN));
+        metadataQueue.add(new Metadata(5*TILE_SIZE, Direction.LEFT, Direction.DOWN));
+        metadataQueue.add(new Metadata(7*TILE_SIZE, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(5*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(5*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(8*TILE_SIZE, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(8*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(8*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(8*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(8*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(20*TILE_SIZE, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(9*TILE_SIZE, Direction.LEFT, Direction.NONE));
+        metadataQueue.add(new Metadata(9*TILE_SIZE, Direction.LEFT, Direction.NONE));
+        metadataQueue.add(new Metadata(5*TILE_SIZE, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(19*TILE_SIZE, Direction.LEFT, Direction.NONE));
+        metadataQueue.add(new Metadata(7*TILE_SIZE, Direction.LEFT, Direction.NONE));
+        metadataQueue.add(new Metadata(7*TILE_SIZE, Direction.LEFT, Direction.NONE));
+        metadataQueue.add(new Metadata(20*TILE_SIZE, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(6*TILE_SIZE, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(4*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(4*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(4*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(4*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(4*TILE_SIZE, Direction.LEFT, Direction.NONE));
+        metadataQueue.add(new Metadata(15*TILE_SIZE, Direction.LEFT, Direction.NONE));
+        metadataQueue.add(new Metadata(15*TILE_SIZE, Direction.LEFT, Direction.NONE));
 
         return metadataQueue;
     }

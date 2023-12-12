@@ -21,7 +21,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import org.group16.Model.GameObjects.GameState;
-import org.group16.Model.Level.LevelHandler;
+import org.group16.Model.LevelHandling.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
 import org.group16.View.ViewUtility;
 
