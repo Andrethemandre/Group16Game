@@ -10,6 +10,7 @@ import static org.group16.Model.GameObjects.GameObjectType.PLAYER____;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -59,17 +60,17 @@ class TenthLevel extends Level {
     @Override
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
-        metadataQueue.add(new Metadata(32, Direction.RIGHT, Direction.NONE)); // first basic enemy
-        metadataQueue.add(new Metadata(32, Direction.LEFT, Direction.NONE)); // second basic enemy
-        metadataQueue.add(new Metadata(64, Direction.LEFT, Direction.DOWN)); // first flying enemy
-        metadataQueue.add(new Metadata(65, Direction.LEFT, Direction.DOWN)); // second flying enemy
-        metadataQueue.add(new Metadata(96, Direction.NONE, Direction.UP)); // first movable block
-        metadataQueue.add(new Metadata(66, Direction.NONE, Direction.DOWN)); // third flying enemy
-        metadataQueue.add(new Metadata(160, Direction.NONE, Direction.DOWN)); // second movable block
-        metadataQueue.add(new Metadata(32, Direction.LEFT, Direction.DOWN)); // fourth flying enemy
-        metadataQueue.add(new Metadata(48, Direction.NONE, Direction.UP)); // fifth flying enemy
-        metadataQueue.add(new Metadata(48, Direction.LEFT, Direction.UP)); // sixth flying enemy
-        metadataQueue.add(new Metadata(48, Direction.NONE, Direction.DOWN)); // seventh flying enemy
+        metadataQueue.add(new Metadata(2*TILE_SIZE, Direction.RIGHT, Direction.NONE)); // first basic enemy
+        metadataQueue.add(new Metadata(2*TILE_SIZE, Direction.LEFT, Direction.NONE)); // second basic enemy
+        metadataQueue.add(new Metadata(4*TILE_SIZE, Direction.LEFT, Direction.DOWN)); // first flying enemy
+        metadataQueue.add(new Metadata(4*TILE_SIZE + 1, Direction.LEFT, Direction.DOWN)); // second flying enemy
+        metadataQueue.add(new Metadata(6*TILE_SIZE, Direction.NONE, Direction.UP)); // first movable block
+        metadataQueue.add(new Metadata(4*TILE_SIZE + 2, Direction.NONE, Direction.DOWN)); // third flying enemy
+        metadataQueue.add(new Metadata(10*TILE_SIZE, Direction.NONE, Direction.DOWN)); // second movable block
+        metadataQueue.add(new Metadata(2*TILE_SIZE, Direction.LEFT, Direction.DOWN)); // fourth flying enemy
+        metadataQueue.add(new Metadata(3*TILE_SIZE, Direction.NONE, Direction.UP)); // fifth flying enemy
+        metadataQueue.add(new Metadata(3*TILE_SIZE, Direction.LEFT, Direction.UP)); // sixth flying enemy
+        metadataQueue.add(new Metadata(3*TILE_SIZE, Direction.NONE, Direction.DOWN)); // seventh flying enemy
         return metadataQueue;
     }
     
