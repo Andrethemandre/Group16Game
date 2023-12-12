@@ -20,10 +20,6 @@ import org.group16.View.Panels.StartPanel;
 
 public class GameWindow extends JFrame implements GameObserver{
     // Offsets makes it display correctly
-    // The y one makes since because it accounts for the
-    // top of the window, however I don't know why
-    // an X offset would be needed, maybe we
-    // did some wrong calculation?
     private static final int WINDOW_OFFSET_X = 14;
     private static final int WINDOW_OFFSET_Y = 38;
 
@@ -63,7 +59,7 @@ public class GameWindow extends JFrame implements GameObserver{
         initComponents(windowName);
         levelLayer.setBounds(getBounds());
         this.requestFocusInWindow();
-        //this.setResizable(false);
+        this.setResizable(false);
     }
 
     // Sets everything in place and fits everything

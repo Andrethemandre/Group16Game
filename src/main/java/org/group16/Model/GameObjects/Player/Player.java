@@ -82,7 +82,6 @@ class Player implements IPlayer {
             setX(getX() - Integer.signum(xAcceleration));
 
             xAcceleration = 0;
-            // Adjust player's X position based on MovableBlock's movement
         }
     }
 
