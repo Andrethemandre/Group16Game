@@ -10,6 +10,7 @@ import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
 import static org.group16.Model.GameObjects.GameObjectType.TELEPORTER;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -212,7 +213,7 @@ class SixthLevel extends Level {
         Queue<Metadata> metadataQueue = new LinkedList<>();
         metadataQueue.add(new Metadata(50, Direction.RIGHT, Direction.DOWN)); // flying
         metadataQueue.add(new Metadata(45, Direction.RIGHT, Direction.NONE)); // basic
-        metadataQueue.add(new Metadata(37*16, 25*16)); // first teleport
+        metadataQueue.add(new Metadata(37*TILE_SIZE, 25*TILE_SIZE)); // first teleport
         metadataQueue.add(new Metadata(40, Direction.LEFT, Direction.DOWN)); // flying
         metadataQueue.add(new Metadata(70, Direction.RIGHT, Direction.NONE)); // basic
         metadataQueue.add(new Metadata(80, Direction.RIGHT, Direction.NONE)); // basic
@@ -220,7 +221,7 @@ class SixthLevel extends Level {
         metadataQueue.add(new Metadata(70, Direction.LEFT, Direction.DOWN)); // flying
         metadataQueue.add(new Metadata(40, Direction.LEFT, Direction.DOWN)); // movable block
         metadataQueue.add(new Metadata(50, Direction.LEFT, Direction.DOWN)); // movable block
-        metadataQueue.add(new Metadata(16, 9*16));// second teleport
+        metadataQueue.add(new Metadata(TILE_SIZE, 9*TILE_SIZE));// second teleport
         metadataQueue.add(new Metadata(50, Direction.LEFT, Direction.NONE)); // movable block
         metadataQueue.add(new Metadata(30, Direction.RIGHT, Direction.NONE)); // basic
 

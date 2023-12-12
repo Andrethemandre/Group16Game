@@ -6,6 +6,7 @@ import static org.group16.Model.GameObjects.GameObjectType.GOAL______;
 import static org.group16.Model.GameObjects.GameObjectType.PLAYER____;
 import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -58,8 +59,8 @@ class SecondLevel extends Level {
     @Override
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
-        metadataQueue.add(new Metadata(3*16, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(7*16, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(3*TILE_SIZE, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(7*TILE_SIZE, Direction.RIGHT, Direction.NONE));
         return metadataQueue;
     }
 }

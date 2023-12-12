@@ -1,5 +1,7 @@
 package org.group16.Model.GameObjects.Player;
 
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
+
 import org.group16.Model.GameObjects.AffectedByGravity;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObject;
@@ -7,7 +9,6 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Teleporter;
 import org.group16.Model.GameObjects.Blocks.IMovableBlock;
-import org.group16.Model.GameObjects.Blocks.ITeleportBlock;
 
 class Player implements IPlayer {
     private boolean moveLeft = false;
@@ -29,7 +30,7 @@ class Player implements IPlayer {
     private final int maxY;
 
     public Player(int x, int y, int maxX, int maxY) {
-        innerGameObject = new GameObject(GameObjectType.PLAYER____, x, y, 16, 16);
+        innerGameObject = new GameObject(GameObjectType.PLAYER____, x, y, TILE_SIZE, TILE_SIZE);
         this.maxX = maxX;
         this.maxY = maxY;
     }

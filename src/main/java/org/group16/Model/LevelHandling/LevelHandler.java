@@ -3,6 +3,7 @@ package org.group16.Model.LevelHandling;
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -122,13 +123,13 @@ public class LevelHandler {
 
                     case PLAYER____:
                         // The grid uses /16 of the actual size
-                        player = PlayerFactory.createPlayerAt(currentLevelTile, j * 16, i * 16, getHeight() * 16,
-                                getWidth() * 16);
+                        player = PlayerFactory.createPlayerAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE, 
+                                                            getHeight() * TILE_SIZE, getWidth() * TILE_SIZE);
                         break;
 
                     case GOAL______:
                         // will only reset if there is a new goal on next level.
-                        goal = GoalFactory.createGoalAt(currentLevelTile, j * 16, i * 16);
+                        goal = GoalFactory.createGoalAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE);
                         break;
 
                     default:
@@ -139,46 +140,46 @@ public class LevelHandler {
     }
 
     private void createTrap(int i, int j, GameObjectType currentLevelTile) {
-        ITrap newTrap = TrapFactory.createTrapAt(currentLevelTile, j * 16, i * 16);
+        ITrap newTrap = TrapFactory.createTrapAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE);
         traps.add(newTrap);
     }
 
     private void createPowerUp(int i, int j, GameObjectType currentLevelTile) {
-        IPowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevelTile, j * 16, i * 16);
+        IPowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE);
         powerUps.add(newPowerUp);
     }
 
     private void createBlock(int i, int j, GameObjectType currentLevelTile) {
-        IBlock newBlock = BlockFactory.createBlockAt(currentLevelTile, j * 16, i * 16);
+        IBlock newBlock = BlockFactory.createBlockAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE);
         blocks.add(newBlock);
     }
 
     private void createMovableBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
-        IMovableBlock newBlock = BlockFactory.createMovableBlockAt(currentLevelTile, j * 16, i * 16, metadata);
+        IMovableBlock newBlock = BlockFactory.createMovableBlockAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE, metadata);
         blocks.add(newBlock);
     }
 
     // exists for when we want non movable enemies
     private void createEnemy(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
-        IEnemy newEnemy = EnemyFactory.createEnemyAt(currentLevelTile, j * 16, i * 16, metadata);
+        IEnemy newEnemy = EnemyFactory.createEnemyAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE, metadata);
         enemies.add(newEnemy);
     }
 
     private void createEnemyWithTarget(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
-        EnemyWithTarget newEnemy = EnemyFactory.createEnemyWithTargetAt(currentLevelTile, j * 16, i * 16, metadata);
+        EnemyWithTarget newEnemy = EnemyFactory.createEnemyWithTargetAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE, metadata);
         enemies.add(newEnemy);
         movableEnemies.add(newEnemy);
         enemiesWithTarget.add(newEnemy);
     }
 
     private void createMovableEnemy(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
-        IMovableEnemy newEnemy = EnemyFactory.createMovableEnemyAt(currentLevelTile, j * 16, i * 16, metadata);
+        IMovableEnemy newEnemy = EnemyFactory.createMovableEnemyAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE, metadata);
         enemies.add(newEnemy);
         movableEnemies.add(newEnemy);
     }
 
     private void createTeleportBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
-        ITeleportBlock newBlock = BlockFactory.createTeleportBlockAt(currentLevelTile, j * 16, i * 16, metadata);
+        ITeleportBlock newBlock = BlockFactory.createTeleportBlockAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE, metadata);
         blocks.add(newBlock);
         teleportBlocks.add(newBlock);
     }
@@ -669,5 +670,4 @@ public class LevelHandler {
     public int getHeight() {
         return currentLevel.getWidth();
     }
-
 }

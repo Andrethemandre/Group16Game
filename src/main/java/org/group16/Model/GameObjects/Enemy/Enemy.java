@@ -1,5 +1,7 @@
 package org.group16.Model.GameObjects.Enemy;
 
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
+
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
@@ -11,7 +13,7 @@ class Enemy implements IEnemy {
     private int health;
 
     Enemy(GameObjectType enemyType, int x, int y, int health, int damage) {
-        this(enemyType, x, y, 16, 16, health, damage);
+        this(enemyType, x, y, TILE_SIZE, TILE_SIZE, health, damage);
     }
 
     Enemy(GameObjectType enemyType, int x, int y, int width, int height, int health, int damage) {

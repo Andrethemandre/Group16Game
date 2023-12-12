@@ -28,6 +28,7 @@ import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.GameObjects.PowerUp.IPowerUp;
 import org.group16.Model.LevelHandling.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
+import org.group16.Model.Utility.Settings;
 import org.group16.View.ViewUtility;
 
 public class LevelPanel extends GamePanel implements GameObserver {
@@ -180,8 +181,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int cellSize = 16; // hard coded
-        // paintGridWithSize(g, cellSize);
+        int cellSize = Settings.TILE_SIZE; 
 
         IPlayer currentPlayer = levelHandler.getPlayer();
 
