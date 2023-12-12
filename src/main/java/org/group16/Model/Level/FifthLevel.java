@@ -8,6 +8,7 @@ import static org.group16.Model.GameObjects.GameObjectType.MOVABLE___;
 import static org.group16.Model.GameObjects.GameObjectType.PLAYER____;
 import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -210,16 +211,16 @@ class FifthLevel extends Level {
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
         // flying enemy
-        metadataQueue.add(new Metadata(70, Direction.RIGHT, Direction.DOWN));
+        metadataQueue.add(new Metadata(4*TILE_SIZE + 6, Direction.RIGHT, Direction.DOWN));
         // enemy at platform
-        metadataQueue.add(new Metadata(20, Direction.LEFT, Direction.NONE));
+        metadataQueue.add(new Metadata(TILE_SIZE + 4, Direction.LEFT, Direction.NONE));
         // enemy at platform
-        metadataQueue.add(new Metadata(50, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(80, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(80, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(50, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(40, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(100, Direction.NONE, Direction.UP));
+        metadataQueue.add(new Metadata(3*TILE_SIZE + 2, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(5*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(5*TILE_SIZE, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(3*TILE_SIZE + 2, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(2*TILE_SIZE + 8, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(6*TILE_SIZE + 4, Direction.NONE, Direction.UP));
 
         return metadataQueue;
     }
