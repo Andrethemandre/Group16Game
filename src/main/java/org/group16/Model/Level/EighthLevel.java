@@ -8,6 +8,7 @@ import static org.group16.Model.GameObjects.GameObjectType.MOVABLE___;
 import static org.group16.Model.GameObjects.GameObjectType.PLAYER____;
 import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -61,18 +62,18 @@ class EighthLevel extends Level  {
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
         //upper part
-        metadataQueue.add(new Metadata(64, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(64, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(128, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(128, Direction.LEFT, Direction.NONE));
-        metadataQueue.add(new Metadata(368, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(4*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(4*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(8*TILE_SIZE, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(8*TILE_SIZE, Direction.LEFT, Direction.NONE));
+        metadataQueue.add(new Metadata(23*TILE_SIZE, Direction.RIGHT, Direction.NONE));
 
         //lower part
-        metadataQueue.add(new Metadata(112, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(112, Direction.RIGHT, Direction.NONE));
-        metadataQueue.add(new Metadata(112, Direction.LEFT, Direction.NONE));
-        metadataQueue.add(new Metadata(96, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(112, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(7*TILE_SIZE, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(7*TILE_SIZE, Direction.RIGHT, Direction.NONE));
+        metadataQueue.add(new Metadata(7*TILE_SIZE, Direction.LEFT, Direction.NONE));
+        metadataQueue.add(new Metadata(6*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(7*TILE_SIZE, Direction.NONE, Direction.DOWN));
         //metadataQueue.add(new Metadata(96, Direction.LEFT, Direction.NONE));
     
 
