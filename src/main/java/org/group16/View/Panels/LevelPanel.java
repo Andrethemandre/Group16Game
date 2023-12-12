@@ -555,6 +555,10 @@ public class LevelPanel extends GamePanel implements GameObserver {
     public void updateObserver() {
         if (levelHandler.getGameState() == GameState.PLAYING) {
             currentTime = levelHandler.getElapsedTime();
+            if(currentTime == 0){
+                lastUpdateTime = 0;
+            }
+            
             if (currentTime - lastUpdateTime >= 1000) {
                 lastUpdateTime = currentTime;
                 updateFlyingEnemySprite();
