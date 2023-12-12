@@ -7,6 +7,7 @@ import static org.group16.Model.GameObjects.GameObjectType.GOAL______;
 import static org.group16.Model.GameObjects.GameObjectType.PLAYER____;
 import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -57,14 +58,14 @@ class SeventhLevel extends Level  {
 
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
-        metadataQueue.add(new Metadata(208, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(176, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(160, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(160, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(144, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(144, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(112, Direction.NONE, Direction.DOWN));
-        metadataQueue.add(new Metadata(96, Direction.LEFT, Direction.NONE));
+        metadataQueue.add(new Metadata(13*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(11*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(10*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(10*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(9*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(9*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(7*TILE_SIZE, Direction.NONE, Direction.DOWN));
+        metadataQueue.add(new Metadata(6*TILE_SIZE, Direction.LEFT, Direction.NONE));
     
 
         return metadataQueue;
