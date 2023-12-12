@@ -8,6 +8,7 @@
 - Move left: A
 - Jump: W
 - Use power-up: K
+- Open pause menu: ESC
 
 ### System requirements
 - Java 19 or later
