@@ -28,6 +28,11 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     private double delayStartTime = 0;
     private final int delaySeconds = 4;
 
+    private long damageStartTime = 0;
+
+    private boolean hasDelayBeenDone = false;
+
+
     public TeleportRushEnemy(int x, int y, int width, int height) {
         innerMovableEnemy = new MovableEnemy(GameObjectType.TELEPORT__, x, y, width, height, 100, 1);
     }
@@ -44,6 +49,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
             case DISAPPEAR -> disappear();
             case REAPPEAR -> reappear();
             case CHASE -> chase();
+            case DAMAGED -> enemyWasDamaged();
             default -> throw new IllegalStateException("Unexpected value: " + currentState);
         }
         applyGravity();
@@ -104,6 +110,25 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
         double currentTime = System.currentTimeMillis() / 1000.0;
         if (currentTime - disappearStartTime > disappearDelaySeconds) {
             currentState = EnemyState.CHASE;
+        }
+    }
+
+    private void takeDamage() {
+        // Take damage behavior
+
+        currentState = EnemyState.DAMAGED;
+        updateHealth(50);
+        System.out.println("Enemy took damage");
+
+
+
+    }
+    private void enemyWasDamaged(){
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - damageStartTime >= 1000) {
+            //currentState = EnemyState.CHASE;
+            damageStartTime = currentTime;
+
         }
     }
 
@@ -275,8 +300,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     public void triggerPowerUp(GameObjectType powerUp) {
         switch (powerUp) {
             case SPEAR_____:
-                //TODO: change damage
-                updateHealth(50);
+                takeDamage();
                 break;
             default:
                 break;
