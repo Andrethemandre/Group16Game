@@ -101,7 +101,7 @@ public class LevelSelectorPanel extends GamePanel {
             leftBrowseIconImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/left_browse_icon.png"));
             rightBrowseIconImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/right_browse_icon.png"));
             eleventhLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_11_image.png"));
-            // twelfthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_12_image.png"));
+            twelfthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_12_image.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
