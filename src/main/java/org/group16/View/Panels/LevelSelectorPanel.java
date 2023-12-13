@@ -49,6 +49,11 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     private BufferedImage eighthLevelImage;
     private BufferedImage ninthLevelImage;
     private BufferedImage tenthLevelImage;
+
+    private BufferedImage eleventhLevelImage;
+    private BufferedImage twelfthLevelImage;
+
+
     private BufferedImage placeHolderImage;
     private BufferedImage leftBrowseIconImage;
     private BufferedImage rightBrowseIconImage;
@@ -99,6 +104,10 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
             tenthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_10_image.png"));
             leftBrowseIconImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/left_browse_icon.png"));
             rightBrowseIconImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/right_browse_icon.png"));
+            eleventhLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_11_image.png"));
+            twelfthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_12_image.png"));
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -109,7 +118,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         initLevelButtons();
         JPanel levelBrowseMenu = createLevelBrowseMenu();
         JPanel levelInfoPanel = createLevelInfoPanel();
-        
+
         add(levelBrowseMenu, BorderLayout.WEST);
         add(levelInfoPanel, BorderLayout.CENTER);
     }
@@ -118,20 +127,20 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         levelButtons = new JButton[levelHandler.getTotalLevels()];
 
         for (int i = 0; i < levelButtons.length; i++) {
-           
+
             levelButtons[i] = UserInterfaceUtility.createButton("Level " + (i + 1), new Dimension(175, 55), levelButtonFont, JButton.CENTER_ALIGNMENT);
         }
     }
 
     private void initLevelSelectPanel(int currentPage) {
         levelVerticalSelectPanel = UserInterfaceUtility.createVerticalPanel();
-        
+
         levelVerticalSelectPanel.add(Box.createRigidArea(new Dimension(0, 27)));
 
         levelVerticalSelectPanel.setPreferredSize(new Dimension(200, levelVerticalSelectPanel.getPreferredSize().height));
 
         // Calculate the starting and ending index for the current page
-        int start = (currentPage - 1) * 4; 
+        int start = (currentPage - 1) * 4;
         int end = Math.min(start + 4, levelButtons.length);
 
         for (int i = start; i < end; i++) {
@@ -189,6 +198,14 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
                 resizedImage = tenthLevelImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
                 picLabel.setIcon(new ImageIcon(resizedImage));
                 break;
+            case 11:
+                resizedImage = eleventhLevelImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+                picLabel.setIcon(new ImageIcon(resizedImage));
+                break;
+            case 12:
+                resizedImage = twelfthLevelImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+                picLabel.setIcon(new ImageIcon(resizedImage));
+                break;
             default:
                 resizedImage = placeHolderImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
                 picLabel.setIcon(new ImageIcon(resizedImage));
@@ -217,7 +234,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
 
     private JLabel createLevelImageLabel() {
         picLabel = new JLabel(new ImageIcon(placeHolderImage));
-        picLabel.setBorder(BorderFactory.createEmptyBorder(27, 20, 0, 0)); 
+        picLabel.setBorder(BorderFactory.createEmptyBorder(27, 20, 0, 0));
         return picLabel;
     }
 
@@ -229,7 +246,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     private JPanel createLevelInfoNavigationPanel() {
         JPanel horizontalButtonPanel = UserInterfaceUtility.createHorizontalPanel();
         horizontalButtonPanel.setAlignmentX(JButton.CENTER_ALIGNMENT);
-        horizontalButtonPanel.setBorder(BorderFactory.createEmptyBorder(110, 20, 0, 0)); 
+        horizontalButtonPanel.setBorder(BorderFactory.createEmptyBorder(110, 20, 0, 0));
         horizontalButtonPanel.setBackground(Color.LIGHT_GRAY);
 
         backToMainMenuButton = UserInterfaceUtility.createButton("Back to Main Menu", new Dimension(140, 28), regularButtonFont);
@@ -258,7 +275,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         levelBrowseMenu.setBackground(Color.GRAY);
         levelBrowseMenu.add(levelVerticalSelectPanel, BorderLayout.CENTER);
 
-        navigationPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0)); 
+        navigationPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0));
         levelBrowseMenu.add(navigationPanel, BorderLayout.SOUTH);
 
         return levelBrowseMenu;
@@ -296,7 +313,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
 
         navigationPanel.add(levelPageBackButton);
         navigationPanel.add(Box.createHorizontalGlue());
-        
+
         navigationPanel.add(levelCurrentPageLabel = createLevelCurrentPageLabel());
 
         navigationPanel.add(Box.createHorizontalGlue());
@@ -305,7 +322,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
         navigationPanel.add(Box.createRigidArea(new Dimension(12, 0)));
 
         navigationPanel.setBackground(Color.GRAY);
-        navigationPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0)); 
+        navigationPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
         return navigationPanel;
     }

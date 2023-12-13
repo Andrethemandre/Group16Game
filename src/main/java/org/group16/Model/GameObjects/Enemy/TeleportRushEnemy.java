@@ -10,18 +10,26 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     private static final int TELEPORT_DISTANCE = 80;
     private MovableEnemy innerMovableEnemy;
     private EnemyState currentState = EnemyState.IDLE;
-    private static final int NEAR_DISTANCE_X = 80; // threshold distance for player to be considered near
+    private static final int NEAR_DISTANCE_X = 80;
     private Direction direction = Direction.NONE;
-    private int movementSpeed = 2;
+    private int movementSpeed = 3;
+
+    private static final double SPEED_THRESHOLD = 4;
 
     private int targetX;
     private int targetY;
 
-    private double disappearStartTime = 0; // time when enemy disappears
-    private final int disappearDelaySeconds = 5;
+    private int previousTargetX;
+    private int previousTargetY;
 
-    public TeleportRushEnemy(int x, int y,int width, int height) {
-        innerMovableEnemy = new MovableEnemy(GameObjectType.TELEPORT__, x, y, width, height, 99, 1);
+    private double disappearStartTime = 0;
+    private final int disappearDelaySeconds = 4;
+
+    private double delayStartTime = 0;
+    private final int delaySeconds = 4;
+
+    public TeleportRushEnemy(int x, int y, int width, int height) {
+        innerMovableEnemy = new MovableEnemy(GameObjectType.TELEPORT__, x, y, width, height, 100, 1);
     }
 
     @Override
@@ -31,7 +39,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
 
     @Override
     public void update() {
-        switch(currentState) {
+        switch (currentState) {
             case IDLE -> idle();
             case DISAPPEAR -> disappear();
             case REAPPEAR -> reappear();
@@ -41,18 +49,26 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
         applyGravity();
     }
 
+    private boolean isDelayOver() {
+        double currentTime = System.currentTimeMillis() / 1000.0;
+        return currentTime - delayStartTime > delaySeconds;
+    }
+
     private void idle() {
         // Idle behavior
-        if(isPlayerNear()) {
+        if (isTargetNear()) {
             currentState = EnemyState.DISAPPEAR;
-            disappearStartTime = System.currentTimeMillis()/1000.0;
+            disappearStartTime = System.currentTimeMillis() / 1000.0;
         }
     }
 
-    private boolean isPlayerNear() {
+    private boolean isTargetNear() {
         // Check if player is near
         int horizontalDistance = Math.abs(targetX - getX());
-
+        int verticalDistance = Math.abs(targetY - getY());
+        if (verticalDistance > 70) {
+            return false;
+        }
         return horizontalDistance <= NEAR_DISTANCE_X;
 
     }
@@ -60,22 +76,32 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     private void disappear() {
         // Disappear behavior
         // After disappearing, the enemy will reappear after a certain amount of time
-        if (System.currentTimeMillis()/1000.0 - disappearStartTime > disappearDelaySeconds) { // if 7 seconds have passed
-            teleportBehindPlayer();
+        if (System.currentTimeMillis() / 1000.0 - disappearStartTime > disappearDelaySeconds) {
+            teleportNearTarget();
             currentState = EnemyState.REAPPEAR;
         }
     }
 
-    private void teleportBehindPlayer() {
+    private void teleportNearTarget() {
         // Teleport behind player
-        int newX = targetX - TELEPORT_DISTANCE;
+        int newX;
+        int newY = targetY - 16;
+
+        if (calculateTargetDirection() < 0) {
+            newX = targetX + TELEPORT_DISTANCE;
+        } else if (calculateTargetDirection() > 0) {
+            newX = targetX - TELEPORT_DISTANCE;
+        } else {
+            newX = targetX - TELEPORT_DISTANCE;
+        }
         setX(newX);
+        setY(newY);
     }
 
     private void reappear() {
         // Reappear behavior
         // After reappearing, the enemy will chase the player
-        double currentTime = System.currentTimeMillis()/1000.0;
+        double currentTime = System.currentTimeMillis() / 1000.0;
         if (currentTime - disappearStartTime > disappearDelaySeconds) {
             currentState = EnemyState.CHASE;
         }
@@ -85,11 +111,42 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
         // Chase behavior
         // Move the enemy towards the players position
         if (targetX > getX()) {
-            direction = Direction.RIGHT; 
+            direction = Direction.RIGHT;
         } else if (targetX < getX()) {
             direction = Direction.LEFT;
         }
         move();
+
+        if (isTargetFar()) {
+            if (delayStartTime == 0) {
+                delayStartTime = System.currentTimeMillis() / 1000.0;
+            } else if (isDelayOver()) {
+                teleportNearTarget();
+                delayStartTime = 0;
+            }
+        }
+    }
+
+    private boolean isTargetFar() {
+
+        int verticalDistance = Math.abs(targetY - getY());
+        int tooFarDistanceY = 80;
+        return verticalDistance > tooFarDistanceY;
+    }
+
+    private double calculateTargetSpeed() {
+        int dx = targetX - previousTargetX;
+        int dy = targetY - previousTargetY;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    private int calculateTargetDirection() {
+        int dx = targetX - previousTargetX;
+        return dx;
+    }
+
+    private boolean isTargetMovingSlow() {
+        return calculateTargetSpeed() <= SPEED_THRESHOLD;
     }
 
     @Override
@@ -108,7 +165,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
 
     private void applyGravity() {
         // Apply gravity
-        setY(getY() + AffectedByGravity.GRAVITY_LIMIT);
+        setY(getY() + AffectedByGravity.GRAVITY_FACTOR);
     }
 
     @Override
@@ -118,14 +175,14 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
             case MOVABLE___:
             case SPIKE_____:
                 if (collidesWith(otherGameObject)) {
-                    setY(getY() - AffectedByGravity.GRAVITY_LIMIT);
+                    setY(getY() - AffectedByGravity.GRAVITY_FACTOR);
                 }
-                break; 
+                break;
             default:
                 break;
-            }
+        }
     }
-    
+
     @Override
     public void updateHealth(int damage) {
         innerMovableEnemy.updateHealth(damage);
@@ -155,7 +212,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
                 break;
         }
     }
-        
+
     @Override
     public int getWidth() {
         return innerMovableEnemy.getWidth();
@@ -218,7 +275,8 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     public void triggerPowerUp(GameObjectType powerUp) {
         switch (powerUp) {
             case SPEAR_____:
-                updateHealth(1);
+                //TODO: change damage
+                updateHealth(50);
                 break;
             default:
                 break;
@@ -227,6 +285,8 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
 
     @Override
     public void setTargetCoordinates(int x, int y) {
+        this.previousTargetX = this.targetX;
+        this.previousTargetY = this.targetY;
         this.targetX = x;
         this.targetY = y;
     }
