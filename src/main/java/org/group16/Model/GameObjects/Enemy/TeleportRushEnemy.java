@@ -14,8 +14,6 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     private Direction direction = Direction.NONE;
     private int movementSpeed = 3;
 
-    private static final double SPEED_THRESHOLD = 4;
-
     private int targetX;
     private int targetY;
 
@@ -152,19 +150,9 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
         return verticalDistance > tooFarDistanceY;
     }
 
-    private double calculateTargetSpeed() {
-        int dx = targetX - previousTargetX;
-        int dy = targetY - previousTargetY;
-        return Math.sqrt(dx * dx + dy * dy);
-    }
-
     private int calculateTargetDirection() {
         int dx = targetX - previousTargetX;
         return dx;
-    }
-
-    private boolean isTargetMovingSlow() {
-        return calculateTargetSpeed() <= SPEED_THRESHOLD;
     }
 
     @Override
@@ -318,7 +306,3 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
         return direction;
     }
 }
-
-
-
-
