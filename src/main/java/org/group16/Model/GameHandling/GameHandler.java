@@ -94,6 +94,10 @@ public class GameHandler implements ObservableEvents{
         observers.remove(observer);
     }
 
+    public int getMaxLevelSelectPages() {
+        return levelSelectPageManager.getMaxPages();
+    }
+
     public boolean hasStartedNewGame() {
         return hasStartedNewGame;
     }
