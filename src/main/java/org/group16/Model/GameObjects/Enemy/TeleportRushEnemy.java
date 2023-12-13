@@ -85,11 +85,11 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     private void teleportNearTarget() {
         // Teleport behind player
         int newX;
-        int newY = targetY;
+        int newY = targetY - 16;
 
-        if (isTargetFar() && !isTargetMovingSlow()) {
+        if (calculateTargetDirection() < 0) {
             newX = targetX + TELEPORT_DISTANCE;
-        } else if (isTargetMovingSlow()) {
+        } else if (calculateTargetDirection() > 0) {
             newX = targetX - TELEPORT_DISTANCE;
         } else {
             newX = targetX - TELEPORT_DISTANCE;
@@ -122,7 +122,6 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
                 delayStartTime = System.currentTimeMillis() / 1000.0;
             } else if (isDelayOver()) {
                 teleportNearTarget();
-                applyGravity();
                 delayStartTime = 0;
             }
         }
@@ -140,15 +139,14 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
         int dy = targetY - previousTargetY;
         return Math.sqrt(dx * dx + dy * dy);
     }
-    private boolean isTargetMovingSlow() {
-        return calculateTargetSpeed() <= SPEED_THRESHOLD;
+
+    private int calculateTargetDirection() {
+        int dx = targetX - previousTargetX;
+        return dx;
     }
 
-
-    private boolean isTargetMovingOpposite() {
-        System.out.println("is working");
-        return (targetX < previousTargetX && direction == Direction.RIGHT) ||
-                (targetX > previousTargetX && direction == Direction.LEFT);
+    private boolean isTargetMovingSlow() {
+        return calculateTargetSpeed() <= SPEED_THRESHOLD;
     }
 
     @Override
@@ -167,7 +165,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
 
     private void applyGravity() {
         // Apply gravity
-        setY(getY() + AffectedByGravity.GRAVITY_LIMIT);
+        setY(getY() + AffectedByGravity.GRAVITY_FACTOR);
     }
 
     @Override
@@ -177,7 +175,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
             case MOVABLE___:
             case SPIKE_____:
                 if (collidesWith(otherGameObject)) {
-                    setY(getY() - AffectedByGravity.GRAVITY_LIMIT);
+                    setY(getY() - AffectedByGravity.GRAVITY_FACTOR);
                 }
                 break;
             default:
