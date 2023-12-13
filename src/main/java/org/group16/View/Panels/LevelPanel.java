@@ -28,11 +28,10 @@ import org.group16.Model.GameObjects.Enemy.ITrap;
 import org.group16.Model.GameObjects.Goal.IGoal;
 import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.GameObjects.PowerUp.IPowerUp;
-import org.group16.Model.Observers.GameObserver;
 import org.group16.Model.Utility.Settings;
 import org.group16.View.Utility.UserInterfaceUtility;
 
-public class LevelPanel extends GamePanel implements GameObserver {
+public class LevelPanel extends GamePanel {
     private GameHandler gameHandler;
     private JButton pauseButton;
 

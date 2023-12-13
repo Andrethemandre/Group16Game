@@ -22,10 +22,9 @@ import java.io.IOException;
 
 import org.group16.Model.GameHandling.GameHandler;
 import org.group16.Model.GameObjects.GameState;
-import org.group16.Model.Observers.GameObserver;
 import org.group16.View.Utility.UserInterfaceUtility;
 
-public class LevelSelectorPanel extends GamePanel implements GameObserver {
+public class LevelSelectorPanel extends GamePanel {
     private GameHandler gameHandler;
 
     private JLabel levelSelectTitle;

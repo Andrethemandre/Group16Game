@@ -1,7 +1,6 @@
 package org.group16.View.Panels;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -14,14 +13,11 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.plaf.ColorUIResource;
 
 import org.group16.Model.GameHandling.GameHandler;
-import org.group16.Model.Observers.GameObserver;
 import org.group16.View.Utility.UserInterfaceUtility;
 
-public class StartPanel extends GamePanel implements GameObserver{
+public class StartPanel extends GamePanel{
     private JLabel firstGameTitleLabelRow;
     private JLabel secondGameTitleLabelRow;
     private JButton continueButton;

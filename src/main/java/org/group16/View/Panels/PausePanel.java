@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 import org.group16.View.Utility.UserInterfaceUtility;
 
-public class PausePanel extends GamePanel {
+public class PausePanel extends GamePanel{
     private JLabel pauseLabel;
     private JButton resumeButton;
     private JButton restartButton;
@@ -91,4 +91,7 @@ public class PausePanel extends GamePanel {
     public JButton getQuitButton() {
         return quitButton;
     }
+
+    @Override
+    public void updateObserver() {}
 }
