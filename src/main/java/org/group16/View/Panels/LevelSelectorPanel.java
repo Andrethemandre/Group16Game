@@ -50,6 +50,9 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     private BufferedImage tenthLevelImage;
 
     private BufferedImage eleventhLevelImage;
+    private BufferedImage twelvethLevelImage;
+
+
     private BufferedImage placeHolderImage;
 
     private JLabel highScoreLabel;
@@ -81,6 +84,8 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
             tenthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_10_image.png"));
             //TODO: Change picture when im done
             eleventhLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_11_image.png"));
+            twelvethLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_12_image.png"));
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -123,6 +128,9 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
                 break;
             case 11:
                 picLabel.setIcon(new ImageIcon(eleventhLevelImage));
+                break;
+            case 12:
+                picLabel.setIcon(new ImageIcon(twelvethLevelImage));
                 break;
             default:
                 picLabel.setIcon(new ImageIcon(placeHolderImage));
