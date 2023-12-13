@@ -1,4 +1,4 @@
-package org.group16.Model.LevelHandling;
+package org.group16.Model.GameHandling;
 
 public class LevelStats {
     private int score;

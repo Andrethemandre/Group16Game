@@ -1,4 +1,4 @@
-package org.group16.Model.LevelHandling;
+package org.group16.Model.GameHandling;
 
 import org.group16.Model.GameObjects.GameState;
 
@@ -28,6 +28,7 @@ public class GameStateManager {
     }
     public void newGame() {
         // TODO: SAVE SYSTEM
+        setGameState(GameState.LEVEL_SELECT);
     }
 
     public void loadGame() {

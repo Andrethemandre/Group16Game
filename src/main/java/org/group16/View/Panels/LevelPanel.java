@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 
 import org.group16.Model.GameObjects.Enemy.EnemyWithTarget;
+import org.group16.Model.GameHandling.GameHandler;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.IBlock;
@@ -27,20 +28,18 @@ import org.group16.Model.GameObjects.Enemy.ITrap;
 import org.group16.Model.GameObjects.Goal.IGoal;
 import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.GameObjects.PowerUp.IPowerUp;
-import org.group16.Model.LevelHandling.LevelHandler;
-import org.group16.Model.Observers.GameObserver;
 import org.group16.Model.Utility.Settings;
 import org.group16.View.Utility.UserInterfaceUtility;
 
-public class LevelPanel extends GamePanel implements GameObserver {
-    private LevelHandler levelHandler;
+public class LevelPanel extends GamePanel {
+    private GameHandler gameHandler;
     private JButton pauseButton;
 
     // HUD
     private BufferedImage redHeartImage;
     private BufferedImage grayHeartImage;
     private BufferedImage pauseImage;
-    private BufferedImage backgroundImage;
+    private BufferedImage levelBackgroundImage;
 
     // Sprites
     private BufferedImage spearPowerUpImage;
@@ -76,9 +75,9 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private long currentTime;
     private long lastUpdateTime = 0;
 
-    public LevelPanel(int x, int y, LevelHandler levelHandler) {
+    public LevelPanel(int x, int y, GameHandler gameHandler) {
         super(x, y);
-        this.levelHandler = levelHandler;
+        this.gameHandler = gameHandler;
 
         flyingEnemyFrame = 1;
 
@@ -112,7 +111,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
             redHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/red_heart.png"));
             grayHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/gray_heart.png"));
             pauseImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/pause_menu_icon.png"));
-            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/background.png"));
+            levelBackgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/level_background.png"));
 
             // Sprites
             spearPowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/spear_power_up.png"));
@@ -163,7 +162,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
         int cellSize = Settings.TILE_SIZE; 
 
-        IPlayer currentPlayer = levelHandler.getPlayer();
+        IPlayer currentPlayer = gameHandler.getPlayer();
 
         // GameObjects are painted
         paintPlayer(g, currentPlayer);
@@ -182,7 +181,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
     private void drawBackground(Graphics g) {
-        g.drawImage(backgroundImage, 0, 0, this);
+        g.drawImage(levelBackgroundImage, 0, 0, this);
     }
 
     private void drawTwoStringsCentered(Graphics g, String text, String formattedText, int x, int y, int lineSpacing) {
@@ -213,7 +212,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private void paintPowerUpIcon(Graphics g){
         g.setFont(new Font("Arial", Font.PLAIN, 14));
         
-        GameObjectType currentPowerUp = levelHandler.getPlayersPowerUp();
+        GameObjectType currentPowerUp = gameHandler.getPlayersPowerUp();
         int centerX = this.getWidth() / 2; 
         int rectWidth = 32;
 
@@ -259,7 +258,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         int statsY = 20 + fm.getAscent(); 
 
         String attemptsText = "Attempts";
-        String formattedAttempts = String.format("%04d", levelHandler.getCurrentAttempts());
+        String formattedAttempts = String.format("%04d", gameHandler.getCurrentAttempts());
 
         drawTwoStringsCentered(g, attemptsText, formattedAttempts, attemptsX, statsY, lineSpacing);
 
@@ -270,19 +269,19 @@ public class LevelPanel extends GamePanel implements GameObserver {
         String formattedScore = "";
 
         // The amount of decimals reduce if score is negative
-        if (levelHandler.getCurrentScore() < 0) {
-            formattedScore = String.format("%05d", levelHandler.getCurrentScore());
+        if (gameHandler.getCurrentScore() < 0) {
+            formattedScore = String.format("%05d", gameHandler.getCurrentScore());
         } else {
-            formattedScore = String.format("%04d", levelHandler.getCurrentScore());
+            formattedScore = String.format("%04d", gameHandler.getCurrentScore());
         }
 
         drawTwoStringsCentered(g, scoreText, formattedScore, scoreX, statsY, lineSpacing);
 
         // Position the level text next to the right edge of the panel
-        int levelX = getWidth() - fm.stringWidth("Level: " + levelHandler.getCurrentLevelNumber()) - padding - 60;
+        int levelX = getWidth() - fm.stringWidth("Level: " + gameHandler.getCurrentLevelNumber()) - padding - 60;
 
-        String levelText = "Level: " + levelHandler.getCurrentLevelNumber();
-        String formattedElapsedTimeText = formatTime(levelHandler.getElapsedTime());
+        String levelText = "Level: " + gameHandler.getCurrentLevelNumber();
+        String formattedElapsedTimeText = formatTime(gameHandler.getElapsedTime());
 
         drawTwoStringsCentered(g, levelText, formattedElapsedTimeText, levelX, statsY, lineSpacing);
     }
@@ -312,7 +311,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
     private void paintEnemies(Graphics g) {
-        Collection<IEnemy> currentEnemies = levelHandler.getEnemies();
+        Collection<IEnemy> currentEnemies = gameHandler.getEnemies();
         for (IEnemy enemy : currentEnemies) {
             int enemyX = enemy.getX();
             int enemyY = enemy.getY();
@@ -392,7 +391,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
     private void paintEnemiesWithTarget(Graphics g) {
-        Collection<EnemyWithTarget> currentEnemiesWithTarget = levelHandler.getEnemiesWithTarget();
+        Collection<EnemyWithTarget> currentEnemiesWithTarget = gameHandler.getEnemiesWithTarget();
         for (EnemyWithTarget enemyWithTarget : currentEnemiesWithTarget) {
             int enemyWithTargetX = enemyWithTarget.getX();
             int enemyWithTargetY = enemyWithTarget.getY();
@@ -425,7 +424,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
     private void paintTraps(Graphics g) {
-        Collection<ITrap> currentTraps = levelHandler.getTraps();
+        Collection<ITrap> currentTraps = gameHandler.getTraps();
 
         for (ITrap trap : currentTraps) {
             int trapX = trap.getX();
@@ -447,7 +446,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
     private void paintBlocks(Graphics g) {
-        Collection<IBlock> currentBlocks = levelHandler.getBlocks();
+        Collection<IBlock> currentBlocks = gameHandler.getBlocks();
         for (IBlock block : currentBlocks) {
             int blockX = block.getX();
             int blockY = block.getY();
@@ -475,7 +474,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
     private void paintTeleportBlocks(Graphics g) {
-        Collection<ITeleportBlock> teleportBlocks = levelHandler.getTeleportBlocks();
+        Collection<ITeleportBlock> teleportBlocks = gameHandler.getTeleportBlocks();
 
         for (ITeleportBlock teleportBlock : teleportBlocks) {
             int blockX = teleportBlock.getX();
@@ -506,7 +505,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
     private void paintGoal(Graphics g) {
-        IGoal Goal = levelHandler.getGoal();
+        IGoal Goal = gameHandler.getGoal();
         int GoalX = Goal.getX();
         int GoalY = Goal.getY();
         int GoalWidth = Goal.getWidth();
@@ -515,7 +514,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
     private void paintPowerUps(Graphics g) {
-        Collection<IPowerUp> currentPowerUps = levelHandler.getPowerUps();
+        Collection<IPowerUp> currentPowerUps = gameHandler.getPowerUps();
         for (IPowerUp powerUp : currentPowerUps) {
             int powerUpX = powerUp.getX();
             int powerUpY = powerUp.getY();
@@ -560,8 +559,8 @@ public class LevelPanel extends GamePanel implements GameObserver {
 
     @Override
     public void updateObserver() {
-        if (levelHandler.getGameState() == GameState.PLAYING) {
-            currentTime = levelHandler.getElapsedTime();
+        if (gameHandler.getGameState() == GameState.PLAYING) {
+            currentTime = gameHandler.getElapsedTime();
 
             if(currentTime == 0){
                 lastUpdateTime = 0;

@@ -1,15 +1,15 @@
 package org.group16.Controller;
 
-import org.group16.Model.LevelHandling.LevelHandler;
+import org.group16.Model.GameHandling.GameHandler;
 import org.group16.View.Panels.StartPanel;
 
 class StartController extends GameController {
-    private LevelHandler levelHandler;
+    private GameHandler gameHandler;
     private StartPanel startPanel;
     
-    StartController(LevelHandler levelHandler, StartPanel startPanel) {
-        super(levelHandler, startPanel);
-        this.levelHandler = levelHandler;
+    StartController(GameHandler gameHandler, StartPanel startPanel) {
+        super(gameHandler, startPanel);
+        this.gameHandler = gameHandler;
         this.startPanel = startPanel;
 
         initListeners();
@@ -21,15 +21,15 @@ class StartController extends GameController {
     @Override
     protected void initListeners() {
         startPanel.getContinueButton().addActionListener(e -> {
-            levelHandler.continueGame();
+            gameHandler.continueGame();
         });
         
         startPanel.getNewGameButton().addActionListener(e -> {
-            levelHandler.newGame();
+            gameHandler.newGame();
         });
 
         startPanel.getLoadGameButton().addActionListener(e -> {
-            levelHandler.loadGame();
+            gameHandler.loadGame();
         });
 
         startPanel.getQuitButton().addActionListener(e -> {

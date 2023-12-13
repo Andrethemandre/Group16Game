@@ -1,4 +1,4 @@
-package org.group16.Model.LevelHandling;
+package org.group16.Model.GameHandling;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -88,6 +88,12 @@ public class StatsManager {
             recordedLevelStats.put(levelNumber, new LevelStats(calculateEndScore(), getEnemiesDefeated(), getPowerUpsPicked(), getElapsedTime()));
         } else {
             recordedLevelStats.put(levelNumber, stats);
+        }
+    }
+
+    public void resetStats() {
+        for (Integer levelNumber : recordedLevelStats.keySet()) {
+            recordedLevelStats.put(levelNumber, new LevelStats(0, 0, 0, 0));
         }
     }
 

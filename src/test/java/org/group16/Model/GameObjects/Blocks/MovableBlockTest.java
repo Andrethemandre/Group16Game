@@ -3,7 +3,6 @@ package org.group16.Model.GameObjects.Blocks;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.group16.Model.GameObjects.Direction;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class MovableBlockTest {

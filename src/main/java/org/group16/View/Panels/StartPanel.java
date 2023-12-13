@@ -14,9 +14,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.group16.Model.GameHandling.GameHandler;
 import org.group16.View.Utility.UserInterfaceUtility;
 
-public class StartPanel extends GamePanel {
+public class StartPanel extends GamePanel{
     private JLabel firstGameTitleLabelRow;
     private JLabel secondGameTitleLabelRow;
     private JButton continueButton;
@@ -27,10 +28,12 @@ public class StartPanel extends GamePanel {
     private JPanel verticalButtonPanel;
     private Font gameTitleFont;
     
-    private BufferedImage backgroundImage;
+    private BufferedImage startBackgroundImage;
+    private GameHandler gameHandler;
 
-    public StartPanel(int x, int y) {
+    public StartPanel(int x, int y, GameHandler gameHandler) {
         super(x, y);
+        this.gameHandler = gameHandler;
         initFont(); 
         initImages();
         initComponents();
@@ -80,7 +83,7 @@ public class StartPanel extends GamePanel {
     }
 
     private void drawBackground(Graphics g) {
-        g.drawImage(backgroundImage, 0, 0, this);
+        g.drawImage(startBackgroundImage, 0, 0, this);
     }
 
     private void initFont(){
@@ -95,7 +98,7 @@ public class StartPanel extends GamePanel {
 
     private void initImages(){
          try {
-            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/background.png"));
+            startBackgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/start_background.png"));
         } 
         catch (IOException e) {
             e.printStackTrace();
@@ -120,5 +123,15 @@ public class StartPanel extends GamePanel {
 
     public JButton getQuitButton() {
         return quitButton;
+    }
+
+    @Override
+    public void updateObserver() {
+        if(gameHandler.hasStartedNewGame()) {
+            continueButton.setEnabled(true);
+        }
+        else {
+            continueButton.setEnabled(false);
+        }
     }
 }

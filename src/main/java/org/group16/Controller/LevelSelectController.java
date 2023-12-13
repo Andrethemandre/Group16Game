@@ -1,15 +1,15 @@
 package org.group16.Controller;
 
-import org.group16.Model.LevelHandling.LevelHandler;
+import org.group16.Model.GameHandling.GameHandler;
 import org.group16.View.Panels.LevelSelectorPanel;
 
 class LevelSelectController extends GameController{
-    private LevelHandler levelHandler;
+    private GameHandler gameHandler;
     private LevelSelectorPanel levelSelectorPanel;
 
-    LevelSelectController(LevelHandler levelHandler, LevelSelectorPanel levelSelectorPanel) {
-        super(levelHandler, levelSelectorPanel);
-        this.levelHandler = levelHandler;
+    LevelSelectController(GameHandler gameHandler, LevelSelectorPanel levelSelectorPanel) {
+        super(gameHandler, levelSelectorPanel);
+        this.gameHandler = gameHandler;
         this.levelSelectorPanel = levelSelectorPanel;
 
         initListeners();
@@ -21,25 +21,25 @@ class LevelSelectController extends GameController{
             int levelNumber = i;
 
             levelSelectorPanel.getLevelButtons()[i].addActionListener(e -> {
-                levelHandler.setSelectLevelNumber(levelNumber + 1);
-                levelHandler.setCurrentLevelNumber(levelNumber + 1);
+                gameHandler.setSelectLevelNumber(levelNumber + 1);
+                gameHandler.setCurrentLevelNumber(levelNumber + 1);
             });
         }
 
         levelSelectorPanel.getPlayButton().addActionListener(e -> {
-            levelHandler.startGame();
+            gameHandler.startGame();
         });
 
         levelSelectorPanel.getBackToMainMenuButton().addActionListener(e -> {
-            levelHandler.goToMainMenu();
+            gameHandler.goToMainMenu();
         });
 
         levelSelectorPanel.getLevelPageNextButton().addActionListener(e -> {
-            levelHandler.nextLevelSelectPage();
+            gameHandler.nextLevelSelectPage();
         });
 
         levelSelectorPanel.getLevelPageBackButton().addActionListener(e -> {
-            levelHandler.previousLevelSelectPage();
+            gameHandler.previousLevelSelectPage();
         });
     }
 

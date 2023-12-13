@@ -2,27 +2,27 @@ package org.group16.Controller;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
+import org.group16.Model.GameHandling.GameHandler;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Player.IPlayer;
-import org.group16.Model.LevelHandling.LevelHandler;
 import org.group16.View.GameWindow;
 import org.group16.View.Panels.LevelPanel;
 
 class PlayerController extends GameController implements KeyListener{
     private LevelPanel levelPanel;
-    private LevelHandler levelHandler;
+    private GameHandler gameHandler;
     private IPlayer currentPlayer;
     private GameWindow mainWindow;
     // flag to only allow one jump per keypress
     private boolean wKeyHeldDown = false;
 
-    PlayerController(LevelHandler levelHandler, LevelPanel levelPanel, GameWindow mainWindow){
-        super(levelHandler, levelPanel);
-        this.levelHandler = levelHandler;
+    PlayerController(GameHandler gameHandler, LevelPanel levelPanel, GameWindow mainWindow){
+        super(gameHandler, levelPanel);
+        this.gameHandler = gameHandler;
         this.levelPanel = levelPanel;
         this.mainWindow = mainWindow;
-        this.currentPlayer = levelHandler.getPlayer();
+        this.currentPlayer = gameHandler.getPlayer();
 
         mainWindow.addKeyListener(this);
         initListeners();
@@ -32,15 +32,15 @@ class PlayerController extends GameController implements KeyListener{
     protected void initListeners(){
         levelPanel.getPauseButton().addActionListener(e -> {
             currentPlayer.startMovingInDirection(Direction.NONE);
-            if(levelHandler.getGameState() == GameState.PLAYING){     
-                levelHandler.togglePause();
+            if(gameHandler.getGameState() == GameState.PLAYING){     
+                gameHandler.togglePause();
             }
             mainWindow.requestFocusInWindow();
         });
     }
 
     public void update(){
-        currentPlayer = levelHandler.getPlayer();
+        currentPlayer = gameHandler.getPlayer();
     }
 
     @Override
@@ -51,7 +51,7 @@ class PlayerController extends GameController implements KeyListener{
         switch(e.getKeyCode()) {
             // W for going up
             case KeyEvent.VK_W:  
-                if(levelHandler.getGameState() == GameState.PLAYING){
+                if(gameHandler.getGameState() == GameState.PLAYING){
                     if (!wKeyHeldDown && !currentPlayer.isFalling()) {
                     currentPlayer.startJumping();
                     wKeyHeldDown = true;
@@ -61,7 +61,7 @@ class PlayerController extends GameController implements KeyListener{
             // A for going left
             case KeyEvent.VK_A:
 
-                if(levelHandler.getGameState() == GameState.PLAYING){
+                if(gameHandler.getGameState() == GameState.PLAYING){
                     currentPlayer.startMovingInDirection(Direction.LEFT);
                 }
                 break;
@@ -71,21 +71,21 @@ class PlayerController extends GameController implements KeyListener{
             // D for going right
             case KeyEvent.VK_D:
 
-                if(levelHandler.getGameState() == GameState.PLAYING){
+                if(gameHandler.getGameState() == GameState.PLAYING){
                     currentPlayer.startMovingInDirection(Direction.RIGHT);
                 }
                 break;
             // ESC for pausing
             case KeyEvent.VK_ESCAPE:
                 currentPlayer.startMovingInDirection(Direction.NONE);
-                if(levelHandler.getGameState() == GameState.PLAYING || levelHandler.getGameState() == GameState.PAUSED){       
-                    levelHandler.togglePause();
+                if(gameHandler.getGameState() == GameState.PLAYING || gameHandler.getGameState() == GameState.PAUSED){       
+                    gameHandler.togglePause();
                 }
                 break;    
             // K to use powerup
             case KeyEvent.VK_K:
-                if(levelHandler.getGameState() == GameState.PLAYING){
-                    levelHandler.usePowerUp();
+                if(gameHandler.getGameState() == GameState.PLAYING){
+                    gameHandler.usePowerUp();
                 }
                 break;
         }
@@ -93,7 +93,7 @@ class PlayerController extends GameController implements KeyListener{
     
     @Override
     public void keyReleased(KeyEvent e) {
-        if(levelHandler.getGameState() == GameState.PLAYING){
+        if(gameHandler.getGameState() == GameState.PLAYING){
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_W:
                     wKeyHeldDown = false;

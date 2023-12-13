@@ -1,7 +1,5 @@
 package org.group16.Model.GameObjects.Blocks;
 
-import static org.group16.Model.GameObjects.GameObjectType.TELEPORTER;
-
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.Level.Metadata;
 

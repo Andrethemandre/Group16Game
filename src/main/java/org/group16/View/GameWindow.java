@@ -8,8 +8,8 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.group16.Model.GameHandling.GameHandler;
 import org.group16.Model.GameObjects.GameState;
-import org.group16.Model.LevelHandling.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
 import org.group16.View.Panels.LevelLayer;
 import org.group16.Model.Utility.Settings;
@@ -28,7 +28,7 @@ public class GameWindow extends JFrame implements GameObserver{
 
     // mainScreen that changes depending on type of panel 
     private CardLayout mainScreen;
-    private LevelHandler levelHandler;
+    private GameHandler gameHandler;
     private StartPanel startPanel;
     private LevelPanel levelPanel;
     private LevelSelectorPanel levelSelectorPanel;
@@ -37,17 +37,18 @@ public class GameWindow extends JFrame implements GameObserver{
     private LevelLayer levelLayer;
     private JPanel cards;
 
-    public GameWindow(String windowName, LevelHandler levelHandler){
-        this.levelHandler = levelHandler;
+    public GameWindow(String windowName, GameHandler gameHandler){
+        this.gameHandler = gameHandler;
 
-        this.startPanel = new StartPanel(X, Y);
-        this.levelPanel = new LevelPanel(X, Y, levelHandler);
+        this.startPanel = new StartPanel(X, Y, gameHandler);
+        this.levelPanel = new LevelPanel(X, Y, gameHandler);
         this.pausePanel = new PausePanel(X,Y);
-        this.levelSelectorPanel = new LevelSelectorPanel(X,Y, levelHandler);
-        this.levelLayer = new LevelLayer(X, Y, levelPanel, pausePanel, levelHandler);
+        this.levelSelectorPanel = new LevelSelectorPanel(X,Y, gameHandler);
+        this.levelLayer = new LevelLayer(X, Y, levelPanel, pausePanel, gameHandler);
 
-        this.levelHandler.addObserver(levelLayer);
-        this.levelHandler.addObserver(levelSelectorPanel);
+        this.gameHandler.addObserver(startPanel);
+        this.gameHandler.addObserver(levelLayer);
+        this.gameHandler.addObserver(levelSelectorPanel);
 
         this.mainScreen = new CardLayout();
         this.cards = new JPanel(mainScreen);
@@ -109,13 +110,13 @@ public class GameWindow extends JFrame implements GameObserver{
 
     @Override
     public void updateObserver() {
-        if(levelHandler.getGameState() == GameState.START){
+        if(gameHandler.getGameState() == GameState.START){
             mainScreen.show(cards, "START");
         } 
-        else if(levelHandler.getGameState() == GameState.PLAYING){
+        else if(gameHandler.getGameState() == GameState.PLAYING){
             mainScreen.show(cards, "PLAYING");
         }
-        else if(levelHandler.getGameState() == GameState.LEVEL_SELECT){
+        else if(gameHandler.getGameState() == GameState.LEVEL_SELECT){
             mainScreen.show(cards, "LEVEL_SELECT");
         }
 
