@@ -23,9 +23,22 @@ public class LevelSelectPageManager {
         this.selectedLevelNumber = selectedLevelNumber;
     }
 
-    public void nextPage() {
-        int endPage = TOTAL_LEVELS / 4 + 1;
+    public int getMaxPages(){
+        int maxPages = 0;
+        
+        if(TOTAL_LEVELS % 4 == 0){
+            maxPages = TOTAL_LEVELS / 4;
+        }
+        else{
+            maxPages = TOTAL_LEVELS/4 + 1;
+        }
 
+        return maxPages;
+    }
+
+    public void nextPage() {
+        int endPage = getMaxPages();
+        
         if (currentPage < endPage) {
             currentPage++;
         }
