@@ -1,6 +1,7 @@
 package org.group16.View.Panels;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -13,10 +14,14 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.plaf.ColorUIResource;
 
+import org.group16.Model.LevelHandling.LevelHandler;
+import org.group16.Model.Observers.GameObserver;
 import org.group16.View.Utility.UserInterfaceUtility;
 
-public class StartPanel extends GamePanel {
+public class StartPanel extends GamePanel implements GameObserver{
     private JLabel firstGameTitleLabelRow;
     private JLabel secondGameTitleLabelRow;
     private JButton continueButton;
@@ -27,10 +32,12 @@ public class StartPanel extends GamePanel {
     private JPanel verticalButtonPanel;
     private Font gameTitleFont;
     
-    private BufferedImage backgroundImage;
+    private BufferedImage startBackgroundImage;
+    private LevelHandler levelHandler;
 
-    public StartPanel(int x, int y) {
+    public StartPanel(int x, int y, LevelHandler levelHandler) {
         super(x, y);
+        this.levelHandler = levelHandler;
         initFont(); 
         initImages();
         initComponents();
@@ -80,7 +87,7 @@ public class StartPanel extends GamePanel {
     }
 
     private void drawBackground(Graphics g) {
-        g.drawImage(backgroundImage, 0, 0, this);
+        g.drawImage(startBackgroundImage, 0, 0, this);
     }
 
     private void initFont(){
@@ -95,7 +102,7 @@ public class StartPanel extends GamePanel {
 
     private void initImages(){
          try {
-            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/background.png"));
+            startBackgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/start_background.png"));
         } 
         catch (IOException e) {
             e.printStackTrace();
@@ -120,5 +127,15 @@ public class StartPanel extends GamePanel {
 
     public JButton getQuitButton() {
         return quitButton;
+    }
+
+    @Override
+    public void updateObserver() {
+        if(levelHandler.hasStartedNewGame()) {
+            continueButton.setEnabled(true);
+        }
+        else {
+            continueButton.setEnabled(false);
+        }
     }
 }

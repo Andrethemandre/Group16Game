@@ -40,12 +40,13 @@ public class GameWindow extends JFrame implements GameObserver{
     public GameWindow(String windowName, LevelHandler levelHandler){
         this.levelHandler = levelHandler;
 
-        this.startPanel = new StartPanel(X, Y);
+        this.startPanel = new StartPanel(X, Y, levelHandler);
         this.levelPanel = new LevelPanel(X, Y, levelHandler);
         this.pausePanel = new PausePanel(X,Y);
         this.levelSelectorPanel = new LevelSelectorPanel(X,Y, levelHandler);
         this.levelLayer = new LevelLayer(X, Y, levelPanel, pausePanel, levelHandler);
 
+        this.levelHandler.addObserver(startPanel);
         this.levelHandler.addObserver(levelLayer);
         this.levelHandler.addObserver(levelSelectorPanel);
 

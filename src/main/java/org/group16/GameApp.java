@@ -1,6 +1,6 @@
 package org.group16;
 
-import org.group16.Controller.GameEngine;
+import org.group16.Controller.GameControllerManager;
 import org.group16.Model.LevelHandling.LevelHandler;
 import org.group16.View.GameWindow;
 
@@ -10,13 +10,11 @@ public class GameApp {
         LevelHandler levelHandler = new LevelHandler();
 
         // Setup view
-        GameWindow mainWindow = new GameWindow("Projectgroup 16 game", levelHandler);
+        GameWindow mainWindow = new GameWindow("King Blöb's Adventure", levelHandler);
         levelHandler.addObserver(mainWindow);
 
         // Setup controller
-        GameEngine gameEngine = new GameEngine(levelHandler, mainWindow);
-        
-        // Start the timer
-        gameEngine.start();
+        GameControllerManager gameControllerManager = new GameControllerManager(levelHandler, mainWindow);
+        levelHandler.addObserver(gameControllerManager);
     }
 }

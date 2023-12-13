@@ -47,6 +47,9 @@ public class LevelHandler implements ObservableEvents{
     private GameStateManager gameStateManager;
     private StatsManager statsManager;
     private LevelSelectPageManager levelSelectPageManager;
+    private GameEngine gameEngine;
+
+    private boolean hasStartedNewGame;
 
     private final static int TOTAL_LEVELS = LevelFactory.getTotalLevels();
 
@@ -64,12 +67,14 @@ public class LevelHandler implements ObservableEvents{
         levelSelectPageManager = new LevelSelectPageManager(TOTAL_LEVELS);
         gameStateManager = new GameStateManager();
         statsManager = new StatsManager();
+        gameEngine = new GameEngine(this);
 
-        for (int i = 1; i <= TOTAL_LEVELS; i++) {
-            statsManager.recordStats(i, new LevelStats(0, 0, 0,0));
-        }
+        initLevelStats();
 
         levelSelectPageManager.setSelectedLevelNumber(1);
+        hasStartedNewGame = false;
+
+        gameEngine.start();
     }
 
     @Override
@@ -88,7 +93,18 @@ public class LevelHandler implements ObservableEvents{
     public void removeObserver(GameObserver observer) {
         observers.remove(observer);
     }
-    
+
+    public boolean hasStartedNewGame() {
+        return hasStartedNewGame;
+    }
+
+    // TODO: SAVE SYSTEM
+    private void initLevelStats(){
+        for (int i = 1; i <= TOTAL_LEVELS; i++) {
+            statsManager.recordStats(i, new LevelStats(0, 0, 0,0));
+        }
+    }
+
     private void setLevel(int levelNumber) {
         enemies.clear();
         blocks.clear();
@@ -424,7 +440,9 @@ public class LevelHandler implements ObservableEvents{
     }
 
     public void newGame() {
-        // TODO: SAVE SYSTEM
+        // TODO: SAVE SYSTEM , save slots
+        hasStartedNewGame = true;
+        statsManager.resetStats();
         gameStateManager.newGame();
     }
 

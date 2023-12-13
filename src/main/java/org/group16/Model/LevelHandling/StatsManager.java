@@ -91,6 +91,12 @@ public class StatsManager {
         }
     }
 
+    public void resetStats() {
+        for (Integer levelNumber : recordedLevelStats.keySet()) {
+            recordedLevelStats.put(levelNumber, new LevelStats(0, 0, 0, 0));
+        }
+    }
+
     public LevelStats getStats(int levelNumber) {
         LevelStats levelStats = null;
         if (recordedLevelStats.containsKey(levelNumber)) {

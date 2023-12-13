@@ -40,7 +40,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     private BufferedImage redHeartImage;
     private BufferedImage grayHeartImage;
     private BufferedImage pauseImage;
-    private BufferedImage backgroundImage;
+    private BufferedImage levelBackgroundImage;
 
     // Sprites
     private BufferedImage spearPowerUpImage;
@@ -112,7 +112,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
             redHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/red_heart.png"));
             grayHeartImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/gray_heart.png"));
             pauseImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/pause_menu_icon.png"));
-            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/background.png"));
+            levelBackgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/level_background.png"));
 
             // Sprites
             spearPowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/spear_power_up.png"));
@@ -182,7 +182,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     }
 
     private void drawBackground(Graphics g) {
-        g.drawImage(backgroundImage, 0, 0, this);
+        g.drawImage(levelBackgroundImage, 0, 0, this);
     }
 
     private void drawTwoStringsCentered(Graphics g, String text, String formattedText, int x, int y, int lineSpacing) {
