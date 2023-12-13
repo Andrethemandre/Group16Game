@@ -144,7 +144,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
 
 
         int verticalDistance = Math.abs(targetY - getY());
-        int tooFarDistanceY = 60;
+        int tooFarDistanceY = 80;
 
         return verticalDistance > tooFarDistanceY;
 
@@ -153,6 +153,8 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     private double calculatePlayerSpeed() {
         int dx = targetX - previousTargetX;
         int dy = targetY - previousTargetY;
+
+
         return Math.sqrt(dx * dx + dy * dy);
     }
     private boolean isPlayerMovingSlow() {
