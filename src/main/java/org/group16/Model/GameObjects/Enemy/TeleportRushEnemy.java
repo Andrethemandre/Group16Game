@@ -10,7 +10,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     private static final int TELEPORT_DISTANCE = 50;
     private MovableEnemy innerMovableEnemy;
     private EnemyState currentState = EnemyState.IDLE;
-    private static final int NEAR_DISTANCE_X = 80; // threshold distance for player to be considered near
+    private static final int NEAR_DISTANCE_X = 80;
     private Direction direction = Direction.NONE;
     private int movementSpeed = 3;
 
@@ -22,7 +22,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     private int previousTargetX;
     private int previousTargetY;
 
-    private double disappearStartTime = 0; // time when enemy disappears
+    private double disappearStartTime = 0;
     private final int disappearDelaySeconds = 4;
 
     private double delayStartTime = 0;
@@ -62,7 +62,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
 
     private boolean isDelayOver() {
         double currentTime = System.currentTimeMillis() / 1000.0;
-        return currentTime - delayStartTime > delaySeconds; // if 1 second has passed
+        return currentTime - delayStartTime > delaySeconds;
     }
 
     private void idle() {
@@ -87,7 +87,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     private void disappear() {
         // Disappear behavior
         // After disappearing, the enemy will reappear after a certain amount of time
-        if (System.currentTimeMillis() / 1000.0 - disappearStartTime > disappearDelaySeconds) { // if 7 seconds have passed
+        if (System.currentTimeMillis() / 1000.0 - disappearStartTime > disappearDelaySeconds) {
             teleportNearPlayer();
             currentState = EnemyState.REAPPEAR;
         }
@@ -137,34 +137,22 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     }
 
     private boolean isPlayerFar() {
-        //int horizontalDistance = Math.abs(targetX - getX());
-//        System.out.println("targetX: " + targetX + " targetY: " + targetY);
-//
-//        System.out.println("enemyX: " + getX() + " enemyY: " + getY());
-
 
         int verticalDistance = Math.abs(targetY - getY());
         int tooFarDistanceY = 80;
-
         return verticalDistance > tooFarDistanceY;
-
     }
 
     private double calculatePlayerSpeed() {
         int dx = targetX - previousTargetX;
         int dy = targetY - previousTargetY;
-
-
         return Math.sqrt(dx * dx + dy * dy);
     }
     private boolean isPlayerMovingSlow() {
-        //TODO: check if player is moving slow
-        System.out.println("called");
-        System.out.println("speed: " + calculatePlayerSpeed());
         return calculatePlayerSpeed() <= SPEED_THRESHOLD;
     }
 
-    // Might still need this
+
     private boolean isPlayerMovingOpposite() {
         System.out.println("is working");
         return (targetX < previousTargetX && direction == Direction.RIGHT) ||
