@@ -31,9 +31,6 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     private long damageStartTime = 0;
     private final int damageDelaySeconds = 1;
 
-    private boolean hasDelayBeenDone = false;
-
-
     public TeleportRushEnemy(int x, int y, int width, int height) {
         innerMovableEnemy = new MovableEnemy(GameObjectType.TELEPORT__, x, y, width, height, 100, 1);
     }
