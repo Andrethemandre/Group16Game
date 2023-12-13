@@ -102,8 +102,6 @@ public class LevelSelectorPanel extends GamePanel {
             rightBrowseIconImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/right_browse_icon.png"));
             eleventhLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_11_image.png"));
             twelfthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_12_image.png"));
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -278,8 +276,7 @@ public class LevelSelectorPanel extends GamePanel {
     }
 
     private JLabel createLevelCurrentPageLabel() {
-        int totalLevels = gameHandler.getTotalLevels();
-        String labelText = gameHandler.getCurrentLevelSelectPage() + "/" + (int) (totalLevels / 4 + 1);
+        String labelText = gameHandler.getCurrentLevelSelectPage() + "/" + gameHandler.getMaxLevelSelectPages();
         Font labelFont = new Font("Arial", Font.PLAIN, 20);
 
         return UserInterfaceUtility.createLabel(labelText, labelFont, 0, 0, 0, 0, JLabel.CENTER);
@@ -350,8 +347,7 @@ public class LevelSelectorPanel extends GamePanel {
     }
 
     private void updateCurrentPageLabel() {
-        int totalLevels = gameHandler.getTotalLevels();
-        levelCurrentPageLabel.setText(gameHandler.getCurrentLevelSelectPage() + "/" + (int) (totalLevels / 4 + 1));
+        levelCurrentPageLabel.setText(gameHandler.getCurrentLevelSelectPage() + "/" + gameHandler.getMaxLevelSelectPages());
     }
 
     private void updateVisibleLevelButtons(int currentPage) {
