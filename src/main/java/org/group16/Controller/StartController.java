@@ -4,9 +4,22 @@ import org.group16.Model.LevelHandling.LevelHandler;
 import org.group16.View.Panels.StartPanel;
 
 class StartController extends GameController {
-
+    private LevelHandler levelHandler;
+    private StartPanel startPanel;
+    
     StartController(LevelHandler levelHandler, StartPanel startPanel) {
         super(levelHandler, startPanel);
+        this.levelHandler = levelHandler;
+        this.startPanel = startPanel;
+
+        initListeners();
+    }
+  
+    @Override
+    public void update() {}
+
+    @Override
+    protected void initListeners() {
         startPanel.getContinueButton().addActionListener(e -> {
             levelHandler.continueGame();
         });
@@ -22,11 +35,5 @@ class StartController extends GameController {
         startPanel.getQuitButton().addActionListener(e -> {
             System.exit(0);
         });
-    }
-  
-    @Override
-    protected void update() {
-        // TODO Auto-generated method stub
-    }
-    
+    } 
 }

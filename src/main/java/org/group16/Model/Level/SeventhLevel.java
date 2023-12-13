@@ -73,6 +73,4 @@ class SeventhLevel extends Level  {
     }
 
     // Initialize the movableBlocks list based on the level matrix
-    
-
 }

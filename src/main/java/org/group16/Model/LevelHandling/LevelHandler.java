@@ -11,7 +11,6 @@ import java.util.Collection;
 import org.group16.Model.GameObjects.Enemy.*;
 import org.group16.Model.GameObjects.Goal.IGoal;
 import org.group16.Model.GameObjects.Goal.GoalFactory;
-import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
@@ -26,9 +25,10 @@ import org.group16.Model.Level.Level;
 import org.group16.Model.Level.LevelFactory;
 import org.group16.Model.Level.Metadata;
 import org.group16.Model.Observers.GameObserver;
+import org.group16.Model.Observers.ObservableEvents;
 import org.group16.Model.Utility.Tuple;
 
-public class LevelHandler {
+public class LevelHandler implements ObservableEvents{
     private IPlayer player;
     private IGoal goal;
     private Collection<IEnemy> enemies;
@@ -52,9 +52,7 @@ public class LevelHandler {
 
     public LevelHandler() {
         observers = new ArrayList<>();
-
-        levelSelectPageManager = new LevelSelectPageManager(TOTAL_LEVELS);
-        gameStateManager = new GameStateManager();
+        
         enemies = new ArrayList<>();
         blocks = new ArrayList<>();
         powerUps = new ArrayList<>();
@@ -63,6 +61,8 @@ public class LevelHandler {
         enemiesWithTarget = new ArrayList<>();
         teleportBlocks = new ArrayList<>();
 
+        levelSelectPageManager = new LevelSelectPageManager(TOTAL_LEVELS);
+        gameStateManager = new GameStateManager();
         statsManager = new StatsManager();
 
         for (int i = 1; i <= TOTAL_LEVELS; i++) {
@@ -72,6 +72,23 @@ public class LevelHandler {
         levelSelectPageManager.setSelectedLevelNumber(1);
     }
 
+    @Override
+    public void notifyObservers() {
+        for (GameObserver o : observers) {
+            o.updateObserver();
+        }
+    }
+    
+    @Override
+    public void addObserver(GameObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(GameObserver observer) {
+        observers.remove(observer);
+    }
+    
     private void setLevel(int levelNumber) {
         enemies.clear();
         blocks.clear();
@@ -406,12 +423,6 @@ public class LevelHandler {
         }
     }
 
-    public void notifyObservers() {
-        for (GameObserver o : observers) {
-            o.updateObserver();
-        }
-    }
-
     public void newGame() {
         // TODO: SAVE SYSTEM
         gameStateManager.newGame();
@@ -569,10 +580,6 @@ public class LevelHandler {
         if (trapToRemove != null) {
             traps.remove(trapToRemove);
         }
-    }
-
-    public void addObserver(GameObserver observer) {
-        observers.add(observer);
     }
 
     public void removeEnemy(IEnemy enemy) {

@@ -23,13 +23,11 @@ public class GameStateManager {
     }
 
     public void continueGame() {
+        // TODO: SAVE SYSTEM, continue the game depending on where the application was last left off 
         setGameState(GameState.LEVEL_SELECT);
     }
     public void newGame() {
         // TODO: SAVE SYSTEM
-        // Temporary due to lack of save system
-
-        // setGameState(GameState.LEVEL_SELECT);
     }
 
     public void loadGame() {
