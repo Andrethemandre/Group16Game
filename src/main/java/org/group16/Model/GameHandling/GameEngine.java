@@ -1,4 +1,4 @@
-package org.group16.Model.LevelHandling;
+package org.group16.Model.GameHandling;
 
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import org.group16.Model.GameObjects.GameState;
 
 public class GameEngine {
-    private LevelHandler levelHandler;
+    private GameHandler gameHandler;
     // The delay (ms) corresponds to 60 updates a sec (hz) ?
     // The timer is started with an listener (see below) that executes the statements
     // each step between delays.
@@ -15,20 +15,20 @@ public class GameEngine {
     private final int delay = 1000/60;
     private Timer timer = new Timer(delay, new TimerListener(this));
     
-    public GameEngine(LevelHandler levelHandler) {
-        this.levelHandler = levelHandler;
+    public GameEngine(GameHandler gameHandler) {
+        this.gameHandler = gameHandler;
     }
 
     public void update() {
-        if(levelHandler.getGameState() == GameState.PAUSED){
+        if(gameHandler.getGameState() == GameState.PAUSED){
             return;
         } 
 
-        if(levelHandler.getGameState() == GameState.PLAYING){
-            levelHandler.update();
+        if(gameHandler.getGameState() == GameState.PLAYING){
+            gameHandler.update();
         }
 
-        levelHandler.notifyObservers();
+        gameHandler.notifyObservers();
     }
 
     public void start(){

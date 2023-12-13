@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 
-import org.group16.Model.LevelHandling.LevelHandler;
+import org.group16.Model.GameHandling.GameHandler;
 import org.group16.Model.Observers.GameObserver;
 import org.group16.View.Utility.UserInterfaceUtility;
 
@@ -33,11 +33,11 @@ public class StartPanel extends GamePanel implements GameObserver{
     private Font gameTitleFont;
     
     private BufferedImage startBackgroundImage;
-    private LevelHandler levelHandler;
+    private GameHandler gameHandler;
 
-    public StartPanel(int x, int y, LevelHandler levelHandler) {
+    public StartPanel(int x, int y, GameHandler gameHandler) {
         super(x, y);
-        this.levelHandler = levelHandler;
+        this.gameHandler = gameHandler;
         initFont(); 
         initImages();
         initComponents();
@@ -131,7 +131,7 @@ public class StartPanel extends GamePanel implements GameObserver{
 
     @Override
     public void updateObserver() {
-        if(levelHandler.hasStartedNewGame()) {
+        if(gameHandler.hasStartedNewGame()) {
             continueButton.setEnabled(true);
         }
         else {

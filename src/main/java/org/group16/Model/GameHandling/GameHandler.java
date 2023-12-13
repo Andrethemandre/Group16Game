@@ -1,4 +1,4 @@
-package org.group16.Model.LevelHandling;
+package org.group16.Model.GameHandling;
 
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
@@ -28,7 +28,7 @@ import org.group16.Model.Observers.GameObserver;
 import org.group16.Model.Observers.ObservableEvents;
 import org.group16.Model.Utility.Tuple;
 
-public class LevelHandler implements ObservableEvents{
+public class GameHandler implements ObservableEvents{
     private IPlayer player;
     private IGoal goal;
     private Collection<IEnemy> enemies;
@@ -53,7 +53,7 @@ public class LevelHandler implements ObservableEvents{
 
     private final static int TOTAL_LEVELS = LevelFactory.getTotalLevels();
 
-    public LevelHandler() {
+    public GameHandler() {
         observers = new ArrayList<>();
         
         enemies = new ArrayList<>();
@@ -620,7 +620,7 @@ public class LevelHandler implements ObservableEvents{
         notifyObservers();
     }
 
-    // is here because levelHandler has the power ups list that I need to change for
+    // is here because gameHandler has the power ups list that I need to change for
     // things to be drawn
     public void usePowerUp() {
         IPowerUp powerUp;

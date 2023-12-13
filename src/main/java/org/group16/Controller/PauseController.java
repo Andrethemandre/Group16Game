@@ -1,16 +1,16 @@
 package org.group16.Controller;
 
-import org.group16.Model.LevelHandling.LevelHandler;
+import org.group16.Model.GameHandling.GameHandler;
 import org.group16.View.Panels.PausePanel;
 
 class PauseController extends GameController{
     private PausePanel pausePanel;
-    private LevelHandler levelHandler;
+    private GameHandler gameHandler;
 
-    PauseController(LevelHandler levelHandler, PausePanel pausePanel) {
-        super(levelHandler, pausePanel);
+    PauseController(GameHandler gameHandler, PausePanel pausePanel) {
+        super(gameHandler, pausePanel);
         this.pausePanel = pausePanel;
-        this.levelHandler = levelHandler;
+        this.gameHandler = gameHandler;
         
         initListeners();
     }
@@ -18,19 +18,19 @@ class PauseController extends GameController{
     @Override
     protected void initListeners() {
         pausePanel.getResumeButton().addActionListener(e -> {
-            levelHandler.togglePause();
+            gameHandler.togglePause();
         });
 
         pausePanel.getRestartButton().addActionListener(e -> {
-            levelHandler.restartGame();
+            gameHandler.restartGame();
         });
 
         pausePanel.getLevelSelectButton().addActionListener(e -> {
-            levelHandler.goToLevelSelect();
+            gameHandler.goToLevelSelect();
         });
 
         pausePanel.getMainMenuButton().addActionListener(e -> {
-            levelHandler.goToMainMenu();
+            gameHandler.goToMainMenu();
         });
 
         pausePanel.getSettingsButton().addActionListener(e -> {

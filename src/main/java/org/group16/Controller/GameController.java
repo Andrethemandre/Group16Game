@@ -1,15 +1,15 @@
 package org.group16.Controller;
 
-import org.group16.Model.LevelHandling.LevelHandler;
+import org.group16.Model.GameHandling.GameHandler;
 import org.group16.View.Panels.GamePanel;
 
 abstract class GameController {
     private GamePanel gamePanel;
-    private LevelHandler levelHandler;
+    private GameHandler gameHandler;
 
-    GameController(LevelHandler levelHandler, GamePanel gamePanel) {
+    GameController(GameHandler gameHandler, GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        this.levelHandler = levelHandler;
+        this.gameHandler = gameHandler;
     }
 
     protected abstract void update();

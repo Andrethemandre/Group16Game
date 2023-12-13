@@ -3,45 +3,45 @@ package org.group16.Model.GameObjects.Player;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.group16.Model.GameHandling.GameHandler;
 import org.group16.Model.GameObjects.Direction;
-import org.group16.Model.LevelHandling.LevelHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class PlayerTest {
-    private LevelHandler levelHandler;
+    private GameHandler gameHandler;
     private IPlayer player;
 
     @BeforeEach
     void setUp() {
-        levelHandler = new LevelHandler();
-        levelHandler.startGame();
-        player = levelHandler.getPlayer();
+        gameHandler = new GameHandler();
+        gameHandler.startGame();
+        player = gameHandler.getPlayer();
     }
 
     @Test
     void testPlayerMoveRight() {
         int startX = player.getX();
         player.startMovingInDirection(Direction.RIGHT);
-        levelHandler.update();
+        gameHandler.update();
         assertTrue(player.getX() > startX);
     }
     @Test
     void testPlayerMoveLeft() {
         // Player starts at the left wall of the level so it can't move left right away.
         player.startMovingInDirection(Direction.RIGHT);
-        levelHandler.update();
+        gameHandler.update();
         player.stopMovingInDirection(Direction.RIGHT);
         int startX = player.getX();
         player.startMovingInDirection(Direction.LEFT);
-        levelHandler.update();
+        gameHandler.update();
         assertTrue(player.getX() < startX);
     }
     @Test
     void testPlayerJump() {
         int startY = player.getY();
         player.startJumping();
-        levelHandler.update();
+        gameHandler.update();
         assertTrue(player.getY() < startY);
     }
     @Test
@@ -50,17 +50,17 @@ public class PlayerTest {
         int startY = player.getY();
         player.startJumping();
         player.startMovingInDirection(Direction.RIGHT);
-        levelHandler.update();
+        gameHandler.update();
         assertTrue(player.getX() > startX && player.getY() < startY);
     }
     // This test depends on the level layout.
     @Test
     void testPlayerCantMoveOutOfBoundsToTheLeft() {
         player.startMovingInDirection(Direction.LEFT);
-        levelHandler.update();
-        levelHandler.update();
-        levelHandler.update();
-        levelHandler.update();
+        gameHandler.update();
+        gameHandler.update();
+        gameHandler.update();
+        gameHandler.update();
         assertEquals(0, player.getX());
     }
     @Test
