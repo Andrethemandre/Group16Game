@@ -43,18 +43,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
             case IDLE -> idle();
             case DISAPPEAR -> disappear();
             case REAPPEAR -> reappear();
-            case CHASE -> {
-                chase();
-                if (isTargetFar()) {
-                    if (delayStartTime == 0) {
-                        delayStartTime = System.currentTimeMillis() / 1000.0;
-                    } else if (isDelayOver()) {
-                        teleportNearTarget();
-                        applyGravity();
-                        delayStartTime = 0;
-                    }
-                }
-            }
+            case CHASE -> chase();
             default -> throw new IllegalStateException("Unexpected value: " + currentState);
         }
         applyGravity();
@@ -127,6 +116,16 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
             direction = Direction.LEFT;
         }
         move();
+
+        if (isTargetFar()) {
+            if (delayStartTime == 0) {
+                delayStartTime = System.currentTimeMillis() / 1000.0;
+            } else if (isDelayOver()) {
+                teleportNearTarget();
+                applyGravity();
+                delayStartTime = 0;
+            }
+        }
     }
 
     private boolean isTargetFar() {
