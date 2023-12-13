@@ -7,7 +7,7 @@ import org.group16.Model.GameObjects.HasHealth;
 import org.group16.Model.GameObjects.IGameObject;
 
 class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
-    private static final int TELEPORT_DISTANCE = 50;
+    private static final int TELEPORT_DISTANCE = 80;
     private MovableEnemy innerMovableEnemy;
     private EnemyState currentState = EnemyState.IDLE;
     private static final int NEAR_DISTANCE_X = 80;
@@ -26,10 +26,10 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     private final int disappearDelaySeconds = 4;
 
     private double delayStartTime = 0;
-    private final int delaySeconds = 2;
+    private final int delaySeconds = 4;
 
     public TeleportRushEnemy(int x, int y, int width, int height) {
-        innerMovableEnemy = new MovableEnemy(GameObjectType.TELEPORT__, x, y, width, height, 99, 1);
+        innerMovableEnemy = new MovableEnemy(GameObjectType.TELEPORT__, x, y, width, height, 100, 1);
     }
 
     @Override
@@ -275,7 +275,8 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     public void triggerPowerUp(GameObjectType powerUp) {
         switch (powerUp) {
             case SPEAR_____:
-                updateHealth(1);
+                //TODO: change damage
+                updateHealth(50);
                 break;
             default:
                 break;
