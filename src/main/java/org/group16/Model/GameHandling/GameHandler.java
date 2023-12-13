@@ -367,6 +367,11 @@ public class GameHandler implements ObservableEvents{
                         incrementPowerUpHitStats(powerUp);
                     }
 
+                    if(enemy.isFrozen()){
+                        incrementEnemiesDefeatedStats(enemy);
+                        incrementPowerUpHitStats(powerUp);
+                    }
+
                     powerUp.use();
                 }
             }
@@ -415,6 +420,10 @@ public class GameHandler implements ObservableEvents{
                 if (powerUp.collidesWith(trap)) {
                     trap.triggerPowerUp(powerUp.getType());
                     powerUp.use();
+                    
+                    if(powerUp.getType() == FREEZE____){
+                        statsManager.incrementFreezePowerUpsFroze();
+                    }
                 }
             }
         }
