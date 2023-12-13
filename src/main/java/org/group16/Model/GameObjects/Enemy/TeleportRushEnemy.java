@@ -45,11 +45,11 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
             case REAPPEAR -> reappear();
             case CHASE -> {
                 chase();
-                if (isPlayerFar()) {
+                if (isTargetFar()) {
                     if (delayStartTime == 0) {
                         delayStartTime = System.currentTimeMillis() / 1000.0;
                     } else if (isDelayOver()) {
-                        teleportNearPlayer();
+                        teleportNearTarget();
                         applyGravity();
                         delayStartTime = 0;
                     }
@@ -67,13 +67,13 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
 
     private void idle() {
         // Idle behavior
-        if (isPlayerNear()) {
+        if (isTargetNear()) {
             currentState = EnemyState.DISAPPEAR;
             disappearStartTime = System.currentTimeMillis() / 1000.0;
         }
     }
 
-    private boolean isPlayerNear() {
+    private boolean isTargetNear() {
         // Check if player is near
         int horizontalDistance = Math.abs(targetX - getX());
         int verticalDistance = Math.abs(targetY - getY());
@@ -88,32 +88,25 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
         // Disappear behavior
         // After disappearing, the enemy will reappear after a certain amount of time
         if (System.currentTimeMillis() / 1000.0 - disappearStartTime > disappearDelaySeconds) {
-            teleportNearPlayer();
+            teleportNearTarget();
             currentState = EnemyState.REAPPEAR;
         }
     }
 
-    private void teleportNearPlayer() {
+    private void teleportNearTarget() {
         // Teleport behind player
         int newX;
-        int newY;
+        int newY = targetY;
 
-        if (isPlayerFar() && !isPlayerMovingSlow()) {
+        if (isTargetFar() && !isTargetMovingSlow()) {
             newX = targetX + TELEPORT_DISTANCE;
-            setX(newX);
-            newY = targetY;
-            setY(newY);
-        } else if (isPlayerMovingSlow()) {
+        } else if (isTargetMovingSlow()) {
             newX = targetX - TELEPORT_DISTANCE;
-            setX(newX);
-            newY = targetY;
-            setY(newY);
         } else {
             newX = targetX - TELEPORT_DISTANCE;
-            setX(newX);
-            newY = targetY;
-            setY(newY);
         }
+        setX(newX);
+        setY(newY);
     }
 
     private void reappear() {
@@ -136,24 +129,24 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
         move();
     }
 
-    private boolean isPlayerFar() {
+    private boolean isTargetFar() {
 
         int verticalDistance = Math.abs(targetY - getY());
         int tooFarDistanceY = 80;
         return verticalDistance > tooFarDistanceY;
     }
 
-    private double calculatePlayerSpeed() {
+    private double calculateTargetSpeed() {
         int dx = targetX - previousTargetX;
         int dy = targetY - previousTargetY;
         return Math.sqrt(dx * dx + dy * dy);
     }
-    private boolean isPlayerMovingSlow() {
-        return calculatePlayerSpeed() <= SPEED_THRESHOLD;
+    private boolean isTargetMovingSlow() {
+        return calculateTargetSpeed() <= SPEED_THRESHOLD;
     }
 
 
-    private boolean isPlayerMovingOpposite() {
+    private boolean isTargetMovingOpposite() {
         System.out.println("is working");
         return (targetX < previousTargetX && direction == Direction.RIGHT) ||
                 (targetX > previousTargetX && direction == Direction.LEFT);
