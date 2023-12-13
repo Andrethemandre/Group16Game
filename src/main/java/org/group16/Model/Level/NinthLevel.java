@@ -97,4 +97,3 @@ class NinthLevel extends Level {
         return metadataQueue;
     }
 }
-

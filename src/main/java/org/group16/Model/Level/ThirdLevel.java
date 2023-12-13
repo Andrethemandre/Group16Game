@@ -61,13 +61,13 @@ class ThirdLevel extends Level  {
     @Override
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
-        //flying
+        // flying
         metadataQueue.add(new Metadata(6*TILE_SIZE, Direction.NONE, Direction.DOWN));
         metadataQueue.add(new Metadata(6*TILE_SIZE,Direction.NONE, Direction.DOWN));
         metadataQueue.add(new Metadata(6*TILE_SIZE, Direction.NONE, Direction.DOWN));
         metadataQueue.add(new Metadata(5*TILE_SIZE, Direction.NONE, Direction.DOWN));
 
-        //basic enemy
+        // basic enemy
         metadataQueue.add(new Metadata(TILE_SIZE, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(TILE_SIZE,Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(3*TILE_SIZE, Direction.RIGHT, Direction.DOWN));
@@ -77,6 +77,5 @@ class ThirdLevel extends Level  {
     }
 
     // Initialize the movableBlocks list based on the level matrix
-    
 
 }

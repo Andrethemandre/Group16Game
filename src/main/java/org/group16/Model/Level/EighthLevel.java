@@ -19,7 +19,6 @@ import org.group16.Model.GameObjects.GameObjectType;
 class EighthLevel extends Level  {
     // matrix 45X30 to represent level 8
 
-    
     private static final GameObjectType[][] levelLayout = {
     
                                                 {AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,AIR_______,},
@@ -62,26 +61,22 @@ class EighthLevel extends Level  {
     @Override
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
-        //upper part
+        // upper part
         metadataQueue.add(new Metadata(4*TILE_SIZE, Direction.NONE, Direction.DOWN));
         metadataQueue.add(new Metadata(4*TILE_SIZE, Direction.NONE, Direction.DOWN));
         metadataQueue.add(new Metadata(8*TILE_SIZE, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(8*TILE_SIZE, Direction.LEFT, Direction.NONE));
         metadataQueue.add(new Metadata(23*TILE_SIZE, Direction.RIGHT, Direction.NONE));
 
-        //lower part
+        // lower part
         metadataQueue.add(new Metadata(7*TILE_SIZE, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(7*TILE_SIZE, Direction.RIGHT, Direction.NONE));
         metadataQueue.add(new Metadata(7*TILE_SIZE, Direction.LEFT, Direction.NONE));
         metadataQueue.add(new Metadata(6*TILE_SIZE, Direction.NONE, Direction.DOWN));
         metadataQueue.add(new Metadata(7*TILE_SIZE, Direction.NONE, Direction.DOWN));
-        //metadataQueue.add(new Metadata(96, Direction.LEFT, Direction.NONE));
+        // metadataQueue.add(new Metadata(96, Direction.LEFT, Direction.NONE));
     
 
         return metadataQueue;
     }
-
-    // Initialize the movableBlocks list based on the level matrix
-    
-
 }

@@ -11,8 +11,8 @@ import javax.swing.JPanel;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.LevelHandling.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
+import org.group16.View.Panels.LevelLayer;
 import org.group16.Model.Utility.Settings;
-import org.group16.View.Panels.LevelAndPauseLayer;
 import org.group16.View.Panels.LevelPanel;
 import org.group16.View.Panels.LevelSelectorPanel;
 import org.group16.View.Panels.PausePanel;
@@ -20,12 +20,8 @@ import org.group16.View.Panels.StartPanel;
 
 public class GameWindow extends JFrame implements GameObserver{
     // Offsets makes it display correctly
-    // The y one makes since because it accounts for the
-    // top of the window, however I don't know why
-    // an X offset would be needed, maybe we
-    // did some wrong calculation?
-    private static final int WINDOW_OFFSET_X = 16;
-    private static final int WINDOW_OFFSET_Y = 40;
+    private static final int WINDOW_OFFSET_X = 14;
+    private static final int WINDOW_OFFSET_Y = 38;
 
     private static final int X = Settings.GAME_WIDTH + WINDOW_OFFSET_X;
     private static final int Y = Settings.GAME_HEIGHT + WINDOW_OFFSET_Y;
@@ -38,29 +34,32 @@ public class GameWindow extends JFrame implements GameObserver{
     private LevelSelectorPanel levelSelectorPanel;
 
     private PausePanel pausePanel;
-    private LevelAndPauseLayer levelAndPauseLayer;
+    private LevelLayer levelLayer;
     private JPanel cards;
 
     public GameWindow(String windowName, LevelHandler levelHandler){
         this.levelHandler = levelHandler;
-        this.startPanel = new StartPanel(X, Y);
 
+        this.startPanel = new StartPanel(X, Y);
         this.levelPanel = new LevelPanel(X, Y, levelHandler);
         this.pausePanel = new PausePanel(X,Y);
         this.levelSelectorPanel = new LevelSelectorPanel(X,Y, levelHandler);
-        this.levelAndPauseLayer = new LevelAndPauseLayer(X, Y, levelPanel, pausePanel, levelHandler);
-        this.levelHandler.addObserver(levelAndPauseLayer);
+        this.levelLayer = new LevelLayer(X, Y, levelPanel, pausePanel, levelHandler);
+
+        this.levelHandler.addObserver(levelLayer);
         this.levelHandler.addObserver(levelSelectorPanel);
 
         this.mainScreen = new CardLayout();
         this.cards = new JPanel(mainScreen);
 
         cards.add(startPanel, "START");
-        cards.add(levelAndPauseLayer, "PLAYING");
+        cards.add(levelLayer, "PLAYING");
         cards.add(levelSelectorPanel, "LEVEL_SELECT");
+
         initComponents(windowName);
-        levelAndPauseLayer.setBounds(getBounds());
+        levelLayer.setBounds(getBounds());
         this.requestFocusInWindow();
+        this.setResizable(false);
     }
 
     // Sets everything in place and fits everything
@@ -116,7 +115,6 @@ public class GameWindow extends JFrame implements GameObserver{
         else if(levelHandler.getGameState() == GameState.PLAYING){
             mainScreen.show(cards, "PLAYING");
         }
-
         else if(levelHandler.getGameState() == GameState.LEVEL_SELECT){
             mainScreen.show(cards, "LEVEL_SELECT");
         }

@@ -21,9 +21,15 @@ class PlayerController extends GameController implements KeyListener{
         super(levelHandler, levelPanel);
         this.levelHandler = levelHandler;
         this.levelPanel = levelPanel;
+        this.mainWindow = mainWindow;
         this.currentPlayer = levelHandler.getPlayer();
-        mainWindow.addKeyListener(this);
 
+        mainWindow.addKeyListener(this);
+        initListeners();
+    }
+
+    @Override
+    protected void initListeners(){
         levelPanel.getPauseButton().addActionListener(e -> {
             currentPlayer.startMovingInDirection(Direction.NONE);
             if(levelHandler.getGameState() == GameState.PLAYING){     
@@ -43,7 +49,7 @@ class PlayerController extends GameController implements KeyListener{
     @Override
     public void keyPressed(KeyEvent e) {
         switch(e.getKeyCode()) {
-            // w for going up
+            // W for going up
             case KeyEvent.VK_W:  
                 if(levelHandler.getGameState() == GameState.PLAYING){
                     if (!wKeyHeldDown && !currentPlayer.isFalling()) {
@@ -52,36 +58,31 @@ class PlayerController extends GameController implements KeyListener{
                     }
                 }   
                 break;
-
-            // a for going left
+            // A for going left
             case KeyEvent.VK_A:
 
                 if(levelHandler.getGameState() == GameState.PLAYING){
                     currentPlayer.startMovingInDirection(Direction.LEFT);
                 }
-
                 break;
-
-            // s for going down
+            // S for going down
             case KeyEvent.VK_S: 
                 break;
-
-            // d for going right
+            // D for going right
             case KeyEvent.VK_D:
 
                 if(levelHandler.getGameState() == GameState.PLAYING){
                     currentPlayer.startMovingInDirection(Direction.RIGHT);
                 }
                 break;
-
+            // ESC for pausing
             case KeyEvent.VK_ESCAPE:
                 currentPlayer.startMovingInDirection(Direction.NONE);
                 if(levelHandler.getGameState() == GameState.PLAYING || levelHandler.getGameState() == GameState.PAUSED){       
                     levelHandler.togglePause();
                 }
-                break;
-            
-            //k to use power upp
+                break;    
+            // K to use powerup
             case KeyEvent.VK_K:
                 if(levelHandler.getGameState() == GameState.PLAYING){
                     levelHandler.usePowerUp();
