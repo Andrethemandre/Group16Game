@@ -2,7 +2,7 @@ package org.group16.Model.GameHandling;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.group16.Model.GameHandling.GameHandler;
+
 import org.group16.Model.GameObjects.GameState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

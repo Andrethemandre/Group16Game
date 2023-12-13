@@ -3,7 +3,6 @@ package org.group16.Model.GameObjects.PowerUp;
 import static org.group16.Model.GameObjects.GameObjectType.BASIC_____;
 import static org.group16.Model.GameObjects.GameObjectType.PLAYER____;
 import static org.group16.Model.Utility.Settings.TILE_SIZE;
-import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.group16.Model.GameObjects.Direction;

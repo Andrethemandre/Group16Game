@@ -53,8 +53,6 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     private BufferedImage leftBrowseIconImage;
     private BufferedImage rightBrowseIconImage;
 
-
-
     private JLabel highScoreLabel;
     private JLabel picLabel;
 
@@ -63,7 +61,6 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     private static final Font regularButtonFont = new Font("Arial", Font.PLAIN, 12);
     private static final Font levelButtonFont = new Font("Arial", Font.PLAIN, 20);
 
-    // for default set to level 1 display
     public LevelSelectorPanel(int x, int y, GameHandler gameHandler) {
         super(x, y);
         this.gameHandler = gameHandler;

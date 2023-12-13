@@ -11,9 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class UserInterfaceUtility {
-    // Private constructor to prevent instantiation
-    private UserInterfaceUtility() {};
-
     public static JButton createButton(String text, Dimension size) {
         JButton button = new JButton();
         button.setText(text);

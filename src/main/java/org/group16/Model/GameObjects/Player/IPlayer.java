@@ -7,7 +7,6 @@ import org.group16.Model.GameObjects.HasHealth;
 import org.group16.Model.GameObjects.IGameObject;
 import org.group16.Model.GameObjects.Movable;
 import org.group16.Model.GameObjects.Teleportable;
-import org.group16.Model.GameObjects.Blocks.ITeleportBlock;
 
 public interface IPlayer extends Movable, IGameObject, HasHealth, AffectedByGravity, Teleportable {
     void startMovingInDirection(Direction direction);
