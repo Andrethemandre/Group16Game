@@ -418,7 +418,8 @@ public class LevelPanel extends GamePanel {
                 float fastPulse = (float) ((Math.sin(System.currentTimeMillis() / 300.0 * 2) + 1) / 2); // Oscillates between 0 and 1
                 return new Color(fastPulse, 0, 0); // Red color that blinks faster
             case DAMAGED:
-                return new Color(0, 255, 0);
+                float blink = (float) ((Math.sin(System.currentTimeMillis() / 300.0 * 2) + 1) / 2); // Oscillates between 0 and 1
+                return new Color(blink, blink, 0); // Yellow color that pulses
 
             default:
                 // For other states, return a default color
