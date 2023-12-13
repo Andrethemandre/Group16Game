@@ -51,7 +51,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
     private BufferedImage tenthLevelImage;
 
     private BufferedImage eleventhLevelImage;
-    private BufferedImage twelvethLevelImage;
+    private BufferedImage twelfthLevelImage;
 
 
     private BufferedImage placeHolderImage;
@@ -105,7 +105,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
             leftBrowseIconImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/left_browse_icon.png"));
             rightBrowseIconImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/right_browse_icon.png"));
             eleventhLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_11_image.png"));
-            twelvethLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/level_12_image.png"));
+            twelfthLevelImage = ImageIO.read(getClass().getResourceAsStream("/images/level_select/placeholder_level_image.png"));
 
 
         } catch (IOException e) {
@@ -203,7 +203,7 @@ public class LevelSelectorPanel extends GamePanel implements GameObserver {
                 picLabel.setIcon(new ImageIcon(resizedImage));
                 break;
             case 12:
-                resizedImage = twelvethLevelImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+                resizedImage = twelfthLevelImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
                 picLabel.setIcon(new ImageIcon(resizedImage));
             default:
                 resizedImage = placeHolderImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
