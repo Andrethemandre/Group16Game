@@ -29,6 +29,7 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
     private final int delaySeconds = 4;
 
     private long damageStartTime = 0;
+    private final int damageDelaySeconds = 1;
 
     private boolean hasDelayBeenDone = false;
 
@@ -111,24 +112,22 @@ class TeleportRushEnemy implements EnemyWithTarget, AffectedByGravity {
         if (currentTime - disappearStartTime > disappearDelaySeconds) {
             currentState = EnemyState.CHASE;
         }
+        System.out.println("a");
     }
 
     private void takeDamage() {
         // Take damage behavior
-
+        damageStartTime = System.currentTimeMillis()/1000;
         currentState = EnemyState.DAMAGED;
         updateHealth(50);
         System.out.println("Enemy took damage");
-
-
-
     }
-    private void enemyWasDamaged(){
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - damageStartTime >= 1000) {
-            //currentState = EnemyState.CHASE;
-            damageStartTime = currentTime;
 
+    private void enemyWasDamaged(){
+        long currentTime = System.currentTimeMillis()/1000;
+        if (currentTime - damageStartTime >= damageDelaySeconds) {
+            currentState = EnemyState.CHASE;
+            System.out.println("b");
         }
     }
 
