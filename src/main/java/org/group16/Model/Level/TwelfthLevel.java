@@ -59,12 +59,7 @@ public class TwelfthLevel extends Level  {
 
         metadataQueue.add(new Metadata(16*5, Direction.NONE, Direction.DOWN));
 
-
-
-        //metadataQueue.add(new Metadata(16*7, Direction.RIGHT, Direction.UP));
-
-
-        metadataQueue.add(new Metadata(16*4, Direction.RIGHT, Direction.DOWN));
+        metadataQueue.add(new Metadata(16*3, Direction.RIGHT, Direction.DOWN));
 
 
         return metadataQueue;
