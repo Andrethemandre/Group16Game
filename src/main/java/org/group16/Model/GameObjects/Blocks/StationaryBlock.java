@@ -4,7 +4,7 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
 
 class StationaryBlock implements IBlock {
-    Block innerBlock;
+    private Block innerBlock;
 
     StationaryBlock(int x, int y) {
         innerBlock = new Block(GameObjectType.STATIONARY, x, y);

@@ -1,8 +1,9 @@
-package org.group16.Model.Level;
+package org.group16.Model.LevelHandling;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.group16.Model.GameObjects.GameState;
+import org.group16.Model.LevelHandling.LevelHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,8 +16,6 @@ public class LevelHandlerTest {
         levelHandler.startGame();
     }
 
-    // these tests fail because the game starts at start screen
-    // now instead of the first level.
     @Test
     void testLevelHandlerStartsWithFirstLevel() {
         assertTrue(levelHandler.getCurrentLevelNumber() == 1);
@@ -40,7 +39,6 @@ public class LevelHandlerTest {
         assertTrue(levelHandler.getCurrentAttempts() == 0);
     }
 
-    // Currently fails because a test value is used in LevelHandler instead of zero.
     @Test
     void testLevelHandlerStartsWithZeroScore() {
         assertTrue(levelHandler.getCurrentScore() == 0);

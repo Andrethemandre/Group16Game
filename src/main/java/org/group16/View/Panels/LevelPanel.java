@@ -20,13 +20,15 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.IBlock;
+import org.group16.Model.GameObjects.Blocks.ITeleportBlock;
 import org.group16.Model.GameObjects.Enemy.IEnemy;
 import org.group16.Model.GameObjects.Enemy.ITrap;
 import org.group16.Model.GameObjects.Goal.IGoal;
 import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.GameObjects.PowerUp.IPowerUp;
-import org.group16.Model.Level.LevelHandler;
+import org.group16.Model.LevelHandling.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
+import org.group16.Model.Utility.Settings;
 import org.group16.View.ViewUtility;
 
 public class LevelPanel extends GamePanel implements GameObserver {
@@ -129,38 +131,38 @@ public class LevelPanel extends GamePanel implements GameObserver {
             levelClockImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/level_clock.png"));
             pauseImage = ImageIO.read(getClass().getResourceAsStream("/images/hud/pause_menu_icon.png"));
             //sprites
-            spearPowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/spear_powerUp.png"));
-            spearPowerUpThrowRightImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/spearThrow.png"));
-            spearPowerUpThrowLeftImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/spearThrow_left.png"));
+            spearPowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/spear_power_up.png"));
+            spearPowerUpThrowRightImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/spear_throw.png"));
+            spearPowerUpThrowLeftImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/spear_throw_left.png"));
 
-            freezePowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/freeze_powerUp.png"));
+            freezePowerUpImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/freeze_power_up.png"));
 
-            playerImageRight = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/king_blob.png"));
-            playerImageLeft = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/king_blob_left.png"));
+            playerImageRight = ImageIO.read(getClass().getResourceAsStream("/images/sprites/king_blob.png"));
+            playerImageLeft = ImageIO.read(getClass().getResourceAsStream("/images/sprites/king_blob_left.png"));
 
-            basicEnemyImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/basic_enemy.png"));
-            basicEnemyRightImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/basic_enemy_right.png"));
+            basicEnemyImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/basic_enemy.png"));
+            basicEnemyRightImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/basic_enemy_right.png"));
 
-            flyingEnemyWingUpImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_wing_up.png"));
-            flyingEnemyWingMiddleImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_wing_middle.png"));
-            flyingEnemyWingDownImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_wing_down.png"));
+            flyingEnemyWingUpImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/flying_enemy_wing_up.png"));
+            flyingEnemyWingMiddleImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/flying_enemy_wing_middle.png"));
+            flyingEnemyWingDownImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/flying_enemy_wing_down.png"));
 
-            flyingEnemyRightWingUpImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_right_wing_up.png"));
-            flyingEnemyRightWingMiddleImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_right_wing_middle.png"));
-            flyingEnemyRightWingDownImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/flying_enemy_right_wing_down.png"));
+            flyingEnemyRightWingUpImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/flying_enemy_right_wing_up.png"));
+            flyingEnemyRightWingMiddleImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/flying_enemy_right_wing_middle.png"));
+            flyingEnemyRightWingDownImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/flying_enemy_right_wing_down.png"));
 
-            spikeImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/spike.png"));
+            spikeImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/spike.png"));
 
 
-            stationaryBlockImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/Block.png"));
-            movingBlockImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/Moving_Block.png"));
+            stationaryBlockImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/block.png"));
+            movingBlockImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/moving_block.png"));
 
-            teleportActiveImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/teleport_active.png"));
-            teleportInactiveImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/teleport_inactive.png"));
+            teleportActiveImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/teleport_active.png"));
+            teleportInactiveImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/teleport_inactive.png"));
 
-            goalImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/goal.png"));
+            goalImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/goal.png"));
 
-            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/Sprites/backround.png"));
+            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/images/sprites/background.png"));
 
 
 
@@ -179,8 +181,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int cellSize = 16; // hard coded
-        // paintGridWithSize(g, cellSize);
+        int cellSize = Settings.TILE_SIZE; 
 
         IPlayer currentPlayer = levelHandler.getPlayer();
 
@@ -191,6 +192,7 @@ public class LevelPanel extends GamePanel implements GameObserver {
         paintEnemiesWithTarget(g);
         paintTraps(g);
         paintBlocks(g);
+        paintTeleportBlocks(g);
         paintGoal(g);
         paintPowerUps(g);
 
@@ -477,13 +479,43 @@ public class LevelPanel extends GamePanel implements GameObserver {
                     g.drawImage(blockImage, blockX, blockY, blockWidth, blockHeight, this);
                     break;
                 case TELEPORTER:
-                    blockImage = teleportActiveImage;
-                    g.drawImage(blockImage, blockX, blockY, blockWidth, blockHeight, this);
+                    // Empty to not draw the teleport block twice.
                     break;
                 default:
                     g.setColor(Color.ORANGE);
                     g.fillRect(blockX, blockY, blockWidth, blockHeight);
             }
+        }
+    }
+
+    private void paintTeleportBlocks(Graphics g) {
+        Collection<ITeleportBlock> teleportBlocks = levelHandler.getTeleportBlocks();
+
+        for (ITeleportBlock teleportBlock : teleportBlocks) {
+            int blockX = teleportBlock.getX();
+            int blockY = teleportBlock.getY();
+            int blockWidth = teleportBlock.getWidth();
+            int blockHeight = teleportBlock.getHeight();
+            BufferedImage teleportBlockImage;
+
+            switch (teleportBlock.getType()) {
+                case TELEPORTER:
+                    teleportBlockImage = getTeleportBlockImage(teleportBlock);
+                    g.drawImage(teleportBlockImage, blockX, blockY, blockWidth, blockHeight, this);
+                    break;
+                default:
+                    g.setColor(Color.GRAY);
+                    g.fillRect(blockX, blockY, blockWidth, blockHeight);
+                    break;
+            }
+        }
+    }
+
+    private BufferedImage getTeleportBlockImage(ITeleportBlock teleportBlock) {
+        if (teleportBlock.isActive()) {
+            return teleportActiveImage;
+        } else {
+            return teleportInactiveImage;
         }
     }
 

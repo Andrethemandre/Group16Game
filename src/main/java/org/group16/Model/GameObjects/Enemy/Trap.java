@@ -1,14 +1,14 @@
 package org.group16.Model.GameObjects.Enemy;
 
 import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.GameObjects.HasHealth;
 import org.group16.Model.GameObjects.IGameObject;
-import org.group16.Model.Observers.HasHealth;
 
 class Trap implements ITrap {
     private Obstacle innerObstacle;
 
     public Trap(GameObjectType objectType, int x, int y) {
-        innerObstacle = new Obstacle(objectType, x, y);
+        innerObstacle = new Obstacle(objectType, x, y, 1);
     }
 
     @Override

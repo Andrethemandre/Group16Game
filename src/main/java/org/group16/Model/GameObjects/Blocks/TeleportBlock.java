@@ -2,16 +2,21 @@ package org.group16.Model.GameObjects.Blocks;
 
 import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.IGameObject;
+import org.group16.Model.GameObjects.Teleportable;
 
-import java.util.List;
+class TeleportBlock implements ITeleportBlock {
+    private Block innerBlock;
+    private int destinationX;
+    private int destinationY;
+    private double previousTeleportTime = 0;
+    private double currentTeleportTime = 6;
+    private final double teleportDelay = 1;
+    private boolean isActive = true;
 
-import org.group16.Model.GameObjects.GameObject;
-
-public class TeleportBlock implements IBlock {
-    Block innerBlock;
-
-    TeleportBlock(int x, int y) {
+    TeleportBlock(int x, int y, int destinationX, int destinationY) {
         innerBlock = new Block(GameObjectType.TELEPORTER, x, y);
+        this.destinationX = destinationX;
+        this.destinationY = destinationY;
     }
 
     @Override
@@ -26,6 +31,11 @@ public class TeleportBlock implements IBlock {
 
     @Override
     public void update() {
+        currentTeleportTime = System.currentTimeMillis() / 1000.0;
+        if (currentTeleportTime - previousTeleportTime > teleportDelay) {
+            previousTeleportTime = currentTeleportTime;
+            isActive = true;
+        }
     }
 
     @Override
@@ -48,5 +58,24 @@ public class TeleportBlock implements IBlock {
         return innerBlock.collidesWith(otherGameObject);
     }
 
-    // Add other necessary methods or overrides if needed
+    @Override
+    public int getDestinationX() {
+        return destinationX;
+    }
+
+    @Override
+    public int getDestinationY() {
+        return destinationY;
+    }
+
+    @Override
+    public void teleport(Teleportable teleportable) {
+        teleportable.teleport(this);
+        isActive = false;
+    }
+
+    @Override
+    public boolean isActive() {
+        return isActive;
+    }
 }

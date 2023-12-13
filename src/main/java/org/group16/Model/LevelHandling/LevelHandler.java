@@ -1,12 +1,12 @@
-package org.group16.Model.Level;
+package org.group16.Model.LevelHandling;
 
 import static org.group16.Model.GameObjects.GameObjectType.SPEAR_____;
 import static org.group16.Model.GameObjects.GameObjectType.FREEZE____;
 import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.group16.Model.GameObjects.Enemy.*;
 import org.group16.Model.GameObjects.Goal.IGoal;
@@ -16,13 +16,17 @@ import org.group16.Model.GameObjects.GameObjectType;
 import org.group16.Model.GameObjects.GameState;
 import org.group16.Model.GameObjects.Blocks.BlockFactory;
 import org.group16.Model.GameObjects.Blocks.IBlock;
-import org.group16.Model.GameObjects.Blocks.MovableBlock;
-import org.group16.Model.GameObjects.Blocks.TeleportBlock;
+import org.group16.Model.GameObjects.Blocks.IMovableBlock;
+import org.group16.Model.GameObjects.Blocks.ITeleportBlock;
 import org.group16.Model.GameObjects.Player.IPlayer;
 import org.group16.Model.GameObjects.Player.PlayerFactory;
 import org.group16.Model.GameObjects.PowerUp.IPowerUp;
 import org.group16.Model.GameObjects.PowerUp.PowerUpFactory;
+import org.group16.Model.Level.Level;
+import org.group16.Model.Level.LevelFactory;
+import org.group16.Model.Level.Metadata;
 import org.group16.Model.Observers.GameObserver;
+import org.group16.Model.Utility.Tuple;
 
 public class LevelHandler {
     private IPlayer player;
@@ -34,8 +38,7 @@ public class LevelHandler {
     private Collection<ITrap> traps;
     private Collection<EnemyWithTarget> enemiesWithTarget;
 
-    private List<Integer> destinationIntegers;
-    private List<IBlock> teleportBlocks;
+    private Collection<ITeleportBlock> teleportBlocks;
     private Collection<GameObserver> observers;
     private int lastLevelNumber = 1;
     private Level currentLevel;
@@ -67,6 +70,118 @@ public class LevelHandler {
         }
 
         levelSelectPageManager.setSelectedLevelNumber(1);
+    }
+
+    private void setLevel(int levelNumber) {
+        enemies.clear();
+        blocks.clear();
+        powerUps.clear();
+        traps.clear();
+        movableEnemies.clear();
+        teleportBlocks.clear();
+        enemiesWithTarget.clear();
+
+
+        currentLevel = LevelFactory.createLevel(levelNumber);
+
+        setCurrentLevelNumber(levelNumber);
+
+        for (int i = 0; i < currentLevel.getHeight(); i++) {
+            for (int j = 0; j < currentLevel.getWidth(); j++) {
+                Metadata metadata = currentLevel.getMetadata(new Tuple(j, i));
+                GameObjectType currentLevelTile = currentLevel.getLevelTile(i, j);
+                switch (currentLevelTile) {
+                    case BASIC_____:
+                    case FLYING____:
+                        createMovableEnemy(i, j, metadata, currentLevelTile);
+                        break;
+
+                    case TELEPORT__:
+                        createEnemyWithTarget(i, j, metadata, currentLevelTile);
+                        break;
+
+                    case STATIONARY:
+                        createBlock(i, j, currentLevelTile);
+                        break;
+
+                    case MOVABLE___:
+                        createMovableBlock(i, j, metadata, currentLevelTile);
+                        break;
+
+                    case TELEPORTER:
+                        createTeleportBlock(i, j, metadata, currentLevelTile);
+                        break;
+
+                    case SPEAR_____:
+                    case FREEZE____:
+                        createPowerUp(i, j, currentLevelTile);
+                        break;
+
+                    case SPIKE_____:
+                        createTrap(i, j, currentLevelTile);
+                        break;
+
+                    case PLAYER____:
+                        // The grid uses /16 of the actual size
+                        player = PlayerFactory.createPlayerAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE, 
+                                                            getHeight() * TILE_SIZE, getWidth() * TILE_SIZE);
+                        break;
+
+                    case GOAL______:
+                        // will only reset if there is a new goal on next level.
+                        goal = GoalFactory.createGoalAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
+    private void createTrap(int i, int j, GameObjectType currentLevelTile) {
+        ITrap newTrap = TrapFactory.createTrapAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE);
+        traps.add(newTrap);
+    }
+
+    private void createPowerUp(int i, int j, GameObjectType currentLevelTile) {
+        IPowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE);
+        powerUps.add(newPowerUp);
+    }
+
+    private void createBlock(int i, int j, GameObjectType currentLevelTile) {
+        IBlock newBlock = BlockFactory.createBlockAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE);
+        blocks.add(newBlock);
+    }
+
+    private void createMovableBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
+        IMovableBlock newBlock = BlockFactory.createMovableBlockAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE, metadata);
+        blocks.add(newBlock);
+    }
+
+    // exists for when we want non movable enemies
+    private void createEnemy(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
+        IEnemy newEnemy = EnemyFactory.createEnemyAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE, metadata);
+        enemies.add(newEnemy);
+    }
+
+    private void createEnemyWithTarget(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
+        EnemyWithTarget newEnemy = EnemyFactory.createEnemyWithTargetAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE, metadata);
+        enemies.add(newEnemy);
+        movableEnemies.add(newEnemy);
+        enemiesWithTarget.add(newEnemy);
+    }
+
+    private void createMovableEnemy(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
+        IMovableEnemy newEnemy = EnemyFactory.createMovableEnemyAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE, metadata);
+        enemies.add(newEnemy);
+        movableEnemies.add(newEnemy);
+    }
+
+    private void createTeleportBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
+        ITeleportBlock newBlock = BlockFactory.createTeleportBlockAt(currentLevelTile, j * TILE_SIZE, i * TILE_SIZE, metadata);
+        blocks.add(newBlock);
+        teleportBlocks.add(newBlock);
     }
 
     public int getTotalLevels() {
@@ -150,7 +265,7 @@ public class LevelHandler {
 
     private void checkIfPlayerCollidesWithBlocks() {
         for (IBlock block : blocks) {
-            player.collision(block);
+            player.checkCollision(block);
         }
     }
 
@@ -285,7 +400,7 @@ public class LevelHandler {
         }
     }
 
-    public void updateEnemies() {
+    private void updateEnemies() {
         for (IEnemy enemy : enemies) {
             enemy.update();
         }
@@ -341,120 +456,6 @@ public class LevelHandler {
         notifyObservers();
     }
 
-    private void setLevel(int levelNumber) {
-        enemies.clear();
-        blocks.clear();
-        powerUps.clear();
-        traps.clear();
-        movableEnemies.clear();
-        teleportBlocks.clear();
-        enemiesWithTarget.clear();
-
-
-        currentLevel = LevelFactory.createLevel(levelNumber);
-
-        setCurrentLevelNumber(levelNumber);
-        destinationIntegers = currentLevel.getTeleporterDestinations();
-
-        for (int i = 0; i < currentLevel.getHeight(); i++) {
-            for (int j = 0; j < currentLevel.getWidth(); j++) {
-                Metadata metadata = currentLevel.getMetadata(new Tuple(j, i));
-                GameObjectType currentLevelTile = currentLevel.getLevelTile(i, j);
-                switch (currentLevelTile) {
-                    case BASIC_____:
-                    case FLYING____:
-                        createMovableEnemy(i, j, metadata, currentLevelTile);
-                        break;
-
-                    case TELEPORT__:
-                        createEnemyWithTarget(i, j, metadata, currentLevelTile);
-                        break;
-
-                    case STATIONARY:
-                        createBlock(i, j, metadata, currentLevelTile);
-                        break;
-
-                    case MOVABLE___:
-                        createMovableBlock(i, j, metadata, currentLevelTile);
-                        break;
-
-                    case SPEAR_____:
-                    case FREEZE____:
-                        createPowerUp(i, j, currentLevelTile);
-                        break;
-
-                    case SPIKE_____:
-                        createTrap(i, j, currentLevelTile);
-                        break;
-
-                    case PLAYER____:
-                        // The grid uses /16 of the actual size
-
-                        player = PlayerFactory.createPlayerAt(currentLevelTile, j * 16, i * 16, getHeight() * 16,
-                                getWidth() * 16);
-                        break;
-
-                    case GOAL______:
-                        // will only reset if there is a new goal on next level.
-                        goal = GoalFactory.createGoalAt(currentLevelTile, j * 16, i * 16);
-                        break;
-                    case TELEPORTER:
-                        createTeleportBlock(i, j, metadata, currentLevelTile);
-
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-    }
-
-    private void createTrap(int i, int j, GameObjectType currentLevelTile) {
-        ITrap newTrap = TrapFactory.createTrapAt(currentLevelTile, j * 16, i * 16);
-        traps.add(newTrap);
-    }
-
-    private void createPowerUp(int i, int j, GameObjectType currentLevelTile) {
-        IPowerUp newPowerUp = PowerUpFactory.createPowerUpPickUpAt(currentLevelTile, j * 16, i * 16);
-        powerUps.add(newPowerUp);
-    }
-
-    private void createBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
-        IBlock newBlock = BlockFactory.createBlockAt(currentLevelTile, j * 16, i * 16, metadata);
-        blocks.add(newBlock);
-    }
-
-    private void createMovableBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
-        MovableBlock newBlock = BlockFactory.createMovableBlockAt(currentLevelTile, j * 16, i * 16, metadata);
-        blocks.add(newBlock);
-    }
-
-    // exists for when we want non movable enemies
-    private void createEnemy(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
-        IEnemy newEnemy = EnemyFactory.createEnemyAt(currentLevelTile, j * 16, i * 16, metadata);
-        enemies.add(newEnemy);
-    }
-
-    private void createEnemyWithTarget(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
-        EnemyWithTarget newEnemy = EnemyFactory.createEnemyWithTargetAt(currentLevelTile, j * 16, i * 16, metadata);
-        enemies.add(newEnemy);
-        movableEnemies.add(newEnemy);
-        enemiesWithTarget.add(newEnemy);
-    }
-
-    private void createMovableEnemy(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
-        IMovableEnemy newEnemy = EnemyFactory.createMovableEnemyAt(currentLevelTile, j * 16, i * 16, metadata);
-        enemies.add(newEnemy);
-        movableEnemies.add(newEnemy);
-    }
-
-    private void createTeleportBlock(int i, int j, Metadata metadata, GameObjectType currentLevelTile) {
-        IBlock newBlock = BlockFactory.createBlockAt(currentLevelTile, j * 16, i * 16, metadata);
-        blocks.add(newBlock);
-        teleportBlocks.add(newBlock);
-
-    }
-
     public long getElapsedTime() {
         return statsManager.getElapsedTime();
     }
@@ -479,12 +480,17 @@ public class LevelHandler {
         checkIfPowerUpsCollidesWithTraps();
         checkIfPowerUpsCollidesWithBlocks();
 
-        removeFrozenTrap();
         updateEnemies();
         updateEnemiesWithTarget();
         checkEnemiesWithTargetCollision();
 
         notifyObservers();
+    }
+
+    private void updateBlocks() {
+        for (IBlock block : blocks) {
+            block.update();
+        }
     }
 
     private void updatePowerUps() {
@@ -503,7 +509,7 @@ public class LevelHandler {
         removeDeadEnemy(enemies);
         removeDeadEnemy(movableEnemies);
         removeDeadEnemy(enemiesWithTarget);
-
+        
         removeUsedPowerUps();
         freezeFrozenEnemy();
     }
@@ -536,8 +542,7 @@ public class LevelHandler {
     private void freezeFrozenEnemy() {
         for (IEnemy enemy : enemies) {
             if (enemy.isFrozen()) {
-                IBlock frozenEnemy = BlockFactory.createBlockAt(STATIONARY, enemy.getX(), enemy.getY(),
-                        new Metadata(0, Direction.NONE, Direction.NONE));
+                IBlock frozenEnemy = BlockFactory.createBlockAt(STATIONARY, enemy.getX(), enemy.getY());
                 blocks.add(frozenEnemy);
                 enemy.updateHealth(enemy.getHealth());
             }
@@ -545,11 +550,12 @@ public class LevelHandler {
 
         for (ITrap trap : traps) {
             if (trap.isFrozen()) {
-                IBlock frozenTrap = BlockFactory.createBlockAt(STATIONARY, trap.getX(), trap.getY(),
-                        new Metadata(0, Direction.NONE, Direction.NONE));
+                IBlock frozenTrap = BlockFactory.createBlockAt(STATIONARY, trap.getX(), trap.getY());
                 blocks.add(frozenTrap);
+                
             }
         }
+        removeFrozenTrap();
     }
 
     private void removeFrozenTrap() {
@@ -571,47 +577,6 @@ public class LevelHandler {
 
     public void removeEnemy(IEnemy enemy) {
         enemies.remove(enemy);
-    }
-
-    public IPlayer getPlayer() {
-        return player;
-    }
-
-    public GameObjectType getPlayersPowerUp (){
-        return player.getCurrentPowerUp();
-    }
-
-    public IGoal getGoal() {
-        return goal;
-    }
-
-    public Collection<IEnemy> getEnemies() {
-        return enemies;
-    }
-
-    public Collection<IBlock> getBlocks() {
-        return blocks;
-    }
-
-    public Collection<IPowerUp> getPowerUps() {
-        return powerUps;
-    }
-
-    public Collection<ITrap> getTraps() {
-        return traps;
-    }
-
-    public Collection<EnemyWithTarget> getEnemiesWithTarget() {
-        return enemiesWithTarget;
-    }
-
-    // Somehow this is the right way to do it
-    public int getWidth() {
-        return currentLevel.getHeight();
-    }
-
-    public int getHeight() {
-        return currentLevel.getWidth();
     }
 
     public GameState getPauseState() {
@@ -653,23 +618,56 @@ public class LevelHandler {
         }
     }
 
-    public void updateBlocks() {
-        for (IBlock block : blocks) {
-            block.update();
-
+    private void checkIfPlayerCollidesWithTeleportBlocks() {
+        for (ITeleportBlock teleportBlock : teleportBlocks) {
+            if (player.collidesWith(teleportBlock)) {
+                teleportBlock.teleport(player);
+            }
         }
     }
 
-    public void checkIfPlayerCollidesWithTeleportBlocks() {
-        if (teleportBlocks != null) {
-            for (int i = 0; i < teleportBlocks.size(); i++) {
-                if (player.collidesWith(teleportBlocks.get(i))
-                        && destinationIntegers.size() == teleportBlocks.size()) {
+    public IPlayer getPlayer() {
+        return player;
+    }
 
-                    player.teleport((TeleportBlock) teleportBlocks.get(destinationIntegers.get(i)));
-                }
-            }
+    public GameObjectType getPlayersPowerUp() {
+        return player.getCurrentPowerUp();
+    }
 
-        }
+    public IGoal getGoal() {
+        return goal;
+    }
+
+    public Collection<IEnemy> getEnemies() {
+        return new ArrayList<>(enemies);
+    }
+
+    public Collection<IBlock> getBlocks() {
+        return new ArrayList<>(blocks);
+    }
+
+    public Collection<ITeleportBlock> getTeleportBlocks() {
+        return new ArrayList<>(teleportBlocks);
+    }
+
+    public Collection<IPowerUp> getPowerUps() {
+        return new ArrayList<>(powerUps);
+    }
+
+    public Collection<ITrap> getTraps() {
+        return new ArrayList<>(traps);
+    }
+
+    public Collection<EnemyWithTarget> getEnemiesWithTarget() {
+        return new ArrayList<>(enemiesWithTarget);
+    }
+
+    // Somehow this is the right way to do it
+    public int getWidth() {
+        return currentLevel.getHeight();
+    }
+
+    public int getHeight() {
+        return currentLevel.getWidth();
     }
 }

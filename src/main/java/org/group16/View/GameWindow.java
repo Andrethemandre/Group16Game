@@ -9,8 +9,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.group16.Model.GameObjects.GameState;
-import org.group16.Model.Level.LevelHandler;
+import org.group16.Model.LevelHandling.LevelHandler;
 import org.group16.Model.Observers.GameObserver;
+import org.group16.Model.Utility.Settings;
 import org.group16.View.Panels.LevelAndPauseLayer;
 import org.group16.View.Panels.LevelPanel;
 import org.group16.View.Panels.LevelSelectorPanel;
@@ -26,8 +27,8 @@ public class GameWindow extends JFrame implements GameObserver{
     private static final int WINDOW_OFFSET_X = 16;
     private static final int WINDOW_OFFSET_Y = 40;
 
-    private static final int X = 720 + WINDOW_OFFSET_X;
-    private static final int Y = 480 + WINDOW_OFFSET_Y;
+    private static final int X = Settings.GAME_WIDTH + WINDOW_OFFSET_X;
+    private static final int Y = Settings.GAME_HEIGHT + WINDOW_OFFSET_Y;
 
     // mainScreen that changes depending on type of panel 
     private CardLayout mainScreen;

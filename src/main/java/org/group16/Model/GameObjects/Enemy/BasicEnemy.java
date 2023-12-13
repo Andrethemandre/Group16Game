@@ -3,8 +3,8 @@ package org.group16.Model.GameObjects.Enemy;
 import org.group16.Model.GameObjects.AffectedByGravity;
 import org.group16.Model.GameObjects.Direction;
 import org.group16.Model.GameObjects.GameObjectType;
+import org.group16.Model.GameObjects.HasHealth;
 import org.group16.Model.GameObjects.IGameObject;
-import org.group16.Model.Observers.HasHealth;
 
 class BasicEnemy implements IMovableEnemy, AffectedByGravity {
     private Direction horizontalDirection;
@@ -13,7 +13,7 @@ class BasicEnemy implements IMovableEnemy, AffectedByGravity {
     private MovableEnemy innerMovableEnemy;
 
     BasicEnemy(int x, int y, int patrolDistance, Direction horizontalDirection) {
-        innerMovableEnemy = new MovableEnemy(GameObjectType.BASIC_____, x, y, 1);
+        innerMovableEnemy = new MovableEnemy(GameObjectType.BASIC_____, x, y, 1, 1);
         this.patrolDistance = patrolDistance;
         this.currentDistance = 0;
         this.horizontalDirection = horizontalDirection;
