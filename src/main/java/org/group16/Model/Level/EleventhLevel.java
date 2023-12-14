@@ -1,12 +1,21 @@
 package org.group16.Model.Level;
 
-import org.group16.Model.GameObjects.Direction;
-import org.group16.Model.GameObjects.GameObjectType;
+import static org.group16.Model.GameObjects.GameObjectType.AIR_______;
+import static org.group16.Model.GameObjects.GameObjectType.BASIC_____;
+import static org.group16.Model.GameObjects.GameObjectType.FLYING____;
+import static org.group16.Model.GameObjects.GameObjectType.GOAL______;
+import static org.group16.Model.GameObjects.GameObjectType.MOVABLE___;
+import static org.group16.Model.GameObjects.GameObjectType.PLAYER____;
+import static org.group16.Model.GameObjects.GameObjectType.SPIKE_____;
+import static org.group16.Model.GameObjects.GameObjectType.STATIONARY;
+import static org.group16.Model.GameObjects.GameObjectType.TELEPORT__;
+import static org.group16.Model.Utility.Settings.TILE_SIZE;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-import static org.group16.Model.GameObjects.GameObjectType.*;
+import org.group16.Model.GameObjects.Direction;
+import org.group16.Model.GameObjects.GameObjectType;
 
 public class EleventhLevel extends Level  {
     // matrix 45X30 to represent level 11
@@ -53,34 +62,20 @@ public class EleventhLevel extends Level  {
     protected Queue<Metadata> createMetadata() {
         Queue<Metadata> metadataQueue = new LinkedList<>();
 
-        metadataQueue.add(new Metadata(16*3,Direction.RIGHT,Direction.NONE));
-        metadataQueue.add(new Metadata(16*3,Direction.LEFT,Direction.NONE));
-        metadataQueue.add(new Metadata(16*3,Direction.RIGHT,Direction.DOWN));
-        metadataQueue.add(new Metadata(16*4,Direction.NONE,Direction.DOWN));
-        metadataQueue.add(new Metadata(16*4,Direction.NONE,Direction.DOWN));
-        //metadataQueue.add(new Metadata(16*3,Direction.RIGHT,Direction.NONE));
-//        metadataQueue.add(new Metadata(16*1,Direction.NONE,Direction.UP));
-//        metadataQueue.add(new Metadata(16*1,Direction.NONE,Direction.UP));
+        metadataQueue.add(new Metadata(TILE_SIZE*3,Direction.RIGHT,Direction.NONE));
+        metadataQueue.add(new Metadata(TILE_SIZE*3,Direction.LEFT,Direction.NONE));
+        metadataQueue.add(new Metadata(TILE_SIZE*3,Direction.RIGHT,Direction.DOWN));
+        metadataQueue.add(new Metadata(TILE_SIZE*4,Direction.NONE,Direction.DOWN));
+        metadataQueue.add(new Metadata(TILE_SIZE*4,Direction.NONE,Direction.DOWN));
 
-        metadataQueue.add(new Metadata(16*5,Direction.NONE,Direction.DOWN));
-        metadataQueue.add(new Metadata(16*3,Direction.RIGHT,Direction.UP));
-        metadataQueue.add(new Metadata(16*6,Direction.RIGHT,Direction.NONE));
+        metadataQueue.add(new Metadata(TILE_SIZE*5,Direction.NONE,Direction.DOWN));
+        metadataQueue.add(new Metadata(TILE_SIZE*3,Direction.RIGHT,Direction.UP));
+        metadataQueue.add(new Metadata(TILE_SIZE*6,Direction.RIGHT,Direction.NONE));
 
-        metadataQueue.add(new Metadata(16*7,Direction.LEFT,Direction.DOWN));
+        metadataQueue.add(new Metadata(TILE_SIZE*7,Direction.LEFT,Direction.DOWN));
 
-        metadataQueue.add(new Metadata(16*3,Direction.RIGHT,Direction.NONE));
-        metadataQueue.add(new Metadata(16*3,Direction.RIGHT,Direction.NONE));
-
-
-
-
-
-        //metadataQueue.add(new Metadata(16*3,Direction.NONE,Direction.UP));
-
+        metadataQueue.add(new Metadata(TILE_SIZE*3,Direction.RIGHT,Direction.NONE));
+        metadataQueue.add(new Metadata(TILE_SIZE*3,Direction.RIGHT,Direction.NONE));
         return metadataQueue;
     }
-
-    // Initialize the movableBlocks list based on the level matrix
-    
-
 }
