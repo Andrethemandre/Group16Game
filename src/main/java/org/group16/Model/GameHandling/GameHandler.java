@@ -42,7 +42,6 @@ public class GameHandler implements ObservableEvents{
     private Collection<GameObserver> observers;
     private int lastLevelNumber = 1;
     private Level currentLevel;
-    private GameState gameState;
 
     private GameStateManager gameStateManager;
     private StatsManager statsManager;
@@ -615,10 +614,6 @@ public class GameHandler implements ObservableEvents{
 
     public void removeEnemy(IEnemy enemy) {
         enemies.remove(enemy);
-    }
-
-    public GameState getPauseState() {
-        return gameState;
     }
 
     public void togglePause() {

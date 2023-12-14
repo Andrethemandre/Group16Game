@@ -69,12 +69,12 @@ public class LevelSelectorPanel extends GamePanel {
         super(x, y);
         this.gameHandler = gameHandler;
 
-        initCustomFont();
+        initFont();
         initImages();
         initComponents();
     }
 
-    private void initCustomFont(){
+    private void initFont(){
         try {
             Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/Grand9K Pixel.ttf"));
             currentSelectedLevelFont = font.deriveFont(24f);

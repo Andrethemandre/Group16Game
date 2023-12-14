@@ -25,11 +25,11 @@ public class PausePanel extends GamePanel{
 
     public PausePanel(int x, int y) {
         super(x, y); 
-        initCustomFont();
+        initFont();
         initComponents();
     }
 
-    private void initCustomFont(){
+    private void initFont(){
         try {
             Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/Grand9K Pixel.ttf"));
             pauseTitleFont = font.deriveFont(36f);
