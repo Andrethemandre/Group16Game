@@ -12,6 +12,7 @@ public class GameControllerManager implements GameObserver {
     private GameHandler gameHandler;
     private Map<GameState, GameController> controllers;
     private GameController gameController;
+    private GameWindow mainWindow;
 
     public GameControllerManager(GameHandler gameHandler, GameWindow mainWindow) {
         this.gameHandler = gameHandler;
